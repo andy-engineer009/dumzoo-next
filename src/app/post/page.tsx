@@ -5,7 +5,7 @@ export default function PostPage() {
 
   return (
     <div>
-      <InfluencerForm  onSubmit={() => {}} />
+      <InfluencerForm />
     </div>
   );
 }
