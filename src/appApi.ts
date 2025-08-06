@@ -6,7 +6,8 @@ export const API_ROUTES = {
     referral: "auth/referal-code",
     dropdownData: "dropdown-data",
     addInfulancer: "influencer/add",
-    otpVerify: "auth/otp-verify"
+    otpVerify: "auth/otp-verify",
+    getInfluencerProfile: "influencer/profile",
     // goToSignup: "http://localhost:5000/api/auth/signup",
     // getdashboardData: "http://localhost:5000/api/user/dashboard",
     // withdraw: "http://localhost:5000/api/user/withdraw",

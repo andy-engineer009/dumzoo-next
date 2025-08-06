@@ -124,7 +124,7 @@ const Login = () => {
         {/* Main Content */}
         <div className="pt-0 pb-20 flex flex-col items-center min-h-screen">
                     {/* Influencer Image Grid with Infinite Scroll Animation */}
-          <div className="relative w-full mb-8 overflow-hidden h-[50vh]">
+          <div className="relative w-full mb-8 overflow-hidden" style={{height: '55vh'}}>
             {/*
               Dynamically render the influencer image grid for infinite scroll animation.
               Gradients are removed; only images are shown.
@@ -173,7 +173,7 @@ const Login = () => {
               );
             })()}
             {/* Blur effect overlay at bottom */}
-            <div className="absolute bottom-[-2px] left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
+            <div className="absolute bottom-[-5px] left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent pointer-events-none"></div>
           </div>
 
           {/* Logo and Brand */}

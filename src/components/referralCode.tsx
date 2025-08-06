@@ -28,15 +28,20 @@ const Toast = ({ message, type, onClose }: { message: string; type: 'success' | 
   const icon = type === 'success' ? '✓' : type === 'error' ? '✕' : 'ℹ';
 
   return (
-    <div className={`fixed top-4 right-4 z-50 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg flex items-center max-w-sm animate-slide-in`}>
-      <span className="mr-2 font-bold">{icon}</span>
+    <motion.div 
+      initial={{ opacity: 0, y: -50, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -50, scale: 0.9 }}
+      className={`fixed top-4 right-4 z-50 ${bgColor} text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center max-w-sm backdrop-blur-sm`}
+    >
+      <span className="mr-2 font-bold text-lg">{icon}</span>
       <span className="flex-1">{message}</span>
-      <button onClick={onClose} className="ml-2 text-white hover:text-gray-200">
+      <button onClick={onClose} className="ml-2 text-white hover:text-gray-200 transition-colors">
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
-    </div>
+    </motion.div>
   );
 };
 
@@ -70,7 +75,6 @@ const ReferralCode = () => {
 
   // Handle form submission
   const handleSubmit = async (values: any) => {
-    router.push('/');
     if(values.name === ''){
       showToast('Name is required', 'error');
       return;
@@ -101,7 +105,13 @@ const ReferralCode = () => {
   return (
     <>
       {isLoading && <Loader/>}
-      <div className="min-h-screen bg-white text-black relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 text-gray-900 relative overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-indigo-400/20 to-pink-400/20 rounded-full blur-3xl"></div>
+        </div>
+
         {/* Toast Notifications */}
         {toast && (
           <Toast 
@@ -112,84 +122,179 @@ const ReferralCode = () => {
         )}
 
         {/* Main Content */}
-        <div className=" pb-20 flex flex-col items-center min-h-screen bg-[#ababab2e]">
+        <div className="relative z-10 min-h-screen flex flex-col">
+          {/* App Header */}
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full px-6 py-3 bg-white/80 backdrop-blur-md border-b border-gray-200/50"
+          >
+            <div className="flex items-center justify-center">
+              <div className="text-center">
+                <h1 className="text-xl font-bold text-gray-900">Complete Profile</h1>
+                <p className="text-sm text-gray-500">Let's get you started</p>
+              </div>
+            </div>
+          </motion.div>
 
-
-          {/* App Screen Top Bar */}
-          <div className="w-full px-4 py-2 fixed top-0 left-0 right-0 z-20 border-b border-gray-200 text-center bg-[#fff]">
-            {/* Title */}
-              <span className="text-xl font-[600] text-gray-900">Your Profile</span>
-          </div>
-          <div className="h-20"></div> {/* Spacer for fixed top bar */}
-
-          {/* Form */}
-          <div className="w-full max-w-sm space-y-4 px-4">
-            <Formik
-              initialValues={{ name: '', referral_code: '' }}
-              validationSchema={referralValidationSchema}
-              onSubmit={handleSubmit}
+          {/* Form Container */}
+          <div className="flex-1 px-6 py-8">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="max-w-md mx-auto"
             >
-              {({ isValid, dirty }) => (
-                <Form className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Name *
-                    </label>
-                    <Field
-                      type="text"
-                      id="name"
-                      name="name"
-                      placeholder="Enter your name"
-                      className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 bg-white"
-                    />
-                    <ErrorMessage
-                      name="name"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+              {/* Welcome Section */}
+              <div className="text-center mb-8">
+                {/* <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                  className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg"
+                >
+                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </motion.div> */}
+                <h2 className="text-2xl font-bold text-gray-900 mb-2">Welcome!</h2>
+                <p className="text-gray-600">Tell us a bit about yourself to get started</p>
+              </div>
 
-                  <div>
-                    <label htmlFor="referral_code" className="block text-sm font-medium text-gray-700 mb-2">
-                      Referral Code (Optional)
-                    </label>
-                    <Field
-                      type="text"
-                      id="referral_code"
-                      name="referral_code"
-                      placeholder="Enter referral code"
-                      className="w-full px-4 py-2 bg-transparent border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-gray-900 placeholder-gray-400 bg-white"
-                    />
-                    <ErrorMessage
-                      name="referral_code"
-                      component="div"
-                      className="mt-1 text-sm text-red-500"
-                    />
-                  </div>
+              {/* Form */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="bg-white/70 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50"
+              >
+                <Formik
+                  initialValues={{ name: '', referral_code: '' }}
+                  validationSchema={referralValidationSchema}
+                  onSubmit={handleSubmit}
+                >
+                  {({ isValid, dirty, values }) => (
+                    <Form className="space-y-6">
+                      {/* Name Field */}
+                      <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">
+                          <span className="flex items-center">
+                            <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            Full Name
+                            <span className="text-red-500 ml-1">*</span>
+                          </span>
+                        </label>
+                        <div className="relative">
+                          <Field
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your full name"
+                            className="w-full px-4 py-4 bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 font-medium"
+                          />
+                          {values.name && (
+                            <motion.div 
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                            >
+                              <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                </svg>
+                              </div>
+                            </motion.div>
+                          )}
+                        </div>
+                        <ErrorMessage
+                          name="name"
+                          component="div"
+                          className="mt-2 text-sm text-red-500 flex items-center"
+                        />
+                      </motion.div>
 
-                  <div className="pt-2">
-                    <button
-                      type="submit"
-                      disabled={isLoading || !isValid || !dirty}
-                      className="bg-black text-white font-medium py-2 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg absolute left-0 right-0 bottom-[20px] w-[80%] mx-auto"
-                    >
-                      {isLoading ? (
-                        <>
-                          <LoadingSpinner size="sm" />
-                          <span>Processing...</span>
-                        </>
-                      ) : (
-                        'Complete Profile'
-                      )}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                      {/* Referral Code Field */}
+                      <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6 }}
+                      >
+                        <label htmlFor="referral_code" className="block text-sm font-semibold text-gray-700 mb-3">
+                          <span className="flex items-center">
+                            <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Referral Code
+                            <span className="text-gray-400 ml-1 text-xs">(Optional)</span>
+                          </span>
+                        </label>
+                        <Field
+                          type="text"
+                          id="referral_code"
+                          name="referral_code"
+                          placeholder="Enter referral code if you have one"
+                          className="w-full px-4 py-4 bg-white/80 backdrop-blur-sm border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 text-gray-900 placeholder-gray-400 font-medium"
+                        />
+                        <ErrorMessage
+                          name="referral_code"
+                          component="div"
+                          className="mt-2 text-sm text-red-500 flex items-center"
+                        />
+                      </motion.div>
+
+                      {/* Submit Button */}
+                      <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.7 }}
+                        className="pt-4"
+                      >
+                        <button
+                          type="submit"
+                          disabled={isLoading || !isValid || !dirty}
+                          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex items-center justify-center space-x-3 text-lg"
+                        >
+                          {isLoading ? (
+                            <>
+                              <LoadingSpinner size="sm" />
+                              <span>Setting up your profile...</span>
+                            </>
+                          ) : (
+                            <>
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>Complete Profile</span>
+                            </>
+                          )}
+                        </button>
+                      </motion.div>
+                    </Form>
+                  )}
+                </Formik>
+              </motion.div>
+
+              {/* Bottom Info */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="text-center mt-6"
+              >
+                <p className="text-sm text-gray-500">
+                  By completing your profile, you agree to our{' '}
+                  <span className="text-blue-600 font-medium">Terms of Service</span>
+                </p>
+              </motion.div>
+            </motion.div>
           </div>
-
         </div>
-
       </div>
     </>
   );
