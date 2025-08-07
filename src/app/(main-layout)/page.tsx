@@ -62,7 +62,15 @@ const influencers = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black relative overflow-hidden">
+    <>
+    <div className="home-wrapper">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4">
+      <div className="text-white text-sm font-bold">
+        Hi Andy 👋
+      </div>
+    </div>
+    {/* hero section */}
+    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8">
       {/* Scattered dots background pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full opacity-30"></div>
@@ -80,14 +88,14 @@ export default function Home() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 px-6 py-8">
+      <div className="relative z-10 px-4 py-8">
         {/* Header Section */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-4">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className=" font-bold text-white mb-2 text-[40px]"
+            className=" font-bold text-white mb-0 text-[28px]" style={{lineHeight: '26px'}}
           >
             Find the Right Creator.
           </motion.h1>
@@ -95,7 +103,7 @@ export default function Home() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-5xl font-bold text-white mb-4 flex items-center justify-center"
+            className="text-[28px] font-bold text-white mb-1 flex items-center justify-center"
           >
             Fast. 
             <span className="ml-0 text-yellow-400">⚡</span>
@@ -104,54 +112,28 @@ export default function Home() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg text-gray-300 font-normal"
+            className="text-[16px] text-gray-300 font-normal"
           >
             Put up a request — or just browse.
           </motion.p>
         </div>
 
         {/* Cards Grid */}
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-4 gap-3 md:gap-6">
+        <div className="max-w-7xl mx-auto ">
+          <div className="grid grid-cols-4 gap-2 md:gap-6">
             {/* Browse Influencers Card */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="relative bg-gradient-to-b from-green-600 to-green-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="relative bg-gradient-to-b from-green-600 to-green-500 rounded-[10px] p-2 md:p-6 h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
             >
-              {/* Star accents */}
-              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
-              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
-              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+     
               
-              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Browse Influencers</h3>
+              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Browse Influencers</h3>
               
               {/* Influencers illustration */}
-              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
-                <div className="flex space-x-1 md:space-x-3">
-                  {/* Person 1 */}
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-purple-400 rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                  {/* Person 2 */}
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                  {/* Person 3 */}
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-blue-400 rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                  {/* Person 4 */}
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-pink-400 rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                  {/* Person 5 */}
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-orange-400 rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                </div>
-              </div>
+            
             </motion.div>
 
             {/* Celeb/Talent Managers Card */}
@@ -159,25 +141,15 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="relative bg-gradient-to-b from-blue-600 to-blue-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="relative bg-gradient-to-b from-blue-600 to-blue-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
             >
               {/* Star accents */}
-              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
-              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
-              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+       
               
-              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Celeb/Talent Managers</h3>
+              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Celeb/Talent Managers</h3>
               
               {/* Manager illustration */}
-              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
-                <div className="w-8 h-8 md:w-16 md:h-16 bg-purple-500 rounded-full flex items-center justify-center relative">
-                  <div className="w-5 h-5 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center">
-                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-purple-500 rounded-full"></div>
-                  </div>
-                  {/* Document */}
-                  <div className="absolute -right-1 -top-1 md:-right-3 md:-top-3 w-4 h-5 md:w-8 md:h-10 bg-white rounded-sm transform rotate-12"></div>
-                </div>
-              </div>
+           
             </motion.div>
 
             {/* Post Your Requirement Card */}
@@ -185,27 +157,14 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 1.0 }}
-              className="relative bg-gradient-to-b from-red-600 to-red-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="relative bg-gradient-to-b from-red-600 to-red-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
             >
-              {/* Star accents */}
-              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
-              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
-              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+        
               
-              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Post Your Requirement</h3>
+              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Post Your Requirement</h3>
               
               {/* Megaphone illustration */}
-              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
-                <div className="relative">
-                  <div className="w-8 h-5 md:w-16 md:h-10 bg-blue-500 rounded-full flex items-center justify-center">
-                    <div className="w-5 h-2.5 md:w-10 md:h-5 bg-white rounded-full"></div>
-                  </div>
-                  {/* Sound waves */}
-                  <div className="absolute -right-1 top-1 md:-right-3 md:top-2 w-2 h-0.5 md:w-4 md:h-1 bg-white rounded-full opacity-80"></div>
-                  <div className="absolute -right-2 top-0.5 md:-right-6 md:top-1 w-3 h-0.5 md:w-6 md:h-1 bg-white rounded-full opacity-60"></div>
-                  <div className="absolute -right-3 top-1.5 md:-right-9 md:top-3 w-4 h-0.5 md:w-8 md:h-1 bg-white rounded-full opacity-40"></div>
-                </div>
-              </div>
+       
             </motion.div>
 
             {/* Services For You Card */}
@@ -213,34 +172,260 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 1.2 }}
-              className="relative bg-gradient-to-b from-orange-600 to-orange-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+              className="relative bg-gradient-to-b from-orange-600 to-orange-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
             >
               {/* Star accents */}
-              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
-              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
-              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+
               
-              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Services For You</h3>
+              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Services For You</h3>
               
               {/* Creative tools illustration */}
-              <div className="absolute bottom-3 left-3 right-3 flex justify-center space-x-2 md:space-x-4">
-                {/* Clapperboard */}
-                <div className="w-5 h-4 md:w-10 md:h-8 bg-black rounded-sm flex items-center justify-center">
-                  <div className="w-3.5 h-2.5 md:w-7 md:h-5 bg-white rounded-sm"></div>
-                </div>
-                {/* Notebook */}
-                <div className="w-4 h-5 md:w-8 md:h-10 bg-yellow-400 rounded-sm flex items-center justify-center">
-                  <div className="w-2.5 h-3.5 md:w-5 md:h-7 bg-white rounded-sm"></div>
-                </div>
-                {/* Tablet */}
-                <div className="w-5 h-4 md:w-10 md:h-8 bg-blue-500 rounded-sm flex items-center justify-center">
-                  <div className="w-3.5 h-2.5 md:w-7 md:h-5 bg-blue-300 rounded-sm"></div>
-                </div>
-              </div>
+       
             </motion.div>
           </div>
         </div>
       </div>
+      <div className="hero-bg-image"></div>
     </div>
+
+    {/* categories section */}
+    <div className="categories-section pt-8">
+      <div className="container mx-auto px-4">
+        <div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Browse Creators</h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+
+        </div>
+
+        {/* Categories Grid */}
+        <div className="mt-8">
+          <div className="grid grid-cols-4 md:grid-cols-3 gap-4">
+            {/* Row 1 */}
+            {/* Arts */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="#5D22AC" strokeWidth="2"/>
+                  <circle cx="12" cy="12" r="3" fill="#5D22AC"/>
+                  <circle cx="8" cy="8" r="2" fill="#5D22AC"/>
+                  <circle cx="16" cy="8" r="2" fill="#5D22AC"/>
+                  <circle cx="8" cy="16" r="2" fill="#5D22AC"/>
+                  <circle cx="16" cy="16" r="2" fill="#5D22AC"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Arts</span>
+            </div>
+
+            {/* Beauty */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Beauty</span>
+            </div>
+
+            {/* Comedy & Memes */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="#5D22AC" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Comedy & Memes</span>
+            </div>
+
+            {/* Education */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Education</span>
+            </div>
+
+            {/* Row 2 */}
+            {/* Automotive */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="#5D22AC" strokeWidth="2"/>
+                  <circle cx="12" cy="12" r="3" stroke="#5D22AC" strokeWidth="2"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Automotive</span>
+            </div>
+
+            {/* Business & Startups */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Business & Startups</span>
+            </div>
+
+            {/* Travel & Places */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Travel & Places</span>
+            </div>
+
+            {/* Entertainment */}
+            <div className="flex flex-col items-center">
+              <div className="w-16 h-16 bg-[#FAFAFA] rounded-[20px] flex items-center justify-center mb-2 shadow-sm border border-[#EDEDED]">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="#5D22AC" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2"/>
+                </svg>
+              </div>
+              <span className="text-[12px] text-black font-medium text-center">Entertainment</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-center justify-center gap-1 cursor-pointer mt-8">
+            <span className="text-purple-600 text-sm font-medium">See All</span>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
+      </div>
+    </div>
+
+
+{/* new on dumzoo */}
+<div className="new-on-dumzoo mt-8">
+<div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>NEW ON <span className="text-purple-600">DUMZOO</span></h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+        </div>
+
+        {/* Influencer Cards Horizontal Scroll */}
+        <div className="mt-6 px-4">
+          <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
+            {/* Card 1 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">Sarah Johnson</h3>
+                <p className="text-gray-200 text-xs">Food</p>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">Mike Chen</h3>
+                <p className="text-gray-200 text-xs">Travel</p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">Emma Davis</h3>
+                <p className="text-gray-200 text-xs">Fashion</p>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">Alex Rodriguez</h3>
+                <p className="text-gray-200 text-xs">Technology</p>
+              </div>
+            </div>
+
+            {/* Card 5 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">Lisa Wang</h3>
+                <p className="text-gray-200 text-xs">Beauty</p>
+              </div>
+            </div>
+
+            {/* Card 6 */}
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <h3 className="text-white font-semibold text-sm mb-1">David Kim</h3>
+                <p className="text-gray-200 text-xs">Fitness</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style jsx>{`
+    
+      .hero-bg-image {
+        background: #000 url('/images/hero.png') no-repeat center bottom;
+        background-size: 100% 100px;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 1;
+        opacity: 0.2;
+      }
+    `}</style>
+    </>
   );
 }
