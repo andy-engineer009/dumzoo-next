@@ -63,7 +63,7 @@ const influencers = [
 export default function Home() {
   return (
     <>
-    <div className="home-wrapper">
+    <div className="home-wrapper pb-[80px]">
     <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4">
       <div className="text-white text-sm font-bold">
         Hi Andy 👋
@@ -329,86 +329,225 @@ export default function Home() {
         <div className="mt-6 px-4">
           <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
             {/* Card 1 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">Sarah Johnson</h3>
-                <p className="text-gray-200 text-xs">Food</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Sarah Johnson</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Food</p>
               </div>
             </div>
 
             {/* Card 2 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">Mike Chen</h3>
-                <p className="text-gray-200 text-xs">Travel</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Mike Chen</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Travel</p>
               </div>
             </div>
 
             {/* Card 3 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">Emma Davis</h3>
-                <p className="text-gray-200 text-xs">Fashion</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Emma Davis</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fashion</p>
               </div>
             </div>
 
             {/* Card 4 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">Alex Rodriguez</h3>
-                <p className="text-gray-200 text-xs">Technology</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Alex Rodriguez</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Technology</p>
               </div>
             </div>
 
             {/* Card 5 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">Lisa Wang</h3>
-                <p className="text-gray-200 text-xs">Beauty</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Lisa Wang</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Beauty</p>
               </div>
             </div>
 
             {/* Card 6 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-lg overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 
                 alt="Influencer" 
                 className="w-full h-full object-cover"
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
-                <h3 className="text-white font-semibold text-sm mb-1">David Kim</h3>
-                <p className="text-gray-200 text-xs">Fitness</p>
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">David Kim</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fitness</p>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+          {/* popular cities */}
+    <div className="popular-cities mt-4">
+    <div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+              <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Popular Cities</h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+        </div>
+
+        {/* popular cities cards */}
+        <div className="mt-8 px-4">
+          <div className="grid grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {/* Bengaluru */}
+            <div className="relative bg-gradient-to-b from-blue-100 to-blue-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Bengaluru</h3>
+             <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Chennai */}
+            <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Chennai</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Hyderabad */}
+            <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Hyderabad</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+       
+         
+
+            {/* Mumbai */}
+            <div className="relative bg-gradient-to-b from-blue-200 to-blue-300 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Mumbai</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Gurgaon */}
+            <div className="relative bg-gradient-to-b from-blue-300 to-blue-400 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Gurgaon</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            
+              </div>
+
+            {/* Delhi */}
+            <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Delhi</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+          
+              </div>
+            
+            {/* Kolkata */}
+            <div className="relative bg-gradient-to-b from-teal-200 to-teal-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Kolkata</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+          
+              </div>
+
+            
+
+            {/* Pune */}
+            <div className="relative bg-gradient-to-b from-blue-400 to-blue-500 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Pune</h3>
+              <div>
+              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+                
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* footer  */}
+       <div className="footer-section mt-8 bg-white pt-12 px-4">
+         <div className="max-w-4xl mx-auto">
+           {/* Main heading */}
+           <div className="mb-6">
+             <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+               Home of creator
+             </h2>
+             <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+               collaborations.
+             </h2>
+           </div>
+           
+           {/* Subtitle with target icon */}
+           <div className="">
+             <p className="text-lg md:text-xl text-gray-600 font-medium flex items-center gap-2">
+               One place. Every Creator Need
+               <div className="relative inline-block">
+                 <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
+                   <div className="w-3 h-3 bg-white rounded-full"></div>
+                 </div>
+                 <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></div>
+               </div>
+             </p>
+           </div>
+           
+           {/* Instagram follow button */}
+           <div className="flex pb-4">
+             <button className="bg-gray-100 hover:bg-gray-200 transition-colors duration-300 rounded-full px-6 py-3 flex items-center gap-3">
+               <span className="text-black font-medium">Follow @hashfame_</span>
+             
+             </button>
+           </div>
+         </div>
+       </div>
     </div>
+
 
     <style jsx>{`
     
@@ -425,6 +564,14 @@ export default function Home() {
         z-index: 1;
         opacity: 0.2;
       }
+        .footer-section {
+          background: #e9c9c936 url('/images/footer.png') no-repeat center bottom;
+          background-size: 100%;
+          background-position: center bottom;
+          background-repeat: no-repeat;
+        padding-bottom: 150px;
+
+        }
     `}</style>
     </>
   );
