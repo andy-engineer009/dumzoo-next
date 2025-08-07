@@ -1,6 +1,8 @@
 'use client';
+import FilterModal from "@/components/filter";
 import InfluencerGrid from "@/components/InfluencerGrid";
 import SearchAndFilter from "@/components/searchAndFilter";
+import { useState } from "react";
 
 const influencers = [ 
     {
@@ -131,9 +133,20 @@ const influencers = [
   ];
 
 export default function Discover() {
+  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [filters, setFilters] = useState({});
+
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters);
+  };
   return (
     <>
-           <div className="w-full bg-white p-4">
+    <FilterModal 
+  isOpen={isFilterOpen}
+  onClose={() => setIsFilterOpen(false)}
+  onFilterChange={handleFilterChange}
+/>
+           {/* <div className="w-full bg-white p-4">
               <div className="max-w-4xl mx-auto px-4">
                 <SearchAndFilter
                   placeholder="Search for influencers, brands, or campaigns..."
@@ -144,7 +157,10 @@ export default function Discover() {
                   }}
                 />
               </div>
-            </div>
+            </div> */}
+
+    <button onClick={() => setIsFilterOpen(true)}>Open Filter</button>
+
 
                   <div className="flex mt-0 px-4 md:p-8 items-start pt-[50px]">
         <div className=" md:pl-9" style={{flex: 1}}>
