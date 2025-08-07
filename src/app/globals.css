@@ -252,7 +252,18 @@
   font-style: italic;
   font-display: swap;
 }
+html{
+  -webkit-text-size-adjust: 100%;
+}
 
 body {
   font-family: 'Gilroy'!important;
+}
+
+input:focus-visible {
+  outline: none !important;
+}
+
+input:focus {
+  box-shadow: none !important;
 }

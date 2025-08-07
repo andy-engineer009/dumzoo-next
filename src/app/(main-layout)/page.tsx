@@ -7,6 +7,7 @@ import SearchAndFilter from "@/components/searchAndFilter";
 import UserRolePopup from "@/components/userRolePopup";
 import ProfileSwitcher from "@/components/profile-switcher";
 import Image from "next/image";
+import { motion } from 'framer-motion';
 
 //theme color image
 // https://dribbble.com/shots/20245319-fenzy-for-Sellers-Visual-Design
@@ -57,405 +58,189 @@ const influencers = [
     followers: 1000,
     startingPrice: 1000,
   },
-  // {
-  //   id: 5,
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: 6,
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: 7,
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: 8,
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: 9,
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: "1",
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: "1",
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
-  // {
-  //   id: "1",
-  //   name: "Sasha",
-  //   image: "https://apollo.olx.in/v1/files/1mfuey8oh35o3-IN/image;s=300x600;q=60",
-  //   isVerified: true,
-  //   location: "New York",
-  //   category: "Fashion",
-  //   followers: 1000,
-  //   startingPrice: 1000,
-  // },
 ];
 
 export default function Home() {
   return (
-    <div>
-      {/* logobar */}
-    <div className=" top-0 left-0 right-0 z-50 px-4 py-3 flex justify-between items-center h-14 md:hidden absolute w-full
-    ">
-  <div className="flex items-center">
-    <svg className="w-8 h-8 text-purple-600" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
-      <path d="M12 17c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm1-9h-2V6h2v2zm0 4h-2v-2h2v2z"/>
-    </svg>
-    <span className="ml-2 font-bold text-lg text-white">Hi Andy</span>
-  </div>
+    <div className="min-h-screen bg-black relative overflow-hidden">
+      {/* Scattered dots background pattern */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full opacity-30"></div>
+        <div className="absolute top-32 right-20 w-1 h-1 bg-gray-400 rounded-full opacity-40"></div>
+        <div className="absolute top-48 left-1/4 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-25"></div>
+        <div className="absolute top-64 right-1/3 w-1 h-1 bg-gray-400 rounded-full opacity-35"></div>
+        <div className="absolute top-80 left-16 w-2 h-2 bg-gray-400 rounded-full opacity-20"></div>
+        <div className="absolute top-96 right-8 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-30"></div>
+        <div className="absolute top-[28rem] left-1/2 w-1 h-1 bg-gray-400 rounded-full opacity-25"></div>
+        <div className="absolute top-[32rem] right-1/4 w-2 h-2 bg-gray-400 rounded-full opacity-20"></div>
+        <div className="absolute top-[36rem] left-8 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-35"></div>
+        <div className="absolute top-[40rem] right-16 w-1 h-1 bg-gray-400 rounded-full opacity-30"></div>
+        <div className="absolute top-[44rem] left-1/3 w-2 h-2 bg-gray-400 rounded-full opacity-25"></div>
+        <div className="absolute top-[48rem] right-1/2 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-20"></div>
+      </div>
 
-  {/* <div className="flex items-center space-x-2">
-    <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">v1.0</span>
-    <button className="p-1 rounded-full hover:bg-gray-100">
-      <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-      </svg>
-    </button>
-  </div> */}
-  {/* <ProfileSwitcher></ProfileSwitcher> */}
-</div>
-
-  {/* hero section */}
-  <div className="flex items-center h-[200px] bg-[#04308e] box-sizing: border-box overflow-hidden">
-      {/* <div></div> */}
-    <Image src="/images/offer-1.jpg" alt="home-banner" width={100} height={200} style={{width: '100%', height: '100%',objectFit :'contain'}} />
-  </div>
-
-  {/*  */}
-
-
-
-
-            {/* <div className="w-full bg-white p-4">
-              <div className="max-w-4xl mx-auto px-4">
-                <SearchAndFilter
-                  placeholder="Search for influencers, brands, or campaigns..."
-                  className="w-full"
-                  onSearch={(values) => {         
-                    console.log('Search values:', values);
-                    // Handle search here
-                  }}
-                />
-              </div>
-            </div> */}
-              <UserRolePopup />
-
-              {/* home bnner */}
-
-              {/* <div>
-                <Image src="/images/home-banner.png" alt="home-banner" width={1000} height={200} style={{width: '100%', height: '200px',objectFit :'cover'}} />
-              </div> */}
-
-        {/* category section */}
-
-      {/* Category Section */}
-      {(() => {
-        const categories = [
-          {
-            id: 1,
-            name: 'Fashion',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-1.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 2,
-            name: 'Technology',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-2.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 3,
-            name: 'Fitness',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                  <Image src="/images/icons/icon-3.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 4,
-            name: 'Food',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                  <Image src="/images/icons/icon-4.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 5,
-            name: 'Travel',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-5.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 6,
-            name: 'Lifestyle',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-1.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 7,
-            name: 'Gaming',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-2.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-          {
-            id: 8,
-            name: 'All',
-            icon: (
-              <div className="w-[60px] h-[60px] flex items-center justify-center rounded-lg" style={{backgroundColor: '#d4e2e1'}}>
-                <Image src="/images/icons/icon-3.svg" alt="fashion-beauty" width={24} height={24} />
-              </div>
-            )
-          },
-        ];
-
-        return (
-          <div
-            className="max-w-5xl mx-auto px-4 py-6 rounded-t-[20px]"
-            style={{
-              background: '#FFFF',
-              marginTop: '-23px',
-              zIndex: 1,
-              position: 'relative'
-            }}
+      {/* Main Content */}
+      <div className="relative z-10 px-6 py-8">
+        {/* Header Section */}
+        <div className="text-center mb-12">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className=" font-bold text-white mb-2 text-[40px]"
           >
-            <div className="flex overflow-x-auto hide-scrollbar space-x-4">
-              {categories.map((category) => (
-                <div
-                  key={category.id}
-                  className="flex flex-col items-center min-w-[80px] flex-shrink-0 me-0"
-                >
-                  {category.icon}
-                  <span className="text-sm text-[14px] font-[600] text-center mt-2 text-[#1f1f1f] whitespace-nowrap">
-                    {category.name}
-                  </span>
+            Find the Right Creator.
+          </motion.h1>
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4 flex items-center justify-center"
+          >
+            Fast. 
+            <span className="ml-0 text-yellow-400">⚡</span>
+          </motion.div>
+          <motion.p 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-lg text-gray-300 font-normal"
+          >
+            Put up a request — or just browse.
+          </motion.p>
+        </div>
+
+        {/* Cards Grid */}
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-4 gap-3 md:gap-6">
+            {/* Browse Influencers Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="relative bg-gradient-to-b from-green-600 to-green-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              {/* Star accents */}
+              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
+              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
+              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+              
+              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Browse Influencers</h3>
+              
+              {/* Influencers illustration */}
+              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
+                <div className="flex space-x-1 md:space-x-3">
+                  {/* Person 1 */}
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-purple-400 rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Person 2 */}
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-yellow-400 rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Person 3 */}
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-blue-400 rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Person 4 */}
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-pink-400 rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Person 5 */}
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-orange-400 rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-white rounded-full"></div>
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        );
-      })()}
-
-
-  {/* const categories = [
-    {
-      id: 1,
-      name: 'Fashion & Beauty',
-      icon: (
-        <Image src="/images/icon_basket.svg" alt="fashion-beauty" width={30} height={30} />
-      ),
-      backgroundColor: '#f8e4ff'
-    },
-    {
-      id: 2,
-      name: 'Technology',
-      icon: (
-        <Image src="/images/icon_delete.svg" alt="technology" width={30} height={30} />
-      ),
-      backgroundColor: '#e4ffed'
-    },
-    {
-      id: 3,
-      name: 'Fitness & Health',
-      icon: (
-        <Image src="/images/icon_basket.svg" alt="fitness-health" width={30} height={30} />
-      ),
-      backgroundColor: '#ffe4e4'
-    },
-    {
-      id: 4,
-      name: 'Food & Cooking',
-      icon: (
-        <Image src="/images/icon_delete.svg" alt="food-cooking" width={30} height={30} />
-      ),
-      backgroundColor: '#fff5e4'
-    },
-    {
-      id: 5,
-      name: 'Travel',
-      icon: (
-        <Image src="/images/icon_basket.svg" alt="travel" width={30} height={30} />
-      ),
-      backgroundColor: '#e4f0ff'
-    },
-    {
-      id: 6,
-      name: 'Lifestyle',
-      icon: (
-        <Image src="/images/icon_delete.svg" alt="lifestyle" width={30} height={30} />
-      ),
-      backgroundColor: '#ffe4f7'
-    },
-    {
-      id: 7,
-      name: 'Gaming',
-      icon: (
-        <Image src="/images/icon_basket.svg" alt="gaming" width={30} height={30} />
-      ),
-      backgroundColor: '#e4fffc'
-    },
-    {
-      id: 8,
-      name: 'Education',
-      icon: (
-        <Image src="/images/icon_delete.svg" alt="education" width={30} height={30} />
-      ),
-      backgroundColor: '#fff3e4'
-    }
-  ];
-
-  return (
-    <div className="max-w-5xl mx-auto px-4 py-6">
-      <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 gap-x-4 gap-y-4">
-        {categories.map((category) => (
-          <div
-            key={category.id}
-            className=""
-          >
-            <div className=" h-[60px] flex flex-col items-center justify-center rounded-lg shadow-sm p-2 cursor-pointer transition-all hover:shadow-md group" style={{backgroundColor: category.backgroundColor}}>
-              {category.icon}
-            </div>
-            <span className="text-sm text-[12px] font-[500] text-gray-900 text-center leading-tight text-center block mt-3">
-              {category.name}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-})()} */}
-
-
-
-      {/* top featured influencers */}
-     <div className="w-full mx-auto mt-2 px-4 md:px-8">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-md font-semibold text-gray-800">Top Trending </h3>
-          <button className="text-blue-600 hover:text-blue-700 font-[500] text-[14px]">View All</button>
-        </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-4 md:pb-0">
-          {influencers.slice(0, 10).map((influencer, index) => (
-            <div key={index} className="">
-              <InfluencerCard key={index} {...influencer} />
-            </div>
-          ))}
-        </div>
-      </div>
-      
-            <div className="w-full mx-auto mt-2 px-4 md:px-8">
-              <div className="h-[60px] bg-gradient-to-r from-violet-600 to-indigo-600 rounded-lg flex items-center justify-center">
-                <div className="text-2xl font-bold text-white">Your Ads</div>
               </div>
-            </div>
-            
+            </motion.div>
 
-  {/*<div className="w-full mx-auto mt-5 px-4 md:px-8">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-md font-semibold text-gray-800">Trending Influencers</h3>
-          <button className="text-blue-600 hover:text-blue-700 font-[500] text-[14px]">View All</button>
+            {/* Celeb/Talent Managers Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              className="relative bg-gradient-to-b from-blue-600 to-blue-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              {/* Star accents */}
+              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
+              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
+              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+              
+              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Celeb/Talent Managers</h3>
+              
+              {/* Manager illustration */}
+              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
+                <div className="w-8 h-8 md:w-16 md:h-16 bg-purple-500 rounded-full flex items-center justify-center relative">
+                  <div className="w-5 h-5 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 md:w-5 md:h-5 bg-purple-500 rounded-full"></div>
+                  </div>
+                  {/* Document */}
+                  <div className="absolute -right-1 -top-1 md:-right-3 md:-top-3 w-4 h-5 md:w-8 md:h-10 bg-white rounded-sm transform rotate-12"></div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Post Your Requirement Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              className="relative bg-gradient-to-b from-red-600 to-red-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              {/* Star accents */}
+              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
+              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
+              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+              
+              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Post Your Requirement</h3>
+              
+              {/* Megaphone illustration */}
+              <div className="absolute bottom-3 left-3 right-3 flex justify-center">
+                <div className="relative">
+                  <div className="w-8 h-5 md:w-16 md:h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                    <div className="w-5 h-2.5 md:w-10 md:h-5 bg-white rounded-full"></div>
+                  </div>
+                  {/* Sound waves */}
+                  <div className="absolute -right-1 top-1 md:-right-3 md:top-2 w-2 h-0.5 md:w-4 md:h-1 bg-white rounded-full opacity-80"></div>
+                  <div className="absolute -right-2 top-0.5 md:-right-6 md:top-1 w-3 h-0.5 md:w-6 md:h-1 bg-white rounded-full opacity-60"></div>
+                  <div className="absolute -right-3 top-1.5 md:-right-9 md:top-3 w-4 h-0.5 md:w-8 md:h-1 bg-white rounded-full opacity-40"></div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Services For You Card */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="relative bg-gradient-to-b from-orange-600 to-orange-500 rounded-2xl p-3 md:p-6 h-48 md:h-72 cursor-pointer hover:scale-105 transition-transform duration-300"
+            >
+              {/* Star accents */}
+              <div className="absolute top-2 right-3 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-80"></div>
+              <div className="absolute top-4 left-4 w-1 h-1 bg-yellow-400 rounded-full opacity-60"></div>
+              <div className="absolute bottom-12 right-4 w-0.5 h-0.5 bg-yellow-400 rounded-full opacity-70"></div>
+              
+              <h3 className="text-sm md:text-xl font-bold text-white mb-3 md:mb-6">Services For You</h3>
+              
+              {/* Creative tools illustration */}
+              <div className="absolute bottom-3 left-3 right-3 flex justify-center space-x-2 md:space-x-4">
+                {/* Clapperboard */}
+                <div className="w-5 h-4 md:w-10 md:h-8 bg-black rounded-sm flex items-center justify-center">
+                  <div className="w-3.5 h-2.5 md:w-7 md:h-5 bg-white rounded-sm"></div>
+                </div>
+                {/* Notebook */}
+                <div className="w-4 h-5 md:w-8 md:h-10 bg-yellow-400 rounded-sm flex items-center justify-center">
+                  <div className="w-2.5 h-3.5 md:w-5 md:h-7 bg-white rounded-sm"></div>
+                </div>
+                {/* Tablet */}
+                <div className="w-5 h-4 md:w-10 md:h-8 bg-blue-500 rounded-sm flex items-center justify-center">
+                  <div className="w-3.5 h-2.5 md:w-7 md:h-5 bg-blue-300 rounded-sm"></div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
-          {influencers.slice(0, 10).map((influencer, index) => (
-            <div key={index} className="">
-              <InfluencerCard key={index} {...influencer} />
-            </div>
-          ))}
-        </div>
-      </div> */}
-
-
-    
-
-  
-                  {/* trending influencers */}
-          {/* <div className="w-full mx-auto mt-3 px-4 md:px-8">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-md font-semibold text-gray-800">Near By Influencers</h3>
-          <button className="text-blue-600 hover:text-blue-700 font-[500] text-[14px]">View All</button>
-        </div>
-
-        <div className="flex space-x-4 overflow-x-auto pb-4 hide-scrollbar">
-          {influencers.slice(0, 10).map((influencer, index) => (
-            <div key={index} className="flex-none w-40">
-              <InfluencerCard key={index} {...influencer} />
-            </div>
-          ))}
-        </div>
-      </div> */}
-
-
-      {/* <div className="flex mt-4 p-4 md:p-8 items-start">
-        <div className=" md:pl-9" style={{flex: 1}}>
-          <InfluencerGrid influencers={influencers} />
-        </div>
-      </div> */}
+      </div>
     </div>
   );
 }
