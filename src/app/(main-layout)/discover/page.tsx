@@ -1,7 +1,9 @@
 'use client';
 import FilterModal from "@/components/filter";
+import FilterRow from "@/components/FilterRow";
 import InfluencerGrid from "@/components/InfluencerGrid";
 import SearchAndFilter from "@/components/searchAndFilter";
+import SearchBar from "@/components/SearchBar";
 import { useState } from "react";
 
 const influencers = [ 
@@ -133,14 +135,16 @@ const influencers = [
   ];
 
 export default function Discover() {
-  const [isFilterOpen, setIsFilterOpen] = useState(true);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({});
 
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
   };
+
   return (
     <>
+    <SearchBar /> 
     <FilterModal 
   isOpen={isFilterOpen}
   onClose={() => setIsFilterOpen(false)}
@@ -159,10 +163,12 @@ export default function Discover() {
               </div>
             </div> */}
 
-    <button onClick={() => setIsFilterOpen(true)}>Open Filter</button>
 
+    {/* <button onClick={() => setIsFilterOpen(true)}>Open Filter</button> */}
 
-                  <div className="flex mt-0 px-4 md:p-8 items-start pt-[50px]">
+    <FilterRow onFilterChange={handleFilterChange} />
+{/* dddd */}
+                  <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px]">
         <div className=" md:pl-9" style={{flex: 1}}>
           <InfluencerGrid influencers={influencers} />
         </div>

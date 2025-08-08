@@ -69,8 +69,8 @@ const Header = () => {
 
 
       {/* Mobile Bottom Navigation - Modern Floating Design */}
-      {!pathname.includes('/detail') && !pathname.includes('/chat') && !pathname.includes('/profile') && !pathname.includes('/login') && !pathname.includes('/referral') && (
-        <nav className="fixed bottom-2 left-4 right-4 z-50 md:hidden">
+        {!pathname.includes('/detail') && !pathname.includes('/chat') && !pathname.includes('/profile') && !pathname.includes('/login') && !pathname.includes('/referral') && !pathname.includes('/discover')&& !pathname.includes('/seacrh') && (
+          <nav className="fixed bottom-2 left-4 right-4 z-50 md:hidden">
           {/* Main Navigation Container */}
           <div className="bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_-8px_32px_rgba(0,0,0,0.12)] border border-gray-200/60 p-2">
             <div className={`grid ${role === '3' ? 'grid-cols-4' : 'grid-cols-5'} items-center gap-1`}>
