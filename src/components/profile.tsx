@@ -73,16 +73,16 @@ console.log('mak')
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center relative">
           <button 
             onClick={() => router.push('/')}
-            className="p-2 rounded-full hover:bg-gray-100"
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-lg font-semibold text-gray-900 mx-auto">Profile Settings</h1>
+          <h1 className="text-lg font-medium text-gray-900">Profile Settings</h1>
         </div>
       </header>
 
@@ -127,13 +127,13 @@ console.log('mak')
             {/* User Info */}
             <div className="flex-1">
               <h2 className="text-lg font-semibold text-gray-900">{initialValues?.name || 'Andy Lexsian'}</h2>
-              <div className="flex items-center gap-1 text-gray-600 text-sm mt-1">
+              {/* <div className="flex items-center gap-1 text-gray-600 text-sm mt-1">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 <span>{initialValues?.location || 'Uttar Pradesh, India'}</span>
-              </div>
+              </div> */}
             </div>
 
             {/* Edit Icon */}
@@ -305,7 +305,7 @@ console.log('mak')
 
           {/* Influencer Profile Section */}
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-gray-500 mb-3">Influencer Profile</h3>
+            {/* <h3 className="text-sm font-medium text-gray-500 mb-3">Influencer Profile</h3> */}
             <div className="space-y-1">
             {/* { currentUserRole == '2' && ( <> */}
               { true && ( <>
@@ -357,6 +357,18 @@ console.log('mak')
                 </svg>
               </button>
 
+              <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors" onClick={() => router.push('/how')}>
+                   <div className="flex items-center gap-3">
+                     <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                     </svg>
+                     <span className="text-blue-600 font-medium">How it works</span>
+                   </div>
+                   <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                   </svg>
+                 </button>
+                 
               {/* {localStorage.getItem('token') ? ( */}
                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-red-50 transition-colors" onClick={() => {
                   dispatch(logout());
@@ -374,17 +386,7 @@ console.log('mak')
                 </button>
               {/* )  */}
              
-                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors" onClick={() => router.push('/how')}>
-                   <div className="flex items-center gap-3">
-                     <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                     </svg>
-                     <span className="text-blue-600 font-medium">How it works</span>
-                   </div>
-                   <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                   </svg>
-                 </button>
+      
              
             </div>
           </div>

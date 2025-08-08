@@ -329,7 +329,7 @@ export default function Home() {
         <div className="mt-6 px-4">
           <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
             {/* Card 1 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
@@ -343,7 +343,7 @@ export default function Home() {
             </div>
 
             {/* Card 2 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 
@@ -357,7 +357,7 @@ export default function Home() {
             </div>
 
             {/* Card 3 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
@@ -371,7 +371,7 @@ export default function Home() {
             </div>
 
             {/* Card 4 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 
@@ -385,7 +385,7 @@ export default function Home() {
             </div>
 
             {/* Card 5 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/women.png" 
@@ -399,7 +399,7 @@ export default function Home() {
             </div>
 
             {/* Card 6 */}
-            <div className="flex-shrink-0 w-[150px] h-[150px] relative rounded-[20px] overflow-hidden shadow-lg">
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
               <img 
                 src="/images/men.png" 

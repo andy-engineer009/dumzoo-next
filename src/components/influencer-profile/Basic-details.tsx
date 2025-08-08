@@ -316,17 +316,17 @@ export default function EditBasicDetails() {
         )}
 
         {/* Header */}
-        <div className="w-full px-2 py-1 border-b border-gray-200">
-          <div className="flex items-center">
+        <div className="w-full px-2 py-3 border-b border-gray-200">
+          <div className="relative">
             <Link
               href="/profile/edit"
-              className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
             >
-              <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+               <svg className="w-6 h-6 text-gray-600 hover:text-gray-900 " fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             </Link>
-            <h1 className="text-xl font-medium text-black">Edit Basic Details</h1>
+            <h1 className="text-lg font-medium text-gray-900 text-center">Edit Basic Details</h1>
           </div>
         </div>
 

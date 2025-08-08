@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
@@ -66,39 +65,30 @@ export default function EditProfile() {
       </div>
 
       {/* Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full px-3 py-4 bg-white/80 backdrop-blur-md border-b border-gray-200/50"
-      >
+      <div className="relative z-10 w-full px-3 py-2 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
         <div className="flex items-center justify-between">
           <Link
             href="/profile"
             className="inline-flex items-center justify-center w-10 h-10 transition-colors hover:bg-gray-100 rounded-full"
             aria-label="Back to Profile"
           >
-                  <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
           <div className="text-center">
-            <h1 className="text-xl font-bold text-gray-900">Complete Profile</h1>
-            <p className="text-sm text-gray-500">Fill in your details to get started</p>
+            <h1 className="text-lg font-medium text-gray-900">Complete Profile</h1>
+            {/* <p className="text-sm text-gray-500">Fill in your details to get started</p> */}
           </div>
           <div className="w-10"></div> {/* Spacer for centering */}
         </div>
-      </motion.div>
+      </div>
 
       {/* Main Content */}
       <div className="relative z-10 px-6 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Progress Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 mb-6"
-          >
+          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 mb-6">
             {/* Progress Bar */}
             <div className="mb-3">
               <div className="flex justify-between items-center mb-2">
@@ -106,11 +96,9 @@ export default function EditProfile() {
                 <span className="text-sm font-bold text-blue-600">{Math.round(progressPercentage)}%</span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <motion.div 
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercentage}%` }}
-                  transition={{ duration: 1, ease: "easeOut" }}
+                <div 
                   className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                  style={{ width: `${progressPercentage}%` }}
                 />
               </div>
               <div className="flex justify-between text-xs text-gray-500 mt-1">
@@ -118,23 +106,15 @@ export default function EditProfile() {
                 <span>{3 - completedSteps} remaining</span>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Steps Section */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="space-y-3"
-          >
+          <div className="space-y-3">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete These Steps</h3>
             
             {steps.map((step, index) => (
-              <motion.div
+              <div
                 key={step.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
                 onClick={() => handleStepClick(step)}
                 className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 cursor-pointer transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
               >
@@ -167,9 +147,9 @@ export default function EditProfile() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </div>
