@@ -42,6 +42,18 @@ const Header = () => {
       )
     },
     { 
+      name: 'Plus', 
+      path: '/plus', 
+      active: pathname === '/plus',
+      icon: (active: boolean) => (
+        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${active ? 'bg-[#6f43fe]' : 'bg-gray-500'}`}>
+          <svg className={`w-6 h-6 ${active ? 'text-white' : 'text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+      )
+    },
+    { 
       name: 'Chat', 
       path: '/chat/1', 
       active: pathname.startsWith('/chat'),
@@ -110,7 +122,7 @@ const Header = () => {
               </button>
 
               {/* Center - Add Influencer Button (Floating) */}
-              {role === '2' && (
+              {/* {role === '2' && ( */}
                 <div className="flex justify-center">
                   <button
                     onClick={() => router.push('/infulanceradded')}
@@ -121,7 +133,7 @@ const Header = () => {
                     </svg>
                   </button>
                 </div>
-              )}
+              {/* )} */}
 
               {/* Chat */}
               <button

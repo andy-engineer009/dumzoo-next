@@ -250,7 +250,6 @@ console.log('mak')
             </div>
           </div> */}
 
-
 {localStorage.getItem('token') && ( <>
           <div className="flex items-center gap-4 mb-8">
             <div className="flex items-center gap-3">
@@ -308,7 +307,8 @@ console.log('mak')
           <div className="mb-6">
             <h3 className="text-sm font-medium text-gray-500 mb-3">Influencer Profile</h3>
             <div className="space-y-1">
-              { currentUserRole == '2' && ( <>
+            {/* { currentUserRole == '2' && ( <> */}
+              { true && ( <>
               
               <button 
                 onClick={() => router.push('/profile/edit')}

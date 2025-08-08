@@ -437,7 +437,7 @@ export default function Home() {
             {/* Bengaluru */}
             <div className="relative bg-gradient-to-b from-blue-100 to-blue-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
 
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Bengaluru</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Bengaluru</h3>
              <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -445,7 +445,7 @@ export default function Home() {
 
             {/* Chennai */}
             <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Chennai</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chennai</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -453,7 +453,7 @@ export default function Home() {
 
             {/* Hyderabad */}
             <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Hyderabad</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Hyderabad</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -463,7 +463,7 @@ export default function Home() {
 
             {/* Mumbai */}
             <div className="relative bg-gradient-to-b from-blue-200 to-blue-300 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Mumbai</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Mumbai</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -471,7 +471,7 @@ export default function Home() {
 
             {/* Gurgaon */}
             <div className="relative bg-gradient-to-b from-blue-300 to-blue-400 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Gurgaon</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Gurgaon</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -480,7 +480,7 @@ export default function Home() {
 
             {/* Delhi */}
             <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Delhi</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -489,7 +489,7 @@ export default function Home() {
             
             {/* Kolkata */}
             <div className="relative bg-gradient-to-b from-teal-200 to-teal-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Kolkata</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Kolkata</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -500,7 +500,7 @@ export default function Home() {
 
             {/* Pune */}
             <div className="relative bg-gradient-to-b from-blue-400 to-blue-500 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-sm font-semibold text-black mb-2 px-3 pt-3 text-center">Pune</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Pune</h3>
               <div>
               <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -528,19 +528,19 @@ export default function Home() {
            <div className="">
              <p className="text-lg md:text-xl text-gray-600 font-medium flex items-center gap-2">
                One place. Every Creator Need
-               <div className="relative inline-block">
+               {/* <div className="relative inline-block">
                  <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center">
                    <div className="w-3 h-3 bg-white rounded-full"></div>
                  </div>
                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-blue-500 rounded-full"></div>
-               </div>
+               </div> */}
              </p>
            </div>
            
            {/* Instagram follow button */}
            <div className="flex pb-4">
              <button className="bg-gray-100 hover:bg-gray-200 transition-colors duration-300 rounded-full px-6 py-3 flex items-center gap-3">
-               <span className="text-black font-medium">Follow @hashfame_</span>
+               <span className="text-black font-medium">Follow @dumzoo</span>
              
              </button>
            </div>

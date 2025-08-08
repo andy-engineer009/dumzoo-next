@@ -190,7 +190,8 @@ const Login = () => {
           <div className="w-full max-w-sm space-y-4 px-4">
             {/* Google Login Button */}
             <button
-              onClick={() => handleGoogleLogin()}
+              // onClick={() => handleGoogleLogin()}
+              onClick={() => router.push('/referral')}
               disabled={isLoading}
               className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 disabled:bg-gray-200 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
             >
