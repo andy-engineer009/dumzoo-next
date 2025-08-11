@@ -8,7 +8,7 @@ import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
 import Loader from './loader';
-import { setVerfiedUser } from '@/helpers/common';
+import { setVerfiedUser, setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
 // Toast notification component
 const Toast = ({ message, type, onClose }: { message: string; type: 'success' | 'error' | 'info'; onClose: () => void }) => {
@@ -48,6 +48,7 @@ const Login = () => {
   // State management
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
+  const [userType, setUserType] = useState<'influencer' | 'promoter' | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -74,10 +75,10 @@ const Login = () => {
    try{
     if(authresult?.code) {
       setIsLoading(true);
-      api.post(`${API_ROUTES.google_signup}?google_code=${authresult?.code}`,{is_login_Type : 1}).then((response) => {
+      api.post(`${API_ROUTES.google_signup}?google_code=${authresult?.code}`,{is_login_Type: 1}).then((response) => {
         setIsLoading(false);
         if(response?.status == 1) {
-          setVerfiedUser(response?.data, dispatch);
+          setVerfiedUserV2(response?.data, dispatch);
           showToast(response?.message, 'success')
           if(response?.data?.user?.is_new_user == 1) {
             router.push('/referral');
@@ -122,7 +123,7 @@ const Login = () => {
 
 
         {/* Main Content */}
-        <div className="pt-0 pb-20 flex flex-col items-center min-h-screen">
+        <div className="pt-0 pb-2 flex flex-col items-center min-h-screen">
                     {/* Influencer Image Grid with Infinite Scroll Animation */}
           <div className="relative w-full mb-8 overflow-hidden" style={{height: '55vh'}}>
             {/*
@@ -177,7 +178,7 @@ const Login = () => {
           </div>
 
           {/* Logo and Brand */}
-          <div className="text-center mb-8">
+          <div className="text-center mb-4">
             <div className="flex items-center justify-center mb-4">
               <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center mr-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg"></div>
@@ -188,38 +189,73 @@ const Login = () => {
 
           {/* Action Buttons */}
           <div className="w-full max-w-sm space-y-4 px-4">
-            {/* Google Login Button */}
-            <button
-              // onClick={() => handleGoogleLogin()}
-              onClick={() => router.push('/referral')}
-              disabled={isLoading}
-              className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 disabled:bg-gray-200 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
-            >
-              {isLoading ? (
-                <>
-                  <LoadingSpinner size="sm" />
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <>
-                  <svg className="w-6 h-6" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+            {/* User Type Selection - Show when no type selected */}
+            {!userType && (
+              <div className="space-y-3">
+                <h3 className="text-lg font-medium text-gray-900 text-center mb-4">Why are you here?</h3>
+                
+                <button
+                  onClick={() => setUserType('influencer')}
+                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>Google</span>
-                </>
-              )}
-            </button>
+                  <span>I'm an Influencer</span>
+                </button>
 
-            {/* Skip Button */}
-            {/* <button
-              onClick={handleSkip}
-              className="w-full text-white hover:text-gray-300 text-lg font-medium py-2 transition-colors duration-200"
-            >
-              Skip
-            </button> */}
+                <button
+                  onClick={() => setUserType('promoter')}
+                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span>I'm a Promoter</span>
+                </button>
+              </div>
+            )}
+
+            {/* Google Login Button - Show after user type selection */}
+            {userType && (
+              <div className="space-y-3">
+                <div className="text-center mb-4">
+                  <h3 className="text-lg font-medium text-gray-900">Welcome, {userType === 'influencer' ? 'Influencer' : 'Promoter'}!</h3>
+                  <p className="text-sm text-gray-600 mt-1">Sign in to continue</p>
+                </div>
+                
+                <button
+                  onClick={() => handleGoogleLogin()}
+                  disabled={isLoading}
+                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 disabled:bg-gray-200 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                >
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner size="sm" />
+                      <span>Signing in...</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-6 h-6" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                      </svg>
+                      <span>Continue with Google</span>
+                    </>
+                  )}
+                </button>
+
+                {/* Back button to change selection */}
+                <button
+                  onClick={() => setUserType(null)}
+                  className="w-full text-gray-600 hover:text-gray-800 text-base font-medium py-2 transition-colors duration-200"
+                >
+                  ← Choose different option
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Terms and Conditions */}

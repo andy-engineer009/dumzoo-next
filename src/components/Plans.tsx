@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
+import Link from 'next/link';
 
 interface BoosterPlan {
   id: string;
@@ -84,13 +85,22 @@ const BoosterPlan = () => {
       {({ setFieldValue }) => (
         <Form className="min-h-screen flex flex-col bg-white">
           {/* Header */}
-          <div className="py-4 px-4 border-b border-gray-200 sticky top-0 bg-white z-10">
-            {/* <h1 className="text-2xl font-bold text-gray-900 text-center mb-1">Boost your profile</h1> */}
-            <h2 className="text-lg font-bold text-gray-900 text-center">Choose the plan that's right for you</h2>
+          <div className="w-full px-6 py-3 border-b border-gray-200">
+            <div className="flex items-center justify-center">
+              <Link
+                href="/profile"
+                className="absolute left-4"
+              >
+                <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </Link>
+              <h1 className="text-lg font-medium text-gray-900">Choose Your Plan</h1>
+            </div>
           </div>
 
           {/* Horizontal Scrollable Plans */}
-          <div className="flex overflow-x-auto gap-3 px-4 py-4 snap-x snap-mandatory">
+          <div className="flex overflow-x-auto gap-3 px-4 py-4 snap-x snap-mandatory mt-4">
             {plans.map((plan) => (
               <button
                 type="button"
@@ -99,14 +109,14 @@ const BoosterPlan = () => {
                   setSelectedPlan(plan);
                   setFieldValue('plan', plan.id);
                 }}
-                className={`relative flex-shrink-0 w-36 sm:w-44 rounded-lg border-2 px-3 py-4 flex flex-col items-center text-center snap-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-orange-500
-                  ${selectedPlan.id === plan.id ? 'border-orange-500 bg-orange-50 shadow-md' : 'border-gray-200 bg-white'}`}
+                className={`relative flex-shrink-0 w-36 sm:w-44 rounded-lg border-2 px-3 py-4 flex flex-col items-center text-center snap-center transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500
+                  ${selectedPlan.id === plan.id ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 bg-white'}`}
               >
                 {plan.badge && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-semibold shadow">{plan.badge}</span>
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-semibold shadow">{plan.badge}</span>
                 )}
                 <span className="text-base font-bold text-gray-900 mb-1">{plan.name}</span>
-                <span className="text-lg font-bold text-orange-600 mb-1">₹{plan.price}</span>
+                <span className="text-lg font-bold text-blue-600 mb-1">₹{plan.price}</span>
                 <span className="text-xs text-gray-500 line-through">₹{plan.originalPrice}</span>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-semibold mt-1">{plan.discount}% OFF</span>
               </button>
@@ -118,7 +128,7 @@ const BoosterPlan = () => {
             <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden p-6">
               <h2 className="text-lg font-bold text-gray-900 mb-2">{selectedPlan.name} Plan</h2>
               <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl font-bold text-orange-600">₹{selectedPlan.price}</span>
+                <span className="text-2xl font-bold text-blue-600">₹{selectedPlan.price}</span>
                 <span className="text-base text-gray-500 line-through">₹{selectedPlan.originalPrice}</span>
                 <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-semibold">{selectedPlan.discount}% OFF</span>
               </div>
@@ -143,7 +153,7 @@ const BoosterPlan = () => {
           <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 z-20">
             <button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg text-lg shadow transition-colors duration-200"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-lg shadow transition-colors duration-200"
             >
               Next
             </button>

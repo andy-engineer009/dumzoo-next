@@ -31,6 +31,7 @@ interface FormValues {
   facebook_url: string;
   audience_type: string;
   audience_age_group: string;
+  starting_price: number;
 }
 
 // Validation schema
@@ -66,6 +67,7 @@ const formSchema = Yup.object().shape({
     is: (is_facebook_enabled: boolean) => is_facebook_enabled === true,
     then: (schema) => schema.required('Facebook URL is required').url('Must be a valid URL')
   }),
+  starting_price: Yup.number().required('Starting price is required').min(0, 'Starting price must be greater than 0'),
 });
 
 // Initial values
@@ -88,7 +90,8 @@ const initialValues: FormValues = {
   facebook_url: '',
   audience_type: '',
   audience_age_group: '',
-  platforms_required: ''
+  platforms_required: '',
+  starting_price: 0
 };
 
 const audienceTypes = [
@@ -222,6 +225,7 @@ export default function InfluencerOnboardingForm() {
         locality: parseInt(values.locality.toString()),
         categories: values.categories.map((category: any) => parseInt(category.toString())),
         language: values.languages.map((language: any) => parseInt(language.toString())),
+        starting_price: values.starting_price
       }
 
       api.post(API_ROUTES.addInfulancer, payload).then((response) => {
@@ -575,6 +579,21 @@ export default function InfluencerOnboardingForm() {
                   </div>
                 </div>
 
+                {/* Starting Price */}
+                <div>
+                  <label htmlFor="starting_price" className="block text-sm font-medium text-black mb-2">
+                    Starting Price
+                  </label>
+                  <Field
+                    type="number"
+                    id="starting_price"
+                    name="starting_price"
+                    placeholder="Enter your starting price"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                  />
+                  <ErrorMessage name="starting_price" component="div" className="mt-1 text-sm text-red-500" />
+                </div>
+                
                 {/* Audience Type and Age Group */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>

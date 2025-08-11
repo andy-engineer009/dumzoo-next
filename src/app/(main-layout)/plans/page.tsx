@@ -1,4 +1,4 @@
-import BoosterPlan from "@/components/BoosterPlan";
+import BoosterPlan from "@/components/Plans";
 
 export default function Booster() {
   return (

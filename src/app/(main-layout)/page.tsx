@@ -4,7 +4,6 @@ import Filters from "@/components/Filters";
 import InfluencerGrid from "@/components/InfluencerGrid";
 import InfluencerCard from "@/components/InfulancerCard";
 import SearchAndFilter from "@/components/searchAndFilter";
-import UserRolePopup from "@/components/userRolePopup";
 import ProfileSwitcher from "@/components/profile-switcher";
 import Image from "next/image";
 import { motion } from 'framer-motion';
@@ -119,7 +118,7 @@ export default function Home() {
         </div>
 
         {/* Cards Grid */}
-        <div className="max-w-7xl mx-auto ">
+        <div className="max-w-7xl mx-auto hidden">
           <div className="grid grid-cols-4 gap-2 md:gap-6">
             {/* Browse Influencers Card */}
             <motion.div 
@@ -197,7 +196,7 @@ export default function Home() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Browse Creators</h2>
+            <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Browse Creators</h2>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -317,7 +316,7 @@ export default function Home() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>NEW ON <span className="text-purple-600">DUMZOO</span></h2>
+            <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>NEW ON <span className="text-purple-600">DUMZOO</span></h2>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -423,7 +422,7 @@ export default function Home() {
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-              <h2 className="text-[16px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Popular Cities</h2>
+              <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Popular Cities</h2>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -547,6 +546,7 @@ export default function Home() {
          </div>
        </div>
     </div>
+
 
 
     <style jsx>{`

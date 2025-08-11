@@ -3,14 +3,22 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import ProfileProgressCard from '@/components/ProfileprogressCard';
 
 export default function EditProfile() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState(1);
+  // const [currentStep, setCurrentStep] = useState(1);
   
-  // Mock progress data - replace with actual data from API
-  const completedSteps = 1; // 1 out of 3 steps completed
-  const progressPercentage = (completedSteps / 3) * 100;
+  // // Mock progress data - replace with actual data from API
+  // const completedSteps = 1; // 1 out of 3 steps completed
+  // const progressPercentage = (completedSteps / 3) * 100;
+
+  const progressData = {
+    completedSteps: 2,
+    totalSteps: 3,
+    progressPercentage: (2 / 3) * 100,
+    title: "Profile Progress"
+  };
 
   const steps = [
     {
@@ -88,24 +96,8 @@ export default function EditProfile() {
       <div className="relative z-10 px-6 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Progress Section */}
-          <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 mb-6">
-            {/* Progress Bar */}
-            <div className="mb-3">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">Profile Progress</span>
-                <span className="text-sm font-bold text-blue-600">{Math.round(progressPercentage)}%</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
-                  style={{ width: `${progressPercentage}%` }}
-                />
-              </div>
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>{completedSteps} of 3 completed</span>
-                <span>{3 - completedSteps} remaining</span>
-              </div>
-            </div>
+          <div className="mb-4">
+          <ProfileProgressCard data={progressData} /> 
           </div>
 
           {/* Steps Section */}

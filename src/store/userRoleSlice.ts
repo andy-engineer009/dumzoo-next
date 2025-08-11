@@ -57,16 +57,16 @@ const userRoleSlice = createSlice({
     },
     
     // Mark user as having visited and save to localStorage
-    setHasVisitedBefore: (state, action: PayloadAction<boolean>) => {
-      state.hasVisitedBefore = action.payload;
+    // setHasVisitedBefore: (state, action: PayloadAction<boolean>) => {
+    //   state.hasVisitedBefore = action.payload;
       
-      // Save to localStorage
-      if (action.payload) {
-        localStorage.setItem('hasVisitedBefore', 'true');
-      } else {
-        localStorage.removeItem('hasVisitedBefore');
-      }
-    },
+    //   // Save to localStorage
+    //   if (action.payload) {
+    //     localStorage.setItem('hasVisitedBefore', 'true');
+    //   } else {
+    //     localStorage.removeItem('hasVisitedBefore');
+    //   }
+    // },
 
     // Set isLoggedIn and save to localStorage
     setIsLoggedIn: (state, action: PayloadAction<boolean>) => {
@@ -102,6 +102,10 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('token');
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('is_new_user');
+      
+      localStorage.removeItem('google_cache');
+      localStorage.removeItem('cto_bundle');
+      localStorage.removeItem('WZRK_LR');
     }
   }
 });
@@ -109,7 +113,7 @@ const userRoleSlice = createSlice({
 // Export actions
 export const { 
   setUserRole, 
-  setHasVisitedBefore, 
+  // setHasVisitedBefore, 
   clearUserRole, 
   resetUserData,
   logout,

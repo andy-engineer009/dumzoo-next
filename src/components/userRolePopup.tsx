@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setUserRole, setHasVisitedBefore, selectHasVisitedBefore } from '../store/userRoleSlice';
+import { setUserRole, selectHasVisitedBefore } from '../store/userRoleSlice';
 
 type Language = 'en' | 'hi' | 'pa' | 'bh' | 'ur' | 'ta' | 'bo';
 type Translations = {
@@ -81,16 +81,16 @@ export default function UserRolePopup() {
     const visited = localStorage.getItem('hasVisitedBefore') === 'true';
     const role = localStorage.getItem('userRole');
 
-    dispatch(setHasVisitedBefore(visited));
+    // dispatch(setHasVisitedBefore(visited));
     dispatch(setUserRole(role === '2' || role === '3' ? role : null));
   }, []);
 
+  // Check if user is new (first time visiting) using Redux state
   useEffect(() => {
-    // Check if user is new (first time visiting) using Redux state
     if (!hasVisitedBefore && hasVisitedBefore !== null) {
       setIsOpen(true);
       // Mark user as having visited using Redux action
-      dispatch(setHasVisitedBefore(true));
+      // dispatch(setHasVisitedBefore(true));
     }
   }, [hasVisitedBefore, dispatch]);
 
