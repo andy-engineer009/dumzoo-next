@@ -318,11 +318,12 @@ class ApiService {
   /**
    * Generic Delete Method
    */
-  async delete(apiUrl: any): Promise<any> {
+  async delete(apiUrl: any, data?: any): Promise<any> {
     try {
       return await this.makeRequest({
         method: 'DELETE',
         url: apiUrl,
+        data: data,
       });
     } catch (error) {
       this.errorHandler(error, apiUrl);
@@ -381,7 +382,7 @@ export const api = {
   put: (url: any, data?: any) => apiService.putApi(url, data),
 
   // DELETE request
-  delete: (url: any) => apiService.delete(url),
+  delete: (url: any, data?: any) => apiService.delete(url, data),
 
   // Form data
   sendFormData: (url: any, data?: any) => apiService.sendFormData(url, data),

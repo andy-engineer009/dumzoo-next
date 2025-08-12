@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import Link from 'next/link';
@@ -11,12 +13,38 @@ interface OfferItem {
   quantity: number;
 }
 
-interface Offer {
-  id?: number;
-  name: string;
-  amount: number;
-  items: OfferItem[];
-}
+// interface Offer {
+//   id?: number;
+//   name: string;
+//   amount: number;
+//   items: OfferItem[];
+// }
+
+// Validation schema
+const offerValidationSchema = Yup.object().shape({
+  name: Yup.string()
+    .required('Offer name is required')
+    .min(3, 'Offer name must be at least 3 characters')
+    .max(50, 'Offer name must be less than 50 characters'),
+  amount: Yup.number()
+    .required('Amount is required')
+    .positive('Amount must be positive')
+    .min(1, 'Amount must be at least ₹1')
+    .max(100000, 'Amount cannot exceed ₹1,00,000'),
+  items: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required('Item type is required'),
+        quantity: Yup.number()
+          .required('Quantity is required')
+          .positive('Quantity must be positive')
+          .min(1, 'Quantity must be at least 1')
+          .max(100, 'Quantity cannot exceed 100')
+      })
+    )
+    .min(1, 'At least one item is required')
+    .required('Items are required')
+});
 
 const itemOptions = [
   { value: 'ig_post', label: 'Instagram Post' },
@@ -30,9 +58,9 @@ const itemOptions = [
 export default function OffersForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-  const [offers, setOffers] = useState<Offer[]>([]);
+  const [offers, setOffers] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
-  const [editingOffer, setEditingOffer] = useState<Offer | null>(null);
+  const [editingOffer, setEditingOffer] = useState<any | null>(null);
   const [editingIndex, setEditingIndex] = useState<number>(-1);
 
   const showToast = (message: string, type: 'success' | 'error') => {
@@ -46,9 +74,18 @@ export default function OffersForm() {
 
   const fetchOffers = async () => {
     try {
-      const response = await api.get(API_ROUTES.getInfluencerProfile);
+      const response = await api.get(API_ROUTES.offersList);
       if (response.status === 1) {
-        setOffers(response.data?.offers || []);
+        console.log(response.data);
+        const offers = response.data.map((offer: any) => ({
+          ...offer,
+          amount: offer.offer_price,
+          name: offer.offer_name,
+          items: JSON.parse(offer.items)
+        }));
+
+        console.log(offers);
+        setOffers(offers);
       }
     } catch (error) {
       console.error('Error fetching offers:', error);
@@ -56,7 +93,7 @@ export default function OffersForm() {
   };
 
   const addOffer = () => {
-    const newOffer: Offer = {
+    const newOffer: any = {
       name: '',
       amount: 0,
       items: [{ name: '', quantity: 1 }],
@@ -66,19 +103,20 @@ export default function OffersForm() {
     setShowModal(true);
   };
 
-  const editOffer = (offer: Offer, index: number) => {
+  const editOffer = (offer: any, index: number) => {
+    console.log(offer);
     setEditingOffer({ ...offer });
     setEditingIndex(index);
     setShowModal(true);
   };
 
-  const deleteOffer = async (index: number) => {
+  const deleteOffer = async (id: number) => {
     try {
-      const updatedOffers = offers.filter((_, i) => i !== index);
-      setOffers(updatedOffers);
+      // const updatedOffers = offers.filter((_, i) => i !== index);
+      // setOffers(updatedOffers);
       
       // Auto save
-      const response = await api.post(API_ROUTES.addInfulancer, { offers: updatedOffers });
+      const response = await api.delete(API_ROUTES.deleteOffer, { offer_id : id });
       if (response.status === 1) {
         showToast('Offer deleted successfully!', 'success');
       }
@@ -87,72 +125,64 @@ export default function OffersForm() {
     }
   };
 
-  const handleModalSave = async () => {
-    if (!editingOffer || !editingOffer.name.trim()) {
-      showToast('Please enter offer name', 'error');
-      return;
-    }
-
-    if (editingOffer.amount <= 0) {
-      showToast('Please enter offer amount', 'error');
-      return;
-    }
-
-    if (editingOffer.items.length === 0 || editingOffer.items.some(item => !item.name || item.quantity <= 0)) {
-      showToast('Please add at least one item with quantity', 'error');
-      return;
-    }
-
+  const handleSubmit = async (values: any, { setSubmitting }: any) => {
+    setIsLoading(true);
     try {
-      let updatedOffers;
+      let payload;
       if (editingIndex === -1) {
-        updatedOffers = [...offers, editingOffer];
-      } else {
-        updatedOffers = [...offers];
-        updatedOffers[editingIndex] = editingOffer;
+        payload = {
+          ...values,
+        }
+      }else {
+        payload = {
+          name: values.name,
+          amount: values.amount,
+          items: values.items,
+          id: editingIndex
+        }
       }
+      console.log(values);
 
-      setOffers(updatedOffers);
+      api.post(API_ROUTES.addUpdateOffers, payload).then((res) => {
+        setIsLoading(false);
+        if(res.status === 1) {
+          console.log(res.data);
+          showToast(editingIndex === -1 ? 'Offer added successfully!' : 'Offer updated successfully!', 'success');
+          // setOffers(res.data || []);
+          setShowModal(false);
+          setEditingOffer(null);
+          setEditingIndex(-1);
+        } else {
+          showToast('Failed to save offer', 'error');
+        }
+      });
       
-      // Auto save
-      const response = await api.post(API_ROUTES.addInfulancer, { offers: updatedOffers });
-      if (response.status === 1) {
-        showToast(editingIndex === -1 ? 'Offer added successfully!' : 'Offer updated successfully!', 'success');
-      } else {
-        showToast('Failed to save offer', 'error');
-      }
+      // if (response.status === 1) {
+      //   showToast(editingIndex === -1 ? 'Offer added successfully!' : 'Offer updated successfully!', 'success');
+      //   setOffers(response.data || []);
+      //   setShowModal(false);
+      //   setEditingOffer(null);
+      //   setEditingIndex(-1);
+      // } else {
+      //   showToast('Failed to save offer', 'error');
+      // }
     } catch (error) {
       showToast('Error saving offer', 'error');
-    }
-
-    setShowModal(false);
-    setEditingOffer(null);
-    setEditingIndex(-1);
-  };
-
-  const addItemToOffer = () => {
-    if (editingOffer) {
-      setEditingOffer({
-        ...editingOffer,
-        items: [...editingOffer.items, { name: '', quantity: 1 }]
-      });
+    } finally {
+      setIsLoading(false);
+      setSubmitting(false);
     }
   };
 
-  const removeItemFromOffer = (itemIndex: number) => {
-    if (editingOffer && editingOffer.items.length > 1) {
-      setEditingOffer({
-        ...editingOffer,
-        items: editingOffer.items.filter((_, i) => i !== itemIndex)
-      });
-    }
+  const addItemToOffer = (setFieldValue: any, values: any) => {
+    const newItems = [...values.items, { name: '', quantity: 1 }];
+    setFieldValue('items', newItems);
   };
 
-  const updateOfferItem = (itemIndex: number, field: keyof OfferItem, value: any) => {
-    if (editingOffer) {
-      const updatedItems = [...editingOffer.items];
-      updatedItems[itemIndex] = { ...updatedItems[itemIndex], [field]: value };
-      setEditingOffer({ ...editingOffer, items: updatedItems });
+  const removeItemFromOffer = (setFieldValue: any, values: any, itemIndex: number) => {
+    if (values.items.length > 1) {
+      const newItems = values.items.filter((_: any, i: number) => i !== itemIndex);
+      setFieldValue('items', newItems);
     }
   };
 
@@ -251,7 +281,7 @@ export default function OffersForm() {
                   {/* Action Icons */}
                   <div className="absolute top-3 right-3 flex space-x-1">
                     <button
-                      onClick={() => editOffer(offer, index)}
+                      onClick={() => editOffer(offer, offer.id)}
                       className="p-1.5 bg-blue-100 hover:bg-blue-200 text-blue-600 rounded-lg transition-colors"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -259,7 +289,7 @@ export default function OffersForm() {
                       </svg>
                     </button>
                     <button
-                      onClick={() => deleteOffer(index)}
+                      onClick={() => deleteOffer(offer.id)}
                       className="p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-colors"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -275,7 +305,7 @@ export default function OffersForm() {
                     
                     {/* Items List */}
                     <div className="space-y-2 mb-4">
-                      {offer.items.map((item, itemIndex) => {
+                      {offer.items.map((item: any, itemIndex: number) => {
                         const itemOption = itemOptions.find(option => option.value === item.name);
                         return (
                           <div key={itemIndex} className="flex justify-between items-center text-sm">
@@ -300,7 +330,7 @@ export default function OffersForm() {
         </div>
       </div>
 
-      {/* Edit Modal */}
+      {/* Edit Modal with Formik */}
       {showModal && editingOffer && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <motion.div
@@ -322,102 +352,120 @@ export default function OffersForm() {
               </button>
             </div>
 
-            {/* Offer Name */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Name *</label>
-              <input
-                type="text"
-                value={editingOffer.name}
-                onChange={(e) => setEditingOffer({ ...editingOffer, name: e.target.value })}
-                placeholder="e.g., Instagram Package"
-                className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-              />
-            </div>
-
-            {/* Offer Amount */}
-            <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Amount (₹) *</label>
-              <input
-                type="number"
-                value={editingOffer.amount}
-                onChange={(e) => setEditingOffer({ ...editingOffer, amount: parseInt(e.target.value) })}
-                placeholder="1000"
-                min="0"
-                className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
-              />
-            </div>
-
-            {/* Items */}
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-semibold text-gray-700">Items *</label>
-                <button
-                  onClick={addItemToOffer}
-                  className="text-blue-600 hover:text-blue-700 text-sm font-medium"
-                >
-                  + Add Item
-                </button>
-              </div>
-              
-              <div className="space-y-3">
-                {editingOffer.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="p-3 bg-gray-50 rounded-xl">
-                    <div className="grid grid-cols-2 gap-3 mb-2">
-                      <div>
-                        <select
-                          value={item.name}
-                          onChange={(e) => updateOfferItem(itemIndex, 'name', e.target.value)}
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        >
-                          <option value="">Select Item</option>
-                          {itemOptions.map(option => (
-                            <option key={option.value} value={option.value}>{option.label}</option>
-                          ))}
-                        </select>
-                      </div>
-                      <div>
-                        <input
-                          type="number"
-                          value={item.quantity}
-                          onChange={(e) => updateOfferItem(itemIndex, 'quantity', parseInt(e.target.value))}
-                          placeholder="Qty"
-                          min="1"
-                          className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        />
-                      </div>
-                    </div>
-                    {editingOffer.items.length > 1 && (
-                      <div className="flex justify-end">
-                        <button
-                          onClick={() => removeItemFromOffer(itemIndex)}
-                          className="p-1 text-red-500 hover:text-red-700"
-                        >
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
-                      </div>
-                    )}
+            <Formik
+              initialValues={editingOffer}
+              validationSchema={offerValidationSchema}
+              onSubmit={handleSubmit}
+              enableReinitialize
+            >
+              {({ values, setFieldValue, isValid, dirty }) => (
+                <Form className="space-y-6">
+                  {/* Offer Name */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Name *</label>
+                    <Field
+                      name="name"
+                      placeholder="e.g., Instagram Package"
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                    />
+                    <ErrorMessage name="name" component="div" className="mt-1 text-sm text-red-500" />
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex space-x-3">
-              <button
-                onClick={() => setShowModal(false)}
-                className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-semibold transition-all duration-300 hover:bg-gray-50"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleModalSave}
-                className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-semibold transition-all duration-300"
-              >
-                {editingIndex === -1 ? 'Add Offer' : 'Update Offer'}
-              </button>
-            </div>
+                  {/* Offer Amount */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Amount (₹) *</label>
+                    <Field
+                      name="amount"
+                      type="number"
+                      placeholder="1000"
+                      min="0"
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300"
+                    />
+                    <ErrorMessage name="amount" component="div" className="mt-1 text-sm text-red-500" />
+                  </div>
+
+                  {/* Items */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <label className="block text-sm font-semibold text-gray-700">Items *</label>
+                      <button
+                        type="button"
+                        onClick={() => addItemToOffer(setFieldValue, values)}
+                        className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                      >
+                        + Add Item
+                      </button>
+                    </div>
+                    
+                    <Field name="items">
+                      {({ field }: any) => (
+                        <div className="space-y-3">
+                          {values.items.map((item: any, itemIndex: number) => (
+                            <div key={itemIndex} className="p-3 bg-gray-50 rounded-xl">
+                              <div className="grid grid-cols-2 gap-3 mb-2">
+                                <div>
+                                  <Field
+                                    name={`items.${itemIndex}.name`}
+                                    as="select"
+                                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                  >
+                                    <option value="">Select Item</option>
+                                    {itemOptions.map(option => (
+                                      <option key={option.value} value={option.value}>{option.label}</option>
+                                    ))}
+                                  </Field>
+                                  <ErrorMessage name={`items.${itemIndex}.name`} component="div" className="mt-1 text-xs text-red-500" />
+                                </div>
+                                <div>
+                                  <Field
+                                    name={`items.${itemIndex}.quantity`}
+                                    type="number"
+                                    placeholder="Qty"
+                                    min="1"
+                                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                                  />
+                                  <ErrorMessage name={`items.${itemIndex}.quantity`} component="div" className="mt-1 text-xs text-red-500" />
+                                </div>
+                              </div>
+                              {values.items.length > 1 && (
+                                <div className="flex justify-end">
+                                  <button
+                                    type="button"
+                                    onClick={() => removeItemFromOffer(setFieldValue, values, itemIndex)}
+                                    className="p-1 text-red-500 hover:text-red-700"
+                                  >
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </Field>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex space-x-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-2xl font-semibold transition-all duration-300 hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-2xl font-semibold transition-all duration-300 disabled:cursor-not-allowed"
+                    >
+                      {isLoading ? 'Saving...' : (editingIndex === -1 ? 'Add Offer' : 'Update Offer')}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </motion.div>
         </div>
       )}

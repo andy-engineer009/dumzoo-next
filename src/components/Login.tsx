@@ -10,6 +10,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import Loader from './loader';
 import { setVerfiedUser, setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
+
 // Toast notification component
 const Toast = ({ message, type, onClose }: { message: string; type: 'success' | 'error' | 'info'; onClose: () => void }) => {
   const bgColor = type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500';

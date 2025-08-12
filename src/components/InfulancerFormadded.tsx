@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
-import router from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
 
@@ -188,6 +188,8 @@ export default function InfluencerOnboardingForm() {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [localities, setLocalities] = useState([]);
+
+  const router = useRouter();
 
   // Show toast notification
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
