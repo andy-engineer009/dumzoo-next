@@ -9,6 +9,9 @@ import { useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
+import router from 'next/router';
+import { useDispatch } from 'react-redux';
+import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
 
 // Types
 interface FormValues {
@@ -177,7 +180,9 @@ export default function InfluencerOnboardingForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-
+  const dispatch = useDispatch();
+  const influencerDropdownData = useSelector(selectInfluencerDropdownData);
+  
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [states, setStates] = useState([]);
@@ -191,16 +196,25 @@ export default function InfluencerOnboardingForm() {
   };
 
   useEffect(() => {
-    api.get(API_ROUTES.dropdownData).then((response) => {
-      if(response.status == 1) {
-        const data: any = response.data;
-        setCategories(data.categories);
-        setLanguages(data.languages);
-        setStates(data.states);
+    if(influencerDropdownData) {
+      setCategories(influencerDropdownData.categories);
+      setLanguages(influencerDropdownData.languages);
+      setStates(influencerDropdownData.states);
+      setCities(influencerDropdownData.cities);
+      setLocalities(influencerDropdownData.locality);
+    } else {
+      api.get(API_ROUTES.dropdownData).then((response) => {
+        if(response.status == 1) {
+          const data: any = response.data;
+          setCategories(data.categories);
+          setLanguages(data.languages);
+          setStates(data.states);
         setCities(data.cities);
         setLocalities(data.locality);
+        dispatch(influencerDropodownData(data));
       }
     })
+    }
   },[]);
 
   const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
@@ -224,14 +238,15 @@ export default function InfluencerOnboardingForm() {
         city: parseInt(values.city.toString()),
         locality: parseInt(values.locality.toString()),
         categories: values.categories.map((category: any) => parseInt(category.toString())),
-        language: values.languages.map((language: any) => parseInt(language.toString())),
+        languages: values.languages.map((language: any) => parseInt(language.toString())),
         starting_price: values.starting_price
       }
-
-      api.post(API_ROUTES.addInfulancer, payload).then((response) => {
+      console.log(payload);
+      api.post(API_ROUTES.addUpdateInfluencer, payload).then((response) => {
         setIsLoading(false);
         if(response.status == 1) {
           showToast('Influencer profile created successfully!', 'success');
+          router.push('/');
     } else {
           showToast(response.message, 'error');
         }

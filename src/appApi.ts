@@ -8,6 +8,7 @@ export const API_ROUTES = {
     addInfulancer: "influencer/add",
     otpVerify: "auth/otp-verify",
     getInfluencerProfile: "influencer/profile",
+    addUpdateInfluencer: "influencer/addUpdateProfile",
     // goToSignup: "http://localhost:5000/api/auth/signup",
     // getdashboardData: "http://localhost:5000/api/user/dashboard",
     // withdraw: "http://localhost:5000/api/user/withdraw",
