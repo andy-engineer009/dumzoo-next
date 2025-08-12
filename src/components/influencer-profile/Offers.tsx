@@ -7,6 +7,8 @@ import * as Yup from 'yup';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import Link from 'next/link';
+import Loader from '../loader';
+import ConfirmationPopup from '../confirmation-popup';
 
 interface OfferItem {
   name: string;
@@ -62,6 +64,8 @@ export default function OffersForm() {
   const [showModal, setShowModal] = useState(false);
   const [editingOffer, setEditingOffer] = useState<any | null>(null);
   const [editingIndex, setEditingIndex] = useState<number>(-1);
+  const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+  const [deleteOfferId, setDeleteOfferId] = useState<number | null>(null);
 
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
@@ -74,7 +78,9 @@ export default function OffersForm() {
 
   const fetchOffers = async () => {
     try {
+      setIsLoading(true);
       const response = await api.get(API_ROUTES.offersList);
+      setIsLoading(false);
       if (response.status === 1) {
         console.log(response.data);
         const offers = response.data.map((offer: any) => ({
@@ -88,6 +94,7 @@ export default function OffersForm() {
         setOffers(offers);
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching offers:', error);
     }
   };
@@ -110,24 +117,26 @@ export default function OffersForm() {
     setShowModal(true);
   };
 
-  const deleteOffer = async (id: number) => {
+  const deleteOffer = async (id: number | null) => {
     try {
-      // const updatedOffers = offers.filter((_, i) => i !== index);
-      // setOffers(updatedOffers);
-      
-      // Auto save
+      setIsLoading(true);
       const response = await api.delete(API_ROUTES.deleteOffer, { offer_id : id });
+      setIsLoading(false);
       if (response.status === 1) {
         showToast('Offer deleted successfully!', 'success');
+        const updatedOffers = offers.filter((item) => item.id !== id);
+        setOffers(updatedOffers);
       }
     } catch (error) {
+      setIsLoading(false);
       showToast('Error deleting offer', 'error');
     }
   };
 
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
+    console.log(values);
     setIsLoading(true);
-    try {
+    // try {
       let payload;
       if (editingIndex === -1) {
         payload = {
@@ -141,37 +150,40 @@ export default function OffersForm() {
           id: editingIndex
         }
       }
-      console.log(values);
 
       api.post(API_ROUTES.addUpdateOffers, payload).then((res) => {
         setIsLoading(false);
         if(res.status === 1) {
-          console.log(res.data);
           showToast(editingIndex === -1 ? 'Offer added successfully!' : 'Offer updated successfully!', 'success');
-          // setOffers(res.data || []);
+          let data = res.data[0];
+            let offer: any = {
+              amount: data.offer_price,
+              name: data.offer_name,
+              items: JSON.parse(data.items)
+            }
+          if(editingIndex === -1) {
+            setOffers([ offer,...offers,]);
+          }else {
+            offer.id = editingIndex
+            const updatedOffers = offers.map((item) => item.id === editingIndex ? offer : item);
+            setOffers(updatedOffers);
+          }
           setShowModal(false);
           setEditingOffer(null);
           setEditingIndex(-1);
+
         } else {
           showToast('Failed to save offer', 'error');
         }
       });
       
-      // if (response.status === 1) {
-      //   showToast(editingIndex === -1 ? 'Offer added successfully!' : 'Offer updated successfully!', 'success');
-      //   setOffers(response.data || []);
-      //   setShowModal(false);
-      //   setEditingOffer(null);
-      //   setEditingIndex(-1);
-      // } else {
-      //   showToast('Failed to save offer', 'error');
-      // }
-    } catch (error) {
-      showToast('Error saving offer', 'error');
-    } finally {
-      setIsLoading(false);
-      setSubmitting(false);
-    }
+    // } catch (error) {
+    //   setIsLoading(false);
+    //   showToast('Error saving offer', 'error');
+    // } finally {
+    //   setIsLoading(false);
+    //   setSubmitting(false);
+    // }
   };
 
   const addItemToOffer = (setFieldValue: any, values: any) => {
@@ -187,6 +199,8 @@ export default function OffersForm() {
   };
 
   return (
+    <>
+      {isLoading && <Loader/>}
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -289,7 +303,10 @@ export default function OffersForm() {
                       </svg>
                     </button>
                     <button
-                      onClick={() => deleteOffer(offer.id)}
+                      onClick={() => {
+                        setDeleteOfferId(offer.id);
+                        setIsConfirmationOpen(true);
+                      }}
                       className="p-1.5 bg-red-100 hover:bg-red-200 text-red-600 rounded-lg transition-colors"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -460,7 +477,7 @@ export default function OffersForm() {
                       type="submit"
                       className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white rounded-2xl font-semibold transition-all duration-300 disabled:cursor-not-allowed"
                     >
-                      {isLoading ? 'Saving...' : (editingIndex === -1 ? 'Add Offer' : 'Update Offer')}
+                      {(editingIndex === -1 ? 'Add Offer' : 'Update Offer')}
                     </button>
                   </div>
                 </Form>
@@ -470,5 +487,19 @@ export default function OffersForm() {
         </div>
       )}
     </div>
+
+    <ConfirmationPopup
+  isOpen={isConfirmationOpen}
+  onClose={() => setIsConfirmationOpen(false)}
+  onConfirm={() => {
+    deleteOffer(deleteOfferId);
+  }}
+  title="Delete"
+  subtitle="Are you sure you want to Delete."
+  confirmText="YES"
+  cancelText="NO"
+></ConfirmationPopup>
+    </>
+
   );
 }

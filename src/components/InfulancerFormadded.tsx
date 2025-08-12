@@ -12,6 +12,7 @@ import { API_ROUTES } from '@/appApi';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
+import Loader from './loader';
 
 // Types
 interface FormValues {
@@ -205,7 +206,9 @@ export default function InfluencerOnboardingForm() {
       setCities(influencerDropdownData.cities);
       setLocalities(influencerDropdownData.locality);
     } else {
+      setIsLoading(true);
       api.get(API_ROUTES.dropdownData).then((response) => {
+        setIsLoading(false);
         if(response.status == 1) {
           const data: any = response.data;
           setCategories(data.categories);
@@ -264,6 +267,7 @@ export default function InfluencerOnboardingForm() {
 
   return (
     <>
+         {isLoading && <Loader/>}
       <div className="min-h-screen bg-white text-gray-900">
         {/* Toast Notifications */}
         {toast && (
