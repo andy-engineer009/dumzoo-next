@@ -59,6 +59,8 @@ const itemOptions = [
 
 export default function OffersForm() {
   const [isLoading, setIsLoading] = useState(false);
+  const [isSkeltonLoading, setIsSkeltonLoading] = useState(false);
+
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [offers, setOffers] = useState<any[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -78,9 +80,9 @@ export default function OffersForm() {
 
   const fetchOffers = async () => {
     try {
-      setIsLoading(true);
+      setIsSkeltonLoading(true);
       const response = await api.get(API_ROUTES.offersList);
-      setIsLoading(false);
+      setIsSkeltonLoading(false);
       if (response.status === 1) {
         console.log(response.data);
         const offers = response.data.map((offer: any) => ({
@@ -94,7 +96,7 @@ export default function OffersForm() {
         setOffers(offers);
       }
     } catch (error) {
-      setIsLoading(false);
+      setIsSkeltonLoading(false);
       console.error('Error fetching offers:', error);
     }
   };
@@ -159,7 +161,8 @@ export default function OffersForm() {
             let offer: any = {
               amount: data.offer_price,
               name: data.offer_name,
-              items: JSON.parse(data.items)
+              items: JSON.parse(data.items),
+              id: data.id
             }
           if(editingIndex === -1) {
             setOffers([ offer,...offers,]);
@@ -200,7 +203,7 @@ export default function OffersForm() {
 
   return (
     <>
-      {isLoading && <Loader/>}
+      {isLoading && <Loader/>}  
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -213,7 +216,7 @@ export default function OffersForm() {
         <motion.div 
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`fixed top-4 right-4 z-50 ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-6 py-3 rounded-2xl shadow-2xl`}
+          className={`fixed top-4 right-4 z-[101] ${toast.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-6 py-3 rounded-2xl shadow-2xl`}
         >
           {toast.message}
         </motion.div>
@@ -223,7 +226,7 @@ export default function OffersForm() {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full px-6 py-3 bg-white/80 backdrop-blur-md border-b border-gray-200/50"
+        className="relative z-10 w-full px-6 py-3 bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-[100]"
       >
         <div className="flex items-center">
           <Link href="/profile/edit" className="absolute left-4">
@@ -260,7 +263,41 @@ export default function OffersForm() {
 
           {/* Offers Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {offers.length === 0 ? (
+            {isSkeltonLoading ? (
+              // Skeleton Loading UI
+              Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg border border-white/50 relative animate-pulse">
+                  {/* Skeleton Action Icons */}
+                  <div className="absolute top-3 right-3 flex space-x-1">
+                    <div className="w-8 h-8 bg-gray-200 rounded-lg"></div>
+                    <div className="w-8 h-8 bg-gray-200 rounded-lg"></div>
+                  </div>
+
+                  {/* Skeleton Content */}
+                  <div className="pr-16">
+                    {/* Skeleton Offer Name */}
+                    <div className="h-6 bg-gray-200 rounded mb-3 w-3/4"></div>
+                    
+                    {/* Skeleton Items List */}
+                    <div className="space-y-2 mb-4">
+                      <div className="flex justify-between items-center">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                        <div className="h-4 bg-gray-200 rounded w-8"></div>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div className="h-4 bg-gray-200 rounded w-20"></div>
+                        <div className="h-4 bg-gray-200 rounded w-8"></div>
+                      </div>
+                    </div>
+
+                    {/* Skeleton Amount */}
+                    <div className="border-t pt-3 border-gray-200">
+                      <div className="h-5 bg-gray-200 rounded w-16"></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : offers.length === 0 ? (
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}

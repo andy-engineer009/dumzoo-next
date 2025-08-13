@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
-import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
+import { useSelector,useDispatch } from 'react-redux';
+import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
 
 // Types
 interface FormValues {
@@ -151,15 +151,19 @@ const LoadingSpinner = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
 export default function EditBasicDetails() {    
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingData, setIsLoadingData] = useState(true);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
+  const influencerDropdownData = useSelector(selectInfluencerDropdownData);
 
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [localities, setLocalities] = useState([]);
+
+  //unused
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   // Initial values - will be populated from API
   const [initialValues, setInitialValues] = useState<FormValues>({
@@ -194,8 +198,19 @@ export default function EditBasicDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch dropdown data
-        const dropdownResponse = await api.get(API_ROUTES.dropdownData);
+        console.log(influencerDropdownData, 'influencerDropdownData');
+
+        console.log(influencerDropdownData, 'influencerDropdownData');
+
+        if(influencerDropdownData) {
+          setCategories(influencerDropdownData.categories);
+          setLanguages(influencerDropdownData.languages);
+          setStates(influencerDropdownData.states);
+          setCities(influencerDropdownData.cities);
+          setLocalities(influencerDropdownData.locality);
+        } else {
+          // Fetch dropdown data
+          const dropdownResponse = await api.get(API_ROUTES.dropdownData);
         if (dropdownResponse.status === 1) {
           const data: any = dropdownResponse.data;
           setCategories(data.categories);
@@ -203,6 +218,7 @@ export default function EditBasicDetails() {
           setStates(data.states);
           setCities(data.cities);
           setLocalities(data.locality);
+          dispatch(influencerDropodownData(data));
         }
 
         // Fetch user profile data
@@ -232,6 +248,7 @@ export default function EditBasicDetails() {
             audience_age_group: profileData.audience_age_group?.toString() || '',
             platforms_required: ''
           });
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -288,16 +305,16 @@ export default function EditBasicDetails() {
     }
   };
 
-  if (isLoadingData) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading your profile...</p>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoadingData) {
+  //   return (
+  //     <div className="min-h-screen bg-white flex items-center justify-center">
+  //       <div className="text-center">
+  //         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
+  //         <p className="text-gray-600">Loading your profile...</p>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -316,7 +333,7 @@ export default function EditBasicDetails() {
         )}
 
         {/* Header */}
-        <div className="w-full px-2 py-3 border-b border-gray-200">
+        <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
           <div className="relative">
             <Link
               href="/profile/edit"

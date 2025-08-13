@@ -101,7 +101,9 @@ class RequestInterceptor {
 
   intercept(config: any): any {
     const tokenManager = TokenManager.getInstance();
-    const token = tokenManager.getToken();
+    // const token = tokenManager.getToken();
+    const token = localStorage.getItem('token');
+
     // Add default headers
     const headers: any = {
       'Content-Type': 'application/json',
