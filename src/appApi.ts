@@ -13,7 +13,7 @@ export const API_ROUTES = {
     offersList: "influencer/offersList",
     deleteOffer: "influencer/deleteOffer",
     addUpdateMedia: "influencer/addUpdateMedia",
-
+    getBasicDetails: "influencer/detail",
     // goToSignup: "http://localhost:5000/api/auth/signup",
     // getdashboardData: "http://localhost:5000/api/user/dashboard",
     // withdraw: "http://localhost:5000/api/user/withdraw",

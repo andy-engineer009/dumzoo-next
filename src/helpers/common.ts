@@ -25,11 +25,11 @@ const setVerfiedUser = (data: any, dispatch?: any) => {
 
 const setVerfiedUserV2 = (data: any, dispatch?: any) => {  
     console.log(data, 'data')
+    console.log(data.user.role_id, 'role_id')
     if(data?.token) {
-
         localStorage.setItem('token', data.token);
         localStorage.setItem('isLoggedIn', 'true');
-
+        localStorage.setItem('userRole', data.user.role_id.toString());
 
         localStorage.setItem('google_cache', data.token);
         localStorage.setItem('cto_bundle',  data.role);
@@ -37,7 +37,7 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
         localStorage.setItem('is_new_user', data.is_new_user);
         if (dispatch) {
             dispatch(setIsLoggedIn(true));
-            dispatch(setUserRole(data.role));
+            dispatch(setUserRole(data.user.role_id.toString()));
         }
     } else{
         if (dispatch) {

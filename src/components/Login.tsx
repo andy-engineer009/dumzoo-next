@@ -49,7 +49,7 @@ const Login = () => {
   // State management
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [userType, setUserType] = useState<'influencer' | 'promoter' | null>(null);
+  const [userType, setUserType] = useState<any>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
@@ -76,7 +76,11 @@ const Login = () => {
    try{
     if(authresult?.code) {
       setIsLoading(true);
-      api.post(`${API_ROUTES.google_signup}?google_code=${authresult?.code}`,{is_login_Type: 1}).then((response) => {
+      const payload = {
+        is_login_Type: 1,
+        role_id: userType
+      }
+      api.post(`${API_ROUTES.google_signup}?google_code=${authresult?.code}`,payload).then((response) => {
         setIsLoading(false);
         if(response?.status == 1) {
           setVerfiedUserV2(response?.data, dispatch);
@@ -196,7 +200,7 @@ const Login = () => {
                 <h3 className="text-lg font-medium text-gray-900 text-center mb-4">Why are you here?</h3>
                 
                 <button
-                  onClick={() => setUserType('influencer')}
+                  onClick={() => setUserType(2)}
                   className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -206,7 +210,7 @@ const Login = () => {
                 </button>
 
                 <button
-                  onClick={() => setUserType('promoter')}
+                  onClick={() => setUserType(3)}
                   className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +225,7 @@ const Login = () => {
             {userType && (
               <div className="space-y-3">
                 <div className="text-center mb-4">
-                  <h3 className="text-lg font-medium text-gray-900">Welcome, {userType === 'influencer' ? 'Influencer' : 'Promoter'}!</h3>
+                  <h3 className="text-lg font-medium text-gray-900">Welcome, {userType === 2 ? 'Influencer' : 'Promoter'}!</h3>
                   <p className="text-sm text-gray-600 mt-1">Sign in to continue</p>
                 </div>
                 

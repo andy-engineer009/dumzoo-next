@@ -13,7 +13,8 @@ export interface UserRoleState {
 const initialState : UserRoleState = {
   role: null,
   hasVisitedBefore: null,
-  isLoggedIn: false
+  isLoggedIn: false,
+
 }
 
 // Get initial state from localStorage
@@ -102,6 +103,7 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('token');
       localStorage.removeItem('isLoggedIn');
       localStorage.removeItem('is_new_user');
+      localStorage.removeItem('userRole');
       
       localStorage.removeItem('google_cache');
       localStorage.removeItem('cto_bundle');

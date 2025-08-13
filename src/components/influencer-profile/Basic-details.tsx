@@ -10,6 +10,7 @@ import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import { useSelector,useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
+import Loader from '../loader';
 
 // Types
 interface FormValues {
@@ -32,6 +33,7 @@ interface FormValues {
   facebook_url: string;
   audience_type: string;
   audience_age_group: string;
+  starting_price: number;
 }
 
 // Validation schema
@@ -67,6 +69,7 @@ const formSchema = Yup.object().shape({
     is: (is_facebook_enabled: boolean) => is_facebook_enabled === true,
     then: (schema) => schema.required('Facebook URL is required').url('Must be a valid URL')
   }),
+  starting_price: Yup.number().required('Starting price is required').min(1, 'Must have at least 100 followers'),
 });
 
 const audienceTypes = [
@@ -185,7 +188,8 @@ export default function EditBasicDetails() {
     facebook_url: '',
     audience_type: '',
     audience_age_group: '',
-    platforms_required: ''
+    platforms_required: '',
+    starting_price: 0
   });
 
   // Show toast notification
@@ -198,9 +202,6 @@ export default function EditBasicDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(influencerDropdownData, 'influencerDropdownData');
-
-        console.log(influencerDropdownData, 'influencerDropdownData');
 
         if(influencerDropdownData) {
           setCategories(influencerDropdownData.categories);
@@ -208,6 +209,7 @@ export default function EditBasicDetails() {
           setStates(influencerDropdownData.states);
           setCities(influencerDropdownData.cities);
           setLocalities(influencerDropdownData.locality);
+          getBasicDetails();
         } else {
           // Fetch dropdown data
           const dropdownResponse = await api.get(API_ROUTES.dropdownData);
@@ -219,36 +221,8 @@ export default function EditBasicDetails() {
           setCities(data.cities);
           setLocalities(data.locality);
           dispatch(influencerDropodownData(data));
+          getBasicDetails();
         }
-
-        // Fetch user profile data
-        const profileResponse = await api.get(API_ROUTES.getInfluencerProfile);
-        if (profileResponse.status === 1) {
-          const profileData: any = profileResponse.data;
-          
-          // Transform API data to form values
-          setInitialValues({
-            username: profileData.username || '',
-            is_instagram_enabled: profileData.is_instagram_enabled === 1,
-            is_youtube_enabled: profileData.is_youtube_enabled === 1,
-            is_facebook_enabled: profileData.is_facebook_enabled === 1,
-            gender: profileData.gender?.toString() || '',
-            categories: profileData.categories || [],
-            languages: profileData.languages || [],
-            verified_profile: profileData.verified_profile === 1,
-            state: profileData.state?.toString() || '',
-            city: profileData.city?.toString() || '',
-            locality: profileData.locality?.toString() || '',
-            age: profileData.age || 0,
-            follower_count: profileData.follower_count || 0,
-            instagram_url: profileData.instagram_url || '',
-            youtube_url: profileData.youtube_url || '',
-            facebook_url: profileData.facebook_url || '',
-            audience_type: profileData.audience_type?.toString() || '',
-            audience_age_group: profileData.audience_age_group?.toString() || '',
-            platforms_required: ''
-          });
-          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -261,8 +235,48 @@ export default function EditBasicDetails() {
     fetchData();
   }, []);
 
-  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
+  // Get basic details
+  const getBasicDetails = async () => {
     setIsLoading(true);
+    api.get(API_ROUTES.getBasicDetails).then((response) => {
+      setIsLoading(false);
+      console.log(response, 'response')
+      if (response.status === 1) {
+        console.log(response.data, 'response.data');
+        const data = response.data;
+        console.log(data.influencer_categories.map((item: any) => item.category_id))
+
+        const patchData= {
+          username: data.username,
+          is_instagram_enabled: data.is_instagram_enabled == 1 ? true : false,
+          is_youtube_enabled: data.is_youtube_enabled == 1 ? true : false,
+          is_facebook_enabled: data.is_facebook_enabled == 1 ? true : false,
+          gender: data.gender.toString(),
+          categories: data.influencer_categories.map((item: any) => item.category_id),
+          languages: data.influencer_languages.map((item: any) => item.language_id),
+          verified_profile: data.verified_profile == 1 ? true : false,
+          state: data.state.toString(),
+          city: data.city.toString(),
+          locality: data.locality != null ? data.locality.toString() : '',
+          age: data.age || 0,
+          follower_count: data.follower_count || 0,
+          instagram_url: data.instagram_url || '',
+          youtube_url: data.youtube_url || '',
+          facebook_url: data.facebook_url || '',
+          audience_type: data.audience_type != null ? data.audience_type.toString() : '',
+          audience_age_group: data.audience_age_group != null ? data.audience_age_group.toString() : '',
+          platforms_required: '',
+          starting_price: data.starting_price || 0
+        }
+        setInitialValues(patchData);
+      } else {
+        showToast(response.message || 'Failed to update profile', 'error'); 
+      }
+    });
+  }
+  
+
+  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
     try {
       const payload = {
         username: values.username,
@@ -282,26 +296,25 @@ export default function EditBasicDetails() {
         city: parseInt(values.city.toString()),
         locality: parseInt(values.locality.toString()),
         categories: values.categories.map((category: any) => parseInt(category.toString())),
-        language: values.languages.map((language: any) => parseInt(language.toString())),
-      };
+        languages: values.languages.map((language: any) => parseInt(language.toString())),
+        starting_price: values.starting_price
+      }
+      setIsLoading(true);
 
-      const response = await api.post(API_ROUTES.getInfluencerProfile, payload);
-      
+      const response = await api.post(API_ROUTES.addUpdateInfluencer, payload);
       if (response.status === 1) {
         showToast('Profile updated successfully!', 'success');
-        // Navigate back to profile edit page after successful update
-        setTimeout(() => {
-          router.push('/profile/edit');
-        }, 1500);
+        router.push('/profile/edit');
+      setIsLoading(false);
+
       } else {
+      setIsLoading(false);
         showToast(response.message || 'Failed to update profile', 'error');
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error updating profile:', error);
       showToast('Network error. Please try again.', 'error');
-    } finally {
-      setIsLoading(false);
-      setSubmitting(false);
     }
   };
 
@@ -318,6 +331,7 @@ export default function EditBasicDetails() {
 
   return (
     <>
+    {isLoading && <Loader />}
       <div className="min-h-screen bg-white text-gray-900">
         {/* Toast Notifications */}
         {toast && (
@@ -651,6 +665,23 @@ export default function EditBasicDetails() {
                   </div>
                 </div>
 
+                {/* Age and Followers */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="starting_price" className="block text-sm font-medium text-black mb-2">
+                      Starting Price
+                    </label>
+                    <Field
+                      type="number"
+                      id="starting_price"
+                      name="starting_price"
+                      placeholder="Enter starting price"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                    />
+                    <ErrorMessage name="starting_price" component="div" className="mt-1 text-sm text-red-500" />
+                  </div>
+                </div>
+
                 {/* Audience Type and Age Group */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -692,7 +723,6 @@ export default function EditBasicDetails() {
                 <div className="pt-6 flex justify-center">
                   <button
                     type="submit"
-                    disabled={isLoading || !isValid || !dirty}
                     className="bg-black hover:bg-gray-800 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 disabled:cursor-not-allowed mx-auto" style={{width: '90%'}}
                   >
                     {isLoading ? (
