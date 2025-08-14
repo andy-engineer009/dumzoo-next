@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '@/store/hooks';
-import { logout, selectUserRole, setUserRole, selectIsLoggedIn } from '@/store/userRoleSlice';
+import { logout, selectUserRole, setUserRole, selectIsLoggedIn, setIsLoggedIn } from '@/store/userRoleSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import LoginPopup from './login-popup';
 import ConfirmationPopup from './confirmation-popup';
@@ -102,9 +102,11 @@ console.log('mak')
     {true && (
 
       <main className="pb-20">
+        {currentUserRole === '2' && (
         <div className="px-4 py-3">
           <ProfileProgressCard data={progressData} />
           </div>
+        )}
         {/* Profile Overview Section */}
         <section className="px-4 py-4 border-b border-gray-100">
           <div className="flex items-center gap-4">
@@ -319,6 +321,8 @@ console.log('mak')
           )} */}
 
           {/* Influencer Profile Section */}
+          {
+            currentUserRole === '2' && 
           <div className="mb-6">
             {/* <h3 className="text-sm font-medium text-gray-500 mb-3">Influencer Profile</h3> */}
             <div className="space-y-1">
@@ -355,6 +359,8 @@ console.log('mak')
 
             </div>
           </div>
+          }
+
 
           {/* Account Actions */}
           <div className="mb-6">
@@ -415,6 +421,8 @@ console.log('mak')
   onClose={() => setIsConfirmationOpen(false)}
   onConfirm={() => {
     dispatch(logout());
+    dispatch(setIsLoggedIn(false));
+    dispatch(setUserRole('3'));
     router.push('/');
   }}
   title="logout"

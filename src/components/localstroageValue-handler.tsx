@@ -22,12 +22,13 @@ export default function LocalStorageValueHandler() {
         }
 
         const user_role = localStorage.getItem('userRole');
+        console.log(user_role);
         if(user_role == '2'){
             dispatch(setUserRole('2'));
         } else if(user_role == '3'){
             dispatch(setUserRole('3'));
         }else{
-            dispatch(setUserRole(null));
+            dispatch(setUserRole('3'));
         }
 
     }, [dispatch]);

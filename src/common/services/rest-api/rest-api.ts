@@ -103,7 +103,7 @@ class RequestInterceptor {
     const tokenManager = TokenManager.getInstance();
     // const token = tokenManager.getToken();
     const token = localStorage.getItem('token');
-
+    console.log(token);
     // Add default headers
     const headers: any = {
       'Content-Type': 'application/json',
@@ -240,12 +240,30 @@ class ApiService {
     const timeoutId = setTimeout(() => controller.abort(), config.timeout || API_TIMEOUT);
 
     try {
-      const response = await fetch(`${API_BASE_URL}${interceptedConfig.url}`, {
-        method: interceptedConfig.method,
-        headers: interceptedConfig.headers,
-        body: interceptedConfig.data ? JSON.stringify(interceptedConfig.data) : undefined,
-        signal: controller.signal,
-      });
+
+      const isFormData = interceptedConfig.data instanceof FormData;
+
+      const headers = { ...interceptedConfig.headers };
+      if (isFormData) {
+        // Let browser set content-type for FormData
+        // delete headers['Content-Type'];
+      }
+
+      let response: any;
+      if(isFormData) {
+         response = await fetch(`${API_BASE_URL}${interceptedConfig.url}`, {
+          method: interceptedConfig.method,
+          body: interceptedConfig.data ? (isFormData ? interceptedConfig.data : JSON.stringify(interceptedConfig.data)) : undefined,
+          signal: controller.signal,
+        });
+      } else {
+         response = await fetch(`${API_BASE_URL}${interceptedConfig.url}`, {
+          method: interceptedConfig.method,
+          headers: interceptedConfig.headers,
+          body: interceptedConfig.data ? JSON.stringify(interceptedConfig.data) : undefined,
+        });
+      }
+
 
       clearTimeout(timeoutId);
       return await this.responseInterceptor.intercept(response);
@@ -342,9 +360,6 @@ class ApiService {
         method: 'POST',
         url: url,
         data: body,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       });
     } catch (error) {
       this.errorHandler(error, url);

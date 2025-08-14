@@ -5,15 +5,13 @@ import { motion } from 'framer-motion';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import Link from 'next/link';
+import Loader from '../loader';
 
-interface MediaData {
-  profile_image?: string;
-}
 
 export default function MediaForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
-  const [mediaData, setMediaData] = useState<MediaData>({});
+  const [mediaData, setMediaData] = useState<any>({});
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,17 +26,19 @@ export default function MediaForm() {
   }, []);
 
   const fetchMediaData = async () => {
-    try {
-      const response = await api.get(API_ROUTES.getInfluencerProfile);
-      if (response.status === 1) {
-        setMediaData(response.data || {});
-        if (response.data?.profile_image) {
-          setPreviewUrl(response.data.profile_image);
+    setIsLoading(true);
+    api.get(API_ROUTES.getInfluencerProfileImage).then((res)=>{
+      setIsLoading(false);
+        if(res.status === 1){
+          setMediaData(res.data[0] || {});
+          if (res.data.length > 0) {
+            setPreviewUrl(res.data[0].image_url);
+          }
+        } else {
+          showToast(res.message || 'Failed to fetch media data', 'error');
         }
-      }
-    } catch (error) {
-      console.error('Error fetching media data:', error);
-    }
+      });
+ 
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +57,7 @@ export default function MediaForm() {
       }
 
       setSelectedFile(file);
+      console.log(file);
       
       // Create preview URL
       const reader = new FileReader();
@@ -74,26 +75,39 @@ export default function MediaForm() {
     }
 
     setIsLoading(true);
-    try {
-      const formData = new FormData();
-      formData.append('profile_image', selectedFile);
+      const formData: FormData = new FormData();
+      formData.append('file', selectedFile); // Changed to 'file' to match backend expectation
 
-      const response = await api.post(API_ROUTES.addInfulancer, formData);
-
-      if (response.status === 1) {
-        showToast('Profile image updated successfully!', 'success');
-        setSelectedFile(null);
-        // Update the media data with new image URL
-        setMediaData({ ...mediaData, profile_image: response.data?.profile_image || previewUrl });
-      } else {
-        showToast(response.message || 'Failed to upload image', 'error');
+        api.sendFormData(API_ROUTES.uploadMedia, formData).then((thirdPartData)=>{
+          console.log(thirdPartData);
+        if(thirdPartData.status === 1){
+          setIsLoading(true);
+          const imageUrl = thirdPartData.data?.path;
+          if(imageUrl){
+          const payload:any = {
+            image_url: imageUrl,
+          }
+          if(mediaData.id){
+            payload.profile_image_id = mediaData.id;
+          }
+          api.post(API_ROUTES.influencerProfileAddUpdate, payload).then((res)=>{
+            setIsLoading(false);
+            if(res.status === 1){
+              showToast('Profile image updated successfully!', 'success');
+              setSelectedFile(null);
+              // Update the media data with new image URL
+              setMediaData({ ...mediaData, profile_image: thirdPartData.data?.path || previewUrl });
+            } else {
+              showToast(res.message || 'Failed to upload image', 'error');
+            }
+          });
+        }
+        }
+       else {
+        setIsLoading(false);
+        showToast(thirdPartData.message || 'Failed to upload image', 'error');
       }
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      showToast('Error uploading image. Please try again.', 'error');
-    } finally {
-      setIsLoading(false);
-    }
+      });
   };
 
   const removeImage = () => {
@@ -109,6 +123,8 @@ export default function MediaForm() {
   };
 
   return (
+    <>
+     {isLoading && <Loader /> }
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Background */}
       <div className="absolute inset-0 overflow-hidden">
@@ -253,28 +269,9 @@ export default function MediaForm() {
               </ul>
             </div>
           </motion.div>
-
-          {/* Current Status */}
-          {mediaData.profile_image && !selectedFile && (
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="mt-6 bg-white/70 backdrop-blur-sm rounded-3xl p-6 shadow-xl border border-white/50"
-            >
-              <div className="text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">Profile Image Active</h3>
-                <p className="text-gray-600">Your profile image is currently displayed to brands</p>
-              </div>
-            </motion.div>
-          )}
         </div>
       </div>
     </div>
+    </>
   );
 }

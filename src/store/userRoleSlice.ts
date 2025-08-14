@@ -98,7 +98,7 @@ const userRoleSlice = createSlice({
 
     // Logout
     logout: (state) => {
-      state.role = null;
+      state.role = '3';
       state.isLoggedIn = false;
       localStorage.removeItem('token');
       localStorage.removeItem('isLoggedIn');

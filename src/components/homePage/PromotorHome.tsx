@@ -72,8 +72,8 @@ export default function PromotorHome() {
     // }, [userRole]);
 
   return (
+    // {(!isLoggedIn || userRole === '3' || userRole === null) &&
     <>
- {(!isLoggedIn || userRole === '3' || userRole === null) && <>
     <div className="home-wrapper pb-[80px]">
     <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4">
       <div className="text-white text-sm font-bold">
@@ -620,7 +620,6 @@ export default function PromotorHome() {
 
         }
     `}</style>
-    </>}
     </>
   );
 }
