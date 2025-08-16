@@ -7,7 +7,7 @@ interface UseInfiniteScrollOptions {
 
 interface UseInfiniteScrollReturn {
   isIntersecting: boolean;
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
 }
 
 export const useInfiniteScroll = (

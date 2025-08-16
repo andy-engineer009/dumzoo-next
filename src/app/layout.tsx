@@ -37,6 +37,7 @@ export default function RootLayout({
       >
         <Provider> 
         <LocalStorageValueHandler />
+       
         {children}
         </Provider>
       </body>

@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setIsLoggedIn } from '@/store/userRoleSlice';
+import { setIsLoggedIn,setUserRole } from '@/store/userRoleSlice';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -115,6 +115,14 @@ const Login = () => {
 
   return (
     <>
+     <button onClick={() => {
+      dispatch(setUserRole('2'))
+      dispatch(setIsLoggedIn(true))
+     }}>infulancer</button>
+     <button onClick={() => {
+      dispatch(setUserRole('3'))
+      dispatch(setIsLoggedIn(true))
+     }}>promoter</button>
       {isLoading && <Loader/>}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}

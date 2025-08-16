@@ -1,46 +1,70 @@
-export default function CampaignCard({campaign, isExpanded, toggleCampaignExpansion}: {campaign: any, isExpanded: (id: string) => boolean, toggleCampaignExpansion: (id: string) => void}) {    
+import Link from "next/link";
+
+export default function CampaignCard({campaign}: {campaign: any}) {    
     return (
-        <div key={campaign.id} className="bg-[#cccccc3d] rounded-xl shadow-md border border-gray-100 p-4 hover:shadow-lg transition-all duration-200 relative">
-        {/* Title Row */}
-        <div className="flex items-start justify-between mb-1">
-          <h3 className="text-md font-semibold text-gray-900 leading-tight pr-2 flex-1">
-            {campaign.title}
-          </h3>
-        </div>
-        
-        {/* Description - Limited to 2 lines initially */}
-        <div className="mb-3">
-          <p className={`text-xs text-gray-600 leading-relaxed ${!isExpanded(campaign.id) ? 'line-clamp-2' : ''}`}>
-            {campaign.description}
-          </p>
-          {isExpanded(campaign.id) && (
-            <p className="text-xs text-gray-600 leading-relaxed mt-2">
-              {campaign.fullDescription}
-            </p>
-          )}
-        </div>
-        
-        {/* Due Date and Actions Row */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center text-xs text-gray-500">
-            <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {campaign.dueDate}
-          </div>
-          
-          <div className="flex items-center space-x-2">
-            <button 
-              className="text-blue-600 hover:text-blue-700 font-medium text-xs px-2 py-1 rounded-xl hover:bg-blue-50 transition-colors "
-              onClick={() => toggleCampaignExpansion(campaign.id)}
-            >
-              {isExpanded(campaign.id) ? 'See Less' : 'See More'}
-            </button>
-            <button className="bg-blue-600 text-white px-3 py-1.5 rounded-md hover:bg-blue-700 text-xs font-medium transition-colors shadow-sm hover:shadow-md">
-              Apply
-            </button>
-          </div>
-        </div>
-      </div>
+        <Link href={`/campaigns/${campaign.id}`} key={campaign.id} className="block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 relative">
+            {/* Top Section - Product Image Area */}
+            <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
+                {/* Product Image */}
+                <h3>PAID</h3>
+                {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
+                {/* Yellow Banner - Applied Count */}
+                <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                    <div className="flex items-center">
+                        <span>317 Applied</span>
+                        <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            {/* Bottom Section - Campaign Details */}
+            <div className="p-4">
+                <div className="flex justify-between items-start">
+                    {/* Left Side - Campaign Info */}
+                    <div className="flex-1">
+                        {/* Brand Name */}
+                        <h3 className="text-lg font-bold text-black mb-1">
+                            {campaign.brand || 'TRUKE'}
+                        </h3>
+                        
+                        {/* Payout */}
+                        <p className="text-sm text-black mb-1">
+                            Payout - <span className="font-semibold">₹{campaign.payout || '500'}</span>
+                        </p>
+                        
+                        {/* Preference */}
+                        <p className="text-xs text-gray-500">
+                            Preferred: {campaign.preference || 'Other'}
+                        </p>
+                    </div>
+
+                    {/* Right Side - Platform & Type */}
+                    <div className="flex flex-col items-end space-y-1">
+                        {/* Instagram Icon */}
+                        <div className="w-6 h-6 border-2 border-black rounded-lg flex items-center justify-center">
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </div>
+                        
+                        {/* Micro Influencer Type */}
+                        <div className="flex items-center space-x-1">
+                            <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                            <span className="text-xs text-black font-medium">Micro</span>
+                        </div>
+                        
+                        {/* Time Posted */}
+                        <p className="text-xs text-gray-500">
+                            {campaign.timePosted || '2 days ago'}
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </Link>
     )
 }

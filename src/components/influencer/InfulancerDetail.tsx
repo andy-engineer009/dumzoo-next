@@ -96,7 +96,7 @@ const InfluencerDetail = ({
         <main className="pb-24">
           {/* Header with Back Button */}
               {/* Header */}
-              <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
+              {/* <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
           <div className="relative">
             <Link
               href="/discover"
@@ -108,23 +108,27 @@ const InfluencerDetail = ({
             </Link>
             <h1 className="text-lg font-medium text-gray-900 text-center">Edit Basic Details</h1>
           </div>
-        </div>
+        </div> */}
 
           {/* Top Banner Image */}
           <section className="relative">
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">
+              {/* Back Icon - absolute left */}
+              <button
+                onClick={() => router.back()}
+                className="absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
+                aria-label="Go back"
+                type="button"
+              >
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
               <img
-              // image ||
                 src={"/images/offer-1.jpg"}
                 alt={name}
                 className="w-full h-full object-cover"
               />
-              {/* Carousel Dots */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-                <div className="w-2 h-2 bg-white rounded-full"></div>
-              </div>
             </div>
           </section>
 
@@ -151,10 +155,24 @@ const InfluencerDetail = ({
             </div>
 
             {/* Price */}
-            <div className="mb-6">
+            <div className="mb-6 flex items-center justify-between">
               <span className="inline-block bg-gray-200 text-black font-semibold px-4 py-2 rounded-lg">
                 {formatCurrency(startingPrice)}
               </span>
+              <div className="flex items-center gap-2">
+                {/* YouTube Icon */}
+                <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M21.8 8.001a2.75 2.75 0 0 0-1.94-1.94C18.1 6 12 6 12 6s-6.1 0-7.86.06a2.75 2.75 0 0 0-1.94 1.94A28.6 28.6 0 0 0 2 12a28.6 28.6 0 0 0 .2 3.999 2.75 2.75 0 0 0 1.94 1.94C5.9 18 12 18 12 18s6.1 0 7.86-.06a2.75 2.75 0 0 0 1.94-1.94A28.6 28.6 0 0 0 22 12a28.6 28.6 0 0 0-.2-3.999zM10 15.5v-7l6 3.5-6 3.5z"/>
+                </svg>
+                {/* Instagram Icon */}
+                <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                </svg>
+                {/* Facebook Icon */}
+                <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12"/>
+                </svg>
+              </div>
             </div>
 
             {/* Service Details Grid */}
@@ -253,7 +271,7 @@ const InfluencerDetail = ({
 
             {/* Offers Section */}
             {offers && offers.length > 0 && (
-              <div className="mb-6">
+              <div className="">
                 <h3 className="text-sm font-semibold text-black mb-3">Collaboration Packages</h3>
                 <div className="space-y-3">
                   {offers.map((offer: any, index: any) => (

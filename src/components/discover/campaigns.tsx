@@ -4,14 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 
 export default function CampaignsDiscover() {
-    const [expandedCampaigns, setExpandedCampaigns] = useState<Set<string>>(new Set());
-
-    const isExpanded = (id: string) => expandedCampaigns.has(id);
-    const toggleCampaignExpansion = (id: string) => {
-        const newExpandedCampaigns = new Set(expandedCampaigns);
-        newExpandedCampaigns.has(id) ? newExpandedCampaigns.delete(id) : newExpandedCampaigns.add(id);
-        setExpandedCampaigns(newExpandedCampaigns);
-    };
 
     const campaignList = [
         {
@@ -37,7 +29,56 @@ export default function CampaignsDiscover() {
             dueDate: '2025-01-01',
             createdAt: '2025-01-01',
             updatedAt: '2025-01-01',
+        },
+        {
+            id: '3',
+            title: 'Campaign 1',
+            description: 'This is the first campaign',
+            fullDescription: 'This is the full description of the first campaign',
+            status: 'active',
+            statusColor: 'bg-green-500',
+            statusText: 'Active',
+            dueDate: '2025-01-01',
+            createdAt: '2025-01-01',
+            updatedAt: '2025-01-01',
+        },
+        {
+            id: '4',
+            title: 'Campaign 1',
+            description: 'This is the first campaign',
+            fullDescription: 'This is the full description of the first campaign',
+            status: 'active',
+            statusColor: 'bg-green-500',
+            statusText: 'Active',
+            dueDate: '2025-01-01',
+            createdAt: '2025-01-01',
+            updatedAt: '2025-01-01',
+        },
+        {
+            id: '5',
+            title: 'Campaign 1',
+            description: 'This is the first campaign',
+            fullDescription: 'This is the full description of the first campaign',
+            status: 'active',
+            statusColor: 'bg-green-500',
+            statusText: 'Active',
+            dueDate: '2025-01-01',
+            createdAt: '2025-01-01',
+            updatedAt: '2025-01-01',
+        },
+        {
+            id: '6',
+            title: 'Campaign 1',
+            description: 'This is the first campaign',
+            fullDescription: 'This is the full description of the first campaign',
+            status: 'active',
+            statusColor: 'bg-green-500',
+            statusText: 'Active',
+            dueDate: '2025-01-01',
+            createdAt: '2025-01-01',
+            updatedAt: '2025-01-01',
         }
+
     ]
 
     return (
@@ -54,7 +95,7 @@ export default function CampaignsDiscover() {
           </div>
         </div>
         {campaignList.map((campaign) => (
-            <CampaignCard key={campaign.id} campaign={campaign} isExpanded={isExpanded} toggleCampaignExpansion={toggleCampaignExpansion} />  
+            <CampaignCard key={campaign.id} campaign={campaign} />  
         ))}
         </>
     )
