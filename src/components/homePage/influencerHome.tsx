@@ -81,37 +81,49 @@ export default function InfluencerHome() {
 
   return (
     <>
- {(isLoggedIn && userRole === '2') && <>
+ {/* {(isLoggedIn && userRole === '2') &&  */}
+ <>
     <div className="home-wrapper pb-[80px]">
       {/* Welcome Header */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 py-3 px-4 shadow-sm">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-600 rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-lg">A</span>
+      <div className="h-[195px] bg-[#000] rounded-b-[32px] border-gray-200  px-4 pt-4 pb-0 shadow-sm">
+        <div className="flex items-start">
+          {/* User Image */}
+          <div className="w-[60px] h-[64px] rounded-[10px] overflow-hidden flex-shrink-0 bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center">
+            {/* Replace with <img src={userImageUrl} ... /> if available */}
+            <span className="text-white font-bold text-2xl">A</span>
+          </div>
+          {/* Right Side Content */}
+          <div className="flex-1 ml-4 flex flex-col justify-center">
+            {/* Name and Hey Icon */}
+            <div className="flex items-center space-x-2">
+              <span className="text-xl font-semibold text-[#fff]">Hi Andy</span>
+              {/* Hey SVG Icon */}
+         
             </div>
-            <div>
-              <h1 className="text-lg font-semibold text-gray-900">Welcome back, Andy! 👋</h1>
-              {/* <p className="text-sm text-gray-500">Ready to create amazing content?</p> */}
+            {/* Badges Row */}
+            <div className="flex items-center space-x-2 mt-2 ">
+              {/* Trust Score Badge */}
+              <span className="inline-flex items-center px-2 py-1 rounded-[6px] text-xs font-medium bg-[#3e6315] text-[#7bc005]">
+                <svg className="w-4 h-4 mr-1 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 2a1 1 0 01.894.553l7 14A1 1 0 0117 18H3a1 1 0 01-.894-1.447l7-14A1 1 0 0110 2zm0 3.618L4.618 16h10.764L10 5.618z" />
+                </svg>
+                87% Trust 
+              </span>
+              {/* Pro Member Badge */}
+              <span className="inline-flex items-center px-2 py-1 rounded-[6px] text-xs font-medium bg-[#814900] text-[#fff]">
+                <svg className="w-4 h-4 mr-1 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 2l2.39 4.84 5.34.78-3.87 3.77.91 5.33L10 13.25l-4.77 2.51.91-5.33-3.87-3.77 5.34-.78L10 2z" />
+                </svg>
+                Pro Member
+              </span>
             </div>
           </div>
-          {/* <div className="flex items-center space-x-2">
-            <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5z" />
-              </svg>
-            </button>
-            <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5z" />
-              </svg>
-            </button>
-          </div> */}
         </div>
+        <Image src="/images/hero.png" alt="hero" width={1000} height={1000} className="opacity-20" />
       </div>
 
       {/* Main Content */}
-      <div className="pt-20 px-4">
+      <div className="pt-4 px-4">
         {/* Quick Stats Section */}
         {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-0">
           <motion.div 
@@ -203,22 +215,11 @@ export default function InfluencerHome() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-lg mb-2">Create Offer</h3>
-              <p className="text-blue-100 text-sm">Add new service packages</p>
+              <h3 className="font-semibold text-lg mb-2">View Profile</h3>
+              <p className="text-blue-100 text-sm">Update your information</p>
             </div>
 
-            <div 
-              className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200"
-              onClick={() => router.push('/profile/edit')}
-            >
-              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-lg mb-2">Edit Profile</h3>
-              <p className="text-green-100 text-sm">Update your information</p>
-            </div>
+
 
             <div 
               className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200"
@@ -232,96 +233,70 @@ export default function InfluencerHome() {
               <h3 className="font-semibold text-lg mb-2">Analytics</h3>
               <p className="text-purple-100 text-sm">View your performance</p>
             </div>
+
+            {/* <div 
+              className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white cursor-pointer hover:scale-105 transition-transform duration-200"
+              onClick={() => router.push('/profile/edit')}
+            >
+              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-lg mb-2">View Profile</h3>
+              <p className="text-green-100 text-sm">Update your information</p>
+            </div> */}
           </div>
         </div>
 
         {/* Available Campaigns Section */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4"> Newly Campaigns</h2>
-          <div className="bg-white rounded-2xl shadow-sm">
-            <div className="space-y-6">
-              {campaigns.map((campaign) => (
-                <div key={campaign.id} className="p-4 bg-gray-50 rounded-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-semibold text-gray-900">{campaign.title}</h3>
-
-                  </div>
-                  <div>
-                    <p className="text-gray-600 mb-3">
-                      {campaign.description}
-                      {isExpanded(campaign.id) && (
-                        <span className="block mt-2">{campaign.fullDescription}</span>
-                      )}
+        <div className="mb-6">
+          <h2 className="text-base font-semibold text-gray-900 mb-3">Newly Campaigns</h2>
+          <div className="space-y-3">
+            {campaigns.map((campaign) => (
+              <div key={campaign.id} className="bg-[#cccccc3d] rounded-xl shadow-md border border-gray-100 p-4 hover:shadow-lg transition-all duration-200 relative">
+                {/* Title Row */}
+                <div className="flex items-start justify-between mb-1">
+                  <h3 className="text-md font-semibold text-gray-900 leading-tight pr-2 flex-1">
+                    {campaign.title}
+                  </h3>
+                </div>
+                
+                {/* Description - Limited to 2 lines initially */}
+                <div className="mb-3">
+                  <p className={`text-xs text-gray-600 leading-relaxed ${!isExpanded(campaign.id) ? 'line-clamp-2' : ''}`}>
+                    {campaign.description}
+                  </p>
+                  {isExpanded(campaign.id) && (
+                    <p className="text-xs text-gray-600 leading-relaxed mt-2">
+                      {campaign.fullDescription}
                     </p>
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500 mb-4">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  )}
+                </div>
+                
+                {/* Due Date and Actions Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center text-xs text-gray-500">
+                    <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     {campaign.dueDate}
                   </div>
-                  <div className="flex justify-between items-center">
+                  
+                  <div className="flex items-center space-x-2">
                     <button 
-                      className="text-blue-600 hover:text-blue-700 font-medium"
+                      className="text-blue-600 hover:text-blue-700 font-medium text-xs px-2 py-1 rounded-xl hover:bg-blue-50 transition-colors "
                       onClick={() => toggleCampaignExpansion(campaign.id)}
                     >
                       {isExpanded(campaign.id) ? 'See Less' : 'See More'}
                     </button>
-                    <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
-                      Apply Now
+                    <button className="bg-blue-600 text-white px-3 py-1.5 rounded-md hover:bg-blue-700 text-xs font-medium transition-colors shadow-sm hover:shadow-md">
+                      Apply
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Activity Section */}
-        <div className="mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl">
-                <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900">New booking received</p>
-                  <p className="text-sm text-gray-500">Instagram Post package - ₹2,500</p>
-                </div>
-                <span className="text-xs text-gray-400">2h ago</span>
               </div>
-
-              <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900">Profile viewed 15 times</p>
-                  <p className="text-sm text-gray-500">Your profile is getting attention!</p>
-                </div>
-                <span className="text-xs text-gray-400">5h ago</span>
-              </div>
-
-              <div className="flex items-center space-x-4 p-3 bg-gray-50 rounded-xl">
-                <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
-                  <svg className="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="font-medium text-gray-900">Payment received</p>
-                  <p className="text-sm text-gray-500">YouTube Video project - ₹5,000</p>
-                </div>
-                <span className="text-xs text-gray-400">1d ago</span>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
@@ -345,7 +320,8 @@ export default function InfluencerHome() {
         </div>
       </div>
     </div>
-    </>}
+    </>
+    {/* } */}
     </>
   );
 }

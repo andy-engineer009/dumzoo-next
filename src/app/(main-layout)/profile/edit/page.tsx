@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import ProfileProgressCard from '@/components/ProfileprogressCard';
+import ProfileProgressCard from '@/components/influencer/ProfileprogressCard';
 
 export default function EditProfile() {
   const router = useRouter();

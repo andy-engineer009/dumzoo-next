@@ -10,7 +10,7 @@ import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import { useSelector,useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
-import Loader from '../loader';
+import Loader from '../../loader';
 
 // Types
 interface FormValues {

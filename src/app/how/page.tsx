@@ -1,4 +1,4 @@
-import AppPromotionPage from "@/components/app-promotion-page";
+import AppPromotionPage from "@/components/how/app-promotion-page";
 
 export default function How() {
   return (

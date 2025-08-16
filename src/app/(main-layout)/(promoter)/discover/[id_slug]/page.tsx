@@ -1,4 +1,4 @@
-import InfluencerDetail from "@/components/InfulancerDetail";
+import InfluencerDetail from "@/components/influencer/InfulancerDetail";
 
 export default function DetailPage() {
     const detail = {
@@ -37,9 +37,9 @@ export default function DetailPage() {
         youtubeUrl: "https://www.youtube.com/john_doe",
         facebookUrl: "https://www.facebook.com/john_doe",
         startingPrice: 100
-    }       
-  return <div>
-    <InfluencerDetail {...detail} />
-  </div>;   
+    }  
+    
+    return <div>
+        <InfluencerDetail {...detail} />
+    </div>;
 }
-

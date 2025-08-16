@@ -6,7 +6,7 @@ import { logout, selectUserRole, setUserRole, selectIsLoggedIn, setIsLoggedIn } 
 import { useSelector, useDispatch } from 'react-redux';
 import LoginPopup from './login-popup';
 import ConfirmationPopup from './confirmation-popup';
-import ProfileProgressCard from './ProfileprogressCard';
+import ProfileProgressCard from './influencer/ProfileprogressCard';
 
 // Mock API functions (replace with real API calls)
 const fetchUserProfile = async () => {

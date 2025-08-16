@@ -12,7 +12,7 @@ import { API_ROUTES } from '@/appApi';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
-import Loader from './loader';
+import Loader from '../loader';
 
 // Types
 interface FormValues {

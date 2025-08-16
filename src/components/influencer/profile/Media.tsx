@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import Link from 'next/link';
-import Loader from '../loader';
+import Loader from '../../loader';
 
 
 export default function MediaForm() {

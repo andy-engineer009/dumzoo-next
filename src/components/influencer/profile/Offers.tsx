@@ -7,8 +7,8 @@ import * as Yup from 'yup';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import Link from 'next/link';
-import Loader from '../loader';
-import ConfirmationPopup from '../confirmation-popup';
+import Loader from '../../loader';
+import ConfirmationPopup from '../../confirmation-popup';
 
 interface OfferItem {
   name: string;
