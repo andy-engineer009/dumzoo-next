@@ -9,10 +9,9 @@ export default function Home() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
   return (
     <>
-    {userRole === null && ''}
-    {(userRole == '3' || !isLoggedIn) && <PromotorHome />}
-
-    {isLoggedIn && userRole === '2' && <InfluencerHome />}
+    {(userRole === null || userRole === undefined) && ''}
+    {(isLoggedIn && userRole === '2') && <InfluencerHome />}
+    {(userRole == '3' || (!isLoggedIn && userRole != null && userRole != undefined )) && <PromotorHome />}
     </>
   );
 }

@@ -75,10 +75,17 @@ export default function PromotorHome() {
     // {(!isLoggedIn || userRole === '3' || userRole === null) &&
     <>
     <div className="home-wrapper pb-[80px]">
-    <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4 flex items-center justify-between">
       <div className="text-white text-sm font-bold">
         Hi Andy 👋
       </div>
+      <button
+        className="text-white text-sm font-semibold bg-transparent border-1 border-white rounded-full px-4 py-1 hover:underline"
+        onClick={() => router.push('/login')}
+        style={{ background: 'none', outline: 'none', cursor: 'pointer' }}
+      >
+        Login
+      </button>
     </div>
     {/* hero section */}
     <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8">
@@ -463,6 +470,17 @@ export default function PromotorHome() {
           </div>
         </div>
       </div>
+
+      <div className="w-full mt-4 mb-6 px-4">
+          <Image
+            src="/images/logos/refferal-banner.jpg"
+            alt="Referral Banner"
+            width={1200}
+            height={150}
+            className="w-full h-[100px] object-cover rounded-2xl shadow-md"
+            priority
+          />
+        </div>
 
           {/* popular cities */}
     <div className="popular-cities mt-4">

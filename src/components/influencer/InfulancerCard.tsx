@@ -75,12 +75,12 @@ const InfluencerCard = ({
       {/* Profile Image with Verification Badge */}
       <div className="relative aspect-square bg-gray-100">
         <Image
-          src={imageError ? '/placeholder-user.jpg' : image}
+          src={image}
           alt={name || ''}
           width={400}
           height={400}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-          onError={() => setImageError(true)}
+          // onError={() => setImageError(true)}
         />
         
         {isVerified && (

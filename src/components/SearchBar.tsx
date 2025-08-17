@@ -12,14 +12,14 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-purple-900 via-purple-700 to-white">
+    <div className="bg-gradient-to-b from-black via-black to-white">
       {/* Header with Back Arrow */}
       <div className="flex items-center px-4 pt-4 pb-1">
         <button 
           onClick={() => router.back()}
-          className="text-white text-2xl font-bold mr-4"
+          className="text-white text-2xl font-bold mr-1"
         >
-          ←
+         <svg className="w-6 h-6 text-gray-600 hover:text-gray-900 " fill="none" stroke="#ccc" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
         </button>
         <h1 className="text-white flex-1 text-sm">
           Try creators full name, handle or URL
@@ -32,9 +32,9 @@ export default function SearchBar() {
           {/* Search Input Field */}
           <div 
             onClick={handleSearchClick}
-            className="relative bg-white rounded-xl p-2 shadow-lg cursor-pointer border-2 border-purple-200 hover:border-purple-300 transition-all duration-200"
+            className="relative bg-white rounded-xl p-2 shadow-lg cursor-pointer border-2 border-black hover:border-gray-800 transition-all duration-200"
             style={{
-              boxShadow: '0 4px 20px rgba(147, 51, 234, 0.15), 0 2px 8px rgba(147, 51, 234, 0.1)'
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1)'
             }}
           >
             <div className="flex items-center space-x-3">

@@ -116,7 +116,7 @@ const InfluencerDetail = ({
               {/* Back Icon - absolute left */}
               <button
                 onClick={() => router.back()}
-                className="absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
+                className="back-icon-d absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
                 aria-label="Go back"
                 type="button"
               >
@@ -310,7 +310,7 @@ const InfluencerDetail = ({
         </main>
 
         {/* Bottom Action Bar */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
+        <nav className="hire-now fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
           <button 
             onClick={handleChat}
             className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"

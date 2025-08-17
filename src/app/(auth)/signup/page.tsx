@@ -1,6 +1,6 @@
 'use client'
 import { Suspense } from 'react';
-import Login from "@/components/Login";
+import Signup from "@/components/auth/signup";
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function LoginFallback() {
@@ -14,12 +14,12 @@ function LoginFallback() {
   );
 }
 
-export default function LoginPage() {
+export default function SignupPage() {
   return (
     <div>
       <GoogleOAuthProvider clientId='453099864669-cbn0n1t6bg76odspkr1mrqnvd930aej9.apps.googleusercontent.com'>
         <Suspense fallback={<LoginFallback />}>
-          <Login />
+          <Signup />
         </Suspense>
       </GoogleOAuthProvider>
     </div>

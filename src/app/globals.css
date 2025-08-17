@@ -289,3 +289,9 @@ input:focus-visible {
 input:focus {
   box-shadow: none !important;
 }
+
+.profile-view-wrapper .hire-now,
+.profile-view-wrapper .back-icon-d
+{
+  display: none;
+}
