@@ -88,7 +88,7 @@ export default function PromotorHome() {
       </button>
     </div>
     {/* hero section */}
-    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8">
+    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8 flex items-center justify-center">
       {/* Scattered dots background pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full opacity-30"></div>
@@ -113,7 +113,7 @@ export default function PromotorHome() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className=" font-bold text-white mb-0 text-[28px]" style={{lineHeight: '26px'}}
+            className=" font-bold text-white mb-3 text-[28px]" style={{lineHeight: '26px'}}
           >
             Find the Right Creator.
           </motion.h1>
@@ -121,7 +121,7 @@ export default function PromotorHome() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-[28px] font-bold text-white mb-1 flex items-center justify-center"
+            className="text-[30px] font-bold text-white mb-1 flex items-center justify-center"
           >
             Fast. 
             <span className="ml-0 text-yellow-400">⚡</span>
@@ -627,7 +627,7 @@ export default function PromotorHome() {
         right: 0;
         height: 100px;
         z-index: 1;
-        opacity: 0.2;
+        opacity: 0.1;
       }
         .footer-section {
           background: #e9c9c936 url('/images/footer.png') no-repeat center bottom;
