@@ -210,7 +210,7 @@ const Signup = () => {
                 
                 <button
                   onClick={() => setUserType(2)}
-                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#f43cb3] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -218,9 +218,11 @@ const Signup = () => {
                   <span>I'm an Influencer</span>
                 </button>
 
+                
+
                 <button
                   onClick={() => setUserType(3)}
-                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#6d56ff] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -235,7 +237,7 @@ const Signup = () => {
                     className="text-blue-800 hover:underline bg-transparent border-none p-0 m-0 text-base font-medium"
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                   >
-                    You already have an account? <span className="font-semibold">Login now</span>
+                    You already have an account? <span className="font-semibold text-[#000]">Login now</span>
                   </button>
                 </div>
                 </>
@@ -253,7 +255,7 @@ const Signup = () => {
                 <button
                   onClick={() => handleGoogleLogin()}
                   disabled={isLoading}
-                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 disabled:bg-gray-200 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#000]  disabled:bg-gray-200 text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   {isLoading ? (
                     <>

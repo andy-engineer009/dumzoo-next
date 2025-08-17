@@ -10,6 +10,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import Loader from '../loader';
 import { setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
+import Link from 'next/link';
 
 // Toast notification component
 const Toast = ({ message, type, onClose }: { message: string; type: 'success' | 'error' | 'info'; onClose: () => void }) => {
@@ -117,6 +118,7 @@ const Login = () => {
       dispatch(setUserRole('3'))
       dispatch(setIsLoggedIn(true))
      }}>promoter</button>
+         <Link href="/">home</Link>
       {isLoading && <Loader/>}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
@@ -206,7 +208,7 @@ const Login = () => {
                 <button
                   onClick={() => handleGoogleLogin()}
                   disabled={isLoading}
-                  className="w-full bg-transparent hover:bg-gray-900 hover:bg-opacity-10 disabled:bg-gray-200 text-gray-900 font-medium py-4 px-4 rounded-[100px] border border-gray-900 transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#000] disabled:bg-gray-200 text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   {isLoading ? (
                     <>
@@ -232,7 +234,7 @@ const Login = () => {
                     className="text-blue-800 hover:underline bg-transparent border-none p-0 m-0 text-base font-medium"
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                   >
-                    You don't have an account? <span className="font-semibold">Create an account</span>
+                    You don't have an account? <span className="font-semibold text-[#000]">Create an account</span>
                   </button>
                 </div>
 
