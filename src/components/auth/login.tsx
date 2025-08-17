@@ -231,16 +231,16 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => router.push('/signup')}
-                    className="text-blue-800 hover:underline bg-transparent border-none p-0 m-0 text-base font-medium"
+                    className="text-[#000] hover:underline bg-transparent border-none p-0 m-0 text-sm font-medium"
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                   >
-                    You don't have an account? <span className="font-semibold text-[#000]">Create an account</span>
+                    You don't have an account? <span className="font-semibold  text-blue-800">Create an account</span>
                   </button>
                 </div>
 
                 <button
                   onClick={() => router.push('/')}
-                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium px-4 transition-colors duration-200 text-base shadow-sm"
+                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium px-4 transition-colors duration-200 text-base "
                   type="button"
                 >
                   Back to Home
