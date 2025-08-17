@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function AnalyticsPage() {
@@ -14,10 +15,20 @@ export default function AnalyticsPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Colorful Header */}
-      <div className=" px-4 py-3 shadow-lg">
-        <h1 className="text-lg font-semibold text-center"> Analytics Dashboard</h1>
-      </div>
+    {/* Header */}
+    <div className="w-full px-6 py-3 border-b border-gray-200">
+            <div className="flex items-center justify-center">
+              <Link
+                href="/profile"
+                className="absolute left-4"
+              >
+                <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </Link>
+              <h1 className="text-lg font-medium text-gray-900">Analytics</h1>
+            </div>
+          </div>
 
       <div className="p-6 space-y-6">
         {/* Today Views Card - Colorful Design */}

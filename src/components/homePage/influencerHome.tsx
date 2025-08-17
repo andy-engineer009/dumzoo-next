@@ -266,12 +266,22 @@ export default function InfluencerHome() {
 
         {/* Newly Added Campaigns Section */}
         <div className="mb-4">
-          <div className="flex items-center justify-between mb-4">
+          {/* <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-bold text-gray-900 ">Newly Campaigns</h2>
-            {/* <Link href="/campaigns" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
-              View All
-            </Link> */}
-          </div>
+   
+          </div> */}
+
+          <div className="flex items-center mb-3">
+            {/* <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg> */}
+            <h2 className="text-[14px] font-bold text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Newly Campaigns</h2>
+            {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div> */}
+        </div>
           
           {/* Horizontal Scroll Campaign Cards */}
           <div className="flex space-x-2 overflow-x-auto pb-2 scrollbar-hide">
@@ -328,7 +338,7 @@ export default function InfluencerHome() {
 
         <div className="mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base font-bold text-gray-900">Most Applied Campaigns</h2>
+            <h2 className="text-[14px] font-bold text-gray-900 uppercase" style={{letterSpacing: '3px'}}>Most Applied Campaigns</h2>
             {/* <Link href="/campaigns" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
               View All
             </Link> */}

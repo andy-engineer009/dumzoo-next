@@ -122,7 +122,7 @@ console.log('mak')
         <div className="px-4 py-2">
         {
             currentUserRole === '3' &&
-             <div className="mb-6">
+             <div className="mb-0">
                       <button 
                 onClick={() => router.push('/profile/edit')}
                 className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
