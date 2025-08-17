@@ -240,10 +240,10 @@ const Login = () => {
 
                 <button
                   onClick={() => router.push('/')}
-                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium py-2 px-4 rounded-[100px] border border-gray-200 transition-colors duration-200 text-base shadow-sm"
+                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium px-4 transition-colors duration-200 text-base shadow-sm"
                   type="button"
                 >
-                  ← Back to Home
+                  Back to Home
                 </button>
               </div>
           </div>
