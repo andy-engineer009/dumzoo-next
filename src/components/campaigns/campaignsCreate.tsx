@@ -254,7 +254,7 @@ export default function CampaignsCreate() {
         <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
           <div className="relative">
             <Link
-              href="/campaigns"
+              href="/"
               className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
             >
               <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
