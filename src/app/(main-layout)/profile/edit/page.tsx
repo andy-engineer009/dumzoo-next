@@ -96,13 +96,13 @@ export default function EditProfile() {
       <div className="relative z-10 px-6 py-8">
         <div className="max-w-2xl mx-auto">
           {/* Progress Section */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
           <ProfileProgressCard data={progressData} /> 
-          </div>
+          </div> */}
 
           {/* Steps Section */}
           <div className="space-y-3">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete These Steps</h3>
+            {/* <h3 className="text-lg font-semibold text-gray-900 mb-4">Complete These Steps</h3> */}
             
             {steps.map((step, index) => (
               <div
