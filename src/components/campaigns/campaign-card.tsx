@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import Image from "next/image";
 export default function CampaignCard({campaign}: {campaign: any}) {    
     return (
         <Link href={`/campaigns/${campaign.id}`} key={campaign.id} className="block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 relative">
@@ -7,6 +7,8 @@ export default function CampaignCard({campaign}: {campaign: any}) {
             <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
                 {/* Product Image */}
                 <h3>PAID</h3>
+                <Image src={"/images/logos/zaomato-logo.png"} alt='' width={100} height={100} />
+
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
                 {/* Yellow Banner - Applied Count */}
                 <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">

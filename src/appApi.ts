@@ -3,6 +3,7 @@
 
 export const API_ROUTES = {
     google_signup: "auth/google-signup",
+    google_login: "auth/google-login",
     referral: "auth/referal-code",
     dropdownData: "dropdown-data",
     addInfulancer: "influencer/add",

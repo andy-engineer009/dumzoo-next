@@ -78,9 +78,8 @@ const Login = () => {
       setIsLoading(true);
       const payload = {
         is_login_Type: 1,
-        role_id: 1
       }
-      api.post(`${API_ROUTES.google_signup}?google_code=${authresult?.code}`,payload).then((response) => {
+      api.post(`${API_ROUTES.google_login}?google_code=${authresult?.code}`,payload).then((response) => {
         setIsLoading(false);
         if(response?.status == 1) {
           setVerfiedUserV2(response?.data, dispatch);

@@ -207,42 +207,255 @@ export default function PromotorHome() {
     </div>
 
     {!isLoggedIn && (
-      <div className="influencer-cta-section py-12 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100"
-          >
-            <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-              <div className="flex-1">
-                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-                  Are you an <span className="text-purple-600">Influencer</span>?
-                </h2>
-                <p className="text-gray-600 mb-6">
-                  Have more than 500 followers? Join our platform and start earning through paid promotions!
-                </p>
+      <></>
+      // <div className="influencer-cta-section py-12 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
+      //   <div className="max-w-4xl mx-auto">
+      //     <motion.div
+      //       initial={{ opacity: 0, y: 20 }}
+      //       animate={{ opacity: 1, y: 0 }}
+      //       transition={{ duration: 0.6 }}
+      //       className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100"
+      //     >
+      //       <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+      //         <div className="flex-1">
+      //           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+      //             Are you an <span className="text-purple-600">Influencer</span>?
+      //           </h2>
+      //           <p className="text-gray-600 mb-6">
+      //             Have more than 500 followers? Join our platform and start earning through paid promotions!
+      //           </p>
                
-              </div>
+      //         </div>
               
-              <div className="flex-shrink-0">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-purple-600 text-white px-8 py-4 rounded-full font-medium shadow-lg shadow-purple-200 hover:bg-purple-700 transition-colors duration-300"
-                  onClick={() => {
-                    router.push('/login');
-                  }}
-                >
-                  Join as Influencer
-                </motion.button>
+      //         <div className="flex-shrink-0">
+      //           <motion.button
+      //             whileHover={{ scale: 1.05 }}
+      //             whileTap={{ scale: 0.95 }}
+      //             className="bg-purple-600 text-white px-8 py-4 rounded-full font-medium shadow-lg shadow-purple-200 hover:bg-purple-700 transition-colors duration-300"
+      //             onClick={() => {
+      //               router.push('/login');
+      //             }}
+      //           >
+      //             Join as Influencer
+      //           </motion.button>
+      //         </div>
+      //       </div>
+      //     </motion.div>
+      //   </div>
+      // </div>
+    )}
+
+    {/* new on dumzoo */}
+<div className="new-on-dumzoo mt-8">
+<div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>NEW ON <span className="text-purple-600">DUMZOO</span></h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+        </div>
+
+        {/* Influencer Cards Horizontal Scroll */}
+        <div className="mt-6 px-4">
+          <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
+            {/* Card 1 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Sarah Johnson</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Food</p>
               </div>
             </div>
-          </motion.div>
+
+            {/* Card 2 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Mike Chen</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Travel</p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Emma Davis</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fashion</p>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Alex Rodriguez</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Technology</p>
+              </div>
+            </div>
+
+            {/* Card 5 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Lisa Wang</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Beauty</p>
+              </div>
+            </div>
+
+            {/* Card 6 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">David Kim</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fitness</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    )}
+
+      {/* new on dumzoo */}
+<div className="new-on-dumzoo mt-8">
+<div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Trending <span className="text-purple-600">DUMZOO</span></h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+        </div>
+
+        {/* Influencer Cards Horizontal Scroll */}
+        <div className="mt-6 px-4">
+          <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
+            {/* Card 1 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Sarah Johnson</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Food</p>
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Mike Chen</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Travel</p>
+              </div>
+            </div>
+
+            {/* Card 3 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Emma Davis</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fashion</p>
+              </div>
+            </div>
+
+            {/* Card 4 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Alex Rodriguez</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Technology</p>
+              </div>
+            </div>
+
+            {/* Card 5 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/women.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Lisa Wang</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Beauty</p>
+              </div>
+            </div>
+
+            {/* Card 6 */}
+            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
+              <div className="absolute inset-0 bg-black/60"></div>
+              <img 
+                src="/images/men.png" 
+                alt="Influencer" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
+                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">David Kim</h3>
+                <p className="text-gray-100 text-xs font-medium drop-shadow">Fitness</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
     {/* categories section */}
     <div className="categories-section pt-8">
@@ -365,120 +578,15 @@ export default function PromotorHome() {
     </div>
 
 
-{/* new on dumzoo */}
-<div className="new-on-dumzoo mt-8">
-<div className="text-center">
-          <div className="flex items-center justify-center">
-            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>NEW ON <span className="text-purple-600">DUMZOO</span></h2>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
-        </div>
-        </div>
 
-        {/* Influencer Cards Horizontal Scroll */}
-        <div className="mt-6 px-4">
-          <div className="flex space-x-4 overflow-x-auto hide-scrollbar pb-4">
-            {/* Card 1 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/women.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Sarah Johnson</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Food</p>
-              </div>
-            </div>
-
-            {/* Card 2 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/men.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Mike Chen</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Travel</p>
-              </div>
-            </div>
-
-            {/* Card 3 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/women.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Emma Davis</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Fashion</p>
-              </div>
-            </div>
-
-            {/* Card 4 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/men.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Alex Rodriguez</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Technology</p>
-              </div>
-            </div>
-
-            {/* Card 5 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/women.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Lisa Wang</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Beauty</p>
-              </div>
-            </div>
-
-            {/* Card 6 */}
-            <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-black/60"></div>
-              <img 
-                src="/images/men.png" 
-                alt="Influencer" 
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4">
-                <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">David Kim</h3>
-                <p className="text-gray-100 text-xs font-medium drop-shadow">Fitness</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className="w-full mt-4 mb-6 px-4">
           <Image
-            src="/images/logos/refferal-banner.jpg"
+            src={"/images/logos/refferal_banner.jpg"}
             alt="Referral Banner"
             width={1200}
             height={150}
             className="w-full h-[100px] object-cover rounded-2xl shadow-md"
-            priority
           />
         </div>
 
@@ -506,7 +614,7 @@ export default function PromotorHome() {
 
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Bengaluru</h3>
              <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src={"/images/india_gate.png"} alt="Bengaluru" width={100} height={100} />
              </div>
             </div>
 
@@ -514,7 +622,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chennai</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
             </div>
 
@@ -522,7 +630,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Hyderabad</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
             </div>
        
@@ -532,7 +640,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-blue-200 to-blue-300 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Mumbai</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
             </div>
 
@@ -540,7 +648,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-blue-300 to-blue-400 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Gurgaon</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
             
               </div>
@@ -549,7 +657,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
           
               </div>
@@ -558,7 +666,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-teal-200 to-teal-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Kolkata</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
           
               </div>
@@ -569,7 +677,7 @@ export default function PromotorHome() {
             <div className="relative bg-gradient-to-b from-blue-400 to-blue-500 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
               <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Pune</h3>
               <div>
-              <Image src="/images/india-gate.png" alt="Bengaluru" width={100} height={100} />
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
                 
               

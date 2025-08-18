@@ -73,7 +73,7 @@ const InfluencerCard = ({
       )}
 
       {/* Profile Image with Verification Badge */}
-      <div className="relative aspect-square bg-gray-100">
+      <div className="relative aspect-square bg-gray-100 h-[150px]">
         <Image
           src={image}
           alt={name || ''}

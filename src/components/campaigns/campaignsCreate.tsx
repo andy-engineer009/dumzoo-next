@@ -16,26 +16,28 @@ import Loader from '../loader';
 interface FormValues {
   title: string;
   description: string;
-  categories: any[];
+  // categories: any;
   languages: any[];
   minimum_followers: number;
   platforms: any[];
   total_budget: number;
   gender_preference: string;
   age_group: string;
+  brand_image?: File | null;
 }
 
 // Validation schema
 const formSchema = Yup.object().shape({
   title: Yup.string().required('Campaign name is required').min(3, 'Campaign name must be at least 3 characters'),
   description: Yup.string().required('Description is required').min(10, 'Description must be at least 10 characters'),
-  categories: Yup.array().min(1, 'At least one category is required'),
+  // categories: Yup.object().required('At least one category is required'),
   languages: Yup.array().min(1, 'At least one language is required'),
   minimum_followers: Yup.number().required('Minimum followers is required').min(100, 'Must be at least 100 followers'),
   platforms: Yup.array().min(1, 'At least one platform is required'),
-  total_budget: Yup.number().required('Total budget is required').min(1, 'Budget must be greater than 0'),
+  total_budget: Yup.number().required('Total budget is required').min(1, 'Budget must be greater than 0').max(500000, 'Budget must be less than 500000').integer('Budget must be a whole number'),
   gender_preference: Yup.string().required('Gender preference is required'),
   age_group: Yup.string().required('Age group is required'),
+  brand_image: Yup.mixed().nullable(),
 });
 
 const platforms = [
@@ -47,33 +49,155 @@ const platforms = [
 ];
 
 const genderPreferences = [
-  { value: 'any', label: 'Any' },
-  { value: 'male', label: 'Male' },
-  { value: 'female', label: 'Female' }
+  { value: '4', label: 'All' },
+  { value: '1', label: 'Male' },
+  { value: '2', label: 'Female' },
+  { value: '3', label: 'Other' }
 ];
 
 const ageGroups = [
-  { value: '13-18', label: '13-18 years' },
-  { value: '19-25', label: '19-25 years' },
-  { value: '26-35', label: '26-35 years' },
-  { value: '36-45', label: '36-45 years' },
-  { value: '46-55', label: '46-55 years' },
-  { value: '56+', label: '56+ years' }
+  // { value: '13-18', label: '13-18 years' },
+  // { value: '19-25', label: '19-25 years' },
+  // { value: '26-35', label: '26-35 years' },
+  // { value: '36-45', label: '36-45 years' },
+  // { value: '46-55', label: '46-55 years' },
+  // { value: '56+', label: '56+ years' }
+  { value: 0, label: 'all' },
+  { value: 1, label: '13-18' },
+  { value: 2, label: '19-25' },
+  { value: 3, label: '26-35' },
+  { value: 4, label: '36-45' },
+  { value: 5, label: '46-55' },
+  { value: 6, label: '56+' }
 ];
 
-// Test categories for demonstration purposes
+// Test categories for demonstration purp oses
 const categoriesList = [
-  { id: 'fashion', name: 'Fashion' },
-  { id: 'beauty', name: 'Beauty' },
-  { id: 'fitness', name: 'Fitness' },
-  { id: 'travel', name: 'Travel' },
-  { id: 'food', name: 'Food' },
-  { id: 'technology', name: 'Technology' },
-  { id: 'gaming', name: 'Gaming' },
-  { id: 'lifestyle', name: 'Lifestyle' },
-  { id: 'education', name: 'Education' },
-  { id: 'music', name: 'Music' }
+  { value: 1, label: 'Art' },
+  { value: 2, label: 'Acting' },
+  { value: 3, label: 'Adventure' },
+  { value: 4, label: 'Animals & Pets' },
+  { value: 5, label: 'Automotive' },
+  { value: 6, label: 'Beauty' },
+  { value: 7, label: 'Blogging' },
+  { value: 8, label: 'Books' },
+  { value: 9, label: 'Business & Entrepreneurship' },
+  { value: 10, label: 'Comedy' },
+  { value: 11, label: 'Cooking' },
+  { value: 12, label: 'Crafts' },
+  { value: 13, label: 'Culture' },
+  { value: 14, label: 'Career & Jobs' },
+  { value: 15, label: 'Dance' },
+  { value: 16, label: 'DIY (Do It Yourself)' },
+  { value: 17, label: 'Design' },
+  { value: 18, label: 'Digital Marketing' },
+  { value: 19, label: 'Education' },
+  { value: 20, label: 'Entertainment' },
+  { value: 21, label: 'Environment' },
+  { value: 22, label: 'Events' },
+  { value: 23, label: 'Fashion' },
+  { value: 24, label: 'Finance' },
+  { value: 25, label: 'Fitness' },
+  { value: 26, label: 'Food' },
+  { value: 27, label: 'Family & Parenting' },
+  { value: 28, label: 'Gaming' },
+  { value: 29, label: 'Gardening' },
+  { value: 30, label: 'Graphic Design' },
+  { value: 31, label: 'Gadgets & Tech Reviews' },
+  { value: 32, label: 'Health' },
+  { value: 33, label: 'Home Decor' },
+  { value: 34, label: 'Hiking' },
+  { value: 35, label: 'History' },
+  { value: 36, label: 'Inspiration & Motivation' },
+  { value: 37, label: 'Interior Design' },
+  { value: 38, label: 'Investments' },
+  { value: 39, label: 'Illustration' },
+  { value: 40, label: 'Jewellery' },
+  { value: 41, label: 'Journalism' },
+  { value: 42, label: 'Jobs & Career Tips' },
+  { value: 43, label: 'Kids & Parenting' },
+  { value: 44, label: 'Kitchen Hacks' },
+  { value: 45, label: 'Knowledge Sharing' },
+  { value: 46, label: 'Lifestyle' },
+  { value: 47, label: 'Luxury' },
+  { value: 48, label: 'Literature' },
+  { value: 49, label: 'Language Learning' },
+  { value: 50, label: 'Makeup' },
+  { value: 51, label: 'Motivation' },
+  { value: 52, label: 'Mental Health' },
+  { value: 53, label: 'Movies & TV' },
+  { value: 54, label: 'Nature' },
+  { value: 55, label: 'Nutrition' },
+  { value: 56, label: 'News & Politics' },
+  { value: 57, label: 'Non-profits & Causes' },
+  { value: 58, label: 'Outdoors' },
+  { value: 59, label: 'Online Business' },
+  { value: 60, label: 'Organic Living' },
+  { value: 61, label: 'Photography' },
+  { value: 62, label: 'Personal Development' },
+  { value: 63, label: 'Pets' },
+  { value: 64, label: 'Podcasts' },
+  { value: 65, label: 'Productivity' },
+  { value: 66, label: 'Quotes & Motivation' },
+  { value: 67, label: 'Quick Recipes' },
+  { value: 68, label: 'Recipes' },
+  { value: 69, label: 'Reviews' },
+  { value: 70, label: 'Relationships' },
+  { value: 71, label: 'Road Trips' },
+  { value: 72, label: 'Real Estate' },
+  { value: 73, label: 'Sports' },
+  { value: 74, label: 'Spirituality' },
+  { value: 75, label: 'Science' },
+  { value: 76, label: 'Singing' },
+  { value: 77, label: 'Skincare' },
+  { value: 78, label: 'Startups' },
+  { value: 79, label: 'Travel' },
+  { value: 80, label: 'Technology' },
+  { value: 81, label: 'Theatre' },
+  { value: 82, label: 'Tutorials' },
+  { value: 83, label: 'Training & Coaching' },
+  { value: 84, label: 'Urban Exploration' },
+  { value: 85, label: 'Upcycling' },
+  { value: 86, label: 'UI/UX Design' },
+  { value: 87, label: 'Vlogging' },
+  { value: 88, label: 'Vegan Lifestyle' },
+  { value: 89, label: 'Visual Arts' },
+  { value: 90, label: 'Volunteering' },
+  { value: 91, label: 'Wellness' },
+  { value: 92, label: 'Wildlife' },
+  { value: 93, label: 'Writing' },
+  { value: 94, label: 'Wedding Planning' },
+  { value: 95, label: 'Workout' },
+  { value: 96, label: 'Extreme Sports' },
+  { value: 97, label: 'Experiential Travel' },
+  { value: 98, label: 'Exhibitions' },
+  { value: 99, label: 'Yoga' },
+  { value: 100, label: 'Youth Lifestyle' },
+  { value: 101, label: 'YouTube Tutorials' },
+  { value: 102, label: 'Zero Waste Lifestyle' },
+  { value: 103, label: 'Zoology Awareness' }
 ];
+
+// Languages list
+const languagesList = [
+  { value: '1', label: 'Hindi' },
+  { value: '2', label: 'English' },
+  { value: '3', label: 'Punjabi' },
+  { value: '4', label: 'Marathi' },
+  { value: '5', label: 'Haryanvi' },
+  { value: '6', label: 'Bhojpuri' },
+  { value: '7', label: 'Rajasthani' },
+  { value: '8', label: 'Tamil' },
+  { value: '9', label: 'Telugu' },
+  { value: '10', label: 'Urdu' },
+  { value: '11', label: 'Kannada' },
+  { value: '12', label: 'Malayalam' },
+  { value: '13', label: 'Nepali' },
+  { value: '14', label: 'Sanskrit' },
+  { value: '15', label: 'Bengali' },
+  { value: '16', label: 'Assamese' }
+];
+
 
 // Custom Select Styles
 const customSelectStyles = {
@@ -152,25 +276,66 @@ export default function CampaignsCreate() {
   const influencerDropdownData = useSelector(selectInfluencerDropdownData);
 
   const [categories, setCategories] = useState(categoriesList);
-  const [languages, setLanguages] = useState([]);
+  const [languages, setLanguages] = useState(languagesList);
+  const [brandImagePreview, setBrandImagePreview] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Initial values
   const initialValues: FormValues = {
     title: '',
     description: '',
-    categories: [],
+    // categories: '',
     languages: [],
     minimum_followers: 0,
     platforms: [],
     total_budget: 0,
     gender_preference: '',
-    age_group: ''
+    age_group: '',
+    brand_image: null
   };
 
   // Show toast notification
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 5000);
+  };
+
+  // Handle brand image upload
+  const handleBrandImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        showToast('Please select a valid image file', 'error');
+        return;
+      }
+      
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('Image size should be less than 5MB', 'error');
+        return;
+      }
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setBrandImagePreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle brand image deletion
+  const handleBrandImageDelete = () => {
+    setBrandImagePreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // Trigger file input click
+  const handleBrandImageClick = () => {
+    fileInputRef.current?.click();
   };
 
   // Fetch dropdown data
@@ -204,13 +369,14 @@ export default function CampaignsCreate() {
       const payload = {
         title: values.title,
         description: values.description,
-        categories: values.categories.map((category: any) => parseInt(category.value.toString())),
+        // categories: [values.categories],
         languages: values.languages.map((language: any) => parseInt(language.value.toString())),
         minimum_followers: values.minimum_followers,
         platforms: values.platforms.map((platform: any) => platform.value),
         total_budget: values.total_budget,
         gender_preference: values.gender_preference,
-        age_group: values.age_group
+        age_group: values.age_group,
+        brand_image: values.brand_image
       };
 
       setIsLoading(true);
@@ -277,9 +443,75 @@ export default function CampaignsCreate() {
             initialValues={initialValues}
             validationSchema={formSchema}
             onSubmit={handleSubmit}
+            enableReinitialize={false}
           >
             {({ values, setFieldValue, isValid, dirty }) => (
               <Form className="space-y-6">
+                
+                                {/* Brand Image Upload */}
+                <div>
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Brand Image (Optional)
+                  </label>
+                  <div className="flex items-center space-x-4">
+                    <input
+                      type="file"
+                      id="brand_image"
+                      name="brand_image"
+                      accept="image/*"
+                      onChange={(event) => {
+                        handleBrandImageUpload(event);
+                        // Also update Formik value
+                        const file = event.target.files?.[0];
+                        setFieldValue('brand_image', file || null);
+                      }}
+                      className="hidden"
+                      ref={fileInputRef}
+                    />
+                    
+                    {/* 200x200 Upload Box */}
+                    <div 
+                      className="w-full h-[150px] border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors duration-200 bg-gray-50 hover:bg-gray-100"
+                      onClick={handleBrandImageClick}
+                    >
+                      {brandImagePreview ? (
+                        <div className="relative w-full h-full">
+                          <img 
+                            src={brandImagePreview} 
+                            alt="Brand Preview" 
+                            className="w-full h-full object-cover rounded-lg"
+                          />
+                          {/* Cross button overlay */}  
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleBrandImageDelete();
+                              setFieldValue('brand_image', null);
+                            }}
+                            className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center transition-colors duration-200 shadow-lg"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="text-center">
+                          <svg className="w-12 h-12 text-gray-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                          {/* <p className="text-sm text-gray-500">Click to upload</p>
+                          <p className="text-xs text-gray-400 mt-1">200x200 recommended</p> */}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Supported formats: JPG, PNG, GIF. Max size: 5MB
+                  </p>
+                </div>
+
                 {/* Campaign Name */}
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium text-black mb-2">
@@ -298,7 +530,7 @@ export default function CampaignsCreate() {
                 {/* Description */}
                 <div>
                   <label htmlFor="description" className="block text-sm font-medium text-black mb-2">
-                    Description
+                    Description (write your requirment)
                   </label>
                   <Field
                     as="textarea"
@@ -306,27 +538,28 @@ export default function CampaignsCreate() {
                     name="description"
                     rows={4}
                     placeholder="Enter campaign description and instructions"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400 resize-none"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400 resize-none outline-none"
                   />
                   <ErrorMessage name="description" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
                 {/* Categories */}
-                <div>
+                {/* <div>
                   <label className="block text-sm font-medium text-black mb-2">
                     Categories (Select all that apply)
                   </label>
                   <Select
-                    isMulti
-                    options={categories.map((cat: any) => ({ value: cat.id, label: cat.name }))}
+                    // isMulti
+                    options={categories}
                     value={values.categories}
                     onChange={(selectedOptions) => setFieldValue('categories', selectedOptions || [])}
                     placeholder="Select categories"
                     styles={customSelectStyles}
                     className="text-sm"
                   />
+
                   <ErrorMessage name="categories" component="div" className="mt-1 text-sm text-red-500" />
-                </div>
+                </div> */}
 
                 {/* Languages */}
                 <div>
@@ -335,7 +568,7 @@ export default function CampaignsCreate() {
                   </label>
                   <Select
                     isMulti
-                    options={languages.map((lang: any) => ({ value: lang.id, label: lang.name }))}
+                    options={languages}
                     value={values.languages}
                     onChange={(selectedOptions) => setFieldValue('languages', selectedOptions || [])}
                     placeholder="Select languages"
@@ -388,7 +621,7 @@ export default function CampaignsCreate() {
                     id="total_budget"
                     name="total_budget"
                     placeholder="Enter total budget"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg  focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
                   />
                   <ErrorMessage name="total_budget" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
@@ -403,7 +636,7 @@ export default function CampaignsCreate() {
                       as="select"
                       id="gender_preference"
                       name="gender_preference"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg  focus:ring-black focus:border-black transition-all duration-200 text-black outline-none"
                     >
                       <option value="">Select Gender</option>
                       {genderPreferences.map(gender => (
@@ -421,7 +654,7 @@ export default function CampaignsCreate() {
                       as="select"
                       id="age_group"
                       name="age_group"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg  focus:ring-black focus:border-black transition-all duration-200 text-black outline-none"
                     >
                       <option value="">Select Age Group</option>
                       {ageGroups.map(ageGroup => (
@@ -436,7 +669,7 @@ export default function CampaignsCreate() {
                 <div className="pt-6 flex justify-center">
                   <button
                     type="submit"
-                    disabled={!isValid || !dirty || isLoading}
+                    // disabled={!isValid || !dirty || isLoading}
                     className="bg-black hover:bg-gray-800 disabled:bg-gray-400 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 disabled:cursor-not-allowed mx-auto"
                     style={{width: '90%'}}
                   >
