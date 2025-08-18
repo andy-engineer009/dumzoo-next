@@ -18,6 +18,8 @@ export const API_ROUTES = {
     influencerProfileAddUpdate: "influencer/profile-image",
     getInfluencerProfileImage: "influencer/profileImageList",
     influencerList: "influencer/list",
+    createCampaign: "promoter/add-compaign",
+    campaignList: "promoter/campaign-list",
     // goToSignup: "http://localhost:5000/api/auth/signup",
     // getdashboardData: "http://localhost:5000/api/user/dashboard",
     // withdraw: "http://localhost:5000/api/user/withdraw",

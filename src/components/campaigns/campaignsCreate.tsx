@@ -13,27 +13,27 @@ import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/a
 import Loader from '../loader';
 
 // Types
-interface FormValues {
-  title: string;
-  description: string;
-  // categories: any;
-  languages: any[];
-  minimum_followers: number;
-  platforms: any[];
-  total_budget: number;
-  gender_preference: string;
-  age_group: string;
-  brand_image?: File | null;
-}
+// interface FormValues {
+//   title: string;
+//   description: string;
+//   // categories: any;
+//   languages: any[];
+//   minimum_followers: number;
+//   platforms: any[];
+//   total_budget: number;
+//   gender_preference: string;
+//   age_group: string;
+//   brand_image?: File | null;
+// }
 
 // Validation schema
 const formSchema = Yup.object().shape({
-  title: Yup.string().required('Campaign name is required').min(3, 'Campaign name must be at least 3 characters'),
-  description: Yup.string().required('Description is required').min(10, 'Description must be at least 10 characters'),
+  compaign_name: Yup.string().required('Campaign name is required').min(3, 'Campaign name must be at least 3 characters'),
+  compaign_description: Yup.string().required('Description is required').min(10, 'Description must be at least 10 characters'),
   // categories: Yup.object().required('At least one category is required'),
-  languages: Yup.array().min(1, 'At least one language is required'),
+  campaign_languages: Yup.array().min(1, 'At least one language is required'),
   minimum_followers: Yup.number().required('Minimum followers is required').min(100, 'Must be at least 100 followers'),
-  platforms: Yup.array().min(1, 'At least one platform is required'),
+  platforms: Yup.array().min(1, 'At least one platform is required').of(Yup.string().oneOf(['instagram', 'youtube', 'facebook'])),
   total_budget: Yup.number().required('Total budget is required').min(1, 'Budget must be greater than 0').max(500000, 'Budget must be less than 500000').integer('Budget must be a whole number'),
   gender_preference: Yup.string().required('Gender preference is required'),
   age_group: Yup.string().required('Age group is required'),
@@ -43,16 +43,14 @@ const formSchema = Yup.object().shape({
 const platforms = [
   { value: 'instagram', label: 'Instagram' },
   { value: 'youtube', label: 'YouTube' },
-  { value: 'facebook', label: 'Facebook' },
-  { value: 'tiktok', label: 'TikTok' },
-  { value: 'twitter', label: 'Twitter' }
+  { value: 'facebook', label: 'Facebook' }
 ];
 
 const genderPreferences = [
-  { value: '4', label: 'All' },
-  { value: '1', label: 'Male' },
-  { value: '2', label: 'Female' },
-  { value: '3', label: 'Other' }
+  { value: 0, label: 'All' },
+  { value: 1, label: 'Male' },
+  { value: 2, label: 'Female' },
+  { value: 3, label: 'Other' }
 ];
 
 const ageGroups = [
@@ -180,22 +178,22 @@ const categoriesList = [
 
 // Languages list
 const languagesList = [
-  { value: '1', label: 'Hindi' },
-  { value: '2', label: 'English' },
-  { value: '3', label: 'Punjabi' },
-  { value: '4', label: 'Marathi' },
-  { value: '5', label: 'Haryanvi' },
-  { value: '6', label: 'Bhojpuri' },
-  { value: '7', label: 'Rajasthani' },
-  { value: '8', label: 'Tamil' },
-  { value: '9', label: 'Telugu' },
-  { value: '10', label: 'Urdu' },
-  { value: '11', label: 'Kannada' },
-  { value: '12', label: 'Malayalam' },
-  { value: '13', label: 'Nepali' },
-  { value: '14', label: 'Sanskrit' },
-  { value: '15', label: 'Bengali' },
-  { value: '16', label: 'Assamese' }
+  { value: 1, label: 'Hindi' },
+  { value: 2, label: 'English' },
+  { value: 3, label: 'Punjabi' },
+  { value: 4, label: 'Marathi' },
+  { value: 5, label: 'Haryanvi' },
+  { value: 6, label: 'Bhojpuri' },
+  { value: 7, label: 'Rajasthani' },
+  { value: 8, label: 'Tamil' },
+  { value: 9, label: 'Telugu' },
+  { value: 10, label: 'Urdu' },
+  { value: 11, label: 'Kannada' },
+  { value: 12, label: 'Malayalam' },
+  { value: 13, label: 'Nepali' },
+  { value: 14, label: 'Sanskrit' },
+  { value: 15, label: 'Bengali' },
+  { value: 16, label: 'Assamese' }
 ];
 
 
@@ -279,13 +277,19 @@ export default function CampaignsCreate() {
   const [languages, setLanguages] = useState(languagesList);
   const [brandImagePreview, setBrandImagePreview] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  // const [isClient, setIsClient] = useState(false);
+
+  // Prevent hydration mismatch by only rendering Select components on client
+  // useEffect(() => {
+  //   setIsClient(true);
+  // }, []);
 
   // Initial values
-  const initialValues: FormValues = {
-    title: '',
-    description: '',
+  let initialValues: any = {
+    compaign_name: '',
+    compaign_description: '',
     // categories: '',
-    languages: [],
+    campaign_languages: [],
     minimum_followers: 0,
     platforms: [],
     total_budget: 0,
@@ -340,64 +344,73 @@ export default function CampaignsCreate() {
 
   // Fetch dropdown data
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if(influencerDropdownData) {
-          setCategories(influencerDropdownData.categories);
-          setLanguages(influencerDropdownData.languages);
-        } else {
-          // Fetch dropdown data
-          const dropdownResponse = await api.get(API_ROUTES.dropdownData);
-          if (dropdownResponse.status === 1) {
-            const data: any = dropdownResponse.data;
-            // setCategories(data.categories);
-            setLanguages(data.languages);
-            dispatch(influencerDropodownData(data));
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        showToast('Error loading dropdown data', 'error');
-      }
-    };
+    // const fetchData = async () => {
+    //   try {
+    //     if(influencerDropdownData) {
+    //       setCategories(influencerDropdownData.categories);
+    //       setLanguages(influencerDropdownData.languages);
+    //     } else {
+    //       // Fetch dropdown data
+    //       const dropdownResponse = await api.get(API_ROUTES.dropdownData);
+    //       if (dropdownResponse.status === 1) {
+    //         const data: any = dropdownResponse.data;
+    //         // setCategories(data.categories);
+    //         setLanguages(data.languages);
+    //         dispatch(influencerDropodownData(data));
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //     showToast('Error loading dropdown data', 'error');
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
   }, []);
 
-  const handleSubmit = async (values: FormValues, { setSubmitting }: FormikHelpers<FormValues>) => {
-    try {
+  const handleSubmit = async (values: any, { setSubmitting }: FormikHelpers<any>) => {
       const payload = {
-        title: values.title,
-        description: values.description,
+        compaign_name: values.compaign_name,
+        compaign_description: values.compaign_description,
         // categories: [values.categories],
-        languages: values.languages.map((language: any) => parseInt(language.value.toString())),
+        campaign_languages: values.campaign_languages.map((language: any) => parseInt(language.value.toString())),
         minimum_followers: values.minimum_followers,
-        platforms: values.platforms.map((platform: any) => platform.value),
+        is_youtube_enabled: values.platforms.includes('youtube') == true ? 1 : 0,
+        is_facebook_enabled: values.platforms.includes('facebook') == true ? 1 : 0,
+        is_instagram_enabled: values.platforms.includes('instagram') == true ? 1 : 0,
         total_budget: values.total_budget,
-        gender_preference: values.gender_preference,
-        age_group: values.age_group,
-        brand_image: values.brand_image
+        gender_preference: parseInt(values.gender_preference),
+        age_group: parseInt(values.age_group),
+        campaign_logo_url: values.brand_image
       };
 
+      console.log(payload);
+      // return
       setIsLoading(true);
 
       // Replace with your actual API endpoint for campaign creation
-      const response = await api.post('/api/campaigns/create', payload);
-      
-      if (response.status === 1) {
-        showToast('Campaign created successfully!', 'success');
-        router.push('/campaigns');
-      } else {
-        showToast(response.message || 'Failed to create campaign', 'error');
-      }
-    } catch (error) {
-      console.error('Error creating campaign:', error);
-      showToast('Network error. Please try again.', 'error');
-    } finally {
-      setIsLoading(false);
-      setSubmitting(false);
+   api.post(API_ROUTES.createCampaign, payload).then((response: any) => {
+    setIsLoading(false);
+    if (response.status === 1) {
+      showToast('Campaign created successfully!', 'success');
+      // Reset form to initial values
+      initialValues = {
+        compaign_name: '',
+        compaign_description: '',
+        campaign_languages: [],
+        minimum_followers: 0,
+        platforms: [],
+        total_budget: 0,
+        gender_preference: '',
+        age_group: '',
+        brand_image: null
+      };
+    } else {
+      showToast(response.message || 'Failed to create campaign', 'error');
     }
-  };
+   })
+  }
+   
 
   return (
     <>
@@ -514,33 +527,33 @@ export default function CampaignsCreate() {
 
                 {/* Campaign Name */}
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-black mb-2">
+                  <label htmlFor="compaign_name" className="block text-sm font-medium text-black mb-2">
                     Campaign Name
                   </label>
                   <Field
                     type="text"
-                    id="title"
-                    name="title"
+                    id="compaign_name"
+                    name="compaign_name"
                     placeholder="Enter campaign name"
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
                   />
-                  <ErrorMessage name="title" component="div" className="mt-1 text-sm text-red-500" />
+                  <ErrorMessage name="compaign_name" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
                 {/* Description */}
                 <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-black mb-2">
+                  <label htmlFor="compaign_description" className="block text-sm font-medium text-black mb-2">
                     Description (write your requirment)
                   </label>
                   <Field
                     as="textarea"
-                    id="description"
-                    name="description"
+                    id="compaign_description"
+                    name="compaign_description"
                     rows={4}
                     placeholder="Enter campaign description and instructions"
                     className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400 resize-none outline-none"
                   />
-                  <ErrorMessage name="description" component="div" className="mt-1 text-sm text-red-500" />
+                  <ErrorMessage name="compaign_description" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
                 {/* Categories */}
@@ -548,34 +561,42 @@ export default function CampaignsCreate() {
                   <label className="block text-sm font-medium text-black mb-2">
                     Categories (Select all that apply)
                   </label>
-                  <Select
-                    // isMulti
-                    options={categories}
-                    value={values.categories}
-                    onChange={(selectedOptions) => setFieldValue('categories', selectedOptions || [])}
-                    placeholder="Select categories"
-                    styles={customSelectStyles}
-                    className="text-sm"
-                  />
+                  {isClient ? (
+                    <Select
+                      key="categories-select"
+                      // isMulti
+                      options={categories}
+                      value={values.categories}
+                      onChange={(selectedOptions) => setFieldValue('categories', selectedOptions || [])}
+                      placeholder="Select categories"
+                      styles={customSelectStyles}
+                      className="text-sm"
+                    />
+                  ) : (
+                    <div className="w-full h-10 bg-gray-100 rounded-lg animate-pulse"></div>
+                  )}
 
                   <ErrorMessage name="categories" component="div" className="mt-1 text-sm text-red-500" />
                 </div> */}
 
                 {/* Languages */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-2">
+                  <label htmlFor="campaign_languages" className="block text-sm font-medium text-black mb-2">
                     Languages (Select all that apply)
                   </label>
-                  <Select
-                    isMulti
-                    options={languages}
-                    value={values.languages}
-                    onChange={(selectedOptions) => setFieldValue('languages', selectedOptions || [])}
-                    placeholder="Select languages"
-                    styles={customSelectStyles}
-                    className="text-sm"
-                  />
-                  <ErrorMessage name="languages" component="div" className="mt-1 text-sm text-red-500" />
+              
+                    <Select
+                      key="languages-select"
+                      isMulti
+                      options={languages}
+                      value={values.campaign_languages}
+                      onChange={(selectedOptions) => setFieldValue('campaign_languages', selectedOptions || [])}
+                      placeholder="Select languages"
+                      styles={customSelectStyles}
+                      className="text-sm"
+                    />
+            
+                  <ErrorMessage name="campaign_languages" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
                 {/* Minimum Followers and Platforms */}
@@ -598,15 +619,19 @@ export default function CampaignsCreate() {
                     <label className="block text-sm font-medium text-black mb-2">
                       Platforms (Select all that apply)
                     </label>
-                    <Select
-                      isMulti
-                      options={platforms}
-                      value={values.platforms}
-                      onChange={(selectedOptions) => setFieldValue('platforms', selectedOptions || [])}
-                      placeholder="Select platforms"
-                      styles={customSelectStyles}
-                      className="text-sm"
-                    />
+                    <div className="flex flex-wrap gap-4">
+                      {platforms.map(platform => (
+                        <label key={platform.value} className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                          <Field
+                            type="checkbox"
+                            name="platforms"
+                            value={platform.value}
+                            className="w-5 h-5 text-black border-gray-300 rounded focus:ring-black focus:ring-2 checked:bg-black checked:border-black"
+                          />
+                          <span className="text-sm text-gray-700 font-medium select-none">{platform.label}</span>
+                        </label>
+                      ))}
+                    </div>
                     <ErrorMessage name="platforms" component="div" className="mt-1 text-sm text-red-500" />
                   </div>
                 </div>
