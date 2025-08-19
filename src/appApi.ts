@@ -8,7 +8,9 @@ export const API_ROUTES = {
     dropdownData: "dropdown-data",
     addInfulancer: "influencer/add",
     otpVerify: "auth/otp-verify",
-    getInfluencerProfile: "influencer/profile",
+
+    // influencer
+    getInfluencerProfile: "influencer/profile-detail",
     addUpdateInfluencer: "influencer/addUpdateProfile",
     addUpdateOffers: "influencer/addUpdateOffers",
     offersList: "influencer/offersList",
@@ -18,8 +20,12 @@ export const API_ROUTES = {
     influencerProfileAddUpdate: "influencer/profile-image",
     getInfluencerProfileImage: "influencer/profileImageList",
     influencerList: "influencer/list",
+
+    // promoter
     createCampaign: "promoter/add-compaign",
     campaignList: "promoter/campaign-list",
+    // getInfluencerProfile: "promoter/profile",
+    // influencerDetail: "influencer/detail",
     // goToSignup: "http://localhost:5000/api/auth/signup",
     // getdashboardData: "http://localhost:5000/api/user/dashboard",
     // withdraw: "http://localhost:5000/api/user/withdraw",

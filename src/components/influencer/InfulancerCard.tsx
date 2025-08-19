@@ -4,40 +4,27 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-interface InfluencerCardProps {
-  id: number;
-  uuid?: string;
-  user_id?: number;
-  name: string | null;
-  username?: string;
-  image: string;
-  isVerified?: boolean;
-  location?: string;
-  category?: string;
-  followers?: number;
-  startingPrice?: number;
-  instagramUrl?: string;
-  youtubeUrl?: string;
-  facebookUrl?: string;
-  isFeatured?: boolean;
-  tags?: string[]; // New prop for influencer tags
-}
+// interface InfluencerCardProps {
+//   id: number;
+//   uuid?: string;
+//   user_id?: number;
+//   name: string | null;
+//   username?: string;
+//   image: string;
+//   isVerified?: boolean;
+//   location?: string;
+//   category?: string;
+//   followers?: number;
+//   startingPrice?: number;
+//   instagramUrl?: string;
+//   youtubeUrl?: string;
+//   facebookUrl?: string;
+//   isFeatured?: boolean;
+//   tags?: string[]; // New prop for influencer tags
+// }
 
-const InfluencerCard = ({
-  id,
-  name,
-  image,
-  isVerified,
-  location,
-  category,
-  followers,
-  startingPrice,
-  instagramUrl,
-  youtubeUrl,
-  facebookUrl,
-  isFeatured,
-  tags = []
-}: InfluencerCardProps) => {
+const InfluencerCard = ({data}: any) => {
+  console.log(data,'card data');
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
 
@@ -58,10 +45,10 @@ const InfluencerCard = ({
     // shadow-sm hover:shadow-md
     <div 
       className="relative bg-white rounded-xl overflow-hidden  transition-all duration-200 border border-gray-100 flex flex-col h-full cursor-pointer"
-      onClick={() => router.push(`/discover/${id}`)}
+      onClick={() => router.push(`/discover/${data?.uuid}`)}
     >
       {/* Featured Badge */}
-      {isFeatured && (
+      {data?.isFeatured && (
         <div className="absolute top-3 left-3 z-10">
           <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md flex items-center">
             <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -75,15 +62,15 @@ const InfluencerCard = ({
       {/* Profile Image with Verification Badge */}
       <div className="relative aspect-square bg-gray-100 h-[150px]">
         <Image
-          src={image}
-          alt={name || ''}
+          src={data?.influencer_media_detail[0]?.media_url}
+          alt={data?.influencer_media_detail[0]?.media_url}
           width={400}
           height={400}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-100"
           // onError={() => setImageError(true)}
         />
         
-        {isVerified && (
+        {data?.verified_profile && (
           <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md flex items-center justify-center">
             <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -91,9 +78,9 @@ const InfluencerCard = ({
           </div>
         )}
                     <div className="flex gap-2 absolute bottom-2 right-2">
-              {instagramUrl && (
+              {data?.instagram_url != '' && (
                 <a 
-                  href={instagramUrl}
+                  href={data?.instagram_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-pink-600 transition-colors bg-[#fff] p-1 rounded-full"
@@ -105,9 +92,9 @@ const InfluencerCard = ({
                 </a>
               )}
               
-              {youtubeUrl && (
+              {data?.youtube_url != '' && (
                 <a 
-                  href={youtubeUrl}
+                  href={data?.youtube_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-500 hover:text-red-600 transition-colors bg-[#fff] p-1 rounded-full"
@@ -119,13 +106,13 @@ const InfluencerCard = ({
                 </a>
               )}
 
-    {facebookUrl && (
-                    <a 
-                      href={facebookUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-500 hover:text-red-600 transition-colors bg-[#fff] p-1 rounded-full"
-                      onClick={(e) => e.stopPropagation()}
+              {data?.facebook_url != '' && (
+                <a 
+                  href={data?.facebook_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-500 hover:text-red-600 transition-colors bg-[#fff] p-1 rounded-full"
+                  onClick={(e) => e.stopPropagation()}
                     >
                       <svg className="w-4 h-4" fill="#000" viewBox="0 0 24 24">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -139,20 +126,20 @@ const InfluencerCard = ({
       <div className="p-3 flex-1 flex flex-col">
         {/* Name and Location */}
         <div className="mb-2">
-          <h3 className="font-bold text-gray-900 text-sm truncate">{name || 'N/A'}</h3>
+          <h3 className="font-bold text-gray-900 text-sm truncate">{data?.username || 'N/A'}</h3>
           <div className="flex items-center text-xs text-gray-500">
             <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {location || 'N/A'}
+            {data?.location || 'N/A'}
           </div>
         </div>
 
         {/* Category Tags */}
-        {tags.length > 0 && (
+        {data?.tags?.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-2">
-            {tags.slice(0, 3).map((tag, index) => (
+            {data?.tags.slice(0, 3).map((tag: any, index: any) => (
               <span 
                 key={index} 
                 className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full"
@@ -171,10 +158,10 @@ const InfluencerCard = ({
               <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              {formatFollowers(followers || 0)}
+              {formatFollowers(data?.follower_count || 0)}
             </div>
             <div className="text-blue-600 font-[700] text-[14px]">
-              {formatCurrency(startingPrice || 0)} <span className="text-gray-500 font-normal">/ post</span>
+              {formatCurrency(data?.starting_price || 0)} <span className="text-gray-500 font-normal">/ post</span>
             </div>
           </div>
 

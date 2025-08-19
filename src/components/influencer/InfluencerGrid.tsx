@@ -77,22 +77,23 @@ const InfluencerGrid = ({
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
       {influencers.map((influencer) => (
         <InfluencerCard
-          key={influencer.id}
-          id={influencer.id}
-          uuid={influencer.uuid}
-          user_id={influencer.user_id}
-          name={influencer.name || influencer.username || 'Unknown'}
-          username={influencer.username}
-          image={influencer.image || '/images/women.png'}
-          isVerified={influencer.isVerified || false}
-          location={influencer.location || 'Unknown'}
-          category={influencer.category || 'General'}
-          followers={influencer.followers || 0}
-          startingPrice={influencer.startingPrice || 0}
-          instagramUrl={influencer.instagramUrl}
-          youtubeUrl={influencer.youtubeUrl}
-          facebookUrl={influencer.facebookUrl}
-          isFeatured={influencer.isFeatured || false}
+          data={influencer}
+          // key={influencer.id}
+          // id={influencer.id}
+          // uuid={influencer.uuid}
+          // user_id={influencer.user_id}
+          // name={influencer.name || influencer.username || 'Unknown'}
+          // username={influencer.username}
+          // image={influencer.image || '/images/women.png'}
+          // isVerified={influencer.isVerified || false}
+          // location={influencer.location || 'Unknown'}
+          // category={influencer.category || 'General'}
+          // followers={influencer.followers || 0}
+          // startingPrice={influencer.startingPrice || 0}
+          // instagramUrl={influencer.instagramUrl}
+          // youtubeUrl={influencer.youtubeUrl}
+          // facebookUrl={influencer.facebookUrl}
+          // isFeatured={influencer.isFeatured || false}
         />
       ))}
       

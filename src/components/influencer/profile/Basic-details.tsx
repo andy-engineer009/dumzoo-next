@@ -238,7 +238,7 @@ export default function EditBasicDetails() {
   // Get basic details
   const getBasicDetails = async () => {
     setIsLoading(true);
-    api.get(API_ROUTES.getBasicDetails).then((response) => {
+    api.get(API_ROUTES.getInfluencerProfile).then((response) => {
       setIsLoading(false);
       console.log(response, 'response')
       if (response.status === 1) {
