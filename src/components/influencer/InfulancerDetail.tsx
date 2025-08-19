@@ -130,7 +130,7 @@ const InfluencerDetail = ({
         {/* Main Content */}
         {data && (
         <main className="pb-24">
-          {/* Header with Back Button */}
+        {/* Header with Back Button */}
               {/* Header */}
               {/* <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
           <div className="relative">
@@ -150,16 +150,16 @@ const InfluencerDetail = ({
           <section className="relative">
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">
               {/* Back Icon - absolute left */}
-              <button
-                onClick={() => router.back()}
+            <button 
+              onClick={() => router.back()} 
                 className="back-icon-d absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
                 aria-label="Go back"
                 type="button"
-              >
-                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
               {data?.influencer_media_detail && data?.influencer_media_detail[0]?.media_url ? (
                 <img
                   src={data.influencer_media_detail[0].media_url}
@@ -170,10 +170,10 @@ const InfluencerDetail = ({
                 <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                   <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
+                    </svg>
+                  </div>
               )}
-            </div>
+                </div>
           </section>
 
           {/* Service Information */}
@@ -183,9 +183,9 @@ const InfluencerDetail = ({
               {data?.username}
                {data?.verified_profile && (
                 <svg className="inline w-5 h-5 text-blue-400 ml-2" fill="currentColor" viewBox="0 0 24 24">
-                  <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd"/>
-                </svg>
-              )}
+                          <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd"/>
+                        </svg>
+                      )}
             </h1>
 
             {/* Posted Date and Views */}
@@ -196,9 +196,9 @@ const InfluencerDetail = ({
                 <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-              </div>
-            </div>
-
+                    </div>
+                  </div>
+                  
             {/* Price */}
             <div className="mb-6 flex items-center justify-between">
               <span className="inline-block bg-gray-200 text-black font-semibold px-4 py-2 rounded-lg">
@@ -210,27 +210,27 @@ const InfluencerDetail = ({
                   <a href={data?.youtube_url} target="_blank" rel="noopener noreferrer">
                     <svg className="w-6 h-6 text-black hover:text-red-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M21.8 8.001a2.75 2.75 0 0 0-1.94-1.94C18.1 6 12 6 12 6s-6.1 0-7.86.06a2.75 2.75 0 0 0-1.94 1.94A28.6 28.6 0 0 0 2 12a28.6 28.6 0 0 0 .2 3.999 2.75 2.75 0 0 0 1.94 1.94C5.9 18 12 18 12 18s6.1 0 7.86-.06a2.75 2.75 0 0 0 1.94-1.94A28.6 28.6 0 0 0 22 12a28.6 28.6 0 0 0-.2-3.999zM10 15.5v-7l6 3.5-6 3.5z"/>
-                    </svg>
-                  </a>
-                )}
+                        </svg>
+                      </a>
+                    )}
                 {/* Instagram Icon */}
                 {data?.is_instagram_enabled == 1 && (
                   <a href={data?.instagram_url} target="_blank" rel="noopener noreferrer">
                     <svg className="w-6 h-6 text-black hover:text-pink-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                    </svg>
-                  </a>
-                )}
+                        </svg>
+                      </a>
+                    )}
                 {/* Facebook Icon */}
                 {data?.is_facebook_enabled == 1 && (
                   <a href={data?.facebook_url} target="_blank" rel="noopener noreferrer">
                     <svg className="w-6 h-6 text-black hover:text-blue-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12"/>
-                    </svg>
-                  </a>
-                )}
-              </div>
-            </div>
+                        </svg>
+                      </a>
+                    )}
+                  </div>
+                </div>
 
             {/* Service Details Grid */}
             <div className="grid grid-cols-2 gap-4 mb-6">
@@ -245,7 +245,7 @@ const InfluencerDetail = ({
               <div>
                 <p className="text-sm font-semibold text-black mb-1">Gender</p>
                 <p className="text-sm text-black">{getgender(data?.gender)}</p>
-              </div>
+                  </div>
               <div>
                 <p className="text-sm font-semibold text-black mb-1">Languages</p>
                 {data?.influencer_languages && data?.influencer_languages.length > 0 ? (
@@ -255,9 +255,9 @@ const InfluencerDetail = ({
                 ) : (
                   <p className="text-sm text-black">--</p>
                 )}
-              </div>
-            </div>
-
+                  </div>
+                </div>
+                
             {/* Description */}
             {data?.overview && (
               <div className="mb-6">
@@ -276,7 +276,7 @@ const InfluencerDetail = ({
                   data.influencer_categories.map((category: any) => (
                     <span key={category?.id || Math.random()} className="px-3 py-2 bg-gray-200 text-black text-sm rounded-lg">
                       {category?.category?.name || 'Unknown'}
-                    </span>
+                  </span>
                   ))
                 ) : (
                   <span className="px-3 py-2 bg-gray-200 text-black text-sm rounded-lg">--</span>
@@ -355,34 +355,34 @@ const InfluencerDetail = ({
                     return (
                       <div key={offer?.id || index} className="bg-gray-50 rounded-lg p-4 border border-gray-100">
                         <div className="flex justify-between items-start mb-2">
-                          <div>
+                        <div>
                             <h4 className="font-semibold text-black text-sm">
                               {offer?.offer_name || '--'}
                             </h4>
                             <p className="text-xs text-gray-600">
                               {Array.isArray(items) ? items.length : 0} items included
-                            </p>
-                          </div>
-                          <div className="text-right">
+                          </p>
+                        </div>
+                        <div className="text-right">
                             <div className="font-bold text-black">
                               {formatCurrency(offer?.offer_price)}
-                            </div>
                           </div>
                         </div>
+                      </div>
                         <div className="space-y-1">
                           {Array.isArray(items) && items.map((item: any, itemIndex: any) => (
                             <div key={itemIndex} className="flex items-center gap-2 text-xs text-black">
                               <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
                               <span>{item?.quantity || 0}x {item?.name || 'Unknown'}</span>
-                            </div>
-                          ))}
-                        </div>
+                          </div>
+                        ))}
                       </div>
+                        </div>
                     );
                   })}
-                </div>
-              </div>
-            )}
+                    </div>
+                  </div>
+                )}
 
        
           </section>
@@ -391,12 +391,12 @@ const InfluencerDetail = ({
 
         {/* Bottom Action Bar */}
         <nav className="hire-now fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
-          <button 
-            onClick={handleChat}
+            <button 
+              onClick={handleChat}
             className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
-          >
+            >
             Hire Now
-          </button>
+            </button>
         </nav>
       </div>
 

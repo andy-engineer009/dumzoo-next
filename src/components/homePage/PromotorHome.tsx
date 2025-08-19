@@ -438,8 +438,8 @@ export default function PromotorHome() {
                 <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">Lisa Wang</h3>
                 <p className="text-gray-100 text-xs font-medium drop-shadow">Beauty</p>
               </div>
-            </div>
-
+              </div>
+              
             {/* Card 6 */}
             <div className="flex-shrink-0 w-[130px] h-[130px] relative rounded-[20px] overflow-hidden shadow-lg">
               <div className="absolute inset-0 bg-black/60"></div>
@@ -452,8 +452,8 @@ export default function PromotorHome() {
                 <h3 className="text-white font-bold text-sm mb-1 drop-shadow-lg">David Kim</h3>
                 <p className="text-gray-100 text-xs font-medium drop-shadow">Fitness</p>
               </div>
+              </div>
             </div>
-          </div>
         </div>
       </div>
 
@@ -588,7 +588,7 @@ export default function PromotorHome() {
             height={150}
             className="w-full h-[100px] object-cover rounded-2xl shadow-md"
           />
-        </div>
+      </div>
 
           {/* popular cities */}
     <div className="popular-cities mt-4">

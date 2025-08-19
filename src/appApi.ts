@@ -20,7 +20,7 @@ export const API_ROUTES = {
     influencerProfileAddUpdate: "influencer/profile-image",
     getInfluencerProfileImage: "influencer/profileImageList",
     influencerList: "influencer/list",
-
+    influencerCampaignList: "influencer/campaignList",
     // promoter
     createCampaign: "promoter/add-compaign",
     campaignList: "promoter/campaign-list",

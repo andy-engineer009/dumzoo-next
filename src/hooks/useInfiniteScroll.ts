@@ -21,13 +21,17 @@ export const useInfiniteScroll = (
   const handleIntersection = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [entry] = entries;
-      setIsIntersecting(entry.isIntersecting);
+      const wasIntersecting = isIntersecting;
+      const isNowIntersecting = entry.isIntersecting;
       
-      if (entry.isIntersecting) {
+      setIsIntersecting(isNowIntersecting);
+      
+      // Only trigger callback when element becomes visible (not when it becomes hidden)
+      if (isNowIntersecting && !wasIntersecting) {
         callback();
       }
     },
-    [callback]
+    [callback, isIntersecting]
   );
 
   useEffect(() => {
