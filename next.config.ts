@@ -21,13 +21,13 @@ const baseConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'apollo.olx.in',
+        hostname: 'dumzoo.s3.ap-southeast-1.wasabisys.com',
         port: '',
         pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: 'dumzoo.s3.ap-southeast-1.wasabisys.com',
+        hostname: 'img.freepik.com',
         port: '',
         pathname: '/**',
       },
