@@ -61,14 +61,21 @@ const InfluencerCard = ({data}: any) => {
 
       {/* Profile Image with Verification Badge */}
       <div className="relative aspect-square bg-gray-100 h-[150px]">
-        <Image
-          src={data?.influencer_media_detail[0]?.media_url}
-          alt={data?.influencer_media_detail[0]?.media_url}
-          width={400}
-          height={400}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-100"
-          // onError={() => setImageError(true)}
-        />
+        {data?.influencer_media_detail?.map((image:any, index:any) => (
+          <>
+          {/* <h1>hello  {image.media_url}</h1>
+         <img src={image.media_url} alt={image.media_url} /> */}
+          <Image
+            key={index}
+            src={image?.image_url || '/images/default-profile.jpg'}
+            alt={image?.image_url || 'Influencer profile'}
+            width={400}
+            height={400}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-100"
+            onError={() => setImageError(true)}
+          />
+          </>
+        ))}
         
         {data?.verified_profile && (
           <div className="absolute top-2 right-2 bg-white p-1 rounded-full shadow-md flex items-center justify-center">
@@ -121,6 +128,7 @@ const InfluencerCard = ({data}: any) => {
                   )}
             </div>
       </div>
+      {/* {data?.influencer_media_detail[0]?.media_url} */}
 
       {/* Card Content */}
       <div className="p-3 flex-1 flex flex-col">

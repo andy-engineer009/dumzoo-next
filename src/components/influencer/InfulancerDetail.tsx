@@ -160,18 +160,23 @@ const InfluencerDetail = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-              {data?.influencer_media_detail && data?.influencer_media_detail[0]?.media_url ? (
-                <img
-                  src={data.influencer_media_detail[0].media_url}
-                  alt={data?.username || 'Influencer'}
-                  className="w-full h-full object-cover"
-                />
+              {data?.influencer_media_detail?.length > 0 ? (
+                data.influencer_media_detail.map((image: any, index: any) => (
+                  <Image
+                    key={index}
+                    src={image?.image_url}
+                    alt={data?.username || 'Influencer'}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ))
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                   <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                  </div>
+                  </svg>
+                </div>
               )}
                 </div>
           </section>
