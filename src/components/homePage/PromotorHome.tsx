@@ -79,13 +79,18 @@ export default function PromotorHome() {
       <div className="text-white text-sm font-bold">
         Hi Andy 👋
       </div>
-      <button
+
+      {
+        !isLoggedIn &&
+        <button
         className="text-white text-sm font-semibold bg-transparent border-1 border-white rounded-full px-4 py-1 hover:underline"
         onClick={() => router.push('/login')}
         style={{ background: 'none', outline: 'none', cursor: 'pointer' }}
       >
         Login
       </button>
+      }
+  
     </div>
     {/* hero section */}
     <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8 flex items-center justify-center">
