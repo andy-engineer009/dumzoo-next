@@ -82,6 +82,8 @@ console.log('mak')
   if (loading) return <div className="p-8 text-center">Loading...</div>;
 
   return (
+    <>
+        <LoginPopup />
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
@@ -99,7 +101,7 @@ console.log('mak')
       </header>
 
       {/* Main Content */}
-    {true && (
+    {/* {true && ( */}
 
       <main className="pb-20">
         {/* {currentUserRole === '2' && (
@@ -121,7 +123,7 @@ console.log('mak')
         {/* Settings Sections */}
         <div className="px-4 py-2">
         {
-            currentUserRole === '3' &&
+           ( currentUserRole === '3' && isLoggedIn) &&
              <div className="mb-0">
                       <button 
                 onClick={() => router.push('/manage-campaign')}
@@ -155,6 +157,21 @@ console.log('mak')
               
             </div>
         }
+        {/* {
+           ( currentUserRole === '3' && !isLoggedIn)  && 
+           <div className="flex items-center justify-center w-full" style={{ minHeight: '60vh' }}>
+            <button
+              onClick={() => router.push('/login')}
+              className="flex items-center justify-center gap-3 px-16 py-4 rounded-xl bg-blue-600 hover:bg-blue-700 transition-all duration-300 shadow-lg"
+              style={{ color: '#fff', fontWeight: 'bold', fontSize: '1.2rem' }}
+            >
+              <svg className="w-6 h-6 text-white drop-shadow" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              <span>Login Now</span>
+            </button>
+           </div>
+        } */}
 
           {/* Influencer Profile Section */}
           {
@@ -222,7 +239,9 @@ console.log('mak')
 
 
           {/* Account Actions */}
-          <div className="mb-6">
+          {
+            isLoggedIn &&
+            <div className="mb-6">
             {/* <h3 className="text-sm font-medium text-gray-500 mb-3">Account</h3> */}
             <div className="space-y-1">
               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors">
@@ -238,17 +257,17 @@ console.log('mak')
               </button>
 
               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors" onClick={() => router.push('/how')}>
-                   <div className="flex items-center gap-3">
-                     <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                     </svg>
-                     <span className="text-blue-600 font-medium">How it works</span>
-                   </div>
-                   <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                   </svg>
-                 </button>
-                 
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                    </svg>
+                    <span className="text-blue-600 font-medium">How it works</span>
+                  </div>
+                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+                
               {/* {localStorage.getItem('token') ? ( */}
                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-red-50 transition-colors" onClick={() => {
                   setIsConfirmationOpen(true);
@@ -264,16 +283,17 @@ console.log('mak')
                   </svg>
                 </button>
               {/* )  */}
-             
+            
       
-             
+            
             </div>
           </div>
+          }
+         
         </div>
       </main>
       
-      ) 
-    }
+   
 
 <ConfirmationPopup
   isOpen={isConfirmationOpen}
@@ -292,6 +312,7 @@ console.log('mak')
 
       {/* <LoginPopup /> */}
     </div>
+    </>
   );
 };
 

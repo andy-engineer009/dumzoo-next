@@ -140,7 +140,7 @@ const InfluencerCard = ({data}: any) => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {data?.location || 'N/A'}
+            {data?.influencer_city?.name || '--'}  , {data?.influencer_state?.short_name || '--'} 
           </div>
         </div>
 
@@ -169,7 +169,9 @@ const InfluencerCard = ({data}: any) => {
               {formatFollowers(data?.follower_count || 0)}
             </div>
             <div className="text-blue-600 font-[700] text-[14px]">
-              {formatCurrency(data?.starting_price || 0)} <span className="text-gray-500 font-normal">/ post</span>
+              {formatCurrency(data?.starting_price || 0)} <span className="text-gray-500 font-normal">
+                {/* / post */}
+                </span>
             </div>
           </div>
 

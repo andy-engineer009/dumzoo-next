@@ -11,6 +11,7 @@ import { API_ROUTES } from '@/appApi';
 import { useSelector, useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
 import Loader from '../loader';
+import LoginPopup from '../login-popup';
 
 // Types
 // interface FormValues {
@@ -414,6 +415,7 @@ export default function CampaignsCreate() {
 
   return (
     <>
+      <LoginPopup />  
       {isLoading && <Loader />}
       <div className="min-h-screen bg-white text-gray-900">
         {/* Toast Notifications */}
