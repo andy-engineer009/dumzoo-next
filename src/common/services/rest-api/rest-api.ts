@@ -1,5 +1,6 @@
 // API Configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050/';
+// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050/';
+const API_BASE_URL = 'https://promobackend-is85.onrender.com/';
 const API_TIMEOUT = 10000; // 10 seconds
 
 // Environment configuration

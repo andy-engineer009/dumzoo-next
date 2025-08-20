@@ -115,14 +115,14 @@ const Signup = () => {
 
   return (
     <>
-     <button onClick={() => {
+     {/* <button onClick={() => {
       dispatch(setUserRole('2'))
       dispatch(setIsLoggedIn(true))
      }}>infulancer</button>
      <button onClick={() => {
       dispatch(setUserRole('3'))
       dispatch(setIsLoggedIn(true))
-     }}>promoter</button>
+     }}>promoter</button> */}
       {isLoading && <Loader/>}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}

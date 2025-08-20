@@ -109,7 +109,7 @@ const Login = () => {
 
   return (
     <>
-     <button onClick={() => {
+     {/* <button onClick={() => {
       dispatch(setUserRole('2'))
       dispatch(setIsLoggedIn(true))
      }}>infulancer</button>
@@ -117,7 +117,7 @@ const Login = () => {
       dispatch(setUserRole('3'))
       dispatch(setIsLoggedIn(true))
      }}>promoter</button>
-         <Link href="/">home</Link>
+         <Link href="/">home</Link> */}
       {isLoading && <Loader/>}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
