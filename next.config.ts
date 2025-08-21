@@ -21,7 +21,7 @@ const baseConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'dumzoo.s3.ap-southeast-1.wasabisys.com',
+        hostname: 's3.ap-southeast-1.wasabisys.com',
         port: '',
         pathname: '/**',
       },

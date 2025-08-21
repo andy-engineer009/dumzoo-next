@@ -144,7 +144,7 @@ export default function CampaignsDiscover() {
         </div>
       </div>
 
-      <div className="flex mt-0 px-0 md:p-8 items-start pt-[10px]">
+      <div className="flex mt-0 px-0 md:p-8 items-start">
         <div className="md:pl-9" style={{flex: 1}}>
           <CampaignsGrid 
             campaigns={campaigns}

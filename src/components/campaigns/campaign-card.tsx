@@ -1,14 +1,74 @@
 import Link from "next/link";
 import Image from "next/image";
 export default function CampaignCard({campaign}: {campaign: any}) {    
+
+    function getGenderPreferenceLabel(value: number) {
+        switch (value) {
+            case 0: return 'All';
+            case 1: return 'Male';
+            case 2: return 'Female';
+            case 3: return 'Other';
+            default: return 'Other';
+        }
+    }
+
+    function getInfluencerCategoryByFollowers(followers: number) {
+        if (typeof followers !== "number" || isNaN(followers)) return "Unknown";
+        if (followers < 10000) {
+            return "Nano";
+        } else if (followers < 100000) {
+            return "Micro";
+        } else if (followers < 1000000) {
+            return "Macro";
+        } else if (followers < 10000000) {
+            return "Mega";
+        } else {
+            return "Celebrity";
+        }
+    }
+
+    function formatDateFromNow(dateString: string): string {
+        if (!dateString) return '--';
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now.getTime() - date.getTime();
+
+        const seconds = Math.floor(diffMs / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.floor(minutes / 60);
+        const days = Math.floor(hours / 24);
+        const months = Math.floor(days / 30);
+        const years = Math.floor(days / 365);
+
+        if (years > 0) {
+            return years === 1 ? '1 year ago' : `${years} years ago`;
+        } else if (months > 0) {
+            return months === 1 ? '1 month ago' : `${months} months ago`;
+        } else if (days > 0) {
+            return days === 1 ? '1 day ago' : `${days} days ago`;
+        } else if (hours > 0) {
+            return hours === 1 ? '1 hour ago' : `${hours} hours ago`;
+        } else if (minutes > 0) {
+            return minutes === 1 ? '1 minute ago' : `${minutes} minutes ago`;
+        } else {
+            return 'just now';
+        }
+    }
+
     return (
         <Link href={`/campaigns/${campaign.id}`} key={campaign.id} className="block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 relative">
             {/* Top Section - Product Image Area */}
             <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
                 {/* Product Image */}
-                <h3>PAID</h3>
-                <Image src={"/images/logos/zaomato-logo.png"} alt='' width={100} height={100} />
-
+                {/* <h3>PAID</h3> */}
+                {campaign.campaign_logo_url ? (
+                <Image src={campaign.campaign_logo_url} alt='' width={100} height={100} />
+                ):(
+                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-gray-500 text-lg">Campaign Image</span>
+                  </div>
+                )
+            }
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
                 {/* Yellow Banner - Applied Count */}
                 <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
@@ -28,27 +88,38 @@ export default function CampaignCard({campaign}: {campaign: any}) {
                     <div className="flex-1">
                         {/* Brand Name */}
                         <h3 className="text-lg font-bold text-black mb-1">
-                            {campaign.brand || 'TRUKE'}
+                            {campaign.compaign_name || '--'}
                         </h3>
                         
                         {/* Payout */}
                         <p className="text-sm text-black mb-1">
-                            Payout - <span className="font-semibold">₹{campaign.payout || '500'}</span>
+                            Payout - <span className="font-semibold">₹{campaign.total_budget || '--'}</span>
                         </p>
                         
                         {/* Preference */}
                         <p className="text-xs text-gray-500">
-                            Preferred: {campaign.preference || 'Other'}
+                            Preferred: {campaign.gender_preference != null ? getGenderPreferenceLabel(campaign.gender_preference) : '--'}
                         </p>
                     </div>
 
                     {/* Right Side - Platform & Type */}
                     <div className="flex flex-col items-end space-y-1">
                         {/* Instagram Icon */}
-                        <div className="w-6 h-6 border-2 border-black rounded-lg flex items-center justify-center">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                            </svg>
+                        <div className="flex gap-2">
+      {campaign.is_instagram_enabled == 1 && <svg className="w-4 h-4" fill="#000" viewBox="0 0 24 24">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                  </svg>}
+
+                  {campaign.is_youtube_enabled == 1 && 
+                  <svg className="w-4 h-4" fill="#000" viewBox="0 0 24 24">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+                  }
+                                    {campaign.is_facebook_enabled == 1 && 
+                      <svg className="w-4 h-4" fill="#000" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  }
                         </div>
                         
                         {/* Micro Influencer Type */}
@@ -56,12 +127,14 @@ export default function CampaignCard({campaign}: {campaign: any}) {
                             <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
                             </svg>
-                            <span className="text-xs text-black font-medium">Micro</span>
+                            <span className="text-xs text-black font-medium">
+                                {campaign.minimum_followers ? getInfluencerCategoryByFollowers(campaign.minimum_followers) : '--'}
+                            </span>
                         </div>
                         
                         {/* Time Posted */}
                         <p className="text-xs text-gray-500">
-                            {campaign.timePosted || '2 days ago'}
+                            {campaign.createdAt ? formatDateFromNow(campaign.createdAt) : '--'}
                         </p>
                     </div>
                 </div>

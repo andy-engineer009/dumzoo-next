@@ -55,12 +55,6 @@ const genderPreferences = [
 ];
 
 const ageGroups = [
-  // { value: '13-18', label: '13-18 years' },
-  // { value: '19-25', label: '19-25 years' },
-  // { value: '26-35', label: '26-35 years' },
-  // { value: '36-45', label: '36-45 years' },
-  // { value: '46-55', label: '46-55 years' },
-  // { value: '56+', label: '56+ years' }
   { value: 0, label: 'all' },
   { value: 1, label: '13-18' },
   { value: 2, label: '19-25' },
