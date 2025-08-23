@@ -4,44 +4,12 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import AwarePopup from '../aware-popup';
-import Link from 'next/link';
 
-interface InfluencerDetailProps {
-  id: string;
-  name: string;
-  username: string;
-  image: string;
-  isVerified: boolean;
-  location: string;
-  category: string;
-  followers: number;
-  overview: string;
-  instagramUrl?: string;
-  youtubeUrl?: string;
-  facebookUrl?: string;
-  gender: string;
-  age: number;
-  languages: string[];
-  audienceType: string;
-  audienceAgeGroup: string;
-  posts: Array<{
-    id: string;
-    type: 'image' | 'video';
-    url: string;
-    thumbnail?: string;
-  }>;
-  offers: any;
-  startingPrice: any;
-}
+import CampaignDetailSkeleton from "@/components/campaigns/CampaignDetailSkeleton";
 
 const InfluencerDetail = ({
   data
 }: any) => {
-  console.log(data);
-  const [selectedPost, setSelectedPost] = useState<string | null>(null);
-  const [imageError, setImageError] = useState(false);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [showMore, setShowMore] = useState(false);
   const router = useRouter();
 
   //aware popup
@@ -50,12 +18,7 @@ const InfluencerDetail = ({
   // Show loading state if data is not yet loaded
   if (!data) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-black mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading influencer details...</p>
-        </div>
-      </div>
+<CampaignDetailSkeleton />
     );
   }
 
@@ -130,22 +93,7 @@ const InfluencerDetail = ({
         {/* Main Content */}
         {data && (
         <main className="pb-24">
-        {/* Header with Back Button */}
-              {/* Header */}
-              {/* <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
-          <div className="relative">
-            <Link
-              href="/discover"
-              className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
-            >
-               <svg className="w-6 h-6 text-gray-600 hover:text-gray-900 " fill="none" stroke="#ccc" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            </Link>
-            <h1 className="text-lg font-medium text-gray-900 text-center">Edit Basic Details</h1>
-          </div>
-        </div> */}
-
+ 
           {/* Top Banner Image */}
           <section className="relative">
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">

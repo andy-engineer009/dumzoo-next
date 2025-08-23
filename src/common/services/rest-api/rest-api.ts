@@ -1,6 +1,8 @@
+import { handleUnauthorized } from "@/common/services/rest-api/logoutHelper";
+
 // API Configuration
-// const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050/';
-const API_BASE_URL = 'https://promobackend-is85.onrender.com/';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050/';
+// const API_BASE_URL = 'https://promobackend-is85.onrender.com/';
 const API_TIMEOUT = 10000; // 10 seconds
 
 // Environment configuration
@@ -145,6 +147,17 @@ class ResponseInterceptor {
     const responseData = await response.json().catch(() => ({}));
 
     // Handle different HTTP status codes
+    // 1️⃣ First check if backend sends {code: 401}
+    if (responseData?.code === 401) {
+      TokenManager.getInstance().removeToken();
+      handleUnauthorized();
+      return {
+        success: false,
+        error: responseData.message || 'Authentication required. Please login again.',
+        status: 401,
+      };
+    }
+
     if (response.ok) {
       return responseData
       // return {
@@ -160,9 +173,7 @@ class ResponseInterceptor {
       case 401:
         // Unauthorized - clear token and redirect to login
         TokenManager.getInstance().removeToken();
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
+        handleUnauthorized();
         return {
           success: false,
           error: 'Authentication required. Please login again.',
@@ -374,9 +385,7 @@ class ApiService {
   errorHandler(error: any, apiUrl: any): void {
     if (error.error && error.error.code === 401) {
       TokenManager.getInstance().removeToken();
-      if (typeof window !== 'undefined') {
-        window.location.href = '/login';
-      }
+      handleUnauthorized();
     } else {
       this.currentUserService.swalSweetAlert(error.message || 'something went wrong', 'error');
     }

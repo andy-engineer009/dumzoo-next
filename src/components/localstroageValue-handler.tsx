@@ -1,12 +1,16 @@
 'use client';
 import { useEffect } from "react";
-import { setIsLoggedIn, setUserRole } from "@/store/userRoleSlice";
+import { setIsLoggedIn, setUserRole, logout } from "@/store/userRoleSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useLogoutListener } from "@/hooks/useLogoutListener";
 
 export default function LocalStorageValueHandler() {
     const dispatch = useDispatch();
     const router = useRouter();
+    
+    // Listen for logout events from API service
+    useLogoutListener();
     
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn');

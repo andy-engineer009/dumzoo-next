@@ -64,7 +64,7 @@ const Header = () => {
               {/* {role === '2' && ( */}
                 <div className="flex justify-center">
                   <button
-                    onClick={() => router.push(role === '2' ? '/registration' : '/add-campaign')}
+                    onClick={() => router.push(role === '2' ? '/registration' : '/create-campaign')}
                     className="flex flex-col items-center justify-center w-14 h-14 bg-gradient-to-r from-[#6f43fe] to-[#8b5cf6] text-white rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

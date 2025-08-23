@@ -43,7 +43,7 @@ const InfluencerCard = ({data}: any) => {
 
   return (
     // shadow-sm hover:shadow-md
-    <div 
+    <div key={data?.uuid}
       className="relative bg-white rounded-xl overflow-hidden  transition-all duration-200 border border-gray-100 flex flex-col h-full cursor-pointer"
       onClick={() => router.push(`/discover/${data?.uuid}`)}
     >
