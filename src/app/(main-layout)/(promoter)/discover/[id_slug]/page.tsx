@@ -9,7 +9,7 @@ import { API_ROUTES } from "@/appApi";
 export default function DetailPage() {
   const params = useParams();
   const uuid = params.id_slug;
-  console.log(uuid);
+  // const [loading, setLoading] = useState(false);
   
   // const detail = {
   //     id: "1",
@@ -71,6 +71,6 @@ export default function DetailPage() {
   }, [uuid]);
     
   return <div>
-    <InfluencerDetail data={detail} />
+     <InfluencerDetail data={detail} />
   </div>;
 }

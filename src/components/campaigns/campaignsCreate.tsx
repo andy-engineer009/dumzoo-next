@@ -389,17 +389,19 @@ export default function CampaignsCreate() {
     if (response.status === 1) {
       showToast('Campaign created successfully!', 'success');
       // Reset form to initial values
-      initialValues = {
-        compaign_name: '',
-        compaign_description: '',
-        campaign_languages: [],
-        minimum_followers: 0,
-        platforms: [],
-        total_budget: 0,
-        gender_preference: '',
-        age_group: '',
-        brand_image: null
-      };
+      router.push(`/manage-campaigns`);
+
+      // initialValues = {
+      //   compaign_name: '',
+      //   compaign_description: '',
+      //   campaign_languages: [],
+      //   minimum_followers: 0,
+      //   platforms: [],
+      //   total_budget: 0,
+      //   gender_preference: '',
+      //   age_group: '',
+      //   brand_image: null
+      // };
     } else {
       showToast(response.message || 'Failed to create campaign', 'error');
     }
@@ -428,14 +430,14 @@ export default function CampaignsCreate() {
         {/* Header */}
         <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
           <div className="relative">
-            <Link
-              href="/"
+            <div
+                onClick={() => router.back()} 
               className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
             >
               <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </Link>
+            </div>
             <h1 className="text-lg font-medium text-gray-900 text-center">Create Campaign</h1>
           </div>
         </div>

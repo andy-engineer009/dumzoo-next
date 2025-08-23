@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-export default function CampaignCard({campaign}: {campaign: any}) {    
+
+// userRole 1 admin 2 influencer 3 Promoter or brand
+export default function CampaignCard({campaign, userRole}: {campaign: any, userRole: any}) {    
 
     function getGenderPreferenceLabel(value: number) {
         switch (value) {
@@ -56,7 +58,7 @@ export default function CampaignCard({campaign}: {campaign: any}) {
     }
 
     return (
-        <Link href={`/campaigns/${campaign.id}`} key={campaign.id} className="block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 relative">
+        <Link href={` ${userRole == 2 ? `/campaigns/${campaign.id}` : `/manage-campaigns/${campaign.id}`}`} key={campaign.id} className="block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-200 relative">
             {/* Top Section - Product Image Area */}
             <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
                 {/* Product Image */}
@@ -137,7 +139,18 @@ export default function CampaignCard({campaign}: {campaign: any}) {
                             {campaign.createdAt ? formatDateFromNow(campaign.createdAt) : '--'}
                         </p>
                     </div>
+
+      
+
                 </div>
+                {
+                    userRole == 3 &&
+                <button
+                    className="mt-2 px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded transition-colors mx-auto block"
+                >
+                    See Applied Users
+                </button>
+                  }
 
             </div>
         </Link>

@@ -28,6 +28,7 @@ export const API_ROUTES = {
     // promoter
     createCampaign: "promoter/add-compaign",
     campaignList: "promoter/campaign-list",
+    appliedCampaingsInfluencerList: "promoter/applied-campaign-influencers",
     // getInfluencerProfile: "promoter/profile",
     // influencerDetail: "influencer/detail",
     // goToSignup: "http://localhost:5000/api/auth/signup",

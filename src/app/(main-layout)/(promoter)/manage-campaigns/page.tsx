@@ -1,4 +1,4 @@
-import CampaignsList from "@/components/campaigns/campaigns-list";
+import CampaignsList from "@/components/campaigns/manage-campaigns-list";
 
 export default function ManageCampaign() {
     return (

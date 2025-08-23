@@ -126,7 +126,7 @@ console.log('mak')
            ( currentUserRole === '3' && isLoggedIn) &&
              <div className="mb-0">
                       <button 
-                onClick={() => router.push('/manage-campaign')}
+                onClick={() => router.push('/manage-campaigns')}
                 className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center gap-3">
