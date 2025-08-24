@@ -7,7 +7,7 @@ import { setIsLoggedIn,setUserRole } from '@/store/userRoleSlice';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
-import Loader from '../loader';
+// import Loader from '../loader';
 import { setVerfiedUser, setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
 
@@ -123,7 +123,7 @@ const Signup = () => {
       dispatch(setUserRole('3'))
       dispatch(setIsLoggedIn(true))
      }}>promoter</button> */}
-      {isLoading && <Loader/>}
+      {/* {isLoading && <Loader/>} */}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
         {toast && (
@@ -217,9 +217,6 @@ const Signup = () => {
                   </svg>
                   <span>I'm an Influencer</span>
                 </button>
-
-                
-
                 <button
                   onClick={() => setUserType(3)}
                   className="w-full bg-[#6d56ff] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
@@ -255,7 +252,7 @@ const Signup = () => {
                 <button
                   onClick={() => handleGoogleLogin()}
                   disabled={isLoading}
-                  className="w-full bg-[#000]  disabled:bg-gray-200 text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#000] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   {isLoading ? (
                     <>
