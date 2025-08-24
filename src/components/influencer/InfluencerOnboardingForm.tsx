@@ -28,14 +28,14 @@ interface FormValues {
   state: string;
   city: string;
   locality: string;
-  age: number;
-  follower_count: number;
+  age: number | null;
+  follower_count: number | null;
   instagram_url: string;
   youtube_url: string;
   facebook_url: string;
   audience_type: string;
   audience_age_group: string;
-  starting_price: number;
+  starting_price: number | null;
 }
 
 // Validation schema
@@ -83,19 +83,19 @@ const initialValues: FormValues = {
   gender: '',
   categories: [],
   languages: [],
-  verified_profile: true,
+  verified_profile: false,
   state: '',
   city: '',
   locality: '',
-  age: 0,
-  follower_count: 0,
+  age: null,
+  follower_count: null,
   instagram_url: '',
   youtube_url: '',
   facebook_url: '',
   audience_type: '',
   audience_age_group: '',
   platforms_required: '',
-  starting_price: 0
+  starting_price: null
 };
 
 const audienceTypes = [
