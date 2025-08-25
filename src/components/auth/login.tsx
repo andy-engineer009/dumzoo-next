@@ -7,7 +7,7 @@ import { setIsLoggedIn,setUserRole } from '@/store/userRoleSlice';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
-import Loader from '../loader';
+// import Loader from '../loader';
 import { setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -118,7 +118,7 @@ const Login = () => {
       dispatch(setIsLoggedIn(true))
      }}>promoter</button>
          <Link href="/">home</Link> */}
-      {isLoading && <Loader/>}
+      {/* {isLoading && <Loader/>} */}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
         {toast && (
@@ -207,7 +207,7 @@ const Login = () => {
                 <button
                   onClick={() => handleGoogleLogin()}
                   disabled={isLoading}
-                  className="w-full bg-[#000] disabled:bg-gray-200 text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#000] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   {isLoading ? (
                     <>

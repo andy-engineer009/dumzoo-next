@@ -14,7 +14,6 @@ const initialState : UserRoleState = {
   role: null,
   hasVisitedBefore: null,
   isLoggedIn: false,
-
 }
 
 // Get initial state from localStorage
