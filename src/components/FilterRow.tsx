@@ -208,7 +208,7 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
               <button
                 key={chip.id}
                 onClick={() => handleFilterClick(chip.id)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-full border-1 transition-all duration-200 whitespace-nowrap ${
+                className={`flex items-center space-x-2 px-3 py-[6px] rounded-full border-1 transition-all duration-200 whitespace-nowrap ${
                   chip.hasValue
                     ? chip.id === 'instagram' 
                       ? 'border-purple-600 bg-purple-50 text-purple-700'
@@ -219,7 +219,7 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
                 <div className="text-gray-700">
                   {chip.icon}
                 </div>
-                <span className="text-sm font-medium">{chip.label}</span>
+                <span className="text-xs font-medium">{chip.label}</span>
                 
                 {chip.hasValue && chip.value && (
                   <>

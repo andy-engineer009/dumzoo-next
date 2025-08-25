@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Provider } from "@/store/Provider";
 import LocalStorageValueHandler from "@/components/localstroageValue-handler";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,8 +38,9 @@ export default function RootLayout({
       >
         <Provider> 
         <LocalStorageValueHandler />
-       
-        {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </Provider>
       </body>
     </html>

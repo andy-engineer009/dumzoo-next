@@ -27,12 +27,12 @@ export default function SearchBar() {
       </div>
 
       {/* Search Input Container */}
-      <div className="px-4 pb-6">
+      <div className="px-4 pb-2">
         <div className="relative">
           {/* Search Input Field */}
           <div 
             onClick={handleSearchClick}
-            className="relative bg-white rounded-xl p-2 shadow-lg cursor-pointer border-2 border-black hover:border-gray-800 transition-all duration-200"
+            className="relative bg-white rounded-xl p-2 shadow-lg cursor-pointer  hover:border-gray-800 transition-all duration-200"
             style={{
               boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1)'
             }}
