@@ -168,7 +168,7 @@ export default function InfluencerDiscover() {
 
       <FilterRow onFilterChange={handleFilterChange} />
 
-      <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px]">
+      <div className="flex mt-0 px-3 md:p-8 items-start pt-[10px]">
         <div className="md:pl-9" style={{flex: 1}}>
           <InfluencerGrid 
             influencers={influencers} 
