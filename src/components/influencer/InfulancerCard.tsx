@@ -54,7 +54,7 @@ const InfluencerCard = ({data}: any) => {
   return (
     // shadow-sm hover:shadow-md
     <div key={data?.uuid}
-      className="relative bg-white rounded-xl overflow-hidden  transition-all duration-200 border border-gray-100 flex h-full cursor-pointer"
+      className="relative bg-white rounded-md overflow-hidden  transition-all duration-200 border border-gray-100 flex h-full cursor-pointer"
       onClick={() => router.push(`/discover/${data?.uuid}`)}
     >
       {/* Featured Badge */}
@@ -70,7 +70,7 @@ const InfluencerCard = ({data}: any) => {
       )}
 
       {/* Profile Image with Verification Badge */}
-      <div className="relative aspect-square bg-gray-100 h-[150px] w-[40%]">
+      <div className="relative aspect-square bg-gray-100 h-[130px] w-[40%]">
         {data?.influencer_media_detail?.map((image:any, index:any) => (
           <>
           {/* <h1>hello  {image.media_url}</h1>
@@ -80,8 +80,8 @@ const InfluencerCard = ({data}: any) => {
             src={image?.image_url || '/images/default-profile.jpg'}
             alt={image?.image_url || 'Influencer profile'}
             width={400}
-            height={400}
-            className="w-full h-full object-fill transition-transform duration-300 hover:scale-105 bg-gray-100"
+            height={300}
+            className="w-full h-full object-cover transition-transform duration-300 hover:scale-105 bg-gray-100"
             onError={() => setImageError(true)}
           />
           </>
@@ -236,6 +236,7 @@ const InfluencerCard = ({data}: any) => {
                   )}
             </div>
                     </div>
+         
                     {/* Followers and Price */}
                     {/* <div className="flex items-center space-x-3">
                       <div className="flex items-center text-gray-600">
@@ -251,7 +252,7 @@ const InfluencerCard = ({data}: any) => {
                   </div>
 
         {/* Stats and Social */}
-        <div className="mt-auto">
+        <div className=" mt-1 mt-auto">
           {/* Stats Row */}
           <div className="flex justify-between items-center text-xs mb-0">
             <div className="flex items-center text-gray-600 text-sm">
@@ -259,6 +260,7 @@ const InfluencerCard = ({data}: any) => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
               {formatFollowers(data?.follower_count || 0)}
+           
             </div>
             <div className="text-blue-600 font-[700] text-[16px]">
               {formatCurrency(data?.starting_price || 0)} <span className="text-gray-500 font-normal">
