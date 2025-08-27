@@ -8,12 +8,14 @@ export interface UserRoleState {
   role: UserRole;
   hasVisitedBefore: boolean | null;
   isLoggedIn: boolean | null;
+  isInfluencerRegistered: boolean | null;
 }
 
 const initialState : UserRoleState = {
   role: null,
   hasVisitedBefore: null,
   isLoggedIn: false,
+  isInfluencerRegistered: false,
 }
 
 // Get initial state from localStorage
@@ -95,6 +97,11 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('hasVisitedBefore');
     },
 
+    setIsInfluencerRegistered: (state, action: PayloadAction<boolean>) => {
+      state.isInfluencerRegistered = action.payload;
+      localStorage.setItem('isInfluencerRegistered', action.payload ? 'true' : 'false');
+    },
+
     // Logout
     logout: (state) => {
       state.role = '3';
@@ -118,13 +125,15 @@ export const {
   clearUserRole, 
   resetUserData,
   logout,
-  setIsLoggedIn
+  setIsLoggedIn,
+  setIsInfluencerRegistered
 } = userRoleSlice.actions;
 
 // Export selectors
 export const selectUserRole = (state: { userRole: UserRoleState }) => state.userRole.role;
 export const selectHasVisitedBefore = (state: { userRole: UserRoleState }) => state.userRole.hasVisitedBefore;
 export const selectIsLoggedIn = (state: { userRole: UserRoleState }) => state.userRole.isLoggedIn;
+export const selectIsInfluencerRegistered = (state: { userRole: UserRoleState }) => state.userRole.isInfluencerRegistered;
 
 // Export reducer
 export default userRoleSlice.reducer; 
