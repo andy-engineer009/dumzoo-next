@@ -193,10 +193,12 @@ const Signup = () => {
           {/* Logo and Brand */}
           <div className="text-center mb-4">
             <div className="flex items-center justify-center mb-4">
-              <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center mr-3">
+              {/* <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center mr-3">
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg"></div>
               </div>
-              <span className="text-3xl font-bold text-gray-900">DUMZOO</span>
+              <span className="text-3xl font-bold text-gray-900">DUMZOO</span> */}
+                            <Image src="/images/logo.svg" alt="logo" width={150} height={100}/> 
+
             </div>
           </div>
 
