@@ -52,7 +52,8 @@ const InfluencerGrid = ({
   // Show loading state for initial load
   if (isInitialLoad && isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
+      
+      <div className="grid grid-cols-1 gap-2 pb-20 md:pb-0">
         <LoadingIndicator count={10} />
       </div>
     );
