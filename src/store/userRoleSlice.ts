@@ -97,6 +97,11 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('hasVisitedBefore');
     },
 
+    // setIsInfluencerRegistered: (state, action: PayloadAction<boolean>) => {
+    //   state.isInfluencerRegistered = action.payload;
+    //   localStorage.setItem('isInfluencerRegistered', action.payload ? 'true' : 'false');
+    // },
+
     // Logout
     logout: (state) => {
       state.role = '3';
