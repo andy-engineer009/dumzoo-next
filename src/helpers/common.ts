@@ -1,4 +1,4 @@
-import { logout, setIsLoggedIn, setUserRole } from "@/store/userRoleSlice";
+import { logout, setIsInfluencerProfileCreated, setIsLoggedIn, setUserRole } from "@/store/userRoleSlice";
 
 const setVerfiedUser = (data: any, dispatch?: any) => {  
     console.log(data, 'data')
@@ -38,6 +38,7 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
         if (dispatch) {
             dispatch(setIsLoggedIn(true));
             dispatch(setUserRole(data.user.role_id.toString()));
+            dispatch(setIsInfluencerProfileCreated(data.user.is_influencer_profile_created));
         }
     } else{
         if (dispatch) {

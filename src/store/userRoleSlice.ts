@@ -8,12 +8,14 @@ export interface UserRoleState {
   role: UserRole;
   hasVisitedBefore: boolean | null;
   isLoggedIn: boolean | null;
+  isInfluencerProfileCreated : number | null;
 }
 
 const initialState : UserRoleState = {
   role: null,
   hasVisitedBefore: null,
   isLoggedIn: false,
+  isInfluencerProfileCreated: null,
 }
 
 // Get initial state from localStorage
@@ -107,7 +109,14 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('google_cache');
       localStorage.removeItem('cto_bundle');
       localStorage.removeItem('WZRK_LR');
+    },
+
+
+    setIsInfluencerProfileCreated: (state, action: PayloadAction<number>) => {
+      state.isInfluencerProfileCreated = action.payload;
+      localStorage.setItem('isInfluencerProfileCreated', action.payload.toString());
     }
+    
   }
 });
 
@@ -118,13 +127,15 @@ export const {
   clearUserRole, 
   resetUserData,
   logout,
-  setIsLoggedIn
+  setIsLoggedIn,
+  setIsInfluencerProfileCreated
 } = userRoleSlice.actions;
 
 // Export selectors
 export const selectUserRole = (state: { userRole: UserRoleState }) => state.userRole.role;
 export const selectHasVisitedBefore = (state: { userRole: UserRoleState }) => state.userRole.hasVisitedBefore;
 export const selectIsLoggedIn = (state: { userRole: UserRoleState }) => state.userRole.isLoggedIn;
+export const selectIsInfluencerProfileCreated = (state: { userRole: UserRoleState }) => state.userRole.isInfluencerProfileCreated;
 
 // Export reducer
 export default userRoleSlice.reducer; 
