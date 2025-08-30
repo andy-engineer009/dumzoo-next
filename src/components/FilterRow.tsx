@@ -9,9 +9,126 @@ interface FilterRowProps {
 
 export default function FilterRow({ onFilterChange }: FilterRowProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  
+  // Helper functions to get state and city names
+  const getStateName = (stateId: string | number) => {
+    const states = [
+      { id: 1, name: "Andhra Pradesh", short_name: "AP" },
+      { id: 2, name: "Arunachal Pradesh", short_name: "AR" },
+      { id: 3, name: "Assam", short_name: "AS" },
+      { id: 4, name: "Bihar", short_name: "BR" },
+      { id: 5, name: "Chhattisgarh", short_name: "CG" },
+      { id: 6, name: "Goa", short_name: "GA" },
+      { id: 7, name: "Gujarat", short_name: "GJ" },
+      { id: 8, name: "Haryana", short_name: "HR" },
+      { id: 9, name: "Himachal Pradesh", short_name: "HP" },
+      { id: 10, name: "Jharkhand", short_name: "JH" },
+      { id: 11, name: "Karnataka", short_name: "KA" },
+      { id: 12, name: "Kerala", short_name: "KL" },
+      { id: 13, name: "Madhya Pradesh", short_name: "MP" },
+      { id: 14, name: "Maharashtra", short_name: "MH" },
+      { id: 15, name: "Manipur", short_name: "MN" },
+      { id: 16, name: "Meghalaya", short_name: "ML" },
+      { id: 17, name: "Mizoram", short_name: "MZ" },
+      { id: 18, name: "Nagaland", short_name: "NL" },
+      { id: 19, name: "Odisha", short_name: "OR" },
+      { id: 20, name: "Punjab", short_name: "PB" },
+      { id: 21, name: "Rajasthan", short_name: "RJ" },
+      { id: 22, name: "Sikkim", short_name: "SK" },
+      { id: 23, name: "Tamil Nadu", short_name: "TN" },
+      { id: 24, name: "Telangana", short_name: "TG" },
+      { id: 25, name: "Tripura", short_name: "TR" },
+      { id: 26, name: "Uttar Pradesh", short_name: "UP" },
+      { id: 27, name: "Uttarakhand", short_name: "UK" },
+      { id: 28, name: "West Bengal", short_name: "WB" },
+      { id: 29, name: "Andaman and Nicobar Islands", short_name: "AN" },
+      { id: 30, name: "Chandigarh", short_name: "CH" },
+      { id: 31, name: "Dadra and Nagar Haveli and Daman and Diu", short_name: "DN" },
+      { id: 32, name: "Delhi", short_name: "DL" },
+      { id: 33, name: "Jammu and Kashmir", short_name: "JK" },
+      { id: 34, name: "Ladakh", short_name: "LA" },
+      { id: 35, name: "Lakshadweep", short_name: "LD" },
+      { id: 36, name: "Puducherry", short_name: "PY" }
+    ];
+    const state = states.find(s => s.id === parseInt(stateId.toString()));
+    return state ? state.name : stateId;
+  };
+
+  const getCityName = (cityId: string | number) => {
+    const cities = [
+      { id: 1, name: "Bilaspur", state_id: 9 },
+      { id: 2, name: "Chamba", state_id: 9 },
+      { id: 3, name: "Hamirpur", state_id: 9 },
+      { id: 4, name: "Kangra", state_id: 9 },
+      { id: 5, name: "Kinnaur", state_id: 9 },
+      { id: 6, name: "Kullu", state_id: 9 },
+      { id: 7, name: "Lahaul and Spiti", state_id: 9 },
+      { id: 8, name: "Mandi", state_id: 9 },
+      { id: 9, name: "Shimla", state_id: 9 },
+      { id: 10, name: "Sirmaur", state_id: 9 },
+      { id: 11, name: "Solan", state_id: 9 },
+      { id: 12, name: "Una", state_id: 9 },
+      { id: 13, name: "Mumbai", state_id: 14 },
+      { id: 14, name: "Pune", state_id: 14 },
+      { id: 15, name: "Nagpur", state_id: 14 },
+      { id: 16, name: "Thane", state_id: 14 },
+      { id: 17, name: "Nashik", state_id: 14 },
+      { id: 18, name: "Aurangabad", state_id: 14 },
+      { id: 19, name: "New Delhi", state_id: 32 },
+      { id: 20, name: "Delhi", state_id: 32 },
+      { id: 21, name: "Bangalore", state_id: 11 },
+      { id: 22, name: "Mysore", state_id: 11 },
+      { id: 23, name: "Mangalore", state_id: 11 },
+      { id: 24, name: "Chennai", state_id: 23 },
+      { id: 25, name: "Coimbatore", state_id: 23 },
+      { id: 26, name: "Madurai", state_id: 23 },
+      { id: 27, name: "Hyderabad", state_id: 24 },
+      { id: 28, name: "Warangal", state_id: 24 },
+      { id: 29, name: "Ahmedabad", state_id: 7 },
+      { id: 30, name: "Surat", state_id: 7 },
+      { id: 31, name: "Vadodara", state_id: 7 },
+      { id: 32, name: "Lucknow", state_id: 26 },
+      { id: 33, name: "Kanpur", state_id: 26 },
+      { id: 34, name: "Varanasi", state_id: 26 },
+      { id: 35, name: "Kolkata", state_id: 28 },
+      { id: 36, name: "Howrah", state_id: 28 },
+      { id: 37, name: "Thiruvananthapuram", state_id: 12 },
+      { id: 38, name: "Kochi", state_id: 12 },
+      { id: 39, name: "Kozhikode", state_id: 12 },
+      { id: 40, name: "Chandigarh", state_id: 20 },
+      { id: 41, name: "Ludhiana", state_id: 20 },
+      { id: 42, name: "Amritsar", state_id: 20 },
+      { id: 43, name: "Gurgaon", state_id: 8 },
+      { id: 44, name: "Faridabad", state_id: 8 },
+      { id: 45, name: "Panipat", state_id: 8 },
+      { id: 46, name: "Jaipur", state_id: 21 },
+      { id: 47, name: "Jodhpur", state_id: 21 },
+      { id: 48, name: "Udaipur", state_id: 21 },
+      { id: 49, name: "Bhopal", state_id: 13 },
+      { id: 50, name: "Indore", state_id: 13 },
+      { id: 51, name: "Jabalpur", state_id: 13 },
+      { id: 52, name: "Patna", state_id: 4 },
+      { id: 53, name: "Gaya", state_id: 4 },
+      { id: 54, name: "Bhubaneswar", state_id: 19 },
+      { id: 55, name: "Cuttack", state_id: 19 },
+      { id: 56, name: "Guwahati", state_id: 3 },
+      { id: 57, name: "Dibrugarh", state_id: 3 },
+      { id: 58, name: "Ranchi", state_id: 10 },
+      { id: 59, name: "Jamshedpur", state_id: 10 },
+      { id: 60, name: "Raipur", state_id: 5 },
+      { id: 61, name: "Bhilai", state_id: 5 },
+      { id: 62, name: "Dehradun", state_id: 27 },
+      { id: 63, name: "Haridwar", state_id: 27 },
+      { id: 64, name: "Panaji", state_id: 6 },
+      { id: 65, name: "Margao", state_id: 6 }
+    ];
+    const city = cities.find(c => c.id === parseInt(cityId.toString()));
+    return city ? city.name : cityId;
+  };
+
   const [activeFilters, setActiveFilters] = useState<any>({
     sortBy: '',
-    location: '',
+    location: { state: '', city: '' },
     budget: { min: 0, max: 100000 },
     socialPlatform: [],
     categories: [],
@@ -67,8 +184,21 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      hasValue: !!activeFilters.location,
-      value: activeFilters.location,
+      hasValue: !!(activeFilters.location?.state || activeFilters.location?.city),
+      value: activeFilters.location?.state || activeFilters.location?.city ? 
+        (() => {
+          if (activeFilters.location?.state && activeFilters.location?.city) {
+            // Get state and city names from the filter data
+            const stateName = getStateName(activeFilters.location.state);
+            const cityName = getCityName(activeFilters.location.city);
+            return `${cityName}, ${stateName}`;
+          } else if (activeFilters.location?.state) {
+            return getStateName(activeFilters.location.state);
+          } else if (activeFilters.location?.city) {
+            return getCityName(activeFilters.location.city);
+          }
+          return '';
+        })() : null,
     },
     {
       id: 'budget',
@@ -188,6 +318,8 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
     
     if (filterId === 'budget') {
       newFilters.budget = { min: 0, max: 100000 };
+    } else if (filterId === 'location') {
+      newFilters.location = { state: '', city: '' };
     } else if (Array.isArray(newFilters[filterId])) {
       newFilters[filterId] = [];
     } else {
