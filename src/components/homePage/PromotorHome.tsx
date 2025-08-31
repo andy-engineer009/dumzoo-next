@@ -6,6 +6,7 @@ import { selectUserRole, selectIsLoggedIn } from '@/store/userRoleSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
+import { Basic } from "next/font/google";
 
 
 // const influencers = [ 
@@ -62,7 +63,6 @@ export default function PromotorHome() {
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const [isLoadingData, setIsLoadingData] = useState(true);
 
-    console.log(isLoggedIn, 'isLoggedIn',userRole);
     useEffect(() => {
         if(isLoggedIn) {    
             setIsLoadingData(false);
@@ -77,7 +77,7 @@ export default function PromotorHome() {
     // {(!isLoggedIn || userRole === '3' || userRole === null) &&
     <>
     <div className="home-wrapper pb-[80px]">
-    <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4 flex items-center justify-between">
+    {/* <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4 flex items-center justify-between">
       <div className="text-white text-sm font-bold">
        
 <svg width="100" height="50" viewBox="0 0 239 87" fill="white" xmlns="http://www.w3.org/2000/svg">
@@ -98,9 +98,9 @@ export default function PromotorHome() {
       </button>
       }
   
-    </div>
+    </div> */}
     {/* hero section */}
-    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8 flex items-center justify-center">
+    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8 items-center justify-center">
       {/* Scattered dots background pattern */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full opacity-30"></div>
@@ -118,7 +118,7 @@ export default function PromotorHome() {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 px-4 py-8">
+      <div className="relative z-10 px-4 pt-8">
         {/* Header Section */}
         <div className="text-center mb-4">
           <motion.h1 
@@ -214,7 +214,29 @@ export default function PromotorHome() {
             </motion.div>
           </div>
         </div>
+
+
       </div>
+
+      { 
+      !isLoggedIn && 
+      <div className="flex justify-center items-center mt-8 px-4">
+        <button
+          className="bg-[#20b034] hover:bg-[#158a27] text-white text-[15px] font-semibold py-3 px-8 mr-2 rounded-xl shadow-md transition-colors duration-200 text-lg"
+          style={{ flexBasis: '48%' }}
+          onClick={() => { window.location.href = '/signup?role=creator'; }}
+        >
+          I am a Creator
+        </button>
+        <button
+          className="bg-white border-2 border-[#fff] text-[#000] text-[15px] hover:bg-[#20b034] hover:text-white font-semibold py-3 px-2 rounded-xl shadow-md transition-colors duration-200 text-lg"
+          style={{flex: 1}}
+          onClick={() => { window.location.href = '/signup?role=promoter'; }}
+        >
+         Promote My Business
+        </button>
+      </div>
+}
       <div className="hero-bg-image"></div>
     </div>
 
@@ -622,7 +644,7 @@ export default function PromotorHome() {
 
             {/* Chennai */}
             <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chennai</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chandigrah</h3>
               <div>
               <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -630,7 +652,7 @@ export default function PromotorHome() {
 
             {/* Hyderabad */}
             <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Hyderabad</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
               <div>
               <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -657,7 +679,7 @@ export default function PromotorHome() {
 
             {/* Delhi */}
             <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Shimla</h3>
               <div>
               <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
              </div>
@@ -724,7 +746,7 @@ export default function PromotorHome() {
                     {/* Bottom Bar */}
         <div className="mt-6 pt-4 flex flex-col md:flex-row justify-between items-center">
           <p className="text-black text-sm">
-            © 2024 Dumzoo. All rights reserved. 
+            © 2025 Dumzoo. All rights reserved. 
            {/* <Link href="/login">Login</Link>
            <Link href="/signup">Signup</Link> */}
 

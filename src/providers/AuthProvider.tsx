@@ -17,7 +17,6 @@ const ROUTES = {
   
   // Protected routes - require authentication (any logged-in user)
   PROTECTED: [
-    '/profile',
     '/chat',
     '/plans',
     '/referral'
@@ -32,6 +31,8 @@ const ROUTES = {
       '/registration',
       '/view-profile',
       '/plans',
+    '/profile',
+
     ],
     
     // Promoter routes (role: '3') 
@@ -41,6 +42,8 @@ const ROUTES = {
       '/manage-campaigns',
       '/search',
       '/plans',
+    '/profile',
+
     ]
   }
 };
@@ -53,7 +56,7 @@ const isPublicRoute = (pathname: string): boolean => {
 };
 
 const isProtectedRoute = (pathname: string): boolean => {
-  return ROUTES.PROTECTED.some(route => pathname.includes(route) || pathname.startsWith(route + '/'));
+  return ROUTES.PROTECTED.some(route => pathname.includes(route) );
 };
 
 const getRequiredRole = (pathname: string): string | null => {
