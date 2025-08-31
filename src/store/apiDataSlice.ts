@@ -5,6 +5,7 @@ const apiDataSlice = createSlice({
     initialState: {
         influencerDropdownData: null,
         dashboardData: null,
+        discoverData: null,
         // loading: false,
         // error: null
     },
@@ -15,6 +16,10 @@ const apiDataSlice = createSlice({
 
         dashboardData: (state, action: PayloadAction<any>) => {
             state.dashboardData = action.payload;
+        },
+
+        discoverData: (state, action: PayloadAction<any>) => {
+            state.discoverData = action.payload;
         }
     }
 })
@@ -22,10 +27,12 @@ const apiDataSlice = createSlice({
 // Export actions
 export const { 
     influencerDropodownData, 
-    dashboardData
+    dashboardData,
+    discoverData
   } = apiDataSlice.actions;
 
   export const selectInfluencerDropdownData = (state: { apiData: any }) => state.apiData.influencerDropdownData;
   export const selectDashboardData = (state: { apiData: any }) => state.apiData.dashboardData;
+  export const selectDiscoverData = (state: { apiData: any }) => state.apiData.discoverData;
 // Export reducer
 export default apiDataSlice.reducer;
