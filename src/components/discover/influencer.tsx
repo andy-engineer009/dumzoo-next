@@ -7,8 +7,19 @@ import ScrollToTop from "@/components/ScrollToTop";
 import { useState, useEffect, useCallback } from "react";
 import { API_ROUTES } from "@/appApi";
 import { api } from "@/common/services/rest-api/rest-api";
+import { useAppSelector, useAppDispatch } from "@/store/hooks";
+import { 
+  selectDiscoverData, 
+  discoverData, 
+  updateDiscoverScrollPosition,
+  clearDiscoverData 
+} from "@/store/apiDataSlice";
+
 
 export default function InfluencerDiscover() {
+  const dispatch = useAppDispatch();
+  const cachedData = useAppSelector(selectDiscoverData);
+  
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filters, setFilters] = useState({});
   const [influencers, setInfluencers] = useState<any[]>([]);
@@ -19,6 +30,11 @@ export default function InfluencerDiscover() {
   const [totalRecords, setTotalRecords] = useState(0);
 
   const ITEMS_PER_PAGE = 3;
+
+  // Check if we should use cached data
+  const shouldUseCache = () => {
+    return cachedData.influencers.length > 0;
+  };
 
   // API call function
   const fetchInfluencers = async (start: number, searchFilters = {}) => {
@@ -50,26 +66,84 @@ export default function InfluencerDiscover() {
     }
   };
 
+  // Load data from cache or API
+  const loadData = async () => {
+    if (shouldUseCache()) {
+      // Use cached data
+      console.log('🚀 Using cached data from Redux');
+      setInfluencers(cachedData.influencers);
+      setTotalRecords(cachedData.totalRecords);
+      setHasMore(cachedData.hasMore);
+      setStartIndex(cachedData.startIndex);
+      setIsInitialLoading(false);
+      
+      // Restore scroll position after component mounts
+      setTimeout(() => {
+        if (cachedData.scrollPosition > 0) {
+          console.log('📍 Restoring scroll position:', cachedData.scrollPosition);
+          window.scrollTo(0, cachedData.scrollPosition);
+        }
+      }, 100);
+      
+      return;
+    }
+
+    // Fetch fresh data from API
+    console.log('🔄 Fetching fresh data from API (no cache available)');
+    setIsInitialLoading(true);
+    try {
+      const result: any = await fetchInfluencers(0, filters);
+      setInfluencers(result.data);
+      setTotalRecords(result.totalRecords);
+      setHasMore(result.hasMore);
+      setStartIndex(0);
+      
+      // Update Redux cache
+      dispatch(discoverData({
+        influencers: result.data,
+        totalRecords: result.totalRecords,
+        hasMore: result.hasMore,
+        startIndex: 0,
+        scrollPosition: 0
+      }));
+    } catch (error) {
+      console.error('Error loading initial data:', error);
+    } finally {
+      setIsInitialLoading(false);
+    }
+  };
+
   // Load initial data
   useEffect(() => {
-    const loadInitialData = async () => {
-      setIsInitialLoading(true);
-      try {
-        const result:any = await fetchInfluencers(0, filters);
-        console.log(result, 'result');
-        setInfluencers(result.data);
-        setTotalRecords(result.totalRecords);
-        setHasMore(result.hasMore);
-        setStartIndex(0);
-      } catch (error) {
-        console.error('Error loading initial data:', error);
-      } finally {
-        setIsInitialLoading(false);
-      }
+    loadData();
+  }, []);
+
+  // Save scroll position when user scrolls
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY;
+      dispatch(updateDiscoverScrollPosition(scrollPos));
     };
 
-    loadInitialData();
-  }, []);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [dispatch]);
+
+  // Save current state when component unmounts
+  useEffect(() => {
+    return () => {
+      // Save current state to Redux before leaving
+      if (influencers.length > 0) {
+        dispatch(discoverData({
+          influencers,
+          totalRecords,
+          hasMore,
+          startIndex,
+          scrollPosition: window.scrollY
+        }));
+      }
+    };
+  }, [influencers, totalRecords, hasMore, startIndex, dispatch]);
 
   // Load more data function
   const loadMore = useCallback(async () => {
@@ -79,21 +153,30 @@ export default function InfluencerDiscover() {
     
     try {
       const nextStartIndex = startIndex + ITEMS_PER_PAGE;
-      const result:any = await fetchInfluencers(nextStartIndex, filters);
+      const result: any = await fetchInfluencers(nextStartIndex, filters);
       
       if (result.data.length > 0) {
-        setInfluencers(prev => [...prev, ...result.data]);
+        const newInfluencers = [...influencers, ...result.data];
+        setInfluencers(newInfluencers);
         setStartIndex(nextStartIndex);
         setHasMore(result.hasMore);
+        
+        // Update Redux cache with new data
+        dispatch(discoverData({
+          influencers: newInfluencers,
+          startIndex: nextStartIndex,
+          hasMore: result.hasMore
+        }));
       } else {
         setHasMore(false);
+        dispatch(discoverData({ hasMore: false }));
       }
     } catch (error) {
       console.error('Error loading more data:', error);
     } finally {
       setIsLoading(false);
     }
-  }, [startIndex, isLoading, hasMore, filters]);
+  }, [startIndex, isLoading, hasMore, filters, influencers, dispatch]);
 
   const handleFilterChange = (newFilters: any) => {
     setFilters(newFilters);
@@ -103,14 +186,26 @@ export default function InfluencerDiscover() {
     setInfluencers([]);
     setIsInitialLoading(true);
     
+    // Clear cache when filters change
+    dispatch(clearDiscoverData());
+    
     // Reload with new filters
     const reloadWithFilters = async () => {
       try {
-        const result:any = await fetchInfluencers(0, newFilters);
+        const result: any = await fetchInfluencers(0, newFilters);
         setInfluencers(result.data);
         setTotalRecords(result.totalRecords);
         setHasMore(result.hasMore);
         setStartIndex(0);
+        
+        // Update Redux cache with filtered data
+        dispatch(discoverData({
+          influencers: result.data,
+          totalRecords: result.totalRecords,
+          hasMore: result.hasMore,
+          startIndex: 0,
+          scrollPosition: 0
+        }));
       } catch (error) {
         console.error('Error reloading with filters:', error);
       } finally {
