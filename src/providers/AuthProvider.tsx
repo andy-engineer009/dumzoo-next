@@ -13,6 +13,7 @@ const ROUTES = {
       '/login',
       '/signup',
       '/how',
+      '/profile'
     ],
   
   // Protected routes - require authentication (any logged-in user)
@@ -42,8 +43,7 @@ const ROUTES = {
       '/manage-campaigns',
       '/search',
       '/plans',
-    '/profile',
-
+      '/profile',
     ]
   }
 };
