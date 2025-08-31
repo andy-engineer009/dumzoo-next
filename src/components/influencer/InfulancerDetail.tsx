@@ -154,9 +154,12 @@ const InfluencerDetail = ({
                   
             {/* Price */}
             <div className="mb-6 flex items-center justify-between">
+              <div className=''>
               <span className="inline-block bg-gray-200 text-black font-semibold px-4 py-2 rounded-lg">
-                {formatCurrency(data?.starting_price)}
+              {formatCurrency(data?.starting_price)}
               </span>
+              </div>
+     
               <div className="flex items-center gap-2">
                 {/* YouTube Icon */}
                 {data?.is_youtube_enabled == 1 && (
@@ -346,7 +349,7 @@ const InfluencerDetail = ({
         <nav className="hire-now fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
             <button 
               onClick={handleChat}
-            className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+            className="w-full bg-[#1fb036] text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
             Hire Now
             </button>

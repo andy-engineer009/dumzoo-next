@@ -57,7 +57,7 @@ const formSchema = Yup.object().shape({
   languages: Yup.array().min(1, 'At least one language is required'),
   state: Yup.string().required('State is required'),
   city: Yup.string().required('City is required'),
-  age: Yup.number().required('Age is required').min(13, 'Must be at least 13 years old').max(100, 'Invalid age'),
+  // age: Yup.number().required('Age is required').min(13, 'Must be at least 13 years old').max(100, 'Invalid age'),
   follower_count: Yup.number().required('Follower count is required').min(100, 'Must have at least 100 followers'),
   instagram_url: Yup.string().when('is_instagram_enabled', {
     is: (is_instagram_enabled: boolean) => is_instagram_enabled === true,
@@ -246,12 +246,13 @@ export default function InfluencerOnboardingForm() {
         languages: values.languages.map((language: any) => parseInt(language.toString())),
         starting_price: values.starting_price
       }
-      console.log(payload);
+
+
       api.post(API_ROUTES.addUpdateInfluencer, payload).then((response) => {
         setIsLoading(false);
         if(response.status == 1) {
           showToast('Influencer profile created successfully!', 'success');
-          router.push('/');
+          router.push('/profile/edit');
     } else {
           showToast(response.message, 'error');
         }
@@ -293,7 +294,7 @@ export default function InfluencerOnboardingForm() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
-            <h1 className="text-xl font-medium text-black">Influencer Registration</h1>
+            <h1 className="text-xl font-medium text-black text-center">Create Creator Profile</h1>
           </div>
         </div>
 
@@ -315,7 +316,7 @@ export default function InfluencerOnboardingForm() {
                 {/* Username */}
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-black mb-2">
-                    Username
+                    Username (instagram or facbook @xyz)
                   </label>
                   <Field
                     type="text"
@@ -330,7 +331,8 @@ export default function InfluencerOnboardingForm() {
                 {/* Platforms */}
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Social Media Platforms
+                    Social Media Platforms (1+ required) <br></br> 
+                    <span className='text-[red]'>which platfrom you have 500+ followers</span>
                   </label>
                   <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-x-3">
@@ -424,7 +426,7 @@ export default function InfluencerOnboardingForm() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="age" className="block text-sm font-medium text-black mb-2">
-                      Your Age
+                       Age (optional)
                     </label>
                     <Field
                       type="number"
@@ -438,7 +440,8 @@ export default function InfluencerOnboardingForm() {
 
                   <div>
                     <label htmlFor="follower_count" className="block text-sm font-medium text-black mb-2">
-                      Total Follower Count
+                      Total Followers <br></br>
+                      <span className='text-[red] text-[12px]'>How many followers you have  </span>
                     </label>
                     <Field
                       type="number"
@@ -603,7 +606,8 @@ export default function InfluencerOnboardingForm() {
                 {/* Starting Price */}
                 <div>
                   <label htmlFor="starting_price" className="block text-sm font-medium text-black mb-2">
-                    Starting Price
+                     Promotion Charges (INR) <br></br>
+                    <span className='text-[red] text-[12px]'>Enter your starting price of the paid promotion</span>
                   </label>
                   <Field
                     type="number"

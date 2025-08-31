@@ -33,7 +33,7 @@ const formSchema = Yup.object().shape({
   compaign_description: Yup.string().required('Description is required').min(10, 'Description must be at least 10 characters'),
   // categories: Yup.object().required('At least one category is required'),
   campaign_languages: Yup.array().min(1, 'At least one language is required'),
-  minimum_followers: Yup.number().required('Minimum followers is required').min(100, 'Must be at least 100 followers'),
+  minimum_followers: Yup.number().required('Minimum followers is required').min(500, 'Must be at least 500 followers'),
   platforms: Yup.array().min(1, 'At least one platform is required').of(Yup.string().oneOf(['instagram', 'youtube', 'facebook'])),
   total_budget: Yup.number().required('Total budget is required').min(1, 'Budget must be greater than 0').max(500000, 'Budget must be less than 500000').integer('Budget must be a whole number'),
   gender_preference: Yup.string().required('Gender preference is required'),
@@ -637,7 +637,7 @@ export default function CampaignsCreate() {
                 {/* Total Budget */}
                 <div>
                   <label htmlFor="total_budget" className="block text-sm font-medium text-black mb-2">
-                    Total Budget
+                    Total Budget (INR)
                   </label>
                   <Field
                     type="number"

@@ -699,7 +699,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                     onClick={() => setActiveCategory(category.id)}
                     className={`w-full text-left px-4 py-3 border-l-4 transition-colors ${
                       activeCategory === category.id
-                        ? 'bg-purple-100 border-purple-500 text-purple-700'
+                        ? 'bg-[#1fb0361c] border-[#1fb036] text-[#1fb036]'
                         : 'border-transparent text-gray-700 hover:bg-gray-100'
                     }`}
                   >
