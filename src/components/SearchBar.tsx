@@ -12,7 +12,7 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="bg-gradient-to-b from-black via-black to-white">
+    <div className="bg-gradient-to-b from-black via-black to-white search-bar-section">
       {/* Header with Back Arrow */}
       <div className="flex items-center px-4 pt-4 pb-1">
         <button 

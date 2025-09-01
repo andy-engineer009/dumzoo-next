@@ -295,3 +295,14 @@ input:focus {
 {
   display: none;
 }
+
+.finder-screen .search-bar-section {
+  display: none;
+}
+
+.finder-screen .influencer-discover-screen {
+padding: 10px 0 0 !important;
+}
+.finder-screen .campaigns-discover-screen .header-section {
+display: none;
+}

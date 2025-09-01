@@ -3,8 +3,157 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Import states and cities data
+const states = [
+  { id: 1, name: "Andhra Pradesh", short_name: "AP" },
+  { id: 2, name: "Arunachal Pradesh", short_name: "AR" },
+  { id: 3, name: "Assam", short_name: "AS" },
+  { id: 4, name: "Bihar", short_name: "BR" },
+  { id: 5, name: "Chhattisgarh", short_name: "CG" },
+  { id: 6, name: "Goa", short_name: "GA" },
+  { id: 7, name: "Gujarat", short_name: "GJ" },
+  { id: 8, name: "Haryana", short_name: "HR" },
+  { id: 9, name: "Himachal Pradesh", short_name: "HP" },
+  { id: 10, name: "Jharkhand", short_name: "JH" },
+  { id: 11, name: "Karnataka", short_name: "KA" },
+  { id: 12, name: "Kerala", short_name: "KL" },
+  { id: 13, name: "Madhya Pradesh", short_name: "MP" },
+  { id: 14, name: "Maharashtra", short_name: "MH" },
+  { id: 15, name: "Manipur", short_name: "MN" },
+  { id: 16, name: "Meghalaya", short_name: "ML" },
+  { id: 17, name: "Mizoram", short_name: "MZ" },
+  { id: 18, name: "Nagaland", short_name: "NL" },
+  { id: 19, name: "Odisha", short_name: "OR" },
+  { id: 20, name: "Punjab", short_name: "PB" },
+  { id: 21, name: "Rajasthan", short_name: "RJ" },
+  { id: 22, name: "Sikkim", short_name: "SK" },
+  { id: 23, name: "Tamil Nadu", short_name: "TN" },
+  { id: 24, name: "Telangana", short_name: "TG" },
+  { id: 25, name: "Tripura", short_name: "TR" },
+  { id: 26, name: "Uttar Pradesh", short_name: "UP" },
+  { id: 27, name: "Uttarakhand", short_name: "UK" },
+  { id: 28, name: "West Bengal", short_name: "WB" },
+  { id: 29, name: "Andaman and Nicobar Islands", short_name: "AN" },
+  { id: 30, name: "Chandigarh", short_name: "CH" },
+  { id: 31, name: "Dadra and Nagar Haveli and Daman and Diu", short_name: "DN" },
+  { id: 32, name: "Delhi", short_name: "DL" },
+  { id: 33, name: "Jammu and Kashmir", short_name: "JK" },
+  { id: 34, name: "Ladakh", short_name: "LA" },
+  { id: 35, name: "Lakshadweep", short_name: "LD" },
+  { id: 36, name: "Puducherry", short_name: "PY" }
+];
+
+const cities = [
+  // Himachal Pradesh
+  { id: 1, name: "Bilaspur", state_id: 9 },
+  { id: 2, name: "Chamba", state_id: 9 },
+  { id: 3, name: "Hamirpur", state_id: 9 },
+  { id: 4, name: "Kangra", state_id: 9 },
+  { id: 5, name: "Kinnaur", state_id: 9 },
+  { id: 6, name: "Kullu", state_id: 9 },
+  { id: 7, name: "Lahaul and Spiti", state_id: 9 },
+  { id: 8, name: "Mandi", state_id: 9 },
+  { id: 9, name: "Shimla", state_id: 9 },
+  { id: 10, name: "Sirmaur", state_id: 9 },
+  { id: 11, name: "Solan", state_id: 9 },
+  { id: 12, name: "Una", state_id: 9 },
+  
+  // Maharashtra
+  { id: 13, name: "Mumbai", state_id: 14 },
+  { id: 14, name: "Pune", state_id: 14 },
+  { id: 15, name: "Nagpur", state_id: 14 },
+  { id: 16, name: "Thane", state_id: 14 },
+  { id: 17, name: "Nashik", state_id: 14 },
+  { id: 18, name: "Aurangabad", state_id: 14 },
+  
+  // Delhi
+  { id: 19, name: "New Delhi", state_id: 32 },
+  { id: 20, name: "Delhi", state_id: 32 },
+  
+  // Karnataka
+  { id: 21, name: "Bangalore", state_id: 11 },
+  { id: 22, name: "Mysore", state_id: 11 },
+  { id: 23, name: "Mangalore", state_id: 11 },
+  
+  // Tamil Nadu
+  { id: 24, name: "Chennai", state_id: 23 },
+  { id: 25, name: "Coimbatore", state_id: 23 },
+  { id: 26, name: "Madurai", state_id: 23 },
+  
+  // Telangana
+  { id: 27, name: "Hyderabad", state_id: 24 },
+  { id: 28, name: "Warangal", state_id: 24 },
+  
+  // Gujarat
+  { id: 29, name: "Ahmedabad", state_id: 7 },
+  { id: 30, name: "Surat", state_id: 7 },
+  { id: 31, name: "Vadodara", state_id: 7 },
+  
+  // Uttar Pradesh
+  { id: 32, name: "Lucknow", state_id: 26 },
+  { id: 33, name: "Kanpur", state_id: 26 },
+  { id: 34, name: "Varanasi", state_id: 26 },
+  
+  // West Bengal
+  { id: 35, name: "Kolkata", state_id: 28 },
+  { id: 36, name: "Howrah", state_id: 28 },
+  
+  // Kerala
+  { id: 37, name: "Thiruvananthapuram", state_id: 12 },
+  { id: 38, name: "Kochi", state_id: 12 },
+  { id: 39, name: "Kozhikode", state_id: 12 },
+  
+  // Punjab
+  { id: 40, name: "Chandigarh", state_id: 20 },
+  { id: 41, name: "Ludhiana", state_id: 20 },
+  { id: 42, name: "Amritsar", state_id: 20 },
+  
+  // Haryana
+  { id: 43, name: "Gurgaon", state_id: 8 },
+  { id: 44, name: "Faridabad", state_id: 8 },
+  { id: 45, name: "Panipat", state_id: 8 },
+  
+  // Rajasthan
+  { id: 46, name: "Jaipur", state_id: 21 },
+  { id: 47, name: "Jodhpur", state_id: 21 },
+  { id: 48, name: "Udaipur", state_id: 21 },
+  
+  // Madhya Pradesh
+  { id: 49, name: "Bhopal", state_id: 13 },
+  { id: 50, name: "Indore", state_id: 13 },
+  { id: 51, name: "Jabalpur", state_id: 13 },
+  
+  // Bihar
+  { id: 52, name: "Patna", state_id: 4 },
+  { id: 53, name: "Gaya", state_id: 4 },
+  
+  // Odisha
+  { id: 54, name: "Bhubaneswar", state_id: 19 },
+  { id: 55, name: "Cuttack", state_id: 19 },
+  
+  // Assam
+  { id: 56, name: "Guwahati", state_id: 3 },
+  { id: 57, name: "Dibrugarh", state_id: 3 },
+  
+  // Jharkhand
+  { id: 58, name: "Ranchi", state_id: 10 },
+  { id: 59, name: "Jamshedpur", state_id: 10 },
+  
+  // Chhattisgarh
+  { id: 60, name: "Raipur", state_id: 5 },
+  { id: 61, name: "Bhilai", state_id: 5 },
+  
+  // Uttarakhand
+  { id: 62, name: "Dehradun", state_id: 27 },
+  { id: 63, name: "Haridwar", state_id: 27 },
+  
+  // Goa
+  { id: 64, name: "Panaji", state_id: 6 },
+  { id: 65, name: "Margao", state_id: 6 }
+];
+
 interface FilterOption {
-  value: string;
+  value: any;
   label: string;
   default?: boolean;
 }
@@ -12,7 +161,7 @@ interface FilterOption {
 interface FilterCategory {
   id: string;
   label: string;
-  type: 'radio' | 'checkbox' | 'range' | 'text';
+  type: 'radio' | 'checkbox' | 'range' | 'text' | 'location';
   options?: FilterOption[];
 }
 
@@ -42,9 +191,9 @@ const filterCategories: FilterCategory[] = [
     options: [
       { value: 'instagram', label: 'Instagram' },
       { value: 'youtube', label: 'YouTube' },
-      { value: 'tiktok', label: 'TikTok' },
+      // { value: 'tiktok', label: 'TikTok' },
       { value: 'facebook', label: 'Facebook' },
-      { value: 'twitter', label: 'Twitter' },
+      // { value: 'twitter', label: 'Twitter' },
     ]
   },
   {
@@ -52,20 +201,115 @@ const filterCategories: FilterCategory[] = [
     label: 'Categories',
     type: 'checkbox',
     options: [
-      { value: 'fashion', label: 'Fashion' },
-      { value: 'beauty', label: 'Beauty' },
-      { value: 'lifestyle', label: 'Lifestyle' },
-      { value: 'food', label: 'Food' },
-      { value: 'travel', label: 'Travel' },
-      { value: 'fitness', label: 'Fitness' },
-      { value: 'technology', label: 'Technology' },
-      { value: 'education', label: 'Education' },
-    ]
+        { value: 1, label: 'Art' },
+        { value: 2, label: 'Acting' },
+        { value: 3, label: 'Adventure' },
+        { value: 4, label: 'Animals & Pets' },
+        { value: 5, label: 'Automotive' },
+        { value: 6, label: 'Beauty' },
+        { value: 7, label: 'Blogging' },
+        { value: 8, label: 'Books' },
+        { value: 9, label: 'Business & Entrepreneurship' },
+        { value: 10, label: 'Comedy' },
+        { value: 11, label: 'Cooking' },
+        { value: 12, label: 'Crafts' },
+        { value: 13, label: 'Culture' },
+        { value: 14, label: 'Career & Jobs' },
+        { value: 15, label: 'Dance' },
+        { value: 16, label: 'DIY (Do It Yourself)' },
+        { value: 17, label: 'Design' },
+        { value: 18, label: 'Digital Marketing' },
+        { value: 19, label: 'Education' },
+        { value: 20, label: 'Entertainment' },
+        { value: 21, label: 'Environment' },
+        { value: 22, label: 'Events' },
+        { value: 23, label: 'Fashion' },
+        { value: 24, label: 'Finance' },
+        { value: 25, label: 'Fitness' },
+        { value: 26, label: 'Food' },
+        { value: 27, label: 'Family & Parenting' },
+        { value: 28, label: 'Gaming' },
+        { value: 29, label: 'Gardening' },
+        { value: 30, label: 'Graphic Design' },
+        { value: 31, label: 'Gadgets & Tech Reviews' },
+        { value: 32, label: 'Health' },
+        { value: 33, label: 'Home Decor' },
+        { value: 34, label: 'Hiking' },
+        { value: 35, label: 'History' },
+        { value: 36, label: 'Inspiration & Motivation' },
+        { value: 37, label: 'Interior Design' },
+        { value: 38, label: 'Investments' },
+        { value: 39, label: 'Illustration' },
+        { value: 40, label: 'Jewellery' },
+        { value: 41, label: 'Journalism' },
+        { value: 42, label: 'Jobs & Career Tips' },
+        { value: 43, label: 'Kids & Parenting' },
+        { value: 44, label: 'Kitchen Hacks' },
+        { value: 45, label: 'Knowledge Sharing' },
+        { value: 46, label: 'Lifestyle' },
+        { value: 47, label: 'Luxury' },
+        { value: 48, label: 'Literature' },
+        { value: 49, label: 'Language Learning' },
+        { value: 50, label: 'Makeup' },
+        { value: 51, label: 'Motivation' },
+        { value: 52, label: 'Mental Health' },
+        { value: 53, label: 'Movies & TV' },
+        { value: 54, label: 'Nature' },
+        { value: 55, label: 'Nutrition' },
+        { value: 56, label: 'News & Politics' },
+        { value: 57, label: 'Non-profits & Causes' },
+        { value: 58, label: 'Outdoors' },
+        { value: 59, label: 'Online Business' },
+        { value: 60, label: 'Organic Living' },
+        { value: 61, label: 'Photography' },
+        { value: 62, label: 'Personal Development' },
+        { value: 63, label: 'Pets' },
+        { value: 64, label: 'Podcasts' },
+        { value: 65, label: 'Productivity' },
+        { value: 66, label: 'Quotes & Motivation' },
+        { value: 67, label: 'Quick Recipes' },
+        { value: 68, label: 'Recipes' },
+        { value: 69, label: 'Reviews' },
+        { value: 70, label: 'Relationships' },
+        { value: 71, label: 'Road Trips' },
+        { value: 72, label: 'Real Estate' },
+        { value: 73, label: 'Sports' },
+        { value: 74, label: 'Spirituality' },
+        { value: 75, label: 'Science' },
+        { value: 76, label: 'Singing' },
+        { value: 77, label: 'Skincare' },
+        { value: 78, label: 'Startups' },
+        { value: 79, label: 'Travel' },
+        { value: 80, label: 'Technology' },
+        { value: 81, label: 'Theatre' },
+        { value: 82, label: 'Tutorials' },
+        { value: 83, label: 'Training & Coaching' },
+        { value: 84, label: 'Urban Exploration' },
+        { value: 85, label: 'Upcycling' },
+        { value: 86, label: 'UI/UX Design' },
+        { value: 87, label: 'Vlogging' },
+        { value: 88, label: 'Vegan Lifestyle' },
+        { value: 89, label: 'Visual Arts' },
+        { value: 90, label: 'Volunteering' },
+        { value: 91, label: 'Wellness' },
+        { value: 92, label: 'Wildlife' },
+        { value: 93, label: 'Writing' },
+        { value: 94, label: 'Wedding Planning' },
+        { value: 95, label: 'Workout' },
+        { value: 96, label: 'Extreme Sports' },
+        { value: 97, label: 'Experiential Travel' },
+        { value: 98, label: 'Exhibitions' },
+        { value: 99, label: 'Yoga' },
+        { value: 100, label: 'Youth Lifestyle' },
+        { value: 101, label: 'YouTube Tutorials' },
+        { value: 102, label: 'Zero Waste Lifestyle' },
+        { value: 103, label: 'Zoology Awareness' }
+      ]
   },
   {
     id: 'location',
     label: 'Location',
-    type: 'text',
+    type: 'location',
   },
   {
     id: 'followers',
@@ -91,11 +335,10 @@ const filterCategories: FilterCategory[] = [
     label: 'Audience Type',
     type: 'checkbox',
     options: [
-      { value: 'local', label: 'Local' },
-      { value: 'national', label: 'National' },
-      { value: 'international', label: 'International' },
-      { value: 'niche', label: 'Niche' },
-      { value: 'mass', label: 'Mass Market' },
+      { value: 0, label: 'All' },
+      { value: 1, label: 'General' },
+      { value: 2, label: 'Niche' },
+      { value: 3, label: 'Specific' },
     ]
   },
   {
@@ -103,12 +346,13 @@ const filterCategories: FilterCategory[] = [
     label: 'Audience Age Group',
     type: 'checkbox',
     options: [
-      { value: '13-17', label: '13-17 years' },
-      { value: '18-24', label: '18-24 years' },
-      { value: '25-34', label: '25-34 years' },
-      { value: '35-44', label: '35-44 years' },
-      { value: '45-54', label: '45-54 years' },
-      { value: '55+', label: '55+ years' },
+      { value: 0  , label: 'All' },
+      { value: 1, label: '13-18 years' },
+      { value: 2, label: '19-25 years' },
+      { value: 3, label: '26-35 years' },
+      { value: 4, label: '36-45 years' },
+      { value: 5, label: '46-55 years' },
+      { value: 6, label: '56+ years' },
     ]
   },
   {
@@ -116,9 +360,10 @@ const filterCategories: FilterCategory[] = [
     label: 'Gender',
     type: 'radio',
     options: [
-      { value: 'male', label: 'Male' },
-      { value: 'female', label: 'Female' },
-      { value: 'other', label: 'Other' },
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Male' },
+      { value: 2, label: 'Female' },
+      { value: 3, label: 'Other' },
     ]
   },
   {
@@ -126,33 +371,46 @@ const filterCategories: FilterCategory[] = [
     label: 'Content Language',
     type: 'checkbox',
     options: [
-      { value: 'english', label: 'English' },
-      { value: 'hindi', label: 'Hindi' },
-      { value: 'spanish', label: 'Spanish' },
-      { value: 'french', label: 'French' },
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Hindi' },
+      { value: 2, label: 'English' },
+      { value: 3, label: 'Punjabi' },
+      { value: 4, label: 'Marathi' },
+      { value: 5, label: 'Haryanvi' },
+      { value: 6, label: 'Bhojpuri' },
+      { value: 7, label: 'Rajasthani' },
+      { value: 8, label: 'Tamil' },
+      { value: 9, label: 'Telugu' },
+      { value: 10, label: 'Urdu' },
+      { value: 11, label: 'Kannada' },
+      { value: 12, label: 'Malayalam' },
+      { value: 13, label: 'Nepali' },
+      { value: 14, label: 'Sanskrit' },
+      { value: 15, label: 'Bengali' },
+      { value: 16, label: 'Assamese' }
     ]
   },
-  {
-    id: 'contentQuality',
-    label: 'Content Quality',
-    type: 'radio',
-    options: [
-      { value: 'high', label: 'High Quality' },
-      { value: 'medium', label: 'Medium Quality' },
-      { value: 'low', label: 'Low Quality' },
-    ]
-  },
-  {
-    id: 'creatorType',
-    label: 'Creator Type',
-    type: 'checkbox',
-    options: [
-      { value: 'influencer', label: 'Influencer' },
-      { value: 'celebrity', label: 'Celebrity' },
-      { value: 'micro', label: 'Micro Creator' },
-      { value: 'nano', label: 'Nano Creator' },
-    ]
-  },
+  // {
+  //   id: 'contentQuality',
+  //   label: 'Content Quality',
+  //   type: 'radio',
+  //   options: [
+  //     { value: 'high', label: 'High Quality' },
+  //     { value: 'medium', label: 'Medium Quality' },
+  //     { value: 'low', label: 'Low Quality' },
+  //   ]
+  // },
+  // {
+  //   id: 'creatorType',
+  //   label: 'Creator Type',
+  //   type: 'checkbox',
+  //   options: [
+  //     { value: 'influencer', label: 'Influencer' },
+  //     { value: 'celebrity', label: 'Celebrity' },
+  //     { value: 'micro', label: 'Micro Creator' },
+  //     { value: 'nano', label: 'Nano Creator' },
+  //   ]
+  // },
 ];
 
 export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterModalProps) {
@@ -161,7 +419,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     sortBy: 'popularity',
     socialPlatform: [],
     categories: [],
-    location: '',
+    location: { state: '', city: '' },
     followers: '',
     budget: { min: 0, max: 100000 },
     audienceType: [],
@@ -183,6 +441,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     };
     
     setSelectedFilters(newFilters);
+    console.log(newFilters);
     
     // Trigger API call immediately
     onFilterChange(newFilters);
@@ -235,15 +494,15 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       sortBy: 'popularity',
       socialPlatform: [],
       categories: [],
-      location: '',
+      location: { state: '', city: '' },
       followers: '',
       budget: { min: 0, max: 100000 },
       audienceType: [],
       audienceAgeGroup: [],
       gender: '',
       contentLanguage: [],
-      contentQuality: '',
-      creatorType: [],
+      // contentQuality: '',
+      // creatorType: [],
     };
     
     setSelectedFilters(defaultFilters);
@@ -344,6 +603,56 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
           </div>
         );
 
+        case 'location':
+          return (
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+                  <select
+                    value={selectedFilters['location']?.state || ''}
+                    onChange={(e) => {
+                      const newState = e.target.value;
+                      handleFilterChange('location', { 
+                        state: newState, 
+                        city: '' // Clear city when state changes
+                      });
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  >
+                    <option value="">Select State</option>
+                    {states.map((state) => (
+                      <option key={state.id} value={state.id}>
+                        {state.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
+                  <select
+                    value={selectedFilters['location']?.city || ''}
+                    onChange={(e) => handleFilterChange('location', { ...selectedFilters['location'], city: e.target.value })}
+                    disabled={!selectedFilters['location']?.state}
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                      !selectedFilters['location']?.state ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    <option value="">Select City</option>
+                    {selectedFilters['location']?.state && cities
+                      .filter(city => city.state_id == selectedFilters['location'].state)
+                      .map((city) => (
+                        <option key={city.id} value={city.id}>
+                          {city.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          );
+
       default:
         return null;
     }
@@ -390,7 +699,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                     onClick={() => setActiveCategory(category.id)}
                     className={`w-full text-left px-4 py-3 border-l-4 transition-colors ${
                       activeCategory === category.id
-                        ? 'bg-purple-100 border-purple-500 text-purple-700'
+                        ? 'bg-[#1fb0361c] border-[#1fb036] text-[#1fb036]'
                         : 'border-transparent text-gray-700 hover:bg-gray-100'
                     }`}
                   >

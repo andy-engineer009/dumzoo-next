@@ -31,7 +31,7 @@ const Header = () => {
                 onClick={() => router.push('/')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname === '/' 
-                      ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
+                      ? 'bg-[#6f43fe]/10 text-[#1fb036] shadow-sm' 
                       : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
                   }`}
               >
@@ -45,7 +45,7 @@ const Header = () => {
 
               {/* Discover */}
               <button
-                onClick={() => router.push(role === '2' ? '/campaigns' : '/discover')}
+                onClick={() => router.push((role === '2' && isLoggedIn) ? '/campaigns' : (role === '3' && isLoggedIn) ? '/discover' : '/finder')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname === '/discover' 
                       ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
@@ -65,7 +65,7 @@ const Header = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => router.push(role === '2' ? '/registration' : '/create-campaign')}
-                    className="flex flex-col items-center justify-center w-14 h-14 bg-gradient-to-r from-[#6f43fe] to-[#8b5cf6] text-white rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
+                    className="flex flex-col items-center justify-center w-14 h-14 bg-[#1fb036] text-white rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
