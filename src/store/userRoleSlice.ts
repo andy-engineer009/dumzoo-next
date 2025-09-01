@@ -115,6 +115,7 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('cto_bundle');
       localStorage.removeItem('WZRK_LR');
       localStorage.removeItem('infulancer_profile_created');
+      localStorage.removeItem('referral_code');
     }
   }
 });

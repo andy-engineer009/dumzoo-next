@@ -304,7 +304,7 @@ export default function EditBasicDetails() {
       const response = await api.post(API_ROUTES.addUpdateInfluencer, payload);
       if (response.status === 1) {
         showToast('Profile updated successfully!', 'success');
-        router.push('/profile/edit');
+        // router.push('/profile/edit');
       setIsLoading(false);
 
       } else {

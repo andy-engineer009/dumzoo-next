@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from "react";
-import { setIsLoggedIn, setUserRole, logout } from "@/store/userRoleSlice";
+import { setIsLoggedIn, setUserRole, logout, setIsInfluencerRegistered } from "@/store/userRoleSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLogoutListener } from "@/hooks/useLogoutListener";
@@ -33,6 +33,13 @@ export default function LocalStorageValueHandler() {
             dispatch(setUserRole('3'));
         }else{
             dispatch(setUserRole('3'));
+        }
+
+        const isInfluencerRegistered = localStorage.getItem('isInfluencerRegistered');
+        if(isInfluencerRegistered == 'true'){
+            dispatch(setIsInfluencerRegistered(true));
+        }else{
+            dispatch(setIsInfluencerRegistered(false));
         }
 
     }, [dispatch]);
