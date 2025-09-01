@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '@/store/userRoleSlice';
+import { selectIsLoggedIn, setIsInfluencerRegistered } from '@/store/userRoleSlice';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import { useRouter } from 'next/navigation';
@@ -252,6 +252,7 @@ export default function InfluencerOnboardingForm() {
         setIsLoading(false);
         if(response.status == 1) {
           showToast('Influencer profile created successfully!', 'success');
+          dispatch(setIsInfluencerRegistered(true));
           router.push('/profile/edit');
     } else {
           showToast(response.message, 'error');

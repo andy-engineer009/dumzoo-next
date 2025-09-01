@@ -13,7 +13,9 @@ const ROUTES = {
       '/login',
       '/signup',
       '/how',
-      '/profile'
+      '/profile',
+      '/campaigns',
+      '/discover',
     ],
   
   // Protected routes - require authentication (any logged-in user)
@@ -27,7 +29,7 @@ const ROUTES = {
   ROLE_BASED: {
     // Influencer routes (role: '2')
     INFLUENCER: [
-      '/campaigns',
+      // '/campaigns',
       '/analytics',
       '/registration',
       '/view-profile',
@@ -38,7 +40,7 @@ const ROUTES = {
     
     // Promoter routes (role: '3') 
     PROMOTER: [
-      '/discover',
+      // '/discover',
       '/create-campaign',
       '/manage-campaigns',
       '/search',

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { logout, setUserRole, setIsLoggedIn } from '@/store/userRoleSlice';
+import { logout, setUserRole, setIsLoggedIn, setIsInfluencerRegistered } from '@/store/userRoleSlice';
 import { useRouter } from 'next/navigation';
 
 export const useLogoutListener = () => {
@@ -15,6 +15,7 @@ export const useLogoutListener = () => {
       dispatch(logout());
       dispatch(setIsLoggedIn(false));
       dispatch(setUserRole('3'));
+      dispatch(setIsInfluencerRegistered(false));
       router.push('/');
 
     };

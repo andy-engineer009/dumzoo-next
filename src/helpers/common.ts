@@ -1,4 +1,4 @@
-import { logout, setIsLoggedIn, setUserRole } from "@/store/userRoleSlice";
+import { logout, setIsInfluencerRegistered, setIsLoggedIn, setUserRole } from "@/store/userRoleSlice";
 
 const setVerfiedUser = (data: any, dispatch?: any) => {  
     console.log(data, 'data')
@@ -35,9 +35,11 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
         localStorage.setItem('cto_bundle',  data.role);
         localStorage.setItem('WZRK_LR', 'true');
         localStorage.setItem('is_new_user', data.is_new_user);
+        localStorage.setItem('infulancer_profile_created', data.user?.is_influencer_profile_created == 1 ? 'true' : 'false');
         if (dispatch) {
             dispatch(setIsLoggedIn(true));
             dispatch(setUserRole(data.user.role_id.toString()));
+            dispatch(setIsInfluencerRegistered(data.user?.is_influencer_profile_created == 1 ? true : false));
         }
     } else{
         if (dispatch) {

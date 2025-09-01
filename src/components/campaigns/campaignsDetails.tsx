@@ -1,20 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import AwarePopup from '../aware-popup';
 import { useToast } from '../toast';
-import Loader from '../loader';
 
 import { API_ROUTES } from "@/appApi";
 import { api } from "@/common/services/rest-api/rest-api";
 
+import { selectIsInfluencerRegistered, selectIsLoggedIn } from '@/store/userRoleSlice';
+import { useSelector } from 'react-redux';
+import CreateProfilePopup from '../influencer/create-profile-popup';
+import LoginPopup from '../login-popup';
+
 const CampaignDetails = (data: any) => {
-  const [isAwareOpen, setIsAwareOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [applied, setApplied] = useState(false);
-
+  const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
+  const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+  // Debug useEffect to track state changes
+  useEffect(() => {
+    console.log('isProfileCreatePopupOpen state changed to:', isProfileCreatePopupOpen);
+  }, [isProfileCreatePopupOpen]);
 
   const router = useRouter();
   const { showSuccess } = useToast();
@@ -36,6 +45,13 @@ const CampaignDetails = (data: any) => {
   };
 
   const handleApply = () => {
+    if(!isInfluencerRegistered){
+      setIsProfileCreatePopupOpen(true);
+      console.log('User not registered, showing profile popup');
+      console.log('isProfileCreatePopupOpen state:', isProfileCreatePopupOpen);
+      return;
+    }
+    
     setLoading(true);
     api.post(API_ROUTES.influencerCampaignApplied, {
       campaign_id: data.id
@@ -52,12 +68,12 @@ const CampaignDetails = (data: any) => {
     // setIsAwareOpen(true);
   };
 
-  const handleApplyRedirection = () => {
-    setIsAwareOpen(false);
-    // Redirect to application form or chat
-    router.push(`/campaigns/${data.id}/apply`);
-    console.log('Applying to campaign:', data.title);
-  };
+  // const handleApplyRedirection = () => {
+  //   setIsAwareOpen(false);
+  //   // Redirect to application form or chat
+  //   router.push(`/campaigns/${data.id}/apply`);
+  //   console.log('Applying to campaign:', data.title);
+  // };
 
   function formatDateFromNow(dateString: string): string {
     if (!dateString) return '--';
@@ -141,7 +157,7 @@ function getGender(value: number) {
                   />
                 ) : (
                   <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-500 text-lg">Campaign Image</span>
+                    <span className="text-gray-500 text-lg">No Image</span>
                   </div>
                 )}
               </div>
@@ -244,7 +260,7 @@ function getGender(value: number) {
               <div className="flex flex-wrap gap-2">
                 {data?.promoter_campaign_languages?.map((lang: any, index: any) => (
                   <span key={index} className="px-3 py-2 bg-blue-100 text-blue-800 text-sm rounded-lg">
-                    {lang.name}
+                    {lang.campaign_language.name}
                   </span>
                 ))}
               </div>
@@ -262,6 +278,7 @@ function getGender(value: number) {
               </div>
             </div> */}
           </section>
+
         </main>
 
         {/* Bottom Action Bar */}
@@ -293,12 +310,26 @@ function getGender(value: number) {
 
       {/* <Loader show={loading}></Loader>    */}
 
-      <AwarePopup
+      {/* <AwarePopup
         isOpen={isAwareOpen}
         onClose={() => setIsAwareOpen(false)}
         onProceed={() => handleApplyRedirection()}
         influencerName={data?.title}
-      />
+      /> */}
+    
+    {
+      isLoggedIn && (
+      <CreateProfilePopup 
+          showProfilePopup={isProfileCreatePopupOpen} 
+          onClose={() => setIsProfileCreatePopupOpen(false)}
+        />
+      )
+    }
+    {
+      !isLoggedIn && isProfileCreatePopupOpen && (
+        <LoginPopup />
+      )
+    }
     </>
   );
 };
