@@ -304,7 +304,7 @@ export default function EditBasicDetails() {
       const response = await api.post(API_ROUTES.addUpdateInfluencer, payload);
       if (response.status === 1) {
         showToast('Profile updated successfully!', 'success');
-        router.push('/profile/edit');
+        // router.push('/profile/edit');
       setIsLoading(false);
 
       } else {
@@ -347,19 +347,19 @@ export default function EditBasicDetails() {
         )}
 
         {/* Header */}
-        <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
-          <div className="relative">
-            <Link
-              href="/profile/edit"
-              className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
-            >
-               <svg className="w-6 h-6 text-gray-600 hover:text-gray-900 " fill="none" stroke="#ccc" viewBox="0 0 24 24">
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <div className="flex items-center justify-center relative">
+          <Link 
+            href="/profile/edit"
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            </Link>
-            <h1 className="text-lg font-medium text-gray-900 text-center">Edit Basic Details</h1>
-          </div>
+          </Link>
+          <h1 className="text-lg font-medium text-gray-900"> Edit Basic Details</h1>
         </div>
+      </header>
 
         {/* Main Content */}
         <div className="px-4 py-3">

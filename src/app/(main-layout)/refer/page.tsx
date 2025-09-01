@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -8,7 +8,14 @@ import Image from 'next/image';
 export default function ReferPage() {
   const router = useRouter();
   const [copied, setCopied] = useState(false);
-  const [referralCode] = useState('DUMZOO2024');
+  const [referralCode, setReferralCode] = useState('');
+
+  useEffect(() => {
+    const referralCode = localStorage.getItem('referral_code');
+    if(referralCode){
+      setReferralCode(referralCode);
+    }
+  }, []);
 
   const copyToClipboard = async () => {
     try {
