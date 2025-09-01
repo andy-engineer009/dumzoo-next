@@ -229,16 +229,20 @@ export default function CampaignsDiscover() {
 
   return (
     <div className="campaigns-discover-screen">
-      <div className="flex items-center py-3 header-section">
-        <Link href="/" className="absolute left-4">
-          <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </Link>
-        <div className="flex-1 text-center">
-          <h1 className="text-lg font-medium text-gray-900">Campaigns</h1>
+        {/* Header */}
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <div className="flex items-center justify-center relative">
+          <Link 
+            href="/"
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </Link>
+          <h1 className="text-lg font-medium text-gray-900"> Campaigns</h1>
         </div>
-      </div>
+      </header>
 
       {/* Cache Status Indicator */}
       {/* {!isInitialLoading && campaigns.length > 0 && (

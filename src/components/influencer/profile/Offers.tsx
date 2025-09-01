@@ -223,23 +223,20 @@ export default function OffersForm() {
       )}
 
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 w-full px-6 py-3 bg-white/80 backdrop-blur-md border-b border-gray-200/50 sticky top-0 z-[100]"
-      >
-        <div className="flex items-center">
-          <Link href="/profile/edit" className="absolute left-4">
-          <svg className="w-6 h-6 text-gray-600 hover:text-gray-900 " fill="none" stroke="#ccc" viewBox="0 0 24 24">
+             {/* Header */}
+             <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <div className="flex items-center justify-center relative">
+          <Link 
+            href="/profile/edit"
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
-          <div className="flex-1 text-center">
-            <h1 className="text-lg font-medium text-gray-900">My Offers</h1>
-            {/* <p className="text-sm text-gray-500">Manage your service packages</p> */}
-          </div>
+          <h1 className="text-lg font-medium text-gray-900"> Offers</h1>
         </div>
-      </motion.div>
+      </header>
 
       {/* Content */}
       <div className="relative z-10 px-4 py-6">

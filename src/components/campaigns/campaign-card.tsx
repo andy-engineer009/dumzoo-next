@@ -4,6 +4,15 @@ import Image from "next/image";
 // userRole 1 admin 2 influencer 3 Promoter or brand
 export default function CampaignCard({campaign, userRole}: {campaign: any, userRole: any}) {    
 
+    const formatAppliedInfluencers = (count: any): string => {
+        if (count >= 1000000) {
+          return `${(count / 1000000).toFixed(1)}M`;
+        } else if (count >= 1000) {
+          return `${(count / 1000).toFixed(1)}K`;
+        }
+        return count.toString();
+      };
+
     function getGenderPreferenceLabel(value: number) {
         switch (value) {
             case 0: return 'All';
@@ -75,7 +84,8 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                 {/* Yellow Banner - Applied Count */}
                 <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
                     <div className="flex items-center">
-                        <span>317 Applied</span>
+                        <span>{campaign?.applied_influencers_count ? formatAppliedInfluencers(campaign?.applied_influencers_count) : 0} Applied</span>
+                        
                         <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                         </svg>
@@ -85,23 +95,36 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
 
             {/* Bottom Section - Campaign Details */}
             <div className="p-4">
+                                  {/* Brand Name */}
+                                  <h3 className="text-lg font-bold text-black mb-1">
+                            {campaign.compaign_name || '--'}
+                        </h3>
                 <div className="flex justify-between items-start">
                     {/* Left Side - Campaign Info */}
                     <div className="flex-1">
-                        {/* Brand Name */}
-                        <h3 className="text-lg font-bold text-black mb-1">
-                            {campaign.compaign_name || '--'}
-                        </h3>
                         
                         {/* Payout */}
                         <p className="text-sm text-black mb-1">
                             Payout - <span className="font-semibold">₹{campaign.total_budget || '--'}</span>
                         </p>
                         
-                        {/* Preference */}
-                        <p className="text-xs text-gray-500">
+                        <div className="flex">
+      {/* Preference */}
+      <p className="text-xs text-gray-500">
                             Preferred: {campaign.gender_preference != null ? getGenderPreferenceLabel(campaign.gender_preference) : '--'}
                         </p>
+
+                        <div className="flex items-center space-x-1 pl-2">
+                            <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                            <span className="text-xs text-black font-medium">
+                                {campaign.minimum_followers ? getInfluencerCategoryByFollowers(campaign.minimum_followers) : '--'}
+                                {/* {campaign.minimum_followers ? formatAppliedInfluencers(campaign.minimum_followers) : '--'} */}
+                            </span>
+                        </div>
+                        </div>
+                  
                     </div>
 
                     {/* Right Side - Platform & Type */}
@@ -125,14 +148,7 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                         </div>
                         
                         {/* Micro Influencer Type */}
-                        <div className="flex items-center space-x-1">
-                            <svg className="w-4 h-4 text-black" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
-                            </svg>
-                            <span className="text-xs text-black font-medium">
-                                {campaign.minimum_followers ? getInfluencerCategoryByFollowers(campaign.minimum_followers) : '--'}
-                            </span>
-                        </div>
+                   
                         
                         {/* Time Posted */}
                         <p className="text-xs text-gray-500">

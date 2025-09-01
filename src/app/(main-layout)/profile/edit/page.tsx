@@ -73,24 +73,19 @@ export default function EditProfile() {
       </div>
 
       {/* Header */}
-      <div className="relative z-10 w-full px-3 py-2 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/profile"
-            className="inline-flex items-center justify-center w-10 h-10 transition-colors hover:bg-gray-100 rounded-full"
-            aria-label="Back to Profile"
+      <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <div className="flex items-center justify-center relative">
+          <button 
+            onClick={() => router.push('/profile')}
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
           >
-            <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </Link>
-          <div className="text-center">
-            <h1 className="text-lg font-medium text-gray-900">Complete Profile</h1>
-            {/* <p className="text-sm text-gray-500">Fill in your details to get started</p> */}
-          </div>
-          <div className="w-10"></div> {/* Spacer for centering */}
+          </button>
+          <h1 className="text-lg font-medium text-gray-900"> Profile</h1>
         </div>
-      </div>
+      </header>
 
       {/* Main Content */}
       <div className="relative z-10 px-6 py-8">
