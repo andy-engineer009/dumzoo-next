@@ -228,8 +228,8 @@ export default function CampaignsDiscover() {
   }, [dispatch]);
 
   return (
-    <>
-      <div className="flex items-center py-3">
+    <div className="campaigns-discover-screen">
+      <div className="flex items-center py-3 header-section">
         <Link href="/" className="absolute left-4">
           <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -273,6 +273,6 @@ export default function CampaignsDiscover() {
       </div>
       
       <ScrollToTop />
-    </>
+    </div>
   );
 }

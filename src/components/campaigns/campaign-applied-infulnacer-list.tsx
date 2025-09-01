@@ -121,7 +121,7 @@ export default function CampaignsList() {
           </div>
         </div>
 
-          <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px]">
+          <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px] ">
             <div className="md:pl-9" style={{flex: 1}}>
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
                 {Array.from({ length: 20 }, (_, index) => (

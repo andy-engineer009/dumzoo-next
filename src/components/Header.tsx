@@ -45,7 +45,7 @@ const Header = () => {
 
               {/* Discover */}
               <button
-                onClick={() => router.push(role === '2' ? '/campaigns' : '/discover')}
+                onClick={() => router.push((role === '2' && isLoggedIn) ? '/campaigns' : (role === '3' && isLoggedIn) ? '/discover' : '/finder')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname === '/discover' 
                       ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
