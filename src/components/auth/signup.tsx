@@ -146,22 +146,25 @@ const Signup = () => {
             {(() => {
               // Array of influencer images (repeat for infinite effect)
               const influencerImages = [
-                '/images/login/r1.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
-                '/images/login/r6.jpg',
-                '/images/login/r3.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
+                '/images/login/w1.jpg',
+                '/images/login/w4.jpg',
+                '/images/login/w3.jpg',
                 '/images/login/r6.jpg',
                 '/images/login/r1.jpg',
-                '/images/login/r2.jpg',
-                '/images/login/r1.jpg',
-                '/images/login/r2.jpg',
-                '/images/login/r3.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
-                '/images/login/r6.jpg',
+
+                '/images/login/w5.jpg',
+                '/images/login/w6.jpg',
+                '/images/login/w7.jpg',
+                '/images/login/w8.jpg',
+                '/images/login/w9.jpg',
+
+                '/images/login/w10.jpg',
+                '/images/login/w11.jpg',
+                '/images/login/w12.jpg',
+                '/images/login/w13.jpg',
+
+                '/images/login/w6.jpg',
+                '/images/login/w2.jpg',
                 '/images/login/r2.jpg',
                 '/images/login/r3.jpg',
               ];
@@ -210,9 +213,10 @@ const Signup = () => {
               <div className="space-y-3">
                 <h3 className="text-lg font-medium text-gray-900 text-center mb-4">Why are you here?</h3>
                 
+                {/* bg-[#f43cb3] */}
                 <button
                   onClick={() => setUserType(2)}
-                  className="w-full bg-[#f43cb3] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full bg-[#000] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -226,7 +230,7 @@ const Signup = () => {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span>Promote Your Product/Business</span>
+                  <span>Promote Product/Business</span>
                 </button>
               </div>
                   <div className="text-center mt-4">

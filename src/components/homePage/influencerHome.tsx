@@ -150,7 +150,7 @@ export default function InfluencerHome() {
         <Image src="/images/hero.png" alt="hero" width={1000} height={1000} className="opacity-20" />
       </div>
 
-      <div className="top-0 z-30  flex items-center justify-between px-4 pt-2 absolute w-full">
+      {/* <div className="top-0 z-30  flex items-center justify-between px-4 pt-2 absolute w-full">
         <div className="flex items-center gap-2">
   
           <span className="font-bold text-lg text-white">Hi   Andy</span>
@@ -167,12 +167,18 @@ export default function InfluencerHome() {
             </div>
           </Link>
             </div>
-          </div>
+          </div> */}
    
       {/* banner */}
-      <div className="bg-[#d0d2fe] w-full h-[300px] relative flex items-center justify-center">
+      <div className="bg-[#d0d2fe] relative flex items-center justify-center" style={{
+        height: 450,
+        width: '92%',
+        borderRadius: 9,
+        overflow: 'hidden',
+        margin: '20px auto 0px'
+      }}>
         <Image
-          src="/images/creator-banner.webp"
+          src="/images/creator-banner.png"
           alt="Banner"
           layout="fill"
           objectFit="cover"
@@ -261,21 +267,21 @@ export default function InfluencerHome() {
           </motion.div>
         </div> */}
 
-  
-
         {/* Newly Added Campaigns Section */}
-        <div className="mb-4">
+        <div className="mb-4 mt-2">
           {/* <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-bold text-gray-900 ">Newly Campaigns</h2>
    
           </div> */}
 
-          <div className="flex items-center mb-3">
+          <div className=" mb-3">
             {/* <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg> */}
-            <h2 className="text-[14px] font-bold text-gray-800  px-0" style={{letterSpacing: '1px'}}>Newly Campaigns</h2>
+            <h2 className="text-[16px] font-bold text-gray-800  px-0" style={{letterSpacing: '1px', fontFamily: 'arial'}}>Newly Campaigns</h2>
+            <p className="text-[13px] text-gray-500">Find the latest campaigns</p>
+
             {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -335,9 +341,63 @@ export default function InfluencerHome() {
           </div>
         </div>
 
+          {/* Newly Added Campaigns Section */}
+          <div className="mb-7">
+          {/* <div className="flex items-center justify-between mb-4">
+            <h2 className="text-base font-bold text-gray-900 ">Newly Campaigns</h2>
+   
+          </div> */}
+
+          <div className="mb-3">
+            <h2 className="text-[16px] font-bold text-gray-800  px-0" style={{letterSpacing: '1px', fontFamily: 'arial'}}>Latest On dumzoo</h2>
+            <p className="text-[13px] text-gray-500">Grow with the dumzoo app</p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Image
+              src='/images/promotor/w1.png'
+              alt='campaign-image'
+              width={256}
+              height={128}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <Image
+              src='/images/promotor/w2.png'
+              alt='campaign-image' 
+              width={256}
+              height={128}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <Image
+              src='/images/promotor/w3.png'
+              alt='campaign-image'
+              width={256}
+              height={128} 
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div>
+            <Image
+              src='/images/promotor/w4.png'
+              alt='campaign-image'
+              width={256}
+              height={128}
+              className="w-full h-full object-contain"
+            />
+          </div>
+        </div>
+
+          </div>
+
         <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-[14px] font-bold text-gray-900" style={{letterSpacing: '1px'}}>Most Applied Campaigns</h2>
+          <div className="mb-3">
+            <h2 className="text-[16px] font-bold text-gray-800  px-0" style={{letterSpacing: '1px', fontFamily: 'arial'}}>Most Applied Campaigns</h2>
+            <p className="text-[13px] text-gray-500">Find the most applied campaigns</p>
             {/* <Link href="/campaigns" className="text-sm text-blue-600 hover:text-blue-700 font-medium">
               View All
             </Link> */}

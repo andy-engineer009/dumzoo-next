@@ -141,22 +141,25 @@ const Login = () => {
             {(() => {
               // Array of influencer images (repeat for infinite effect)
               const influencerImages = [
-                '/images/login/r1.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
-                '/images/login/r6.jpg',
-                '/images/login/r3.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
+                '/images/login/w1.jpg',
+                '/images/login/w4.jpg',
+                '/images/login/w3.jpg',
                 '/images/login/r6.jpg',
                 '/images/login/r1.jpg',
-                '/images/login/r2.jpg',
-                '/images/login/r1.jpg',
-                '/images/login/r2.jpg',
-                '/images/login/r3.jpg',
-                '/images/login/r4.jpg',
-                '/images/login/r5.jpg',
-                '/images/login/r6.jpg',
+
+                '/images/login/w5.jpg',
+                '/images/login/w6.jpg',
+                '/images/login/w7.jpg',
+                '/images/login/w8.jpg',
+                '/images/login/w9.jpg',
+
+                '/images/login/w10.jpg',
+                '/images/login/w11.jpg',
+                '/images/login/w12.jpg',
+                '/images/login/w13.jpg',
+
+                '/images/login/w6.jpg',
+                '/images/login/w2.jpg',
                 '/images/login/r2.jpg',
                 '/images/login/r3.jpg',
               ];
