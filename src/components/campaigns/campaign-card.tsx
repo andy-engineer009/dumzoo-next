@@ -82,15 +82,30 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             }
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
                 {/* Yellow Banner - Applied Count */}
-                <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                {
+                    campaign?.applied_campaign_status == 1 ? 
+                    <div className="absolute top-3 right-3 bg-green-500 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
                     <div className="flex items-center">
-                        <span>{campaign?.applied_influencers_count ? formatAppliedInfluencers(campaign?.applied_influencers_count) : 0} Applied</span>
-                        
+                         <span>Applied</span>
                         <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                         </svg>
                     </div>
                 </div>
+                 : 
+                 <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                 <div className="flex items-center">
+                     <span>{campaign?.applied_influencers_count ? formatAppliedInfluencers(campaign?.applied_influencers_count) : 0} Applied</span>
+                     
+                     
+                     <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                         <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                     </svg>
+                 </div>
+             </div>
+             
+                }
+              
             </div>
 
             {/* Bottom Section - Campaign Details */}
