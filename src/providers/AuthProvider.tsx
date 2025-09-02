@@ -16,6 +16,7 @@ const ROUTES = {
       '/profile',
       '/campaigns',
       '/discover',
+      '/chat'
     ],
   
   // Protected routes - require authentication (any logged-in user)
