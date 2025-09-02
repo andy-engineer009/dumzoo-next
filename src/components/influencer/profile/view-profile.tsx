@@ -4,12 +4,15 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '@/store/userRoleSlice';
+import { selectIsLoggedIn, selectIsInfluencerRegistered } from '@/store/userRoleSlice';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import InfluencerCard from '../InfulancerCard';
 import InfluencerDetail from '../InfulancerDetail';
 import Loader from '../../loader';
+import { useToast } from '@/components/toast';
+import CreateProfilePopup from '@/components/influencer/create-profile-popup';
+import InfluencerSkeleton from '@/components/discover/InfluencerSkeleton';
 
 // interface ProfileData {
 //   id: any;
@@ -43,49 +46,35 @@ import Loader from '../../loader';
 // }
 
 export default function ViewProfile() {
-    const transformedData: any = {
-    id: "1",
-    name: "John Doe",
-    username: "john_doe",
-    image: "/images/offer-1.jpg",
-    isVerified: true,
-    location: "New York",
-    category: "Fashion",
-    followers: 1000,
-    overview: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    posts: [],
-    gender: "Male",
-    age: 25,
-    languages: ["English", "Spanish"],
-    audienceType: "Male",
-    audienceAgeGroup: "18-25",
-    offers: [
-      {
-        id: "1",
-        type: "single",
-        name: "Single Post",
-        price: 100,
-        items: [{ contentType: "Post", quantity: 1 }]
-      },
-      {
-        id: "2",
-        type: "combo",
-        name: "Combo Package",
-        price: 200,
-        items: [{ contentType: "Post", quantity: 1 }, { contentType: "Reel", quantity: 1 }]
-      }
-    ],
-    instagramUrl: "https://www.instagram.com/john_doe",
-    youtubeUrl: "https://www.youtube.com/john_doe",
-    facebookUrl: "https://www.facebook.com/john_doe",
-    startingPrice: 100
-};
+    
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [profileData, setProfileData] = useState<any | null>(transformedData);
+  const [profileData, setProfileData] = useState<any | null>();
   const [isLoadingData, setIsLoadingData] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  
+  const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
+  const {showError} = useToast();
+  const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
+
+  useEffect(() => {
+    if(isInfluencerRegistered) {
+      api.post(API_ROUTES.influencerProfilePreview).then((res)=>{
+        if(res.status == 1) {
+          setProfileData(res.data);
+        }else {
+          showError(res.message)
+        }
+      });
+    }else {
+      setIsProfileCreatePopupOpen(true)
+    }
+    // const fetchProfileData = async () => {
+    //   const response = await api.get(API_ROUTES.influencerProfilePreview);
+    //   setProfileData(response.data);
+    // };
+    // fetchProfileData();
+  }, []);
+
 //   setProfileData(transformedData);
   // Fetch profile data
 //   useEffect(() => {
@@ -158,17 +147,7 @@ export default function ViewProfile() {
 
   if (!profileData) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">No profile data found</p>
-          <button 
-            onClick={() => router.push('/profile/edit/basic')}
-            className="bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
-          >
-            Create Profile
-          </button>
-        </div>
-      </div>
+      <InfluencerSkeleton></InfluencerSkeleton>
     );
   }
 
@@ -177,43 +156,27 @@ export default function ViewProfile() {
       {isLoading && <Loader />}
       <div className="min-h-screen bg-white text-gray-900 profile-view-wrapper">
         {/* Header - Same as Basic-details.tsx */}
-        <div className="w-full px-2 py-3 border-b border-gray-200 sticky top-0 z-[100] bg-white">
-          <div className="relative">
-            <Link
-              href="/profile"
-              className="mr-2 p-2 hover:bg-gray-100 rounded-full transition-colors absolute left-0 top-1/2 -translate-y-1/2"
-            >
-              <svg className="w-6 h-6 text-gray-600 hover:text-gray-900" fill="none" stroke="#ccc" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </Link>
-            <h1 className="text-lg font-medium text-gray-900 text-center">View Profile</h1>
-          </div>
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <div className="flex items-center justify-center relative">
+          <Link 
+            href="/profile"
+            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </Link>
+          <h1 className="text-lg font-medium text-gray-900"> View Profile</h1>
         </div>
+      </header>
 
         {/* Main Content */}
         <div className="px-4 py-6">
           {/* Profile Overview Section */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Profile Overview</h2>
             <div className="bg-gray-50 rounded-xl p-0">
               <InfluencerCard
-                id={profileData.id}
-                uuid={profileData.uuid}
-                user_id={profileData.user_id}
-                name={profileData.username}
-                username={profileData.username}
-                image={profileData.image}
-                isVerified={profileData.isVerified}
-                location={profileData.location}
-                category={profileData.category}
-                followers={profileData.followers}
-                startingPrice={profileData.startingPrice}
-                instagramUrl={profileData.instagramUrl}
-                youtubeUrl={profileData.youtubeUrl}
-                facebookUrl={profileData.facebookUrl}
-                isFeatured={profileData.isFeatured}
-                tags={profileData.tags}
+                 data={profileData}
               />
             </div>
           </div>
@@ -223,26 +186,7 @@ export default function ViewProfile() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">Profile Details</h2>
             <div className="bg-gray-50 rounded-xl p-0">
               <InfluencerDetail
-                id={profileData.uuid}
-                name={profileData.username}
-                username={profileData.username}
-                image={profileData.image}
-                isVerified={profileData.isVerified}
-                location={profileData.location}
-                category={profileData.category}
-                followers={profileData.followers}
-                overview={profileData.overview}
-                instagramUrl={profileData.instagramUrl}
-                youtubeUrl={profileData.youtubeUrl}
-                facebookUrl={profileData.facebookUrl}
-                gender={profileData.gender}
-                age={profileData.age}
-                languages={profileData.languages}
-                audienceType={profileData.audienceType}
-                audienceAgeGroup={profileData.audienceAgeGroup}
-                posts={profileData.posts}
-                offers={profileData.offers}
-                startingPrice={profileData.startingPrice}
+                data={profileData}
               />
             </div>
           </div>
@@ -270,6 +214,11 @@ export default function ViewProfile() {
           </div>
         </div>
       </div>
+
+      <CreateProfilePopup 
+          showProfilePopup={isProfileCreatePopupOpen} 
+          onClose={() => setIsProfileCreatePopupOpen(false)}
+        />
     </>
   );
 }

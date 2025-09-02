@@ -295,6 +295,9 @@ input:focus {
 {
   display: none;
 }
+.profile-view-wrapper .pb-24 {
+  padding-bottom: 0px !important;
+}
 
 .finder-screen .search-bar-section {
   display: none;
