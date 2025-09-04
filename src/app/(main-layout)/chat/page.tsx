@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
+import { useSocket } from '@/hooks/useSocket';
 
 const mockChatUsers = [
     {
@@ -49,24 +50,62 @@ export default function ChatList() {
     const router = useRouter();
     const [chatUsers, setChatUsers] = useState<any>([]);
     const [selectedChat, setSelectedChat] = useState<any>(null);
-
+    const [currentUserId, setCurrentUserId] = useState<string>('');
+    
+    // Initialize socket connection
+    const { isConnected, onNewMessage, offNewMessage } = useSocket({
+      autoConnect: true
+    });
 
     useEffect(() => {
       const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
-        const fetchChatUsers = async () => {
-            api.get(`${API_ROUTES.getChatConversationsList}${userId}`).then((res) => {
-              if(res.status == 1){
-                setChatUsers(res.data);
-              }
-              else{
-                  // showError(res.message, 2000);
-              }
-                // setChatUsers(res.data);
-            });
-            // setChatUsers(response.data);
-        };
-        fetchChatUsers();
+      setCurrentUserId(userId);
+      
+      const fetchChatUsers = async () => {
+        api.get(`${API_ROUTES.getChatConversationsList}${userId}`).then((res) => {
+          if(res.status == 1){
+            setChatUsers(res.data);
+          }
+          else{
+              // showError(res.message, 2000);
+          }
+        });
+      };
+      fetchChatUsers();
     }, []);
+
+    // Listen for new messages and update chat list
+    useEffect(() => {
+      if (isConnected) {
+        const handleNewMessage = (message: any) => {
+          console.log('New message received in chat list:', message);
+          
+          // Update the chat list with the new message
+          setChatUsers((prevChats: any[]) => {
+            return prevChats.map((chat: any) => {
+              if (chat.id === message.conversationId) {
+                return {
+                  ...chat,
+                  lastMessage: message.message,
+                  lastMessageTime: new Date(message.timestamp).toLocaleTimeString([], { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                  }),
+                  unreadCount: message.senderId !== currentUserId ? (chat.unreadCount || 0) + 1 : chat.unreadCount
+                };
+              }
+              return chat;
+            });
+          });
+        };
+
+        onNewMessage(handleNewMessage);
+
+        return () => {
+          offNewMessage();
+        };
+      }
+    }, [isConnected, currentUserId, onNewMessage, offNewMessage]);
 
     // Handle chat selection
     const handleChatSelect = (user: any) => {
@@ -123,7 +162,11 @@ const EmptyState = () => (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-lg font-medium text-gray-900"> Messages</h1>
+          <div className="flex items-center gap-2">
+            <h1 className="text-lg font-medium text-gray-900">Messages</h1>
+            <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
+                 title={isConnected ? 'Connected' : 'Disconnected'}></div>
+          </div>
         </div>
       </header>
 

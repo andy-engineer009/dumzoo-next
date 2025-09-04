@@ -1,12 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
+import { useSocket } from '@/hooks/useSocket';
 
 // Types
 interface ChatUser {
@@ -52,8 +53,47 @@ export default function ChatPage() {
   const router = useRouter();
   const [currentUser] = useState<any>(mockCurrentUser);
   const [messages, setMessages] = useState<any[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string>('');
+  const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [typingUser, setTypingUser] = useState<string>('');
   const { id } = useParams();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Initialize socket connection
+  const { 
+    isConnected, 
+    joinConversation, 
+    leaveConversation, 
+    sendMessage: socketSendMessage, 
+    sendTyping, 
+    onNewMessage, 
+    onTyping, 
+    offNewMessage, 
+    offTyping 
+  } = useSocket({
+    autoConnect: true
+  });
+
+  // Get current user ID
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+    setCurrentUserId(userId);
+  }, []);
+
+  // Join conversation when component mounts
+  useEffect(() => {
+    if (isConnected && id) {
+      joinConversation(id as string);
+    }
+
+    return () => {
+      if (id) {
+        leaveConversation(id as string);
+      }
+    };
+  }, [isConnected, id, joinConversation, leaveConversation]);
+
+  // Fetch initial messages
   useEffect(() => {
     const fetchMessages = async () => {
        api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
@@ -66,32 +106,111 @@ export default function ChatPage() {
        });
     };
     fetchMessages();
-  }, []);
+  }, [id]);
+
+  // Listen for new messages
+  useEffect(() => {
+    if (isConnected) {
+      const handleNewMessage = (message: any) => {
+        console.log('New message received:', message);
+        setMessages(prev => [...prev, message]);
+        scrollToBottom();
+      };
+
+      onNewMessage(handleNewMessage);
+
+      return () => {
+        offNewMessage();
+      };
+    }
+  }, [isConnected, onNewMessage, offNewMessage]);
+
+  // Listen for typing indicators - SIMPLE LOGIC
+  useEffect(() => {
+    if (isConnected) {
+      const handleTyping = (data: { userId: string }) => {
+        console.log('Typing data received:', data, 'Current user:', currentUserId);
+        
+        // Only show typing indicator if it's from a different user
+        if (data.userId && data.userId !== currentUserId) {
+          console.log('Showing typing indicator for user:', data.userId);
+          
+          // Show typing immediately
+          setIsTyping(true);
+          setTypingUser(data.userId);
+          
+          // Hide typing after 3 seconds - SIMPLE!
+          setTimeout(() => {
+            setIsTyping(false);
+            setTypingUser('');
+          }, 3000);
+        }
+      };
+
+      onTyping(handleTyping);
+
+      return () => {
+        offTyping();
+      };
+    }
+  }, [isConnected, currentUserId, onTyping, offTyping]);
+
+  // Auto-scroll to bottom when new messages arrive
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = (values: { message: string }, { resetForm }: any) => {
-    // const newMessage: any = {
-    //   id: Date.now().toString(),
-    //   text: values.message,
-    //   timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    //   isOwn: true,
-    //   senderId: 'current',
-    // };
-    const payload = {
-      message: values.message,
-      conversationId: id,
-      userId : JSON.parse(localStorage.getItem('activeUser') || '{}').id
-    };
-    api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
-      if(res.status == 1){
-        setMessages(prev => [...prev, res.data]);
-        resetForm();
-      }
-      else{
-        // showError(res.message, 2000);
-      }
-     });
+    if (isConnected && currentUserId) {
+      // Send message via Socket.IO for real-time delivery
+      socketSendMessage(id as string, currentUserId, values.message);
+      
+      // Also send via REST API for persistence
+      const payload = {
+        message: values.message,
+        conversationId: id,
+        userId: currentUserId
+      };
+      
+      api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
+        if(res.status == 1){
+          // Message will be added via Socket.IO listener, no need to add here
+          resetForm();
+        }
+        else{
+          // showError(res.message, 2000);
+        }
+      });
+    } else {
+      // Fallback to REST API only if Socket.IO is not connected
+      const payload = {
+        message: values.message,
+        conversationId: id,
+        userId: currentUserId
+      };
+      
+      api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
+        if(res.status == 1){
+          setMessages(prev => [...prev, res.data]);
+          resetForm();
+        }
+        else{
+          // showError(res.message, 2000);
+        }
+      });
+    }
+  };
 
-    // setMessages(prev => [...prev, newMessage]);
+  // Handle typing indicator - send event on every keystroke
+  const triggerTyping = () => {
+    if (isConnected && currentUserId) {
+      // Send typing indicator immediately on every keystroke
+      sendTyping(id as string, currentUserId, 'typing...');
+    }
   };
 
   return (
@@ -133,7 +252,11 @@ export default function ChatPage() {
                 )}
               </div>
               <div className="ml-3">
-                <h3 className="text-lg font-semibold text-black">{currentUser.name}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-lg font-semibold text-black">{currentUser.name}</h3>
+                  <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
+                       title={isConnected ? 'Connected' : 'Disconnected'}></div>
+                </div>
                 <p className="text-sm text-gray-500">
                   {currentUser.isOnline ? 'Online' : 'Offline'}
                 </p>
@@ -150,28 +273,47 @@ export default function ChatPage() {
             <p>No messages yet. Start the conversation!</p>
           </div>
         ) : (
-          messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
-            >
+          <>
+            {messages.map((message) => (
               <div
-                className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                  message.isOwn
-                    ? 'bg-[#1fb036] text-white'
-                    : 'bg-gray-100 text-black'
-                }`}
+                key={message.id}
+                className={`flex ${message.senderId === currentUserId ? 'justify-end' : 'justify-start'}`}
               >
-                <p className="text-sm">{message.message}</p>
-                <p className={`text-xs mt-1 ${
-                  message.isOwn ? 'text-green-100' : 'text-gray-500'
-                }`}>
-                  {message.timestamp}
-                </p>
+                <div
+                  className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
+                    message.senderId === currentUserId
+                      ? 'bg-[#1fb036] text-white'
+                      : 'bg-gray-100 text-black'
+                  }`}
+                >
+                  <p className="text-sm">{message.message}</p>
+                  <p className={`text-xs mt-1 ${
+                    message.senderId === currentUserId ? 'text-green-100' : 'text-gray-500'
+                  }`}>
+                    {message.timestamp}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
+            ))}
+            
+            {/* Typing indicator */}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 text-black max-w-xs lg:max-w-md px-4 py-2 rounded-lg">
+                  <div className="flex items-center space-x-1">
+                    <div className="flex space-x-1">
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                    </div>
+                    <span className="text-xs text-gray-500 ml-2">typing...</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Message input */}
@@ -184,23 +326,31 @@ export default function ChatPage() {
           {({ isSubmitting }) => (
             <Form className="flex space-x-2">
               <div className="flex-1">
-                <Field
-                  name="message"
-                  as="textarea"
-                  placeholder="Type your message..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1fb036] focus:outline-none resize-none"
-                  rows={1}
-                  onKeyDown={(e: React.KeyboardEvent) => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      const form = (e.currentTarget as HTMLFormElement).form;
-                      if (form) {
-                        const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-                        if (submitButton) submitButton.click();
-                      }
-                    }
-                  }}
-                />
+                <Field name="message">
+                  {({ field, form }: any) => (
+                    <textarea
+                      {...field}
+                      placeholder="Type your message..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-[#1fb036] focus:outline-none resize-none"
+                      rows={1}
+                      onKeyDown={(e: React.KeyboardEvent) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          form.submitForm();
+                        }
+                      }}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                        // Update Formik field value
+                        field.onChange(e);
+                        
+                        // Trigger typing indicator when user starts typing
+                        if (e.target.value.length > 0) {
+                          triggerTyping();
+                        }
+                      }}
+                    />
+                  )}
+                </Field>
               </div>
               <button
                 type="submit"
