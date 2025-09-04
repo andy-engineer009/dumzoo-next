@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import Image from 'next/image';
+import { API_ROUTES } from '@/appApi';
+import { api } from '@/common/services/rest-api/rest-api';
 
 // Types
 interface ChatUser {
@@ -48,20 +50,48 @@ const messageSchema = Yup.object().shape({
 
 export default function ChatPage() {
   const router = useRouter();
-  const [currentUser] = useState<ChatUser>(mockCurrentUser);
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [currentUser] = useState<any>(mockCurrentUser);
+  const [messages, setMessages] = useState<any[]>([]);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
+        if(res.status == 1){
+          setMessages(res.data);
+        }
+        else{
+          // showError(res.message, 2000);
+        }
+       });
+    };
+    fetchMessages();
+  }, []);
 
   const handleSendMessage = (values: { message: string }, { resetForm }: any) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text: values.message,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      isOwn: true,
-      senderId: 'current',
+    // const newMessage: any = {
+    //   id: Date.now().toString(),
+    //   text: values.message,
+    //   timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    //   isOwn: true,
+    //   senderId: 'current',
+    // };
+    const payload = {
+      message: values.message,
+      conversationId: id,
+      userId : JSON.parse(localStorage.getItem('activeUser') || '{}').id
     };
+    api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
+      if(res.status == 1){
+        setMessages(prev => [...prev, res.data]);
+        resetForm();
+      }
+      else{
+        // showError(res.message, 2000);
+      }
+     });
 
-    setMessages(prev => [...prev, newMessage]);
-    resetForm();
+    // setMessages(prev => [...prev, newMessage]);
   };
 
   return (
@@ -132,7 +162,7 @@ export default function ChatPage() {
                     : 'bg-gray-100 text-black'
                 }`}
               >
-                <p className="text-sm">{message.text}</p>
+                <p className="text-sm">{message.message}</p>
                 <p className={`text-xs mt-1 ${
                   message.isOwn ? 'text-green-100' : 'text-gray-500'
                 }`}>

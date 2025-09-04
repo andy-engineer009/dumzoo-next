@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import AwarePopup from '../aware-popup';
 
 import CampaignDetailSkeleton from "@/components/campaigns/CampaignDetailSkeleton";
+import { API_ROUTES } from '@/appApi';
+import { api } from '@/common/services/rest-api/rest-api';
 
 const InfluencerDetail = ({
   data
@@ -42,9 +44,18 @@ const InfluencerDetail = ({
   };
 
   const handleChatRedirection = () => {
-    setIsAwareOpen(false);
-    router.push('/chat/1');
-    console.log('Opening chat with:', name);
+    const activeUserId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+    api.post(API_ROUTES.createNewConversation, {
+      user1Id: activeUserId,
+      user2Id: data?.user_id
+    }).then((res) => {
+      if(res.status == 1){
+        router.push(`/chat/${res.data.id}`);
+      }
+    });
+    // setIsAwareOpen(false);
+    // router.push('/chat/1');
+    // console.log('Opening chat with:', name);
   };
 
   const getgender = (gender: any) => {
@@ -348,7 +359,8 @@ const InfluencerDetail = ({
         {/* Bottom Action Bar */}
         <nav className="hire-now fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
             <button 
-              onClick={handleChat}
+              // onClick={handleChat}
+              onClick={handleChatRedirection}
             className="w-full bg-[#1fb036] text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
             Hire Now

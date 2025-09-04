@@ -1,7 +1,10 @@
 'use client';
+
+import { api } from '@/common/services/rest-api/rest-api';
 import { useParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { API_ROUTES } from '@/appApi';
 
 const mockChatUsers = [
     {
@@ -44,13 +47,31 @@ const mockChatUsers = [
 
 export default function ChatList() {
     const router = useRouter();
-    const [chatUsers, setChatUsers] = useState<any>(mockChatUsers);
+    const [chatUsers, setChatUsers] = useState<any>([]);
     const [selectedChat, setSelectedChat] = useState<any>(null);
+
+
+    useEffect(() => {
+      const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+        const fetchChatUsers = async () => {
+            api.get(`${API_ROUTES.getChatConversationsList}${userId}`).then((res) => {
+              if(res.status == 1){
+                setChatUsers(res.data);
+              }
+              else{
+                  // showError(res.message, 2000);
+              }
+                // setChatUsers(res.data);
+            });
+            // setChatUsers(response.data);
+        };
+        fetchChatUsers();
+    }, []);
 
     // Handle chat selection
     const handleChatSelect = (user: any) => {
         setSelectedChat(user);
-        router.push(`/chat/${user.id}`);
+        router.push(`/chat/${user?.id}`);
     };
 
     // Handle delete single chat
@@ -123,18 +144,19 @@ const EmptyState = () => (
         <div className="divide-y divide-gray-100">
           {chatUsers.map((user : any) => (
             <div
-              key={user.id}
+              key={user?.id}
               onClick={() => handleChatSelect(user)}
               className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                selectedChat?.id === user.id ? 'bg-[#1fb036]/10 border-r-2 border-[#1fb036]' : ''
+                selectedChat?.id === user?.id ? 'bg-[#1fb036]/10 border-r-2 border-[#1fb036]' : ''
               }`}
             >
+              <div className='mb-3'>{user?.id}</div>
               {/* User avatar */}
-              <div className="relative flex-shrink-0">
+              {/* <div className="relative flex-shrink-0">
                 <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
                   <Image
-                    src={user.image}
-                    alt={user.name}
+                    src={user?.image}
+                    alt={user?.name}
                     width={48}
                     height={48}
                     className="w-full h-full object-cover"
@@ -145,22 +167,22 @@ const EmptyState = () => (
                     }}
                   />
                   <div className="hidden w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
-                    {user.name.split(' ').map((n: string) => n[0]).join('')}
+                    {user?.name.split(' ').map((n: string) => n[0]).join('')}
                   </div>
                 </div>
-                {user.isOnline && (
+                {user?.isOnline && (
                   <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
                 )}
-              </div>
+              </div> */}
 
               {/* Chat info */}
-              <div className="flex-1 min-w-0 ml-4">
+              {/* <div className="flex-1 min-w-0 ml-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900 truncate">{user.name}</h3>
+                  <h3 className="text-sm font-medium text-gray-900 truncate">{user?.name}</h3>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xs text-gray-500">{user.lastMessageTime}</span>  
+                    <span className="text-xs text-gray-500">{user?.lastMessageTime}</span>  
                     <button
-                      onClick={(e) => handleDeleteSingleChat(user.id, e)}
+                      onClick={(e) => handleDeleteSingleChat(user?.id, e)}
                       className="text-gray-400 hover:text-red-500 transition-colors p-1"
                       title="Delete chat"
                     >
@@ -171,14 +193,14 @@ const EmptyState = () => (
                   </div>
                 </div>
                 <div className="flex items-center justify-between mt-1">
-                  <p className="text-sm text-gray-500 truncate">{user.lastMessage}</p>
-                  {user.unreadCount > 0 && (
+                  <p className="text-sm text-gray-500 truncate">{user?.lastMessage}</p>
+                  {user?.unreadCount > 0 && (
                     <span className="bg-[#1fb036] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {user.unreadCount}
+                      {user?.unreadCount}
                     </span>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>
