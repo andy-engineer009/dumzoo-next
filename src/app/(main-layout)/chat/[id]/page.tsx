@@ -277,18 +277,18 @@ export default function ChatPage() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.senderId === currentUserId ? 'justify-end' : 'justify-start'}`}
+                className={`flex ${message.userId === currentUserId ? 'justify-end' : 'justify-start'}`}
               >
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
-                    message.senderId === currentUserId
+                    message.userId === currentUserId
                       ? 'bg-[#1fb036] text-white'
                       : 'bg-gray-100 text-black'
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>
                   <p className={`text-xs mt-1 ${
-                    message.senderId === currentUserId ? 'text-green-100' : 'text-gray-500'
+                    message.userId === currentUserId ? 'text-green-100' : 'text-gray-500'
                   }`}>
                     {message.timestamp}
                   </p>
