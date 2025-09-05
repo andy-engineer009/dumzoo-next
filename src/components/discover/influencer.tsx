@@ -93,14 +93,14 @@ export default function InfluencerDiscover() {
     setIsInitialLoading(true);
     try {
       const result: any = await fetchInfluencers(0, filters);
-      setInfluencers(result.data);
+      setInfluencers(result.data.rows);
       setTotalRecords(result.totalRecords);
       setHasMore(result.hasMore);
       setStartIndex(0);
       
       // Update Redux cache
       dispatch(discoverData({
-        influencers: result.data,
+        influencers: result.data.rows,
         totalRecords: result.totalRecords,
         hasMore: result.hasMore,
         startIndex: 0,
@@ -155,8 +155,8 @@ export default function InfluencerDiscover() {
       const nextStartIndex = startIndex + ITEMS_PER_PAGE;
       const result: any = await fetchInfluencers(nextStartIndex, filters);
       
-      if (result.data.length > 0) {
-        const newInfluencers = [...influencers, ...result.data];
+      if (result?.data?.rows?.length > 0) {
+        const newInfluencers = [...influencers, ...result?.data?.rows];
         setInfluencers(newInfluencers);
         setStartIndex(nextStartIndex);
         setHasMore(result.hasMore);
@@ -193,14 +193,14 @@ export default function InfluencerDiscover() {
     const reloadWithFilters = async () => {
       try {
         const result: any = await fetchInfluencers(0, newFilters);
-        setInfluencers(result.data);
+        setInfluencers(result?.data?.rows);
         setTotalRecords(result.totalRecords);
         setHasMore(result.hasMore);
         setStartIndex(0);
         
         // Update Redux cache with filtered data
         dispatch(discoverData({
-          influencers: result.data,
+          influencers: result?.data?.rows,
           totalRecords: result.totalRecords,
           hasMore: result.hasMore,
           startIndex: 0,

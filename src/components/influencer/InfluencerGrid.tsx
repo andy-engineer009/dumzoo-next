@@ -76,7 +76,7 @@ const InfluencerGrid = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 md:gap-6 pb-20 md:pb-0">
-      {influencers.map((influencer) => (
+      {influencers?.map((influencer) => (
         <InfluencerCard
           data={influencer}
           // key={influencer.id}
