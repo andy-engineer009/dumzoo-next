@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const InfluencerCard = ({data}: any) => {
-  console.log(data,'card data');
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
 

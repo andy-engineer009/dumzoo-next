@@ -314,16 +314,7 @@ const filterCategories: FilterCategory[] = [
   {
     id: 'followers',
     label: 'Followers',
-    type: 'radio',
-    options: [
-      { value: '0-1k', label: '0 to 1K' },
-      { value: '1k-5k', label: '1K to 5K' },
-      { value: '5k-10k', label: '5K to 10K' },
-      { value: '10k-30k', label: '10K to 30K' },
-      { value: '30k-50k', label: '30K to 50K' },
-      { value: '50k-1m', label: '50K to 1M' },
-      { value: '1m+', label: 'Greater than 1M' },
-    ]
+    type: 'range',
   },
   {
     id: 'budget',
@@ -414,6 +405,69 @@ const filterCategories: FilterCategory[] = [
 ];
 
 export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterModalProps) {
+  // Add custom styles for range slider
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 8px;
+        border-radius: 4px;
+        outline: none;
+      }
+      
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #1fb036;
+        cursor: pointer;
+        border: 3px solid #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        margin-top: -8px;
+      }
+      
+      input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #1fb036;
+        cursor: pointer;
+        border: 3px solid #ffffff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        border: none;
+      }
+      
+      input[type="range"]::-webkit-slider-track {
+        height: 8px;
+        border-radius: 4px;
+        background: transparent;
+      }
+      
+      input[type="range"]::-moz-range-track {
+        height: 8px;
+        border-radius: 4px;
+        background: transparent;
+      }
+      
+      input[type="range"]:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 0 4px rgba(31, 176, 54, 0.3);
+      }
+      
+      input[type="range"]:focus::-moz-range-thumb {
+        box-shadow: 0 0 0 4px rgba(31, 176, 54, 0.3);
+      }
+      
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   const [activeCategory, setActiveCategory] = useState('sortBy');
   const [selectedFilters, setSelectedFilters] = useState<any>({
     sortBy: 'popularity',
@@ -421,7 +475,10 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     categories: [],
     location: { state: '', city: '' },
     followers: '',
-    budget: { min: 0, max: 100000 },
+    followerMin: 0,
+    followerMax: 250000,
+    budgetMin: 0,
+    budgetMax: 100000,
     audienceType: [],
     audienceAgeGroup: [],
     gender: '',
@@ -433,7 +490,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   // Get current category data
   const currentCategory = filterCategories.find(cat => cat.id === activeCategory);
 
-  // Handle filter changes and trigger API call
+  // Handle filter changes without triggering API call
   const handleFilterChange = (categoryId: string, value: any) => {
     const newFilters = {
       ...selectedFilters,
@@ -443,8 +500,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     setSelectedFilters(newFilters);
     console.log(newFilters);
     
-    // Trigger API call immediately
-    onFilterChange(newFilters);
+    // Don't trigger API call immediately - wait for Apply button
   };
 
   // Handle radio button selection
@@ -466,21 +522,28 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     handleFilterChange(activeCategory, newValues);
   };
 
-  // Handle range slider
-  const handleRangeChange = (type: 'min' | 'max', value: number) => {
-    const currentRange = selectedFilters[activeCategory] || { min: 0, max: 100000 };
-    let newRange = { ...currentRange, [type]: value };
+  // Handle range slider for budget
+  const handleBudgetRangeChange = (min: number, max: number) => {
+    const newFilters = {
+      ...selectedFilters,
+      budgetMin: min,
+      budgetMax: max
+    };
     
-    // Budget validation: ensure max is not less than min
-    if (activeCategory === 'budget') {
-      if (type === 'min' && value > newRange.max) {
-        newRange = { min: value, max: value };
-      } else if (type === 'max' && value < newRange.min) {
-        newRange = { min: newRange.min, max: newRange.min };
-      }
-    }
+    setSelectedFilters(newFilters);
+    // Don't trigger API call immediately - wait for Apply button
+  };
+
+  // Handle range slider for followers
+  const handleFollowerRangeChange = (min: number, max: number) => {
+    const newFilters = {
+      ...selectedFilters,
+      followerMin: min,
+      followerMax: max
+    };
     
-    handleFilterChange(activeCategory, newRange);
+    setSelectedFilters(newFilters);
+    // Don't trigger API call immediately - wait for Apply button
   };
 
   // Handle text input
@@ -496,7 +559,10 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       categories: [],
       location: { state: '', city: '' },
       followers: '',
-      budget: { min: 0, max: 100000 },
+      followerMin: 0,
+      followerMax: 250000,
+      budgetMin: 0,
+      budgetMax: 100000,
       audienceType: [],
       audienceAgeGroup: [],
       gender: '',
@@ -506,7 +572,14 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
     };
     
     setSelectedFilters(defaultFilters);
-    onFilterChange(defaultFilters);
+    // Don't trigger API call immediately - wait for Apply button
+  };
+
+  // Apply filters and trigger API call
+  const handleApplyFilters = () => {
+    console.log(selectedFilters);
+    onFilterChange(selectedFilters);
+    onClose(); // Close the modal after applying
   };
 
   // Render filter options based on type
@@ -526,7 +599,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   value={option.value}
                   checked={selectedFilters[currentCategory.id] === option.value}
                   onChange={() => handleRadioChange(option.value)}
-                  className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 focus:ring-purple-500"
+                  className="w-4 h-4 text-[#1fb036] bg-gray-100 border-gray-300 focus:ring-[#1fb036]"
                 />
                 <span className="text-gray-700">{option.label}</span>
               </label>
@@ -545,7 +618,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   value={option.value}
                   checked={selectedFilters[currentCategory.id]?.includes(option.value)}
                   onChange={(e) => handleCheckboxChange(option.value, e.target.checked)}
-                  className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500"
+                  className="w-4 h-4 text-[#1fb036] bg-gray-100 border-gray-300 rounded focus:ring-[#1fb036]"
                 />
                 <span className="text-gray-700">{option.label}</span>
               </label>
@@ -554,40 +627,422 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
         );
 
       case 'range':
-        return (
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
+        const isBudget = currentCategory.id === 'budget';
+        const isFollowers = currentCategory.id === 'followers';
+        
+        if (isBudget) {
+          return (
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {currentCategory.id === 'budget' ? 'Min Budget (₹)' : 'Min Followers'}
-                </label>
-                <input
-                  type="number"
-                  value={selectedFilters[currentCategory.id]?.min || 0}
-                  onChange={(e) => handleRangeChange('min', parseInt(e.target.value) || 0)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder={currentCategory.id === 'budget' ? '0' : '0'}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {currentCategory.id === 'budget' ? 'Max Budget (₹)' : 'Max Followers'}
-                </label>
-                <input
-                  type="number"
-                  value={selectedFilters[currentCategory.id]?.max || (currentCategory.id === 'budget' ? 100000 : 1000000)}
-                  onChange={(e) => handleRangeChange('max', parseInt(e.target.value) || (currentCategory.id === 'budget' ? 100000 : 1000000))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder={currentCategory.id === 'budget' ? '100000' : '1000000'}
-                />
-                {currentCategory.id === 'budget' && selectedFilters[currentCategory.id]?.max < selectedFilters[currentCategory.id]?.min && (
-                  <p className="text-red-500 text-sm mt-1">Max amount cannot be less than min amount</p>
-                )}
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
+              <div className="space-y-6">
+                {/* Range Slider */}
+                <div className="relative">
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                      <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
+                      <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                </div>
+                    
+                    {/* Single Dual-Handle Range Slider */}
+                    <div className="relative budget-slider">
+                      {/* Track Background */}
+                      <div className="w-full h-2 bg-gray-200 rounded-lg"></div>
+                      
+                      {/* Active Range */}
+                      <div 
+                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        style={{
+                          left: `${(selectedFilters.budgetMin / 100000) * 100}%`,
+                          width: `${((selectedFilters.budgetMax - selectedFilters.budgetMin) / 100000) * 100}%`
+                        }}
+                      ></div>
+                      
+                      {/* Min Handle */}
+                      <div 
+                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        style={{
+                          left: `calc(${(selectedFilters.budgetMin / 100000) * 100}% - 12px)`
+                        }}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleMouseMove = (e: MouseEvent) => {
+                            const slider = document.querySelector('.budget-slider') as HTMLElement;
+                            if (!slider) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 100000 / 100) * 100;
+                            const maxValue = selectedFilters.budgetMax;
+                            
+                            if (newValue < maxValue && newValue >= 0) {
+                              handleBudgetRangeChange(newValue, maxValue);
+                            }
+                          };
+                          
+                          const handleMouseUp = () => {
+                            document.removeEventListener('mousemove', handleMouseMove);
+                            document.removeEventListener('mouseup', handleMouseUp);
+                          };
+                          
+                          document.addEventListener('mousemove', handleMouseMove);
+                          document.addEventListener('mouseup', handleMouseUp);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleTouchMove = (e: TouchEvent) => {
+                            const slider = document.querySelector('.budget-slider') as HTMLElement;
+                            if (!slider || !e.touches[0]) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 100000 / 100) * 100;
+                            const maxValue = selectedFilters.budgetMax;
+                            
+                            if (newValue < maxValue && newValue >= 0) {
+                              handleBudgetRangeChange(newValue, maxValue);
+                            }
+                          };
+                          
+                          const handleTouchEnd = () => {
+                            document.removeEventListener('touchmove', handleTouchMove);
+                            document.removeEventListener('touchend', handleTouchEnd);
+                          };
+                          
+                          document.addEventListener('touchmove', handleTouchMove);
+                          document.addEventListener('touchend', handleTouchEnd);
+                        }}
+                      ></div>
+                      
+                      {/* Max Handle */}
+                      <div 
+                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        style={{
+                          left: `calc(${(selectedFilters.budgetMax / 100000) * 100}% - 12px)`
+                        }}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleMouseMove = (e: MouseEvent) => {
+                            const slider = document.querySelector('.budget-slider') as HTMLElement;
+                            if (!slider) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 100000 / 100) * 100;
+                            const minValue = selectedFilters.budgetMin;
+                            
+                            if (newValue > minValue && newValue <= 100000) {
+                              handleBudgetRangeChange(minValue, newValue);
+                            }
+                          };
+                          
+                          const handleMouseUp = () => {
+                            document.removeEventListener('mousemove', handleMouseMove);
+                            document.removeEventListener('mouseup', handleMouseUp);
+                          };
+                          
+                          document.addEventListener('mousemove', handleMouseMove);
+                          document.addEventListener('mouseup', handleMouseUp);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleTouchMove = (e: TouchEvent) => {
+                            const slider = document.querySelector('.budget-slider') as HTMLElement;
+                            if (!slider || !e.touches[0]) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 100000 / 100) * 100;
+                            const minValue = selectedFilters.budgetMin;
+                            
+                            if (newValue > minValue && newValue <= 100000) {
+                              handleBudgetRangeChange(minValue, newValue);
+                            }
+                          };
+                          
+                          const handleTouchEnd = () => {
+                            document.removeEventListener('touchmove', handleTouchMove);
+                            document.removeEventListener('touchend', handleTouchEnd);
+                          };
+                          
+                          document.addEventListener('touchmove', handleTouchMove);
+                          document.addEventListener('touchend', handleTouchEnd);
+                        }}
+                      ></div>
+                      
+                      {/* Value Display */}
+                      <div className="flex justify-between text-sm text-gray-600 mt-6">
+                        <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
+                        <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Range Labels */}
+                    <div className="flex justify-between text-xs text-gray-500 mt-2">
+                      <span>₹0</span>
+                      <span>₹1L</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Quick Select Buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => handleBudgetRangeChange(0, 10000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    ₹0 - ₹10K
+                  </button>
+                  <button
+                    onClick={() => handleBudgetRangeChange(10000, 25000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    ₹10K - ₹25K
+                  </button>
+                  <button
+                    onClick={() => handleBudgetRangeChange(25000, 50000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    ₹25K - ₹50K
+                  </button>
+                  <button
+                    onClick={() => handleBudgetRangeChange(50000, 75000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    ₹50K - ₹75K
+                  </button>
+                  <button
+                    onClick={() => handleBudgetRangeChange(75000, 100000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    ₹75K - ₹1L
+                  </button>
+                  <button
+                    onClick={() => handleBudgetRangeChange(0, 100000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    All Ranges
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        );
+          );
+        }
+        
+        if (isFollowers) {
+          return (
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
+              <div className="space-y-6">
+                {/* Range Slider */}
+                <div className="relative">
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                      <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
+                      <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
+                </div>
+                    
+                    {/* Single Dual-Handle Range Slider */}
+                    <div className="relative followers-slider">
+                      {/* Track Background */}
+                      <div className="w-full h-2 bg-gray-200 rounded-lg"></div>
+                      
+                      {/* Active Range */}
+                      <div 
+                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        style={{
+                          left: `${(selectedFilters.followerMin / 250000) * 100}%`,
+                          width: `${((selectedFilters.followerMax - selectedFilters.followerMin) / 250000) * 100}%`
+                        }}
+                      ></div>
+                      
+                      {/* Min Handle */}
+                      <div 
+                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        style={{
+                          left: `calc(${(selectedFilters.followerMin / 250000) * 100}% - 12px)`
+                        }}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleMouseMove = (e: MouseEvent) => {
+                            const slider = document.querySelector('.followers-slider') as HTMLElement;
+                            if (!slider) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 250000 / 1000) * 1000;
+                            const maxValue = selectedFilters.followerMax;
+                            
+                            if (newValue < maxValue && newValue >= 0) {
+                              handleFollowerRangeChange(newValue, maxValue);
+                            }
+                          };
+                          
+                          const handleMouseUp = () => {
+                            document.removeEventListener('mousemove', handleMouseMove);
+                            document.removeEventListener('mouseup', handleMouseUp);
+                          };
+                          
+                          document.addEventListener('mousemove', handleMouseMove);
+                          document.addEventListener('mouseup', handleMouseUp);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleTouchMove = (e: TouchEvent) => {
+                            const slider = document.querySelector('.followers-slider') as HTMLElement;
+                            if (!slider || !e.touches[0]) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 250000 / 1000) * 1000;
+                            const maxValue = selectedFilters.followerMax;
+                            
+                            if (newValue < maxValue && newValue >= 0) {
+                              handleFollowerRangeChange(newValue, maxValue);
+                            }
+                          };
+                          
+                          const handleTouchEnd = () => {
+                            document.removeEventListener('touchmove', handleTouchMove);
+                            document.removeEventListener('touchend', handleTouchEnd);
+                          };
+                          
+                          document.addEventListener('touchmove', handleTouchMove);
+                          document.addEventListener('touchend', handleTouchEnd);
+                        }}
+                      ></div>
+                      
+                      {/* Max Handle */}
+                      <div 
+                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        style={{
+                          left: `calc(${(selectedFilters.followerMax / 250000) * 100}% - 12px)`
+                        }}
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleMouseMove = (e: MouseEvent) => {
+                            const slider = document.querySelector('.followers-slider') as HTMLElement;
+                            if (!slider) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 250000 / 1000) * 1000;
+                            const minValue = selectedFilters.followerMin;
+                            
+                            if (newValue > minValue && newValue <= 250000) {
+                              handleFollowerRangeChange(minValue, newValue);
+                            }
+                          };
+                          
+                          const handleMouseUp = () => {
+                            document.removeEventListener('mousemove', handleMouseMove);
+                            document.removeEventListener('mouseup', handleMouseUp);
+                          };
+                          
+                          document.addEventListener('mousemove', handleMouseMove);
+                          document.addEventListener('mouseup', handleMouseUp);
+                        }}
+                        onTouchStart={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          
+                          const handleTouchMove = (e: TouchEvent) => {
+                            const slider = document.querySelector('.followers-slider') as HTMLElement;
+                            if (!slider || !e.touches[0]) return;
+                            
+                            const rect = slider.getBoundingClientRect();
+                            const percentage = Math.max(0, Math.min(100, ((e.touches[0].clientX - rect.left) / rect.width) * 100));
+                            const newValue = Math.round((percentage / 100) * 250000 / 1000) * 1000;
+                            const minValue = selectedFilters.followerMin;
+                            
+                            if (newValue > minValue && newValue <= 250000) {
+                              handleFollowerRangeChange(minValue, newValue);
+                            }
+                          };
+                          
+                          const handleTouchEnd = () => {
+                            document.removeEventListener('touchmove', handleTouchMove);
+                            document.removeEventListener('touchend', handleTouchEnd);
+                          };
+                          
+                          document.addEventListener('touchmove', handleTouchMove);
+                          document.addEventListener('touchend', handleTouchEnd);
+                        }}
+                      ></div>
+                      
+                      {/* Value Display */}
+                      <div className="flex justify-between text-sm text-gray-600 mt-6">
+                        <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
+                        <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
+                      </div>
+                    </div>
+                    
+                    {/* Range Labels */}
+                    <div className="flex justify-between text-xs text-gray-500 mt-2">
+                      <span>0</span>
+                      <span>250K</span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Quick Select Buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => handleFollowerRangeChange(0, 10000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    0 - 10K
+                  </button>
+                  <button
+                    onClick={() => handleFollowerRangeChange(10000, 25000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    10K - 25K
+                  </button>
+                  <button
+                    onClick={() => handleFollowerRangeChange(25000, 50000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    25K - 50K
+                  </button>
+                  <button
+                    onClick={() => handleFollowerRangeChange(50000, 100000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    50K - 100K
+                  </button>
+                  <button
+                    onClick={() => handleFollowerRangeChange(100000, 250000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    100K - 250K
+                  </button>
+                  <button
+                    onClick={() => handleFollowerRangeChange(0, 250000)}
+                    className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                  >
+                    All Ranges
+                  </button>
+                </div>
+              </div>
+            </div>
+          );
+        }
+        
+        return null;
 
       case 'text':
         return (
@@ -597,7 +1052,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
               type="text"
               value={selectedFilters[currentCategory.id] || ''}
               onChange={(e) => handleTextChange(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036]"
               placeholder={`Enter ${currentCategory.label.toLowerCase()}`}
             />
           </div>
@@ -619,7 +1074,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                         city: '' // Clear city when state changes
                       });
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036]"
                   >
                     <option value="">Select State</option>
                     {states.map((state) => (
@@ -635,7 +1090,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                     value={selectedFilters['location']?.city || ''}
                     onChange={(e) => handleFilterChange('location', { ...selectedFilters['location'], city: e.target.value })}
                     disabled={!selectedFilters['location']?.state}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 ${
+                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] ${
                       !selectedFilters['location']?.state ? 'bg-gray-100 cursor-not-allowed' : ''
                     }`}
                   >
@@ -723,10 +1178,10 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 Clear Filters
               </button>
               <button
-                onClick={onClose}
-                className="flex-1 px-4 py-3 bg-gray-800 text-white rounded-lg font-medium hover:bg-gray-900 transition-colors"
+                onClick={handleApplyFilters}
+                className="flex-1 px-4 py-3 bg-[#1fb036] text-white rounded-lg font-medium hover:bg-[#1fb036]/90 transition-colors"
               >
-                Close
+                Apply Filters
               </button>
             </div>
           </motion.div>

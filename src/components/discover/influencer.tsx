@@ -42,6 +42,7 @@ export default function InfluencerDiscover() {
       const res = await api.post(API_ROUTES.influencerList, {
         start: start,
         length: ITEMS_PER_PAGE,
+        ...searchFilters
       });
 
       if (res.status === 1) {
