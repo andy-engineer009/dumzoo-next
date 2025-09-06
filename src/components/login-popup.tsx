@@ -30,7 +30,7 @@ export default function LoginPopup() {
 
   const handleLoginPopupClose = () => {
     setShowLoginPopup(false);
-    router.push('/');
+    router.back();
   };
 
   const handleLoginClick = () => {

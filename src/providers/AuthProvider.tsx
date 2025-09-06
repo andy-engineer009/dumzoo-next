@@ -16,11 +16,14 @@ const ROUTES = {
       '/profile',
       '/campaigns',
       '/discover',
+      '/chat',
+    '/profile',
+
     ],
   
   // Protected routes - require authentication (any logged-in user)
   PROTECTED: [
-    '/chat',
+    // '/chat',
     '/plans',
     '/referral'
   ],
@@ -34,7 +37,7 @@ const ROUTES = {
       '/registration',
       '/view-profile',
       '/plans',
-    '/profile',
+      // '/profile',
 
     ],
     
@@ -45,7 +48,7 @@ const ROUTES = {
       '/manage-campaigns',
       '/search',
       '/plans',
-      '/profile',
+      // '/profile',
     ]
   }
 };

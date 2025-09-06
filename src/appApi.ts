@@ -29,6 +29,13 @@ export const API_ROUTES = {
     createCampaign: "promoter/add-compaign",
     campaignList: "promoter/campaign-list",
     appliedCampaingsInfluencerList: "promoter/applied-campaign-influencers",
+
+
+     // chat
+     getChatConversationsList: "chat/conversations/",
+     createNewConversation: "chat/conversations",
+     getChatMessages: "chat/messages/",
+     sendChatMessage: "chat/messages",
     // getInfluencerProfile: "promoter/profile",
     // influencerDetail: "influencer/detail",
     // goToSignup: "http://localhost:5000/api/auth/signup",
@@ -36,4 +43,6 @@ export const API_ROUTES = {
     // withdraw: "http://localhost:5000/api/user/withdraw",
     // withdrawList: "http://localhost:5000/api/user/withdrawals-list",
     // updateWithdrawalStatus: "http://localhost:5000/api/user/withdraw-update-status",
+
+   
 };

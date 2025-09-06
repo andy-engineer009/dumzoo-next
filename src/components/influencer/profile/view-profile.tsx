@@ -57,6 +57,7 @@ export default function ViewProfile() {
   const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
 
   useEffect(() => {
+    console.log(isInfluencerRegistered)
     if(isInfluencerRegistered) {
       api.post(API_ROUTES.influencerProfilePreview).then((res)=>{
         if(res.status == 1) {
@@ -66,6 +67,7 @@ export default function ViewProfile() {
         }
       });
     }else {
+
       setIsProfileCreatePopupOpen(true)
     }
     // const fetchProfileData = async () => {
@@ -147,7 +149,14 @@ export default function ViewProfile() {
 
   if (!profileData) {
     return (
-      <InfluencerSkeleton></InfluencerSkeleton>
+      <>
+            <InfluencerSkeleton></InfluencerSkeleton>
+      <CreateProfilePopup 
+      showProfilePopup={isProfileCreatePopupOpen} 
+      onClose={() => setIsProfileCreatePopupOpen(false)}
+    />
+      </>
+
     );
   }
 
@@ -215,10 +224,10 @@ export default function ViewProfile() {
         </div>
       </div>
 
-      <CreateProfilePopup 
+      {/* <CreateProfilePopup 
           showProfilePopup={isProfileCreatePopupOpen} 
           onClose={() => setIsProfileCreatePopupOpen(false)}
-        />
+        /> */}
     </>
   );
 }

@@ -60,7 +60,7 @@ const InfluencerGrid = ({
   }
 
   // Show empty state when no influencers found
-  if (!isLoading && influencers.length === 0) {
+  if (!isLoading && (influencers?.length === 0 || influencers === null)) {
     return (
       <div className="col-span-full text-center py-12">
         <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
@@ -76,7 +76,7 @@ const InfluencerGrid = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 md:gap-6 pb-20 md:pb-0">
-      {influencers.map((influencer) => (
+      {influencers?.map((influencer) => (
         <InfluencerCard
           data={influencer}
           // key={influencer.id}
@@ -102,7 +102,7 @@ const InfluencerGrid = ({
       {isLoading && hasMore && <LoadingIndicator count={10} />}
       
       {/* Show "No more results" message */}
-      {!hasMore && influencers.length > 0 && (
+      {!hasMore && influencers?.length > 0 && (
         <div className="col-span-full text-center py-8">
           <div className="text-gray-500 text-sm">
             <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">

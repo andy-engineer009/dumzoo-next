@@ -94,7 +94,7 @@ const Header = () => {
 
               {/* Chat */}
               <button
-                onClick={() => router.push('/chat/1')}
+                onClick={() => router.push('/chat')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname.startsWith('/chat') 
                       ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 

@@ -28,6 +28,7 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
     console.log(data.user.role_id, 'role_id')
     if(data?.token) {
         localStorage.setItem('token', data.token);
+        localStorage.setItem('activeUser', JSON.stringify(parseJwt(data.token)));
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('userRole', data.user.role_id.toString());
 
@@ -49,6 +50,23 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
     }
 }
 
+
+//decode jwt
+const parseJwt = (token: any) => {
+    if (!token) return null;
+  
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+  
+    console.log(jsonPayload, 'jsonPayload')
+    return JSON.parse(jsonPayload);
+  }
 //encryptData
 // const encryptData = (data: any) => {
 //     const encryptedData = atob(data);

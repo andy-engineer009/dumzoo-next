@@ -208,9 +208,9 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
         </svg>
       ),
-      hasValue: activeFilters.budget.min > 0 || activeFilters.budget.max < 100000,
-      value: activeFilters.budget.min > 0 || activeFilters.budget.max < 100000 
-        ? `₹${activeFilters.budget.min.toLocaleString()} - ₹${activeFilters.budget.max.toLocaleString()}`
+      hasValue: activeFilters.budgetMin > 0 || activeFilters.budgetMax < 100000,
+      value: activeFilters.budgetMin > 0 || activeFilters.budgetMax < 100000 
+        ? `₹${activeFilters.budgetMin.toLocaleString()} - ₹${activeFilters.budgetMax.toLocaleString()}`
         : null,
     },
     {

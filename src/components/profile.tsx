@@ -23,7 +23,7 @@ const fetchUserProfile = async () => {
 };
 
 const Profile = () => {
-  const dispatch = useDispatch();
+const dispatch = useDispatch();
 const role = useSelector(selectUserRole);
 const isLoggedIn = useSelector(selectIsLoggedIn);
 

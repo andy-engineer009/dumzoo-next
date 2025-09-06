@@ -7,8 +7,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Basic } from "next/font/google";
-
-
 // const influencers = [ 
 //   {
 //     id:1,
@@ -127,6 +125,7 @@ export default function PromotorHome() {
     const userRole = useSelector(selectUserRole);
     const isLoggedIn = useSelector(selectIsLoggedIn);
     const [isLoadingData, setIsLoadingData] = useState(true);
+    const [activeTab, setActiveTab] = useState('influencer');
 
     useEffect(() => {
         if(isLoggedIn) {    
@@ -165,211 +164,157 @@ export default function PromotorHome() {
   
     </div> */}
     {/* hero section */}
-    <div className="min-h-[300px] rounded-b-[20px] bg-black relative overflow-hidden hero-section pt-8 items-center justify-center">
-      {/* Scattered dots background pattern */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-20 left-10 w-2 h-2 bg-gray-400 rounded-full opacity-30"></div>
-        <div className="absolute top-32 right-20 w-1 h-1 bg-gray-400 rounded-full opacity-40"></div>
-        <div className="absolute top-48 left-1/4 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-25"></div>
-        <div className="absolute top-64 right-1/3 w-1 h-1 bg-gray-400 rounded-full opacity-35"></div>
-        <div className="absolute top-80 left-16 w-2 h-2 bg-gray-400 rounded-full opacity-20"></div>
-        <div className="absolute top-96 right-8 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-30"></div>
-        <div className="absolute top-[28rem] left-1/2 w-1 h-1 bg-gray-400 rounded-full opacity-25"></div>
-        <div className="absolute top-[32rem] right-1/4 w-2 h-2 bg-gray-400 rounded-full opacity-20"></div>
-        <div className="absolute top-[36rem] left-8 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-35"></div>
-        <div className="absolute top-[40rem] right-16 w-1 h-1 bg-gray-400 rounded-full opacity-30"></div>
-        <div className="absolute top-[44rem] left-1/3 w-2 h-2 bg-gray-400 rounded-full opacity-25"></div>
-        <div className="absolute top-[48rem] right-1/2 w-1.5 h-1.5 bg-gray-400 rounded-full opacity-20"></div>
-      </div>
-
-      {/* Main Content */}
-      <div className="relative z-10 px-4 pt-8">
-        {/* Header Section */}
-        <div className="text-center mb-4">
-          <motion.h1 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className=" font-bold text-white mb-3 text-[28px]" style={{lineHeight: '26px'}}
-          >
-            Find the Right Creator.
-          </motion.h1>
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-[30px] font-bold text-white mb-1 flex items-center justify-center"
-          >
-            Fast. 
-            <span className="ml-0 text-yellow-400">⚡</span>
-          </motion.div>
-          <motion.p 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-[16px] text-gray-300 font-normal"
-          >
-            Put up a request — or just browse.
-          </motion.p>
-        </div>
-
-        {/* Cards Grid */}
-        <div className="max-w-7xl mx-auto hidden">
-          <div className="grid grid-cols-4 gap-2 md:gap-6">
-            {/* Browse Influencers Card */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="relative bg-gradient-to-b from-green-600 to-green-500 rounded-[10px] p-2 md:p-6 h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-     
-              
-              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Browse Influencers</h3>
-              
-              {/* Influencers illustration */}
-            
-            </motion.div>
-
-            {/* Celeb/Talent Managers Card */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="relative bg-gradient-to-b from-blue-600 to-blue-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-              {/* Star accents */}
-       
-              
-              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Celeb/Talent Managers</h3>
-              
-              {/* Manager illustration */}
-           
-            </motion.div>
-
-            {/* Post Your Requirement Card */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.0 }}
-              className="relative bg-gradient-to-b from-red-600 to-red-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
+    <div className="h-auto flex items-center justify-center bg-[#1A1A1A] px-4 py-4 w-[92%] mx-auto mt-4 rounded-xl">
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Main Tagline */}
+        <h1 className="text-[50px] md:text-7xl font-bold text-white mb-6 leading-tight">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#8ae6ff] to-[#ffefd1] drop-shadow-md">
+          Influencers Earn.
+          </span>
+          <br />
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#ffefd1] to-[#8ae6ff] drop-shadow-md">
+            Businesses Grow.
+          </span>
+        </h1>
         
-              
-              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Post Your Requirement</h3>
-              
-              {/* Megaphone illustration */}
-       
-            </motion.div>
-
-            {/* Services For You Card */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="relative bg-gradient-to-b from-orange-600 to-orange-500 rounded-[10px] p-2 md:p-6  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300"
-            >
-              {/* Star accents */}
-
-              
-              <h3 className="text-[12px] font-medium text-white mb-3 md:mb-6">Services For You</h3>
-              
-              {/* Creative tools illustration */}
-       
-            </motion.div>
-          </div>
+        {/* Sub Heading */}
+        <p className="text-[16px] md:text-2xl text-gray-100 mb-10 leading-relaxed max-w-3xl mx-auto ">
+          A simple platform where creators find paid work and businesses 
+          Hand-Picked Influencers Who Help You Grow Your Business
+          {/* find affordable promotions. */}
+        </p>
+        
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <button className="bg-white text-[#1A1A1A] font-semibold py-4 px-10 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center border border-white relative">
+            Find Work as a Influencers
+            <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap border border-green-200 shadow-sm flex flex-row items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256" className="h-4 w-4"><path d="M213.85,125.46l-112,120a8,8,0,0,1-13.69-7l14.66-73.33L45.19,143.49a8,8,0,0,1-3-13l112-120a8,8,0,0,1,13.69,7L153.18,90.9l57.63,21.61a8,8,0,0,1,3,12.95Z"></path></svg> 100% free</div>
+          </button>
+          <button className="bg-transparent text-white font-semibold py-4 px-10 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center border border-white">
+            Promote Your Business
+          </button>
         </div>
 
-
       </div>
-
-      { 
-      !isLoggedIn && 
-      <div className="flex justify-center items-center mt-8 px-4">
-        <button
-          className="bg-[#20b034] hover:bg-[#158a27] text-white text-[15px] font-semibold py-3 px-8 mr-2 rounded-xl shadow-md transition-colors duration-200 text-lg"
-          style={{ flexBasis: '48%' }}
-          onClick={() => { window.location.href = '/signup?role=creator'; }}
-        >
-          I am a Creator
-        </button>
-        <button
-          className="bg-white border-2 border-[#fff] text-[#000] text-[15px] hover:bg-[#20b034] hover:text-white font-semibold py-3 px-2 rounded-xl shadow-md transition-colors duration-200 text-lg"
-          style={{flex: 1}}
-          onClick={() => { window.location.href = '/signup?role=promoter'; }}
-        >
-         Promote My Business
-        </button>
-      </div>
-}
-      <div className="hero-bg-image"></div>
     </div>
 
-    {!isLoggedIn && (
-      <></>
-      // <div className="influencer-cta-section py-12 px-4 bg-gradient-to-br from-purple-50 to-pink-50">
-      //   <div className="max-w-4xl mx-auto">
-      //     <motion.div
-      //       initial={{ opacity: 0, y: 20 }}
-      //       animate={{ opacity: 1, y: 0 }}
-      //       transition={{ duration: 0.6 }}
-      //       className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100"
-      //     >
-      //       <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-      //         <div className="flex-1">
-      //           <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-      //             Are you an <span className="text-purple-600">Influencer</span>?
-      //           </h2>
-      //           <p className="text-gray-600 mb-6">
-      //             Have more than 500 followers? Join our platform and start earning through paid promotions!
-      //           </p>
-               
-      //         </div>
-              
-      //         <div className="flex-shrink-0">
-      //           <motion.button
-      //             whileHover={{ scale: 1.05 }}
-      //             whileTap={{ scale: 0.95 }}
-      //             className="bg-purple-600 text-white px-8 py-4 rounded-full font-medium shadow-lg shadow-purple-200 hover:bg-purple-700 transition-colors duration-300"
-      //             onClick={() => {
-      //               router.push('/login');
-      //             }}
-      //           >
-      //             Join as Influencer
-      //           </motion.button>
-      //         </div>
-      //       </div>
-      //     </motion.div>
-      //   </div>
-      // </div>
-    )}
+      {/* Promotional Card - Pixel Perfect Recreation */}
+      <div className="w-full my-4 px-4">
+      <div className="bg-[#FF69B4] rounded-xl p-8 shadow-lg text-center">
+        {/* Main Heading - Three Lines */}
+        <h1 className="text-black font-black text-[40px] md:text-4xl leading-tight mb-6 text-center">
+          <div className="block">SEARCH &</div>
+          <div className="block">FILTER 350M+</div>
+          <div className="block">INFLUENCERS</div>
+        </h1>
+        
+        {/* Description - Four Lines */}
+        <p className="text-black text-base md:text-lg leading-relaxed mb-8 max-w-md">
+          Find creators with the perfect audience for your brand with dumzoo. Try for free
+        </p>
+        
+        {/* CTA Button */}
+        <button className="bg-black text-white font-bold py-3 px-8 rounded-full text-base hover:bg-gray-800 transition-colors relative">
+          Search for Influencers
+          {/* <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-700 text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap border border-green-200 shadow-sm flex flex-row items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" viewBox="0 0 256 256" className="h-4 w-4"><path d="M213.85,125.46l-112,120a8,8,0,0,1-13.69-7l14.66-73.33L45.19,143.49a8,8,0,0,1-3-13l112-120a8,8,0,0,1,13.69,7L153.18,90.9l57.63,21.61a8,8,0,0,1,3,12.95Z"></path></svg> 100% free access</div> */}
 
-<div className="px-4 pt-7">
-<div className="flex justify-between mb-3">
-        <h3 className="text-[15px] font-semibold text-gray-800 px-0"  style={{letterSpacing: '2px'}}> New Creators</h3>
-        <button className="text-[12px] text-gray-800 px-0"  style={{letterSpacing: '2px'}} onClick={() => { router.push('/finder'); }}>View All</button>
+        </button>
       </div>
-      {/* card */}
-      <div className="grid grid-cols-2 gap-4">
-        {newCreators.map((creator) => (
-          <div className="flex-shrink-0 relative shadow-md hover:shadow-lg transition-shadow duration-300 rounded-lg overflow-hidden">
-          <div className="h-[130px]">
-            {/* <img src="" alt="Influencer" className="w-full h-full object-cover" /> */}
-            <Image src={creator?.image || '/images/women.png'} alt="Influencer" 
-            width={1200}
-            height={150}
-            className="w-full h-full object-cover" />
-          </div>
-          <div className="p-4 bg-white">
-            <h3 className="text-[#000] font-semibold text-sm mb-1 drop-shadow-lg">{creator.name}</h3>
-            <p className="text-gray text-xs font-medium drop-shadow">{creator.followers} Followers</p>
+    </div>
+  
+          {/* popular cities */}
+    <div className="popular-cities mt-8">
+    <div className="text-center">
+          <div className="flex items-center justify-center">
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+              <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>All India Cities</h2>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+        </div>
+        </div>
+
+        {/* popular cities cards */}
+        <div className="mt-8 px-4">
+          <div className="grid grid-cols-4 gap-3 max-w-4xl mx-auto">
+            {/* Bengaluru */}
+            <div className="relative bg-gradient-to-b from-blue-100 to-blue-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Bengaluru</h3>
+             <div>
+              <Image src={"/images/india_gate.png"} alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Chennai */}
+            <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chandigrah</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Hyderabad */}
+            <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+       
+         
+
+            {/* Mumbai */}
+            <div className="relative bg-gradient-to-b from-blue-200 to-blue-300 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Mumbai</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            </div>
+
+            {/* Gurgaon */}
+            <div className="relative bg-gradient-to-b from-blue-300 to-blue-400 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Gurgaon</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+            
+              </div>
+
+            {/* Delhi */}
+            <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Shimla</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+              </div>
+            
+            {/* Kolkata */}
+            <div className="relative bg-gradient-to-b from-teal-200 to-teal-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Kolkata</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+              </div>
+
+            {/* Pune */}
+            <div className="relative bg-gradient-to-b from-blue-400 to-blue-500 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Pune</h3>
+              <div>
+              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
+             </div>
+                
+              
+            </div>
           </div>
         </div>
-      ))}
       </div>
-</div>  
 
-<div className="w-full my-4 rounded-2xl">
+      <div className="w-full my-4 rounded-2xl">
           <Image
             src="/images/referal.jpg"
             alt="Referral Banner"
@@ -380,8 +325,61 @@ export default function PromotorHome() {
           />
         </div>
 
+
+<div className="px-4 pt-7 hidden">
+<div className=" mb-3">
+            {/* <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg> */}
+            <h2 className="text-[16px] font-bold text-gray-800  px-0" style={{letterSpacing: '1px', fontFamily: 'arial'}}>Newly Infulancer</h2>
+            <p className="text-[13px] text-gray-500">Find the latest influencer</p>
+
+          
+        </div>
+{/* <div className="flex justify-between mb-3">
+        <h3 className="text-[15px] font-semibold text-gray-800 px-0"  style={{letterSpacing: '2px'}}> New Creators</h3>
+        <button className="text-[12px] text-gray-800 px-0"  style={{letterSpacing: '2px'}} onClick={() => { router.push('/finder'); }}>View All</button>
+      </div> */}
+      {/* card */}
+      <div className="grid grid-cols-1 gap-3">
+        {newCreators.map((creator) => (
+          <div key={creator.name} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 p-0 border border-gray-100 flex items-center">
+            <div className="w-[100px] h-[100px] rounded-[8px] overflow-hidden flex-shrink-0 mr-3">
+              <Image
+                src={creator?.image || '/images/women.png'}
+                alt="Influencer"
+                width={48}
+                height={48}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-black text-sm mb-1 truncate">
+                {creator.name}
+              </h3>
+              <p className="text-xs text-gray-600 truncate">
+                {creator.followers} followers
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+</div>  
+
+{/* <div className="w-full my-4 rounded-2xl">
+          <Image
+            src="/images/referal.jpg"
+            alt="Referral Banner"
+            width={1200}
+            height={150}
+            className="w-full object-contain rounded-2xl shadow-md"
+            priority
+          />
+        </div> */}
+
 {!isLoggedIn && (
-    <div className="px-4 pt-2">
+    <div className="px-4 pt-2 hidden">
 <div className="flex justify-between mb-3">
         <h3 className="text-[15px] font-semibold text-gray-800 px-0"  style={{letterSpacing: '2px'}}> Paid Promotions</h3>
         <button className="text-[12px] text-gray-800 px-0"  style={{letterSpacing: '2px'}} onClick={() => { router.push('/finder'); }}>View All</button>
@@ -739,26 +737,13 @@ export default function PromotorHome() {
       </div>
     </div> */}
 
-    <div className="w-full my-4 rounded-2xl">
-          <Image
-            src="/images/referal.jpg"
-            alt="Referral Banner"
-            width={1200}
-            height={150}
-            className="w-full object-contain rounded-2xl shadow-md"
-            priority
-          />
-        </div>
-
-          {/* popular cities */}
-    <div className="popular-cities mt-8">
-    <div className="text-center">
+<div className="text-center my-8">
           <div className="flex items-center justify-center">
             <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-              <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>Popular Cities</h2>
+              <h2 className="text-[14px] font-medium text-gray-800 uppercase px-0" style={{letterSpacing: '3px'}}>HOW WORKS</h2>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3  text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -766,81 +751,142 @@ export default function PromotorHome() {
         </div>
         </div>
 
-        {/* popular cities cards */}
-        <div className="mt-8 px-4">
-          <div className="grid grid-cols-4 gap-3 max-w-4xl mx-auto">
-            {/* Bengaluru */}
-            <div className="relative bg-gradient-to-b from-blue-100 to-blue-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
+<Image src={"/images/flow.png"} alt="Bengaluru" width={1000} height={1000} className="px-4" />
 
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Bengaluru</h3>
-             <div>
-              <Image src={"/images/india_gate.png"} alt="Bengaluru" width={100} height={100} />
-             </div>
-            </div>
 
-            {/* Chennai */}
-            <div className="relative bg-gradient-to-b from-teal-100 to-teal-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Chandigrah</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-            </div>
 
-            {/* Hyderabad */}
-            <div className="relative bg-gradient-to-b from-orange-100 to-orange-200 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Delhi</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-            </div>
-       
-         
+<div className="w-full my-8 px-4 hidden">
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        {/* Tab Headers */}
+        <div className="flex border-b border-gray-200">
+          <button
+            className={`flex-1 py-4 px-6 text-center font-semibold text-lg transition-all duration-300 ${
+              activeTab === 'influencer'
+                ? 'bg-[#1fb036] text-white border-b-2 border-[#1fb036]'
+                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+            }`}
+            onClick={() => setActiveTab('influencer')}
+          >
+            Influencer
+          </button>
+          <button
+            className={`flex-1 py-4 px-6 text-center font-semibold text-lg transition-all duration-300 ${
+              activeTab === 'promoter'
+                ? 'bg-[#1fb036] text-white border-b-2 border-[#1fb036]'
+                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
+            }`}
+            onClick={() => setActiveTab('promoter')}
+          >
+            Promoter (Business)
+          </button>
+        </div>
 
-            {/* Mumbai */}
-            <div className="relative bg-gradient-to-b from-blue-200 to-blue-300 rounded-[10px] h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Mumbai</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-            </div>
-
-            {/* Gurgaon */}
-            <div className="relative bg-gradient-to-b from-blue-300 to-blue-400 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Gurgaon</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-            
-              </div>
-
-            {/* Delhi */}
-            <div className="relative bg-gradient-to-b from-orange-200 to-orange-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Shimla</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-              </div>
-            
-            {/* Kolkata */}
-            <div className="relative bg-gradient-to-b from-teal-200 to-teal-300 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Kolkata</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
-              </div>
-
-            {/* Pune */}
-            <div className="relative bg-gradient-to-b from-blue-400 to-blue-500 rounded-[10px]  h-[120px] cursor-pointer hover:scale-105 transition-transform duration-300 overflow-hidden">
-              <h3 className="text-[0.775rem] font-semibold text-black mb-2 px-2 pt-3 text-center">Pune</h3>
-              <div>
-              <Image src="/images/india_gate.png" alt="Bengaluru" width={100} height={100} />
-             </div>
+        {/* Tab Content */}
+        <div className="py-8">
+          {activeTab === 'influencer' ? (
+            /* Influencer Flow - Green Banner */
+            <div className="bg-gradient-to-r from-[#1fb036] to-[#16a02e] rounded-xl p-8 text-white">
+              <h2 className="text-3xl font-bold mb-6 text-center">Influencer Flow</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">1</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Login as Influencer</h3>
+                  <p className="text-sm opacity-90">Create your account and get started</p>
+                </div>
                 
-              
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">2</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Make your free profile</h3>
+                  <p className="text-sm opacity-90">Set your price for promotions</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">3</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Add offers</h3>
+                  <p className="text-sm opacity-90">Attract more promoters</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">4</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Find campaigns</h3>
+                  <p className="text-sm opacity-90">Apply for paid brand promotions</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">5</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Chat with promoters</h3>
+                  <p className="text-sm opacity-90">Discuss details directly</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">6</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Get paid safely</h3>
+                  <p className="text-sm opacity-90">Money comes to you securely</p>
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            /* Promoter Flow - Business Banner */
+            <div className="bg-gradient-to-r from-[#1fb036] to-[#16a02e] rounded-xl p-8 text-white">
+              <h2 className="text-3xl font-bold mb-6 text-center">Promoter Flow</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">1</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Find Influencers</h3>
+                  <p className="text-sm opacity-90">Choose by your needs</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">2</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Have a special need?</h3>
+                  <p className="text-sm opacity-90">Create a campaign with details</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">3</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Get applications</h3>
+                  <p className="text-sm opacity-90">Influencers will apply to your campaign</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">4</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Shortlist & Chat</h3>
+                  <p className="text-sm opacity-90">Talk before finalizing</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
+                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-bold">5</span>
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Hire safely</h3>
+                  <p className="text-sm opacity-90">Complete the deal with full trust</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
+    </div>
 
       {/* footer  */}
       <footer className="text-white overflow-hidden">
