@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { useSocket } from '@/hooks/useSocket';
+import LoginPopup from '@/components/login-popup';
 
 const mockChatUsers = [
     {
@@ -150,6 +151,8 @@ const EmptyState = () => (
   );
 
     return (
+      <>
+             <LoginPopup />
     <div className="flex flex-col h-full">
     {/* Header */}
     <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
@@ -250,5 +253,6 @@ const EmptyState = () => (
       )}
     </div>
   </div>
+  </>
     )
 };

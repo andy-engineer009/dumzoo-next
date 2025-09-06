@@ -94,14 +94,14 @@ export default function InfluencerDiscover() {
     setIsInitialLoading(true);
     try {
       const result: any = await fetchInfluencers(0, filters);
-      setInfluencers(result.data.rows);
+      setInfluencers(result.data?.rows || []);
       setTotalRecords(result.totalRecords);
       setHasMore(result.hasMore);
       setStartIndex(0);
       
       // Update Redux cache
       dispatch(discoverData({
-        influencers: result.data.rows,
+        influencers: result.data?.rows || [],
         totalRecords: result.totalRecords,
         hasMore: result.hasMore,
         startIndex: 0,

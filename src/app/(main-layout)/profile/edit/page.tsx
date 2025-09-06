@@ -1,17 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ProfileProgressCard from '@/components/influencer/ProfileprogressCard';
+import CreateProfilePopup from '@/components/influencer/create-profile-popup';
+import { selectIsInfluencerRegistered } from '@/store/userRoleSlice';
+import { useSelector } from 'react-redux';
 
 export default function EditProfile() {
   const router = useRouter();
-  // const [currentStep, setCurrentStep] = useState(1);
-  
-  // // Mock progress data - replace with actual data from API
-  // const completedSteps = 1; // 1 out of 3 steps completed
-  // const progressPercentage = (completedSteps / 3) * 100;
+  const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
+  const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
+
+
+  useEffect(() => {
+    if(isInfluencerRegistered) {
+      setIsProfileCreatePopupOpen(false)
+    }else{
+      setIsProfileCreatePopupOpen(true)
+    }
+  }, []);
 
   const progressData = {
     completedSteps: 2,
@@ -65,6 +74,7 @@ export default function EditProfile() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Background decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
@@ -140,5 +150,10 @@ export default function EditProfile() {
         </div>
       </div>
     </div>
+          <CreateProfilePopup 
+          showProfilePopup={isProfileCreatePopupOpen} 
+          onClose={() => setIsProfileCreatePopupOpen(false)}
+        />
+    </>
   );
 } 

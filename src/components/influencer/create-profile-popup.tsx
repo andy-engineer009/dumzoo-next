@@ -13,6 +13,7 @@ export default function CreateProfilePopup({showProfilePopup, onClose}: {showPro
 
   const handleCreateProfilePopupClose = () => {
     onClose();
+    router.back()
   };
 
   const handleCreateProfileClick = () => {
