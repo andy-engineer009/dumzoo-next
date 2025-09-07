@@ -85,8 +85,8 @@ const InfluencerCard = ({data}: any) => {
           </div>
 
           {/* Row 2: Location */}
-          <div className="text-sm text-gray-600">
-            {data?.influencer_city?.name || '--'}, {data?.influencer_state?.short_name || '--'}
+          <div className="text-sm text-gray-600 truncate w-full" style={{ maxWidth: 160 }} title={`${data?.influencer_city?.name || '--'}, ${data?.influencer_state?.short_name || '--'}`}>
+            {`${data?.influencer_city?.name || '--'}, ${data?.influencer_state?.short_name || '--'}`}
           </div>
 
           {/* Row 3: Followers */}
