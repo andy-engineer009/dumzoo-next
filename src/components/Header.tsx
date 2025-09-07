@@ -143,9 +143,9 @@ const Header = () => {
               {/* Chat */}
               {isLoggedIn && (
               <button
-                onClick={() => router.push('/chat')}
+                onClick={() => router.push('/notification')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
-                    pathname.startsWith('/chat') 
+                    pathname.startsWith('/notification') 
                       ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
                       : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
                   }`}

@@ -193,10 +193,10 @@ export default function PromotorHome() {
           <button className="bg-transparent text-white font-semibold py-4 px-10 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center border border-white">
             Promote Your Business
           </button>
-        </div>
+      </div>
 
       </div>
-    </div>
+        </div>
 
       {/* Promotional Card - Pixel Perfect Recreation */}
       <div className="w-full my-4 px-4">
@@ -309,8 +309,8 @@ export default function PromotorHome() {
              </div>
                 
               
-            </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -323,7 +323,7 @@ export default function PromotorHome() {
             className="w-full object-contain rounded-2xl shadow-md"
             priority
           />
-        </div>
+    </div>
 
 
 <div className="px-4 pt-7 hidden">
@@ -353,7 +353,7 @@ export default function PromotorHome() {
                 height={48}
                 className="w-full h-full object-cover"
               />
-            </div>
+          </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-black text-sm mb-1 truncate">
                 {creator.name}
@@ -361,9 +361,9 @@ export default function PromotorHome() {
               <p className="text-xs text-gray-600 truncate">
                 {creator.followers} followers
               </p>
-            </div>
           </div>
-        ))}
+        </div>
+      ))}
       </div>
 </div>  
 
@@ -779,7 +779,7 @@ export default function PromotorHome() {
           >
             Promoter (Business)
           </button>
-        </div>
+             </div>
 
         {/* Tab Content */}
         <div className="py-8">
@@ -794,40 +794,40 @@ export default function PromotorHome() {
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Login as Influencer</h3>
                   <p className="text-sm opacity-90">Create your account and get started</p>
-                </div>
-                
+            </div>
+
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">2</span>
-                  </div>
+             </div>
                   <h3 className="text-xl font-semibold mb-2">Make your free profile</h3>
                   <p className="text-sm opacity-90">Set your price for promotions</p>
-                </div>
-                
+            </div>
+
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">3</span>
-                  </div>
+             </div>
                   <h3 className="text-xl font-semibold mb-2">Add offers</h3>
                   <p className="text-sm opacity-90">Attract more promoters</p>
-                </div>
-                
+            </div>
+       
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">4</span>
-                  </div>
+             </div>
                   <h3 className="text-xl font-semibold mb-2">Find campaigns</h3>
                   <p className="text-sm opacity-90">Apply for paid brand promotions</p>
-                </div>
-                
+            </div>
+
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">5</span>
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Chat with promoters</h3>
                   <p className="text-sm opacity-90">Discuss details directly</p>
-                </div>
-                
+             </div>
+            
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">6</span>
@@ -848,45 +848,45 @@ export default function PromotorHome() {
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Find Influencers</h3>
                   <p className="text-sm opacity-90">Choose by your needs</p>
-                </div>
-                
+              </div>
+
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">2</span>
-                  </div>
+             </div>
                   <h3 className="text-xl font-semibold mb-2">Have a special need?</h3>
                   <p className="text-sm opacity-90">Create a campaign with details</p>
-                </div>
-                
+              </div>
+            
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">3</span>
-                  </div>
+             </div>
                   <h3 className="text-xl font-semibold mb-2">Get applications</h3>
                   <p className="text-sm opacity-90">Influencers will apply to your campaign</p>
-                </div>
-                
+              </div>
+
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">4</span>
                   </div>
                   <h3 className="text-xl font-semibold mb-2">Shortlist & Chat</h3>
                   <p className="text-sm opacity-90">Talk before finalizing</p>
-                </div>
+             </div>
                 
                 <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <span className="text-2xl font-bold">5</span>
-                  </div>
+            </div>
                   <h3 className="text-xl font-semibold mb-2">Hire safely</h3>
                   <p className="text-sm opacity-90">Complete the deal with full trust</p>
                 </div>
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
-    </div>
 
       {/* footer  */}
       <footer className="text-white overflow-hidden">
