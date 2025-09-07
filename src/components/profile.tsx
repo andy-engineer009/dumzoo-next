@@ -122,7 +122,7 @@ console.log('mak')
         </section> */}
 
         {/* Settings Sections */}
-        <div className="px-4 py-2">
+        <div className="px-0 py-2">
         <button 
                 onClick={() => router.push('/wallet')}
                 className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors"
@@ -134,9 +134,9 @@ console.log('mak')
                   <Image src="images/settings-icon/wallet-icon.svg" alt="Wallet" width={20} height={20} />
                   <span className="text-gray-900 font-medium">Wallet</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
         {
           
@@ -152,9 +152,9 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">Manage Campaigns</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
 
               <button 
@@ -167,9 +167,9 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">Manage Subscription</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
               
             </div>
@@ -183,9 +183,9 @@ console.log('mak')
                 <Image src="images/settings-icon/refer-icon.svg" alt="Wallet" width={20} height={20} />
                   <span className="text-gray-900 font-medium">Refer & Earn</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
 
         {/* {
@@ -224,9 +224,9 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">Edit Profile</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
               <button 
                 onClick={() => router.push('/profile/view')}
@@ -238,9 +238,9 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">View Profile</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => router.push('/plans')}>
                 <div className="flex items-center gap-3">
@@ -249,18 +249,18 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">Manage Subscription</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
               <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors" onClick={() => router.push('/analytics')}>
                 <div className="flex items-center gap-3">
                 <Image src="images/settings-icon/analytics-icon.svg" alt="Wallet" width={20} height={20} />
                   <span className="text-gray-900 font-medium">Analytics</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
             </div>
           </div>
@@ -280,22 +280,20 @@ console.log('mak')
                   </svg>
                   <span className="text-gray-900 font-medium">Help & Support</span>
                 </div>
-                <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
+                </svg> */}
               </button>
 
-              <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors" onClick={() => router.push('/how')}>
+              {/* <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-blue-50 transition-colors" onClick={() => router.push('/how')}>
                   <div className="flex items-center gap-3">
                     <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                     </svg>
                     <span className="text-blue-600 font-medium">How it works</span>
                   </div>
-                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+            
+                </button> */}
                 
               {/* {localStorage.getItem('token') ? ( */}
                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-red-50 transition-colors" onClick={() => {
@@ -307,9 +305,9 @@ console.log('mak')
                     </svg>
                     <span className="text-red-600 font-medium">Logout</span>
                   </div>
-                  <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  </svg> */}
                 </button>
               {/* )  */}
             
