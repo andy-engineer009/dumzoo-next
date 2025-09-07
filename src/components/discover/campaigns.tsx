@@ -230,17 +230,17 @@ export default function CampaignsDiscover() {
   return (
     <div className="campaigns-discover-screen">
         {/* Header */}
-        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+        <header className=" top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
         <div className="flex items-center justify-center relative">
-          <Link 
+          {/* <Link 
             href="/"
             className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
           >
             <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </Link>
-          <h1 className="text-lg font-medium text-gray-900"> Campaigns</h1>
+          </Link> */}
+          <h1 className="text-lg font-medium text-gray-900"> Find Promotions</h1>
         </div>
       </header>
 
@@ -263,7 +263,7 @@ export default function CampaignsDiscover() {
         </div>
       )} */}
 
-      <div className="flex mt-0 px-0 md:p-8 items-start">
+      <div className="flex mt-3 px-3 md:p-8 items-start">
         <div className="md:pl-9" style={{flex: 1}}>
           <CampaignsGrid 
             campaigns={campaigns}
