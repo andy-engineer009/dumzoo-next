@@ -45,6 +45,7 @@ const Header = () => {
               </button>
 
               {/* Discover */}
+              {!isLoggedIn && (
               <button
                 onClick={() => router.push((role === '2' && isLoggedIn) ? '/campaigns' : (role === '3' && isLoggedIn) ? '/discover' : '/finder')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
@@ -58,8 +59,31 @@ const Header = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={pathname === '/discover' ? 2.5 : 2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                   </svg>
                 </div>
-                {/* <span className="text-xs font-medium">Discover</span> */}
               </button>
+              )}
+
+ {isLoggedIn && (
+<button
+                onClick={() => router.push('/chat')}
+                                  className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
+                    pathname.startsWith('/chat') 
+                      ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
+                      : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
+                  }`}
+              >
+                <div className="mb-1 relative">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={pathname.startsWith('/chat') ? 2.5 : 2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  {/* {!pathname.startsWith('/chat') && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-3 h-3 flex items-center justify-center">
+                      3
+                    </span>
+                  )} */}
+                </div>
+                {/* <span className="text-xs font-medium">Chat</span> */}
+              </button>
+              )}
 
               {/* Center - Add Influencer Button (Floating) */}
               {role === '2' && (
@@ -92,8 +116,8 @@ const Header = () => {
                 </div>
               )}
 
-              {/* Chat */}
-              <button
+{!isLoggedIn && (
+<button
                 onClick={() => router.push('/chat')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname.startsWith('/chat') 
@@ -113,6 +137,32 @@ const Header = () => {
                 </div>
                 {/* <span className="text-xs font-medium">Chat</span> */}
               </button>
+              )}
+
+
+              {/* Chat */}
+              {isLoggedIn && (
+              <button
+                onClick={() => router.push('/chat')}
+                                  className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
+                    pathname.startsWith('/chat') 
+                      ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
+                      : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
+                  }`}
+              >
+                <div className="mb-1 relative">
+                {/* Notification SVG Icon */}
+                <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-5-6.32V4a1 1 0 1 0-2 0v.68C7.63 5.36 6 7.92 6 11v5l-1.29 1.29A1 1 0 0 0 6 19h12a1 1 0 0 0 .71-1.71L18 16zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" fill="#4a5565"/>
+                </svg>
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] rounded-full w-3 h-3 flex items-center justify-center">
+                      3
+                    </span>
+              
+                </div>
+                {/* <span className="text-xs font-medium">Chat</span> */}
+              </button>
+              )}
 
               {/* Profile */}
               <button
