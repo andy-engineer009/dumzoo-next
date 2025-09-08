@@ -1,7 +1,9 @@
 // Socket.IO Configuration
 export const SOCKET_CONFIG = {
   // Replace with your actual backend URL
-  SERVER_URL: process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5050/',
+  // SERVER_URL:  'http://localhost:5050/',
+
+  SERVER_URL: process.env.NEXT_PUBLIC_SOCKET_URL || 'https://promobackend-is85.onrender.com/',
   
   // Connection options
   CONNECTION_OPTIONS: {

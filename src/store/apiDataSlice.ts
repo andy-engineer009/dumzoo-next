@@ -35,6 +35,7 @@ const apiDataSlice = createSlice({
           hasMore: true,
           startIndex: 0
         } as CampaignsData,
+        chatUsers: [] as any[],
         // loading: false,
         // error: null
     },
@@ -81,6 +82,15 @@ const apiDataSlice = createSlice({
                 hasMore: true,
                 startIndex: 0
             };
+        },
+
+        // Simple chat users actions
+        setChatUsers: (state, action: PayloadAction<any[]>) => {
+            state.chatUsers = action.payload;
+        },
+
+        clearChatUsers: (state) => {
+            state.chatUsers = [];
         }
     }
 })
@@ -94,12 +104,15 @@ export const {
     clearDiscoverData,
     campaignsData,
     updateCampaignsScrollPosition,
-    clearCampaignsData
+    clearCampaignsData,
+    setChatUsers,
+    clearChatUsers
   } = apiDataSlice.actions;
 
   export const selectInfluencerDropdownData = (state: { apiData: any }) => state.apiData.influencerDropdownData;
   export const selectDashboardData = (state: { apiData: any }) => state.apiData.dashboardData;
   export const selectDiscoverData = (state: { apiData: any }) => state.apiData.discoverData;
   export const selectCampaignsData = (state: { apiData: any }) => state.apiData.campaignsData;
+  export const selectChatUsers = (state: { apiData: any }) => state.apiData.chatUsers;
 // Export reducer
 export default apiDataSlice.reducer;
