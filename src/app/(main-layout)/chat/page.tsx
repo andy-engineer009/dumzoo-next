@@ -7,6 +7,9 @@ import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { useSocket } from '@/hooks/useSocket';
 import LoginPopup from '@/components/login-popup';
+import { useDispatch, useSelector } from 'react-redux';
+import { setChatUsers, clearChatUsers, selectChatUsers } from '@/store/apiDataSlice';
+import { RootState } from '@/store/store';
 
 const mockChatUsers = [
     {
@@ -49,31 +52,61 @@ const mockChatUsers = [
 
 export default function ChatList() {
     const router = useRouter();
-    const [chatUsers, setChatUsers] = useState<any>([]);
+    const dispatch = useDispatch();
     const [selectedChat, setSelectedChat] = useState<any>(null);
     const [currentUserId, setCurrentUserId] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    
+    // Get chat users from Redux
+    const chatUsers = useSelector((state: RootState) => selectChatUsers(state));
     
     // Initialize socket connection
     const { isConnected, onNewMessage, offNewMessage } = useSocket({
       autoConnect: true
     });
 
+    // Handle page refresh - clear Redux data
+    useEffect(() => {
+      const handleBeforeUnload = () => {
+        dispatch(clearChatUsers());
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+      
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }, [dispatch]);
+
     useEffect(() => {
       const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
       setCurrentUserId(userId);
       
+      // Check if data exists in Redux
+      if (chatUsers.length > 0) {
+        // Data exists, show it
+        setIsLoading(false);
+        return;
+      }
+      
+      // No data, call API
       const fetchChatUsers = async () => {
+        setIsLoading(true);
         api.get(`${API_ROUTES.getChatConversationsList}${userId}`).then((res) => {
           if(res.status == 1){
-            setChatUsers(res.data);
+            // Store in Redux
+            dispatch(setChatUsers(res.data));
           }
           else{
               // showError(res.message, 2000);
           }
+          setIsLoading(false);
+        }).catch(() => {
+          setIsLoading(false);
         });
       };
       fetchChatUsers();
-    }, []);
+    }, [dispatch, chatUsers.length]);
 
     // Listen for new messages and update chat list
     useEffect(() => {
@@ -82,22 +115,23 @@ export default function ChatList() {
           console.log('New message received in chat list:', message);
           
           // Update the chat list with the new message
-          setChatUsers((prevChats: any[]) => {
-            return prevChats.map((chat: any) => {
-              if (chat.id === message.conversationId) {
-                return {
-                  ...chat,
-                  lastMessage: message.message,
-                  lastMessageTime: new Date(message.timestamp).toLocaleTimeString([], { 
-                    hour: '2-digit', 
-                    minute: '2-digit' 
-                  }),
-                  unreadCount: message.senderId !== currentUserId ? (chat.unreadCount || 0) + 1 : chat.unreadCount
-                };
-              }
-              return chat;
-            });
+          const updatedChats = chatUsers.map((chat: any) => {
+            if (chat.id === message.conversationId) {
+              return {
+                ...chat,
+                lastMessage: message.message,
+                lastMessageTime: new Date(message.timestamp).toLocaleTimeString([], { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                }),
+                unreadCount: message.senderId !== currentUserId ? (chat.unreadCount || 0) + 1 : chat.unreadCount
+              };
+            }
+            return chat;
           });
+          
+          // Update Redux
+          dispatch(setChatUsers(updatedChats));
         };
 
         onNewMessage(handleNewMessage);
@@ -106,7 +140,7 @@ export default function ChatList() {
           offNewMessage();
         };
       }
-    }, [isConnected, currentUserId, onNewMessage, offNewMessage]);
+    }, [isConnected, currentUserId, onNewMessage, offNewMessage, dispatch, chatUsers]);
 
     // Handle chat selection
     const handleChatSelect = (user: any) => {
@@ -118,16 +152,71 @@ export default function ChatList() {
     const handleDeleteSingleChat = (userId: string, e: React.MouseEvent) => {
         e.stopPropagation(); // Prevent triggering chat selection
         if (confirm('Are you sure you want to delete this chat?')) {
-            setChatUsers((prev: any[]) => prev.filter((user: any) => user.id !== userId));
+            const updatedChats = chatUsers.filter((user: any) => user.id !== userId);
+            dispatch(setChatUsers(updatedChats));
         }
     };
 
     // Handle delete all chats
     const handleDeleteAllChats = () => {
         if (confirm('Are you sure you want to delete all chats?')) {
-            setChatUsers([]);
+            dispatch(clearChatUsers());
         }
     };
+
+ const skeleton = () => (
+    <>
+      <div className="flex flex-col h-full">
+        {/* Header - same as original */}
+        <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+          <div className="flex items-center justify-center relative">
+            <button 
+              onClick={() => router.push('/')}
+              className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="flex items-center gap-2">
+              <h1 className="text-lg font-medium text-gray-900">Messages</h1>
+            </div>
+          </div>
+        </header>
+
+        {/* Skeleton Chat Cards */}
+        <div className="flex-1 overflow-y-auto">
+          <div className="divide-y divide-gray-100">
+            {/* Skeleton for 5 chat cards */}
+            {Array.from({ length: 5 }).map((_, index) => (
+              <div key={index} className="flex items-center p-4 animate-pulse">
+                {/* Skeleton avatar */}
+                <div className="relative flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-gray-200"></div>
+                </div>
+
+                {/* Skeleton chat info */}
+                <div className="flex-1 min-w-0 ml-4">
+                  <div className="flex items-center justify-between mb-2">
+                    {/* Skeleton name */}
+                    <div className="h-4 bg-gray-200 rounded w-24"></div>
+                    {/* Skeleton time */}
+                    <div className="h-3 bg-gray-200 rounded w-12"></div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    {/* Skeleton last message */}
+                    <div className="h-3 bg-gray-200 rounded w-32"></div>
+                    {/* Skeleton unread count */}
+                    <div className="h-4 w-4 bg-gray-200 rounded-full"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+ )
 
 // Empty state component
 const EmptyState = () => (
@@ -152,107 +241,111 @@ const EmptyState = () => (
 
     return (
       <>
-             <LoginPopup />
-    <div className="flex flex-col h-full">
-    {/* Header */}
-    <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
-        <div className="flex items-center justify-center relative">
-          <button 
-            onClick={() => router.push('/')}
-            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <div className="flex items-center gap-2">
-            <h1 className="text-lg font-medium text-gray-900">Messages</h1>
-            <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
-                 title={isConnected ? 'Connected' : 'Disconnected'}></div>
-          </div>
-        </div>
-      </header>
-
-    {chatUsers.length > 0 && (
-          <button
-            onClick={handleDeleteAllChats}
-            className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
-          >
-            Delete All
-          </button>
-        )}
-
-    {/* Chat list */}
-    <div className="flex-1 overflow-y-auto">
-      {chatUsers.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <div className="divide-y divide-gray-100">
-          {chatUsers.map((user : any) => (
-            <div
-              key={user?.id}
-              onClick={() => handleChatSelect(user)}
-              className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                selectedChat?.id === user?.id ? 'bg-[#1fb036]/10 border-r-2 border-[#1fb036]' : ''
-              }`}
-            >
-              <div className='mb-3'>{user?.id}</div>
-              {/* User avatar */}
-              {/* <div className="relative flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
-                  <Image
-                    src={user?.image}
-                    alt={user?.name}
-                    width={48}
-                    height={48}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      target.nextElementSibling?.classList.remove('hidden');
-                    }}
-                  />
-                  <div className="hidden w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
-                    {user?.name.split(' ').map((n: string) => n[0]).join('')}
-                  </div>
+        <LoginPopup />
+        {isLoading ? (
+          skeleton()
+        ) : (
+          <div className="flex flex-col h-full">
+            {/* Header */}
+            <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
+              <div className="flex items-center justify-center relative">
+                <button 
+                  onClick={() => router.push('/')}
+                  className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-lg font-medium text-gray-900">Messages</h1>
+                  {/* <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
+                       title={isConnected ? 'Connected' : 'Disconnected'}></div> */}
                 </div>
-                {user?.isOnline && (
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
-                )}
-              </div> */}
+              </div>
+            </header>
 
-              {/* Chat info */}
-              {/* <div className="flex-1 min-w-0 ml-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-medium text-gray-900 truncate">{user?.name}</h3>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-xs text-gray-500">{user?.lastMessageTime}</span>  
-                    <button
-                      onClick={(e) => handleDeleteSingleChat(user?.id, e)}
-                      className="text-gray-400 hover:text-red-500 transition-colors p-1"
-                      title="Delete chat"
+            {chatUsers.length > 0 && (
+              <button
+                onClick={handleDeleteAllChats}
+                className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors text-end px-2"
+              >
+                Delete All
+              </button>
+            )}
+
+            {/* Chat list */}
+            <div className="flex-1 overflow-y-auto">
+              {chatUsers.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <div className="divide-y divide-gray-100">
+                  {chatUsers.map((user : any) => (
+                    <div
+                      key={user?.id}
+                      onClick={() => handleChatSelect(user)}
+                      className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
+                        selectedChat?.id === user?.id ? 'bg-[#1fb036]/10 border-r-2 border-[#1fb036]' : ''
+                      }`}
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
+                      {/* <div className='mb-3'>{user?.id}</div> */}
+                      {/* User avatar */}
+                      <div className="relative flex-shrink-0">
+                        <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                          {/* <Image
+                            src={user?.image}
+                            alt={user?.name}
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.nextElementSibling?.classList.remove('hidden');
+                            }}
+                          /> */}
+                          <div className="hidden w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
+                            {user?.name?.split(' ').map((n: string) => n[0]).join('') || 'AN'}
+                          </div>
+                        </div>
+                        {user?.isOnline && (
+                          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+                        )}
+                      </div>
+
+                      {/* Chat info */}
+                      <div className="flex-1 min-w-0 ml-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-sm font-medium text-gray-900 truncate">{user?.name || 'Andy'}</h3>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-500">{user?.lastMessageTime || '---'}</span>  
+                            <button
+                              onClick={(e) => handleDeleteSingleChat(user?.id, e)}
+                              className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                              title="Delete chat"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-between mt-1">
+                          <p className="text-sm text-gray-500 truncate">{user?.lastMessage}</p>
+                          {user?.unreadCount > 0 && (
+                            <span className="bg-[#1fb036] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                              {user?.unreadCount}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="flex items-center justify-between mt-1">
-                  <p className="text-sm text-gray-500 truncate">{user?.lastMessage}</p>
-                  {user?.unreadCount > 0 && (
-                    <span className="bg-[#1fb036] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {user?.unreadCount}
-                    </span>
-                  )}
-                </div>
-              </div> */}
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-  </>
+          </div>
+        )}
+      </>
     )
 };
