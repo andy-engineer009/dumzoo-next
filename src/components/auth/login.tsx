@@ -243,7 +243,7 @@ const Login = () => {
 
                 <button
                   onClick={() => router.push('/')}
-                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium px-4 transition-colors duration-200 text-base "
+                  className="w-full bg-white text-gray-400 hover:text-gray-700 font-medium px-4 transition-colors duration-200 text-[14px] "
                   type="button"
                 >
                   Back to Home

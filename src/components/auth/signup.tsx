@@ -221,16 +221,20 @@ const Signup = () => {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>I'm an Creator</span>
+                  <span>I'm a Influencer</span>
                 </button>
                 <button
                   onClick={() => setUserType(3)}
-                  className="w-full bg-[#6d56ff] text-[#fff] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg"
+                  className="w-full text-[#000] font-medium py-4 px-4 rounded-[100px] transition-colors duration-200 flex items-center justify-center space-x-3 text-lg" 
+                  style={{ background: 'none', border: '1px solid #000', cursor: 'pointer' }}
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span>Promote Product/Business</span>
+                  <span>I'm a Promoter <span className="text-[12px] text-gray-500">
+                     (find influencers)
+                  </span>
+                  </span>
                 </button>
               </div>
                   <div className="text-center mt-4">
@@ -297,8 +301,6 @@ const Signup = () => {
             </p>
           </div>
         </div>
-
-   
 
         {/* Custom CSS for animations */}
         <style jsx>{`
