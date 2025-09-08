@@ -17,29 +17,21 @@ const Header = () => {
   // Scroll behavior state
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
 
   // Handle scroll behavior
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       
-      // Clear existing timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-      
-      // Show navbar when scrolling up or at the top
-      if (currentScrollY < lastScrollY || currentScrollY < 10) {
+      // Simple rules:
+      // 1. Scroll down = hide menu
+      // 2. Scroll up = show menu
+      if (currentScrollY > lastScrollY && currentScrollY > 50) {
+        // Scrolling down - hide menu
+        setIsVisible(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up - show menu
         setIsVisible(true);
-      } 
-      // Hide navbar when scrolling down (but not at the very top)
-      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // Add a small delay to prevent flickering
-        const timeout = setTimeout(() => {
-          setIsVisible(false);
-        }, 100);
-        setScrollTimeout(timeout);
       }
       
       setLastScrollY(currentScrollY);
@@ -61,11 +53,8 @@ const Header = () => {
     
     return () => {
       window.removeEventListener('scroll', throttledHandleScroll);
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
     };
-  }, [lastScrollY, scrollTimeout]); 
+  }, [lastScrollY]); 
 
   return (
     <>
@@ -212,9 +201,9 @@ const Header = () => {
                 <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-5-6.32V4a1 1 0 1 0-2 0v.68C7.63 5.36 6 7.92 6 11v5l-1.29 1.29A1 1 0 0 0 6 19h12a1 1 0 0 0 .71-1.71L18 16zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" fill="#4a5565"/>
                 </svg>
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] rounded-full w-3 h-3 flex items-center justify-center">
+                    {/* <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] rounded-full w-3 h-3 flex items-center justify-center">
                       3
-                    </span>
+                    </span> */}
               
                 </div>
                 {/* <span className="text-xs font-medium">Chat</span> */}
