@@ -309,3 +309,21 @@ padding: 10px 0 0 !important;
 .finder-screen .campaigns-discover-screen .header-section {
 display: none;
 }
+
+
+
+footer .bg-image {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 100%;
+  z-index: 1;
+  opacity: 1;
+  width: 150px;
+  background: url('/images/footer-only.png') no-repeat center bottom;
+  background-size:150px;
+  background-position: top;
+  background-repeat: no-repeat;
+  padding-bottom: 150px;
+
+}

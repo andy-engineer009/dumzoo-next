@@ -214,7 +214,7 @@ export default function PromotorHome() {
   return (
     // {(!isLoggedIn || userRole === '3' || userRole === null) &&
     <>
-    <div className="home-wrapper pb-[80px]">
+    <div className="home-wrapper pb-[20px]">
     {/* <div className="fixed top-0 left-0 right-0 z-50 bg-black py-3 px-4 flex items-center justify-between">
       <div className="text-white text-sm font-bold">
        
@@ -300,6 +300,9 @@ export default function PromotorHome() {
       <Image src="/images/india.png" alt="Influencer" width={1000} height={1000} className="rounded-xl" />
       </div> 
 
+<div className="px-4 mt-3">
+<Image src={"/images/follower.png"} alt="follower" width={1000} height={1000} className="rounded-xl" />
+</div>
 
   
           {/* popular cities */}
@@ -856,7 +859,7 @@ export default function PromotorHome() {
       </div>
     </div> */}
 
-<div className="text-center my-8">
+{/* <div className="text-center my-8">
           <div className="flex items-center justify-center">
             <div className="border-b border-gray-300 h-[1px] w-[40px]"></div>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mx-3 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="#5D22AC">
@@ -870,144 +873,14 @@ export default function PromotorHome() {
         </div>
         </div>
 
-<Image src={"/images/flow.png"} alt="Bengaluru" width={1000} height={1000} className="px-4" />
 
-<div className="w-full my-8 px-4 hidden">
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
-        {/* Tab Headers */}
-        <div className="flex border-b border-gray-200">
-          <button
-            className={`flex-1 py-4 px-6 text-center font-semibold text-lg transition-all duration-300 ${
-              activeTab === 'influencer'
-                ? 'bg-[#1fb036] text-white border-b-2 border-[#1fb036]'
-                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-            }`}
-            onClick={() => setActiveTab('influencer')}
-          >
-            Influencer
-          </button>
-          <button
-            className={`flex-1 py-4 px-6 text-center font-semibold text-lg transition-all duration-300 ${
-              activeTab === 'promoter'
-                ? 'bg-[#1fb036] text-white border-b-2 border-[#1fb036]'
-                : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
-            }`}
-            onClick={() => setActiveTab('promoter')}
-          >
-            Promoter (Business)
-          </button>
-             </div>
+<Image src={"/images/flow.png"} alt="Bengaluru" width={1000} height={1000} className="px-4" /> */}
 
-        {/* Tab Content */}
-        <div className="py-8">
-          {activeTab === 'influencer' ? (
-            /* Influencer Flow - Green Banner */
-            <div className="bg-gradient-to-r from-[#1fb036] to-[#16a02e] rounded-xl p-8 text-white">
-              <h2 className="text-3xl font-bold mb-6 text-center">Influencer Flow</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">1</span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Login as Influencer</h3>
-                  <p className="text-sm opacity-90">Create your account and get started</p>
-            </div>
-
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">2</span>
-             </div>
-                  <h3 className="text-xl font-semibold mb-2">Make your free profile</h3>
-                  <p className="text-sm opacity-90">Set your price for promotions</p>
-            </div>
-
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">3</span>
-             </div>
-                  <h3 className="text-xl font-semibold mb-2">Add offers</h3>
-                  <p className="text-sm opacity-90">Attract more promoters</p>
-            </div>
-       
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">4</span>
-             </div>
-                  <h3 className="text-xl font-semibold mb-2">Find campaigns</h3>
-                  <p className="text-sm opacity-90">Apply for paid brand promotions</p>
-            </div>
-
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">5</span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Chat with promoters</h3>
-                  <p className="text-sm opacity-90">Discuss details directly</p>
-             </div>
-            
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">6</span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Get paid safely</h3>
-                  <p className="text-sm opacity-90">Money comes to you securely</p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            /* Promoter Flow - Business Banner */
-            <div className="bg-gradient-to-r from-[#1fb036] to-[#16a02e] rounded-xl p-8 text-white">
-              <h2 className="text-3xl font-bold mb-6 text-center">Promoter Flow</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">1</span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Find Influencers</h3>
-                  <p className="text-sm opacity-90">Choose by your needs</p>
-              </div>
-
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">2</span>
-             </div>
-                  <h3 className="text-xl font-semibold mb-2">Have a special need?</h3>
-                  <p className="text-sm opacity-90">Create a campaign with details</p>
-              </div>
-            
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">3</span>
-             </div>
-                  <h3 className="text-xl font-semibold mb-2">Get applications</h3>
-                  <p className="text-sm opacity-90">Influencers will apply to your campaign</p>
-              </div>
-
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">4</span>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Shortlist & Chat</h3>
-                  <p className="text-sm opacity-90">Talk before finalizing</p>
-             </div>
-                
-                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <span className="text-2xl font-bold">5</span>
-            </div>
-                  <h3 className="text-xl font-semibold mb-2">Hire safely</h3>
-                  <p className="text-sm opacity-90">Complete the deal with full trust</p>
-                </div>
-              </div>
-            </div>
-          )}
-          </div>
-        </div>
-      </div>
 
       {/* footer  */}
-      <footer className="text-white overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 pt-8 pb-4">
+      <footer className="text-white overflow-hidden relative">
+        <div className="bg-image"></div>
+      <div className="max-w-7xl mx-auto px-4 pt-8 pb-4 z-[99] relative">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
