@@ -12,7 +12,60 @@ const Header = () => {
   const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
   const dispatch = useDispatch();
   const router = useRouter();
-  const pathname:any = usePathname(); 
+  const pathname:any = usePathname();
+
+  // Scroll behavior state
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollTimeout, setScrollTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  // Handle scroll behavior
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Clear existing timeout
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+      
+      // Show navbar when scrolling up or at the top
+      if (currentScrollY < lastScrollY || currentScrollY < 10) {
+        setIsVisible(true);
+      } 
+      // Hide navbar when scrolling down (but not at the very top)
+      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Add a small delay to prevent flickering
+        const timeout = setTimeout(() => {
+          setIsVisible(false);
+        }, 100);
+        setScrollTimeout(timeout);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    // Throttle scroll events for better performance
+    let ticking = false;
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          handleScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', throttledHandleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', throttledHandleScroll);
+      if (scrollTimeout) {
+        clearTimeout(scrollTimeout);
+      }
+    };
+  }, [lastScrollY, scrollTimeout]); 
 
   return (
     <>
@@ -22,7 +75,11 @@ const Header = () => {
       {/* Mobile Bottom Navigation - Modern Floating Design */}
         {/* {!pathname.includes('/detail') && !pathname.includes('/chat') && !pathname.includes('/profile') && !pathname.includes('/login') && !pathname.includes('/referral') && !pathname.includes('/discover')&& !pathname.includes('/plans') && ( */}
         { pathname ==='/' && (
-          <nav className="fixed bottom-0 z-50 md:hidden w-full">
+          <nav className={`fixed bottom-0 z-50 md:hidden w-full transition-all duration-300 ease-in-out ${
+            isVisible 
+              ? 'translate-y-0 opacity-100' 
+              : 'translate-y-full opacity-0'
+          }`}>
           {/* Main Navigation Container */}
           <div className="bg-white/95 backdrop-blur-xl  shadow-[0_-8px_32px_rgba(0,0,0,0.12)] border border-gray-200/60 p-2">
             <div className={`grid ${role === '3' ? 'grid-cols-5' : 'grid-cols-5'} items-center gap-1`}>
