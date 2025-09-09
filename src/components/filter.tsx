@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Select from 'react-select';
-
+import citiesData from '@/data/cities.json';
 // Import states and cities data
 const states = [
   { id: 1, name: "Andhra Pradesh", short_name: "AP" },
@@ -86,114 +86,7 @@ const customSelectStyles = {
 };
 
 // Create cities options with state names included
-const cities = [
-  // Himachal Pradesh
-  { city_id: 1, name: "Bilaspur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 2, name: "Chamba (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 3, name: "Hamirpur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 4, name: "Kangra (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 5, name: "Kinnaur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 6, name: "Kullu (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 7, name: "Lahaul and Spiti (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 8, name: "Mandi (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 9, name: "Shimla (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 10, name: "Sirmaur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 11, name: "Solan (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  { city_id: 12, name: "Una (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
-  
-  // Maharashtra
-  { city_id: 13, name: "Mumbai (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  { city_id: 14, name: "Pune (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  { city_id: 15, name: "Nagpur (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  { city_id: 16, name: "Thane (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  { city_id: 17, name: "Nashik (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  { city_id: 18, name: "Aurangabad (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
-  
-  // Delhi
-  { city_id: 19, name: "New Delhi (Delhi)", state_id: 32, state_name: "Delhi" },
-  { city_id: 20, name: "Delhi (Delhi)", state_id: 32, state_name: "Delhi" },
-  
-  // Karnataka
-  { city_id: 21, name: "Bangalore (Karnataka)", state_id: 11, state_name: "Karnataka" },
-  { city_id: 22, name: "Mysore (Karnataka)", state_id: 11, state_name: "Karnataka" },
-  { city_id: 23, name: "Mangalore (Karnataka)", state_id: 11, state_name: "Karnataka" },
-  
-  // Tamil Nadu
-  { city_id: 24, name: "Chennai (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
-  { city_id: 25, name: "Coimbatore (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
-  { city_id: 26, name: "Madurai (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
-  
-  // Telangana
-  { city_id: 27, name: "Hyderabad (Telangana)", state_id: 24, state_name: "Telangana" },
-  { city_id: 28, name: "Warangal (Telangana)", state_id: 24, state_name: "Telangana" },
-  
-  // Gujarat
-  { city_id: 29, name: "Ahmedabad (Gujarat)", state_id: 7, state_name: "Gujarat" },
-  { city_id: 30, name: "Surat (Gujarat)", state_id: 7, state_name: "Gujarat" },
-  { city_id: 31, name: "Vadodara (Gujarat)", state_id: 7, state_name: "Gujarat" },
-  
-  // Uttar Pradesh
-  { city_id: 32, name: "Lucknow (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
-  { city_id: 33, name: "Kanpur (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
-  { city_id: 34, name: "Varanasi (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
-  
-  // West Bengal
-  { city_id: 35, name: "Kolkata (West Bengal)", state_id: 28, state_name: "West Bengal" },
-  { city_id: 36, name: "Howrah (West Bengal)", state_id: 28, state_name: "West Bengal" },
-  
-  // Kerala
-  { city_id: 37, name: "Thiruvananthapuram (Kerala)", state_id: 12, state_name: "Kerala" },
-  { city_id: 38, name: "Kochi (Kerala)", state_id: 12, state_name: "Kerala" },
-  { city_id: 39, name: "Kozhikode (Kerala)", state_id: 12, state_name: "Kerala" },
-  
-  // Punjab
-  { city_id: 40, name: "Chandigarh (Punjab)", state_id: 20, state_name: "Punjab" },
-  { city_id: 41, name: "Ludhiana (Punjab)", state_id: 20, state_name: "Punjab" },
-  { city_id: 42, name: "Amritsar (Punjab)", state_id: 20, state_name: "Punjab" },
-  
-  // Haryana
-  { city_id: 43, name: "Gurgaon (Haryana)", state_id: 8, state_name: "Haryana" },
-  { city_id: 44, name: "Faridabad (Haryana)", state_id: 8, state_name: "Haryana" },
-  { city_id: 45, name: "Panipat (Haryana)", state_id: 8, state_name: "Haryana" },
-  
-  // Rajasthan
-  { city_id: 46, name: "Jaipur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
-  { city_id: 47, name: "Jodhpur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
-  { city_id: 48, name: "Udaipur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
-  
-  // Madhya Pradesh
-  { city_id: 49, name: "Bhopal (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
-  { city_id: 50, name: "Indore (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
-  { city_id: 51, name: "Jabalpur (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
-  
-  // Bihar
-  { city_id: 52, name: "Patna (Bihar)", state_id: 4, state_name: "Bihar" },
-  { city_id: 53, name: "Gaya (Bihar)", state_id: 4, state_name: "Bihar" },
-  
-  // Odisha
-  { city_id: 54, name: "Bhubaneswar (Odisha)", state_id: 19, state_name: "Odisha" },
-  { city_id: 55, name: "Cuttack (Odisha)", state_id: 19, state_name: "Odisha" },
-  
-  // Assam
-  { city_id: 56, name: "Guwahati (Assam)", state_id: 3, state_name: "Assam" },
-  { city_id: 57, name: "Dibrugarh (Assam)", state_id: 3, state_name: "Assam" },
-  
-  // Jharkhand
-  { city_id: 58, name: "Ranchi (Jharkhand)", state_id: 10, state_name: "Jharkhand" },
-  { city_id: 59, name: "Jamshedpur (Jharkhand)", state_id: 10, state_name: "Jharkhand" },
-  
-  // Chhattisgarh
-  { city_id: 60, name: "Raipur (Chhattisgarh)", state_id: 5, state_name: "Chhattisgarh" },
-  { city_id: 61, name: "Bhilai (Chhattisgarh)", state_id: 5, state_name: "Chhattisgarh" },
-  
-  // Uttarakhand
-  { city_id: 62, name: "Dehradun (Uttarakhand)", state_id: 27, state_name: "Uttarakhand" },
-  { city_id: 63, name: "Haridwar (Uttarakhand)", state_id: 27, state_name: "Uttarakhand" },
-  
-  // Goa
-  { city_id: 64, name: "Panaji (Goa)", state_id: 6, state_name: "Goa" },
-  { city_id: 65, name: "Margao (Goa)", state_id: 6, state_name: "Goa" }
-];
+const cities = citiesData;
 
 interface FilterOption {
   value: any;
@@ -234,9 +127,7 @@ const filterCategories: FilterCategory[] = [
     options: [
       { value: 'instagram', label: 'Instagram' },
       { value: 'youtube', label: 'YouTube' },
-      // { value: 'tiktok', label: 'TikTok' },
       { value: 'facebook', label: 'Facebook' },
-      // { value: 'twitter', label: 'Twitter' },
     ]
   },
   {
@@ -402,7 +293,7 @@ const filterCategories: FilterCategory[] = [
   },
   {
     id: 'contentLanguage',
-    label: 'Content Language',
+    label: 'Language',
     type: 'checkbox',
     options: [
       { value: 0, label: 'All' },
@@ -820,11 +711,53 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                         }}
                       ></div>
                       
-                      {/* Value Display */}
-                      <div className="flex justify-between text-sm text-gray-600 mt-6">
-                        <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
-                        <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                    {/* Value Display */}
+                    {/* <div className="flex justify-between text-sm text-gray-600 mt-6">
+                      <span>Minss: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
+                      <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                    </div> */}
+                    
+                    {/* Manual Input Fields */}
+                    <div className="grid grid-cols-2 gap-4 mt-7">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Min Budget (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100000"
+                          step="100"
+                          value={selectedFilters.budgetMin || 0}
+                          onChange={(e) => {
+                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 0));
+                            const maxValue = selectedFilters.budgetMax;
+                            if (value <= maxValue) {
+                              handleBudgetRangeChange(value, maxValue);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                          placeholder="0"
+                        />
                       </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Max Budget (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100000"
+                          step="100"
+                          value={selectedFilters.budgetMax || 100000}
+                          onChange={(e) => {
+                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 100000));
+                            const minValue = selectedFilters.budgetMin;
+                            if (value >= minValue) {
+                              handleBudgetRangeChange(minValue, value);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                          placeholder="100000"
+                        />
+                      </div>
+                    </div>
                     </div>
                     
                     {/* Range Labels */}
@@ -1027,9 +960,51 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       ></div>
                       
                       {/* Value Display */}
-                      <div className="flex justify-between text-sm text-gray-600 mt-6">
+                      {/* <div className="flex justify-between text-sm text-gray-600 mt-6">
                         <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
                         <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
+                      </div> */}
+                      
+                      {/* Manual Input Fields */}
+                      <div className="grid grid-cols-2 gap-4 mt-7">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">Min Followers</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="250000"
+                            step="1000"
+                            value={selectedFilters.followerMin || 0}
+                            onChange={(e) => {
+                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 0));
+                              const maxValue = selectedFilters.followerMax;
+                              if (value <= maxValue) {
+                                handleFollowerRangeChange(value, maxValue);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                            placeholder="0"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">Max Followers</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="250000"
+                            step="1000"
+                            value={selectedFilters.followerMax || 250000}
+                            onChange={(e) => {
+                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 250000));
+                              const minValue = selectedFilters.followerMin;
+                              if (value >= minValue) {
+                                handleFollowerRangeChange(minValue, value);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                            placeholder="250000"
+                          />
+                        </div>
                       </div>
                     </div>
                     

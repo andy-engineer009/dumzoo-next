@@ -1,0 +1,1820 @@
+[
+    {
+      "city_id": 1,
+      "name": "Bilaspur (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 2,
+      "name": "Chamba (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 3,
+      "name": "Hamirpur (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 4,
+      "name": "Kangra (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 5,
+      "name": "Kinnaur (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 6,
+      "name": "Kullu (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 7,
+      "name": "Lahaul and Spiti (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 8,
+      "name": "Mandi (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 9,
+      "name": "Shimla (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 10,
+      "name": "Sirmaur (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 11,
+      "name": "Solan (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 12,
+      "name": "Una (Himachal Pradesh)",
+      "state_id": 9,
+      "state_name": "Himachal Pradesh"
+    },
+    {
+      "city_id": 13,
+      "name": "Ahmednagar (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 14,
+      "name": "Akola (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 15,
+      "name": "Amravati (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 16,
+      "name": "Aurangabad (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 17,
+      "name": "Beed (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 18,
+      "name": "Bhandara (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 19,
+      "name": "Buldhana (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 20,
+      "name": "Chandrapur (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 21,
+      "name": "Dhule (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 22,
+      "name": "Gadchiroli (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 23,
+      "name": "Gondia (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 24,
+      "name": "Hingoli (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 25,
+      "name": "Jalgaon (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 26,
+      "name": "Jalna (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 27,
+      "name": "Kolhapur (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 28,
+      "name": "Latur (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 29,
+      "name": "Mumbai City (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 30,
+      "name": "Mumbai Suburban (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 31,
+      "name": "Nanded (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 32,
+      "name": "Nandurbar (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 33,
+      "name": "Nagpur (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 34,
+      "name": "Nashik (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 35,
+      "name": "Osmanabad (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 36,
+      "name": "Palghar (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 37,
+      "name": "Parbhani (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 38,
+      "name": "Pune (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 39,
+      "name": "Raigad (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 40,
+      "name": "Ratnagiri (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 41,
+      "name": "Sangli (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 42,
+      "name": "Satara (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 43,
+      "name": "Sindhudurg (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 44,
+      "name": "Solapur (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 45,
+      "name": "Thane (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 46,
+      "name": "Wardha (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 47,
+      "name": "Washim (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 48,
+      "name": "Yavatmal (Maharashtra)",
+      "state_id": 14,
+      "state_name": "Maharashtra"
+    },
+    {
+      "city_id": 49,
+      "name": "Amritsar (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 50,
+      "name": "Barnala (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 51,
+      "name": "Bathinda (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 52,
+      "name": "Faridkot (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 53,
+      "name": "Fatehgarh Sahib (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 54,
+      "name": "Fazilka (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 55,
+      "name": "Firozpur (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 56,
+      "name": "Gurdaspur (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 57,
+      "name": "Hoshiarpur (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 58,
+      "name": "Jalandhar (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 59,
+      "name": "Kapurthala (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 60,
+      "name": "Ludhiana (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 61,
+      "name": "Mansa (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 62,
+      "name": "Malerkotla (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 63,
+      "name": "Moga (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 64,
+      "name": "Pathankot (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 65,
+      "name": "Patiala (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 66,
+      "name": "Rupnagar (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 67,
+      "name": "Sahibzada Ajit Singh Nagar (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 68,
+      "name": "Sangrur (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 69,
+      "name": "Shahid Bhagat Singh Nagar (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 70,
+      "name": "Sri Muktsar Sahib (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 71,
+      "name": "Tarn Taran (Punjab)",
+      "state_id": 20,
+      "state_name": "Punjab"
+    },
+    {
+      "city_id": 72,
+      "name": "Ambala (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 73,
+      "name": "Bhiwani (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 74,
+      "name": "Charkhi Dadri (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 75,
+      "name": "Faridabad (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 76,
+      "name": "Fatehabad (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 77,
+      "name": "Gurgaon (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 78,
+      "name": "Hissar (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 79,
+      "name": "Jhajjar (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 80,
+      "name": "Jind (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 81,
+      "name": "Kaithal (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 82,
+      "name": "Karnal (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 83,
+      "name": "Kurukshetra (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 84,
+      "name": "Mahendragarh (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 85,
+      "name": "Nuh (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 86,
+      "name": "Palwal (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 87,
+      "name": "Panchkula (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 88,
+      "name": "Panipat (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 89,
+      "name": "Rewari (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 90,
+      "name": "Rohtak (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 91,
+      "name": "Sirsa (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 92,
+      "name": "Sonipat (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 93,
+      "name": "Yamuna Nagar (Haryana)",
+      "state_id": 8,
+      "state_name": "Haryana"
+    },
+    {
+      "city_id": 94,
+      "name": "Almora (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 95,
+      "name": "Bageshwar (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 96,
+      "name": "Chamoli (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 97,
+      "name": "Champawat (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 98,
+      "name": "Dehradun (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 99,
+      "name": "Haridwar (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 100,
+      "name": "Nainital (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 101,
+      "name": "Pauri Garhwal (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 102,
+      "name": "Pithoragarh (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 103,
+      "name": "Rudraprayag (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 104,
+      "name": "Tehri Garhwal (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 105,
+      "name": "Udham Singh Nagar (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 106,
+      "name": "Uttarkashi (Uttarakhand)",
+      "state_id": 27,
+      "state_name": "Uttarakhand"
+    },
+    {
+      "city_id": 107,
+      "name": "Ajmer (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 108,
+      "name": "Alwar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 109,
+      "name": "Balotra (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 110,
+      "name": "Banswara (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 111,
+      "name": "Baran (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 112,
+      "name": "Barmer (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 113,
+      "name": "Beawar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 114,
+      "name": "Bharatpur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 115,
+      "name": "Bhilwara (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 116,
+      "name": "Bikaner (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 117,
+      "name": "Bundi (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 118,
+      "name": "Chittorgarh (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 119,
+      "name": "Churu (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 120,
+      "name": "Dausa (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 121,
+      "name": "Deeg (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 122,
+      "name": "Dholpur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 123,
+      "name": "Didwana-Kuchaman (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 124,
+      "name": "Dungarpur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 125,
+      "name": "Ganganagar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 126,
+      "name": "Hanumangarh (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 127,
+      "name": "Jaipur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 128,
+      "name": "Jaisalmer (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 129,
+      "name": "Jalore (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 130,
+      "name": "Jhalawar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 131,
+      "name": "Jhunjhunu (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 132,
+      "name": "Jodhpur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 133,
+      "name": "Karauli (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 134,
+      "name": "Khairthal-Tijara (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 135,
+      "name": "Kota (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 136,
+      "name": "Kotputli-Behror (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 137,
+      "name": "Nagaur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 138,
+      "name": "Pali (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 139,
+      "name": "Phalodi (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 140,
+      "name": "Pratapgarh (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 141,
+      "name": "Rajsamand (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 142,
+      "name": "Salumbar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 143,
+      "name": "Sawai Madhopur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 144,
+      "name": "Sikar (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 145,
+      "name": "Sirohi (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 146,
+      "name": "Tonk (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 147,
+      "name": "Udaipur (Rajasthan)",
+      "state_id": 21,
+      "state_name": "Rajasthan"
+    },
+    {
+      "city_id": 148,
+      "name": "Agra (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 149,
+      "name": "Aligarh (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 150,
+      "name": "Ambedkar Nagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 151,
+      "name": "Amethi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 152,
+      "name": "Amroha (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 153,
+      "name": "Auraiya (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 154,
+      "name": "Ayodhya (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 155,
+      "name": "Azamgarh (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 156,
+      "name": "Baghpat (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 157,
+      "name": "Bahraich (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 158,
+      "name": "Ballia (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 159,
+      "name": "Balrampur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 160,
+      "name": "Banda (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 161,
+      "name": "Bara Banki (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 162,
+      "name": "Bareilly (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 163,
+      "name": "Basti (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 164,
+      "name": "Bhadohi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 165,
+      "name": "Bijnor (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 166,
+      "name": "Budaun (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 167,
+      "name": "Bulandshahr (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 168,
+      "name": "Chandauli (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 169,
+      "name": "Chitrakoot (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 170,
+      "name": "Deoria (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 171,
+      "name": "Etah (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 172,
+      "name": "Etawah (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 173,
+      "name": "Farrukhabad (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 174,
+      "name": "Fatehpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 175,
+      "name": "Firozabad (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 176,
+      "name": "Gautam Buddha Nagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 177,
+      "name": "Ghaziabad (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 178,
+      "name": "Ghazipur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 179,
+      "name": "Gonda (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 180,
+      "name": "Gorakhpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 181,
+      "name": "Hamirpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 182,
+      "name": "Hapur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 183,
+      "name": "Hardoi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 184,
+      "name": "Hathras (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 185,
+      "name": "Jalaun (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 186,
+      "name": "Jaunpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 187,
+      "name": "Jhansi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 188,
+      "name": "Kannauj (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 189,
+      "name": "Kanpur Dehat (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 190,
+      "name": "Kanpur Nagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 191,
+      "name": "Kasganj (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 192,
+      "name": "Kaushambi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 193,
+      "name": "Kheri (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 194,
+      "name": "Kushinagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 195,
+      "name": "Lalitpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 196,
+      "name": "Lucknow (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 197,
+      "name": "Mahoba (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 198,
+      "name": "Mahrajganj (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 199,
+      "name": "Mainpuri (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 200,
+      "name": "Mathura (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 201,
+      "name": "Mau (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 202,
+      "name": "Meerut (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 203,
+      "name": "Mirzapur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 204,
+      "name": "Moradabad (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 205,
+      "name": "Muzaffarnagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 206,
+      "name": "Pilibhit (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 207,
+      "name": "Pratapgarh (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 208,
+      "name": "Prayagraj (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 209,
+      "name": "Rae Bareli (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 210,
+      "name": "Rampur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 211,
+      "name": "Saharanpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 212,
+      "name": "Sambhal (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 213,
+      "name": "Sant Kabir Nagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 214,
+      "name": "Shahjahanpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 215,
+      "name": "Shamli (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 216,
+      "name": "Shrawasti (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 217,
+      "name": "Siddharthnagar (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 218,
+      "name": "Sitapur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 219,
+      "name": "Sonbhadra (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 220,
+      "name": "Sultanpur (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 221,
+      "name": "Unnao (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 222,
+      "name": "Varanasi (Uttar Pradesh)",
+      "state_id": 26,
+      "state_name": "Uttar Pradesh"
+    },
+    {
+      "city_id": 223,
+      "name": "Araria (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 224,
+      "name": "Arwal (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 225,
+      "name": "Aurangabad (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 226,
+      "name": "Banka (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 227,
+      "name": "Begusarai (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 228,
+      "name": "Bhagalpur (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 229,
+      "name": "Bhojpur (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 230,
+      "name": "Buxar (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 231,
+      "name": "Darbhanga (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 232,
+      "name": "Gaya (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 233,
+      "name": "Gopalganj (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 234,
+      "name": "Jamui (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 235,
+      "name": "Jehanabad (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 236,
+      "name": "Kaimur (Bhabua) (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 237,
+      "name": "Katihar (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 238,
+      "name": "Khagaria (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 239,
+      "name": "Kishanganj (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 240,
+      "name": "Lakhisarai (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 241,
+      "name": "Madhepura (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 242,
+      "name": "Madhubani (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 243,
+      "name": "Munger (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 244,
+      "name": "Muzaffarpur (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 245,
+      "name": "Nalanda (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 246,
+      "name": "Nawada (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 247,
+      "name": "Pashchim Champaran (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 248,
+      "name": "Samastipur (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 249,
+      "name": "Saran (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 250,
+      "name": "Sheikhpura (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 251,
+      "name": "Sheohar (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 252,
+      "name": "Sitamarhi (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 253,
+      "name": "Patna (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 254,
+      "name": "Purbi Champaran (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 255,
+      "name": "Purnia (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 256,
+      "name": "Rohtas (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 257,
+      "name": "Saharsa (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 258,
+      "name": "Siwan (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 259,
+      "name": "Supaul (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 260,
+      "name": "Vaishali (Bihar)",
+      "state_id": 4,
+      "state_name": "Bihar"
+    },
+    {
+      "city_id": 261,
+      "name": "Central Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 262,
+      "name": "East Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 263,
+      "name": "New Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 264,
+      "name": "North Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 265,
+      "name": "North East Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 266,
+      "name": "North West Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 267,
+      "name": "Shahdara (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 268,
+      "name": "South Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 269,
+      "name": "South East Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 270,
+      "name": "South West Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 271,
+      "name": "West Delhi (Delhi)",
+      "state_id": 32,
+      "state_name": "Delhi"
+    },
+    {
+      "city_id": 272,
+      "name": "Chandigarh (Chandigarh)",
+      "state_id": 30,
+      "state_name": "Chandigarh"
+    },
+    {
+      "city_id": 273,
+      "name": "Bagalkote (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 274,
+      "name": "Ballari (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 275,
+      "name": "Belagavi (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 276,
+      "name": "Bengaluru Rural (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 277,
+      "name": "Bengaluru South (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 278,
+      "name": "Bengaluru Urban (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 279,
+      "name": "Bidar (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 280,
+      "name": "Chamarajanagar (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 281,
+      "name": "Chikkaballapura (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 282,
+      "name": "Chikkamagaluru (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 283,
+      "name": "Chitradurga (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 284,
+      "name": "Dakshina Kannada (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 285,
+      "name": "Davanagere (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 286,
+      "name": "Dharwad (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 287,
+      "name": "Gadag (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 288,
+      "name": "Hassan (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 289,
+      "name": "Haveri (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 290,
+      "name": "Kalaburagi (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 291,
+      "name": "Kodagu (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 292,
+      "name": "Kolar (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 293,
+      "name": "Koppal (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 294,
+      "name": "Mandya (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 295,
+      "name": "Mysuru (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 296,
+      "name": "Raichur (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 297,
+      "name": "Shivamogga (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 298,
+      "name": "Yadgir (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 299,
+      "name": "Tumakuru (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 300,
+      "name": "Udupi (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 301,
+      "name": "Uttara Kannada (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 302,
+      "name": "Vijayanagara (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    },
+    {
+      "city_id": 303,
+      "name": "Vijayapura (Karnataka)",
+      "state_id": 17,
+      "state_name": "Karnataka"
+    }
+  ]
