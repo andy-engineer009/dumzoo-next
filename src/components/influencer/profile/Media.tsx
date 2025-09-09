@@ -15,6 +15,8 @@ export default function MediaForm() {
   const [previewUrl, setPreviewUrl] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [imageUrl, setImageUrl] = useState<string>('');
+
   const showToast = (message: string, type: 'success' | 'error') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000);
@@ -82,6 +84,7 @@ export default function MediaForm() {
         if(thirdPartData.status === 1){
           setIsLoading(true);
           const imageUrl = thirdPartData.data?.path;
+          setImageUrl(imageUrl);
           if(imageUrl){
           const payload:any = {
             image_url: imageUrl,
@@ -89,6 +92,8 @@ export default function MediaForm() {
           if(mediaData.id){
             payload.profile_image_id = mediaData.id;
           }
+          setIsLoading(false);
+          return
           api.post(API_ROUTES.influencerProfileAddUpdate, payload).then((res)=>{
             setIsLoading(false);
             if(res.status === 1){
@@ -252,6 +257,17 @@ export default function MediaForm() {
               )}
             </div>
 
+<div>
+  <h3>
+    Image URL : {imageUrl}
+  </h3>
+  <button className='bg-blue-500 text-white px-4 py-2 rounded-md' onClick={() => {
+    navigator.clipboard.writeText(imageUrl);
+    showToast('Image URL copied to clipboard', 'success');
+  }}>
+    Copy Image URL
+  </button>
+</div>
             {/* Guidelines */}
             <div className="mt-6 p-4 bg-blue-50 rounded-2xl">
               <h3 className="font-semibold text-gray-900 mb-2">Upload Guidelines</h3>

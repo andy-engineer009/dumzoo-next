@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import Select from 'react-select';
+import citiesData from '@/data/cities.json';
 // Import states and cities data
 const states = [
   { id: 1, name: "Andhra Pradesh", short_name: "AP" },
@@ -43,114 +44,49 @@ const states = [
   { id: 36, name: "Puducherry", short_name: "PY" }
 ];
 
-const cities = [
-  // Himachal Pradesh
-  { id: 1, name: "Bilaspur", state_id: 9 },
-  { id: 2, name: "Chamba", state_id: 9 },
-  { id: 3, name: "Hamirpur", state_id: 9 },
-  { id: 4, name: "Kangra", state_id: 9 },
-  { id: 5, name: "Kinnaur", state_id: 9 },
-  { id: 6, name: "Kullu", state_id: 9 },
-  { id: 7, name: "Lahaul and Spiti", state_id: 9 },
-  { id: 8, name: "Mandi", state_id: 9 },
-  { id: 9, name: "Shimla", state_id: 9 },
-  { id: 10, name: "Sirmaur", state_id: 9 },
-  { id: 11, name: "Solan", state_id: 9 },
-  { id: 12, name: "Una", state_id: 9 },
-  
-  // Maharashtra
-  { id: 13, name: "Mumbai", state_id: 14 },
-  { id: 14, name: "Pune", state_id: 14 },
-  { id: 15, name: "Nagpur", state_id: 14 },
-  { id: 16, name: "Thane", state_id: 14 },
-  { id: 17, name: "Nashik", state_id: 14 },
-  { id: 18, name: "Aurangabad", state_id: 14 },
-  
-  // Delhi
-  { id: 19, name: "New Delhi", state_id: 32 },
-  { id: 20, name: "Delhi", state_id: 32 },
-  
-  // Karnataka
-  { id: 21, name: "Bangalore", state_id: 11 },
-  { id: 22, name: "Mysore", state_id: 11 },
-  { id: 23, name: "Mangalore", state_id: 11 },
-  
-  // Tamil Nadu
-  { id: 24, name: "Chennai", state_id: 23 },
-  { id: 25, name: "Coimbatore", state_id: 23 },
-  { id: 26, name: "Madurai", state_id: 23 },
-  
-  // Telangana
-  { id: 27, name: "Hyderabad", state_id: 24 },
-  { id: 28, name: "Warangal", state_id: 24 },
-  
-  // Gujarat
-  { id: 29, name: "Ahmedabad", state_id: 7 },
-  { id: 30, name: "Surat", state_id: 7 },
-  { id: 31, name: "Vadodara", state_id: 7 },
-  
-  // Uttar Pradesh
-  { id: 32, name: "Lucknow", state_id: 26 },
-  { id: 33, name: "Kanpur", state_id: 26 },
-  { id: 34, name: "Varanasi", state_id: 26 },
-  
-  // West Bengal
-  { id: 35, name: "Kolkata", state_id: 28 },
-  { id: 36, name: "Howrah", state_id: 28 },
-  
-  // Kerala
-  { id: 37, name: "Thiruvananthapuram", state_id: 12 },
-  { id: 38, name: "Kochi", state_id: 12 },
-  { id: 39, name: "Kozhikode", state_id: 12 },
-  
-  // Punjab
-  { id: 40, name: "Chandigarh", state_id: 20 },
-  { id: 41, name: "Ludhiana", state_id: 20 },
-  { id: 42, name: "Amritsar", state_id: 20 },
-  
-  // Haryana
-  { id: 43, name: "Gurgaon", state_id: 8 },
-  { id: 44, name: "Faridabad", state_id: 8 },
-  { id: 45, name: "Panipat", state_id: 8 },
-  
-  // Rajasthan
-  { id: 46, name: "Jaipur", state_id: 21 },
-  { id: 47, name: "Jodhpur", state_id: 21 },
-  { id: 48, name: "Udaipur", state_id: 21 },
-  
-  // Madhya Pradesh
-  { id: 49, name: "Bhopal", state_id: 13 },
-  { id: 50, name: "Indore", state_id: 13 },
-  { id: 51, name: "Jabalpur", state_id: 13 },
-  
-  // Bihar
-  { id: 52, name: "Patna", state_id: 4 },
-  { id: 53, name: "Gaya", state_id: 4 },
-  
-  // Odisha
-  { id: 54, name: "Bhubaneswar", state_id: 19 },
-  { id: 55, name: "Cuttack", state_id: 19 },
-  
-  // Assam
-  { id: 56, name: "Guwahati", state_id: 3 },
-  { id: 57, name: "Dibrugarh", state_id: 3 },
-  
-  // Jharkhand
-  { id: 58, name: "Ranchi", state_id: 10 },
-  { id: 59, name: "Jamshedpur", state_id: 10 },
-  
-  // Chhattisgarh
-  { id: 60, name: "Raipur", state_id: 5 },
-  { id: 61, name: "Bhilai", state_id: 5 },
-  
-  // Uttarakhand
-  { id: 62, name: "Dehradun", state_id: 27 },
-  { id: 63, name: "Haridwar", state_id: 27 },
-  
-  // Goa
-  { id: 64, name: "Panaji", state_id: 6 },
-  { id: 65, name: "Margao", state_id: 6 }
-];
+// Custom Select Styles
+const customSelectStyles = {
+  control: (provided: any, state: any) => ({
+    ...provided,
+    padding: '8px 12px',
+    border: state.isFocused ? '2px solid #1fb036' : '1px solid #d1d5db',
+    borderRadius: '8px',
+    boxShadow: state.isFocused ? '0 0 0 2px rgba(31, 176, 54, 0.1)' : 'none',
+    '&:hover': {
+      border: state.isFocused ? '2px solid #1fb036' : '1px solid #9ca3af'
+    }
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#1fb036' : state.isFocused ? '#f3f4f6' : 'white',
+    color: state.isSelected ? 'white' : '#000',
+    padding: '12px 16px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: state.isSelected ? '#1fb036' : '#f3f4f6'
+    }
+  }),
+  multiValue: (provided: any) => ({
+    ...provided,
+    backgroundColor: '#1fb036',
+    color: 'white'
+  }),
+  multiValueLabel: (provided: any) => ({
+    ...provided,
+    color: 'white'
+  }),
+  multiValueRemove: (provided: any) => ({
+    ...provided,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#1fb036',
+      color: 'white'
+    }
+  })
+};
+
+// Create cities options with state names included
+const cities = citiesData;
 
 interface FilterOption {
   value: any;
@@ -191,9 +127,7 @@ const filterCategories: FilterCategory[] = [
     options: [
       { value: 'instagram', label: 'Instagram' },
       { value: 'youtube', label: 'YouTube' },
-      // { value: 'tiktok', label: 'TikTok' },
       { value: 'facebook', label: 'Facebook' },
-      // { value: 'twitter', label: 'Twitter' },
     ]
   },
   {
@@ -359,7 +293,7 @@ const filterCategories: FilterCategory[] = [
   },
   {
     id: 'contentLanguage',
-    label: 'Content Language',
+    label: 'Language',
     type: 'checkbox',
     options: [
       { value: 0, label: 'All' },
@@ -638,7 +572,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 {/* Range Slider */}
                 <div className="relative">
                   <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
                       <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
                       <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
                 </div>
@@ -650,7 +584,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
                           left: `${(selectedFilters.budgetMin / 100000) * 100}%`,
                           width: `${((selectedFilters.budgetMax - selectedFilters.budgetMin) / 100000) * 100}%`
@@ -659,7 +593,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Min Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.budgetMin / 100000) * 100}% - 12px)`
                         }}
@@ -719,7 +653,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Max Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.budgetMax / 100000) * 100}% - 12px)`
                         }}
@@ -777,11 +711,53 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                         }}
                       ></div>
                       
-                      {/* Value Display */}
-                      <div className="flex justify-between text-sm text-gray-600 mt-6">
-                        <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
-                        <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                    {/* Value Display */}
+                    {/* <div className="flex justify-between text-sm text-gray-600 mt-6">
+                      <span>Minss: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
+                      <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                    </div> */}
+                    
+                    {/* Manual Input Fields */}
+                    <div className="grid grid-cols-2 gap-4 mt-7">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Min Budget (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100000"
+                          step="100"
+                          value={selectedFilters.budgetMin || 0}
+                          onChange={(e) => {
+                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 0));
+                            const maxValue = selectedFilters.budgetMax;
+                            if (value <= maxValue) {
+                              handleBudgetRangeChange(value, maxValue);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                          placeholder="0"
+                        />
                       </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-600 mb-1">Max Budget (₹)</label>
+                        <input
+                          type="number"
+                          min="0"
+                          max="100000"
+                          step="100"
+                          value={selectedFilters.budgetMax || 100000}
+                          onChange={(e) => {
+                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 100000));
+                            const minValue = selectedFilters.budgetMin;
+                            if (value >= minValue) {
+                              handleBudgetRangeChange(minValue, value);
+                            }
+                          }}
+                          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                          placeholder="100000"
+                        />
+                      </div>
+                    </div>
                     </div>
                     
                     {/* Range Labels */}
@@ -793,7 +769,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </div>
                 
                 {/* Quick Select Buttons */}
-                <div className="grid grid-cols-2 gap-2">
+                {/* <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleBudgetRangeChange(0, 10000)}
                     className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -830,7 +806,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   >
                     All Ranges
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           );
@@ -844,7 +820,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 {/* Range Slider */}
                 <div className="relative">
                   <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
                       <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
                       <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
                 </div>
@@ -856,7 +832,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
                           left: `${(selectedFilters.followerMin / 250000) * 100}%`,
                           width: `${((selectedFilters.followerMax - selectedFilters.followerMin) / 250000) * 100}%`
@@ -865,7 +841,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Min Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.followerMin / 250000) * 100}% - 12px)`
                         }}
@@ -925,7 +901,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Max Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.followerMax / 250000) * 100}% - 12px)`
                         }}
@@ -984,9 +960,51 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       ></div>
                       
                       {/* Value Display */}
-                      <div className="flex justify-between text-sm text-gray-600 mt-6">
+                      {/* <div className="flex justify-between text-sm text-gray-600 mt-6">
                         <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
                         <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
+                      </div> */}
+                      
+                      {/* Manual Input Fields */}
+                      <div className="grid grid-cols-2 gap-4 mt-7">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">Min Followers</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="250000"
+                            step="1000"
+                            value={selectedFilters.followerMin || 0}
+                            onChange={(e) => {
+                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 0));
+                              const maxValue = selectedFilters.followerMax;
+                              if (value <= maxValue) {
+                                handleFollowerRangeChange(value, maxValue);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                            placeholder="0"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1">Max Followers</label>
+                          <input
+                            type="number"
+                            min="0"
+                            max="250000"
+                            step="1000"
+                            value={selectedFilters.followerMax || 250000}
+                            onChange={(e) => {
+                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 250000));
+                              const minValue = selectedFilters.followerMin;
+                              if (value >= minValue) {
+                                handleFollowerRangeChange(minValue, value);
+                              }
+                            }}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
+                            placeholder="250000"
+                          />
+                        </div>
                       </div>
                     </div>
                     
@@ -999,7 +1017,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </div>
                 
                 {/* Quick Select Buttons */}
-                <div className="grid grid-cols-2 gap-2">
+                {/* <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleFollowerRangeChange(0, 10000)}
                     className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -1036,7 +1054,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   >
                     All Ranges
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           );
@@ -1059,51 +1077,51 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
         );
 
         case 'location':
+          // Convert cities to React Select options format
+          const cityOptions = cities.map(city => ({
+            value: city.city_id,
+            label: city.name,
+            state_id: city.state_id,
+            state_name: city.state_name
+          }));
+
+          // Find selected city option
+          const selectedCityOption = cityOptions.find(
+            option => option.value === selectedFilters['location']?.city
+          );
+
           return (
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
-                  <select
-                    value={selectedFilters['location']?.state || ''}
-                    onChange={(e) => {
-                      const newState = e.target.value;
-                      handleFilterChange('location', { 
-                        state: newState, 
-                        city: '' // Clear city when state changes
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <Select
+                  options={cityOptions}
+                  value={selectedCityOption || null}
+                  onChange={(selectedOption) => {
+                    if (selectedOption) {
+                      handleFilterChange('location', {
+                        state: selectedOption.state_name,
+                        city: selectedOption.value
                       });
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036]"
-                  >
-                    <option value="">Select State</option>
-                    {states.map((state) => (
-                      <option key={state.id} value={state.id}>
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                  <select
-                    value={selectedFilters['location']?.city || ''}
-                    onChange={(e) => handleFilterChange('location', { ...selectedFilters['location'], city: e.target.value })}
-                    disabled={!selectedFilters['location']?.state}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] ${
-                      !selectedFilters['location']?.state ? 'bg-gray-100 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    <option value="">Select City</option>
-                    {selectedFilters['location']?.state && cities
-                      .filter(city => city.state_id == selectedFilters['location'].state)
-                      .map((city) => (
-                        <option key={city.id} value={city.id}>
-                          {city.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
+                    } else {
+                      handleFilterChange('location', {
+                        state: '',
+                        city: ''
+                      });
+                    }
+                  }}
+                  placeholder="Search and select location..."
+                  isSearchable
+                  isClearable
+                  styles={customSelectStyles}
+                  className="text-sm"
+                  noOptionsMessage={() => "No locations found"}
+                  components={{
+                    IndicatorSeparator: () => null,
+                    DropdownIndicator: () => null,
+                  }}
+                />
               </div>
             </div>
           );

@@ -18,6 +18,7 @@ const ROUTES = {
       '/discover',
       '/chat',
     '/profile',
+    '/media',
 
     ],
   
