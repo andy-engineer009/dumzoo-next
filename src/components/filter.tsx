@@ -572,7 +572,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 {/* Range Slider */}
                 <div className="relative">
                   <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
                       <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
                       <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
                 </div>
@@ -584,7 +584,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
                           left: `${(selectedFilters.budgetMin / 100000) * 100}%`,
                           width: `${((selectedFilters.budgetMax - selectedFilters.budgetMin) / 100000) * 100}%`
@@ -593,7 +593,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Min Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.budgetMin / 100000) * 100}% - 12px)`
                         }}
@@ -653,7 +653,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Max Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.budgetMax / 100000) * 100}% - 12px)`
                         }}
@@ -769,7 +769,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </div>
                 
                 {/* Quick Select Buttons */}
-                <div className="grid grid-cols-2 gap-2">
+                {/* <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleBudgetRangeChange(0, 10000)}
                     className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -806,7 +806,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   >
                     All Ranges
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           );
@@ -820,7 +820,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 {/* Range Slider */}
                 <div className="relative">
                   <div className="mb-4">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-sm text-gray-600 mb-4">
                       <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
                       <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
                 </div>
@@ -832,7 +832,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#1fb036] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
                           left: `${(selectedFilters.followerMin / 250000) * 100}%`,
                           width: `${((selectedFilters.followerMax - selectedFilters.followerMin) / 250000) * 100}%`
@@ -841,7 +841,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Min Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.followerMin / 250000) * 100}% - 12px)`
                         }}
@@ -901,7 +901,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                       
                       {/* Max Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#1fb036] rounded-full border-2 border-white shadow-lg cursor-pointer transform -translate-y-2 select-none"
+                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
                           left: `calc(${(selectedFilters.followerMax / 250000) * 100}% - 12px)`
                         }}
@@ -1017,7 +1017,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </div>
                 
                 {/* Quick Select Buttons */}
-                <div className="grid grid-cols-2 gap-2">
+                {/* <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => handleFollowerRangeChange(0, 10000)}
                     className="px-3 py-2 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
@@ -1054,7 +1054,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   >
                     All Ranges
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
           );
