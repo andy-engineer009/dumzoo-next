@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useRouter } from "next/navigation";
 import { Basic } from "next/font/google";
+import Link from "next/link";
 // const influencers = [ 
 //   {
 //     id:1,
@@ -915,11 +916,19 @@ export default function PromotorHome() {
                   </div>
                     {/* Bottom Bar */}
         <div className="mt-2 pt-4 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-black text-sm">
-            © 2025 Dumzoo. All rights reserved. 
-           {/* <Link href="/login">Login</Link>
-           <Link href="/signup">Signup</Link> */}
-          </p>
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+            <p className="text-black text-sm">
+              © 2025 Dumzoo. All rights reserved. 
+            </p>
+            <div className="flex items-center space-x-4">
+              <Link href="/privacy-policy" className="text-black text-sm hover:text-gray-600 transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms-of-service" className="text-black text-sm hover:text-gray-600 transition-colors">
+                Terms of Service
+              </Link>
+            </div>
+          </div>
           <div className="flex items-center space-x-4 mt-2 md:mt-0">
             <span className="text-black text-sm">Made with ❤️ in India</span>
             </div>
