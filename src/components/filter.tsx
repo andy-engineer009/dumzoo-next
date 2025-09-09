@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Select from 'react-select';
 
 // Import states and cities data
 const states = [
@@ -43,113 +44,155 @@ const states = [
   { id: 36, name: "Puducherry", short_name: "PY" }
 ];
 
+// Custom Select Styles
+const customSelectStyles = {
+  control: (provided: any, state: any) => ({
+    ...provided,
+    padding: '8px 12px',
+    border: state.isFocused ? '2px solid #1fb036' : '1px solid #d1d5db',
+    borderRadius: '8px',
+    boxShadow: state.isFocused ? '0 0 0 2px rgba(31, 176, 54, 0.1)' : 'none',
+    '&:hover': {
+      border: state.isFocused ? '2px solid #1fb036' : '1px solid #9ca3af'
+    }
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#1fb036' : state.isFocused ? '#f3f4f6' : 'white',
+    color: state.isSelected ? 'white' : '#000',
+    padding: '12px 16px',
+    cursor: 'pointer',
+    '&:hover': {
+      backgroundColor: state.isSelected ? '#1fb036' : '#f3f4f6'
+    }
+  }),
+  multiValue: (provided: any) => ({
+    ...provided,
+    backgroundColor: '#1fb036',
+    color: 'white'
+  }),
+  multiValueLabel: (provided: any) => ({
+    ...provided,
+    color: 'white'
+  }),
+  multiValueRemove: (provided: any) => ({
+    ...provided,
+    color: 'white',
+    '&:hover': {
+      backgroundColor: '#1fb036',
+      color: 'white'
+    }
+  })
+};
+
+// Create cities options with state names included
 const cities = [
   // Himachal Pradesh
-  { id: 1, name: "Bilaspur", state_id: 9 },
-  { id: 2, name: "Chamba", state_id: 9 },
-  { id: 3, name: "Hamirpur", state_id: 9 },
-  { id: 4, name: "Kangra", state_id: 9 },
-  { id: 5, name: "Kinnaur", state_id: 9 },
-  { id: 6, name: "Kullu", state_id: 9 },
-  { id: 7, name: "Lahaul and Spiti", state_id: 9 },
-  { id: 8, name: "Mandi", state_id: 9 },
-  { id: 9, name: "Shimla", state_id: 9 },
-  { id: 10, name: "Sirmaur", state_id: 9 },
-  { id: 11, name: "Solan", state_id: 9 },
-  { id: 12, name: "Una", state_id: 9 },
+  { city_id: 1, name: "Bilaspur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 2, name: "Chamba (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 3, name: "Hamirpur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 4, name: "Kangra (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 5, name: "Kinnaur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 6, name: "Kullu (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 7, name: "Lahaul and Spiti (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 8, name: "Mandi (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 9, name: "Shimla (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 10, name: "Sirmaur (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 11, name: "Solan (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
+  { city_id: 12, name: "Una (Himachal Pradesh)", state_id: 9, state_name: "Himachal Pradesh" },
   
   // Maharashtra
-  { id: 13, name: "Mumbai", state_id: 14 },
-  { id: 14, name: "Pune", state_id: 14 },
-  { id: 15, name: "Nagpur", state_id: 14 },
-  { id: 16, name: "Thane", state_id: 14 },
-  { id: 17, name: "Nashik", state_id: 14 },
-  { id: 18, name: "Aurangabad", state_id: 14 },
+  { city_id: 13, name: "Mumbai (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
+  { city_id: 14, name: "Pune (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
+  { city_id: 15, name: "Nagpur (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
+  { city_id: 16, name: "Thane (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
+  { city_id: 17, name: "Nashik (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
+  { city_id: 18, name: "Aurangabad (Maharashtra)", state_id: 14, state_name: "Maharashtra" },
   
   // Delhi
-  { id: 19, name: "New Delhi", state_id: 32 },
-  { id: 20, name: "Delhi", state_id: 32 },
+  { city_id: 19, name: "New Delhi (Delhi)", state_id: 32, state_name: "Delhi" },
+  { city_id: 20, name: "Delhi (Delhi)", state_id: 32, state_name: "Delhi" },
   
   // Karnataka
-  { id: 21, name: "Bangalore", state_id: 11 },
-  { id: 22, name: "Mysore", state_id: 11 },
-  { id: 23, name: "Mangalore", state_id: 11 },
+  { city_id: 21, name: "Bangalore (Karnataka)", state_id: 11, state_name: "Karnataka" },
+  { city_id: 22, name: "Mysore (Karnataka)", state_id: 11, state_name: "Karnataka" },
+  { city_id: 23, name: "Mangalore (Karnataka)", state_id: 11, state_name: "Karnataka" },
   
   // Tamil Nadu
-  { id: 24, name: "Chennai", state_id: 23 },
-  { id: 25, name: "Coimbatore", state_id: 23 },
-  { id: 26, name: "Madurai", state_id: 23 },
+  { city_id: 24, name: "Chennai (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
+  { city_id: 25, name: "Coimbatore (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
+  { city_id: 26, name: "Madurai (Tamil Nadu)", state_id: 23, state_name: "Tamil Nadu" },
   
   // Telangana
-  { id: 27, name: "Hyderabad", state_id: 24 },
-  { id: 28, name: "Warangal", state_id: 24 },
+  { city_id: 27, name: "Hyderabad (Telangana)", state_id: 24, state_name: "Telangana" },
+  { city_id: 28, name: "Warangal (Telangana)", state_id: 24, state_name: "Telangana" },
   
   // Gujarat
-  { id: 29, name: "Ahmedabad", state_id: 7 },
-  { id: 30, name: "Surat", state_id: 7 },
-  { id: 31, name: "Vadodara", state_id: 7 },
+  { city_id: 29, name: "Ahmedabad (Gujarat)", state_id: 7, state_name: "Gujarat" },
+  { city_id: 30, name: "Surat (Gujarat)", state_id: 7, state_name: "Gujarat" },
+  { city_id: 31, name: "Vadodara (Gujarat)", state_id: 7, state_name: "Gujarat" },
   
   // Uttar Pradesh
-  { id: 32, name: "Lucknow", state_id: 26 },
-  { id: 33, name: "Kanpur", state_id: 26 },
-  { id: 34, name: "Varanasi", state_id: 26 },
+  { city_id: 32, name: "Lucknow (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
+  { city_id: 33, name: "Kanpur (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
+  { city_id: 34, name: "Varanasi (Uttar Pradesh)", state_id: 26, state_name: "Uttar Pradesh" },
   
   // West Bengal
-  { id: 35, name: "Kolkata", state_id: 28 },
-  { id: 36, name: "Howrah", state_id: 28 },
+  { city_id: 35, name: "Kolkata (West Bengal)", state_id: 28, state_name: "West Bengal" },
+  { city_id: 36, name: "Howrah (West Bengal)", state_id: 28, state_name: "West Bengal" },
   
   // Kerala
-  { id: 37, name: "Thiruvananthapuram", state_id: 12 },
-  { id: 38, name: "Kochi", state_id: 12 },
-  { id: 39, name: "Kozhikode", state_id: 12 },
+  { city_id: 37, name: "Thiruvananthapuram (Kerala)", state_id: 12, state_name: "Kerala" },
+  { city_id: 38, name: "Kochi (Kerala)", state_id: 12, state_name: "Kerala" },
+  { city_id: 39, name: "Kozhikode (Kerala)", state_id: 12, state_name: "Kerala" },
   
   // Punjab
-  { id: 40, name: "Chandigarh", state_id: 20 },
-  { id: 41, name: "Ludhiana", state_id: 20 },
-  { id: 42, name: "Amritsar", state_id: 20 },
+  { city_id: 40, name: "Chandigarh (Punjab)", state_id: 20, state_name: "Punjab" },
+  { city_id: 41, name: "Ludhiana (Punjab)", state_id: 20, state_name: "Punjab" },
+  { city_id: 42, name: "Amritsar (Punjab)", state_id: 20, state_name: "Punjab" },
   
   // Haryana
-  { id: 43, name: "Gurgaon", state_id: 8 },
-  { id: 44, name: "Faridabad", state_id: 8 },
-  { id: 45, name: "Panipat", state_id: 8 },
+  { city_id: 43, name: "Gurgaon (Haryana)", state_id: 8, state_name: "Haryana" },
+  { city_id: 44, name: "Faridabad (Haryana)", state_id: 8, state_name: "Haryana" },
+  { city_id: 45, name: "Panipat (Haryana)", state_id: 8, state_name: "Haryana" },
   
   // Rajasthan
-  { id: 46, name: "Jaipur", state_id: 21 },
-  { id: 47, name: "Jodhpur", state_id: 21 },
-  { id: 48, name: "Udaipur", state_id: 21 },
+  { city_id: 46, name: "Jaipur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
+  { city_id: 47, name: "Jodhpur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
+  { city_id: 48, name: "Udaipur (Rajasthan)", state_id: 21, state_name: "Rajasthan" },
   
   // Madhya Pradesh
-  { id: 49, name: "Bhopal", state_id: 13 },
-  { id: 50, name: "Indore", state_id: 13 },
-  { id: 51, name: "Jabalpur", state_id: 13 },
+  { city_id: 49, name: "Bhopal (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
+  { city_id: 50, name: "Indore (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
+  { city_id: 51, name: "Jabalpur (Madhya Pradesh)", state_id: 13, state_name: "Madhya Pradesh" },
   
   // Bihar
-  { id: 52, name: "Patna", state_id: 4 },
-  { id: 53, name: "Gaya", state_id: 4 },
+  { city_id: 52, name: "Patna (Bihar)", state_id: 4, state_name: "Bihar" },
+  { city_id: 53, name: "Gaya (Bihar)", state_id: 4, state_name: "Bihar" },
   
   // Odisha
-  { id: 54, name: "Bhubaneswar", state_id: 19 },
-  { id: 55, name: "Cuttack", state_id: 19 },
+  { city_id: 54, name: "Bhubaneswar (Odisha)", state_id: 19, state_name: "Odisha" },
+  { city_id: 55, name: "Cuttack (Odisha)", state_id: 19, state_name: "Odisha" },
   
   // Assam
-  { id: 56, name: "Guwahati", state_id: 3 },
-  { id: 57, name: "Dibrugarh", state_id: 3 },
+  { city_id: 56, name: "Guwahati (Assam)", state_id: 3, state_name: "Assam" },
+  { city_id: 57, name: "Dibrugarh (Assam)", state_id: 3, state_name: "Assam" },
   
   // Jharkhand
-  { id: 58, name: "Ranchi", state_id: 10 },
-  { id: 59, name: "Jamshedpur", state_id: 10 },
+  { city_id: 58, name: "Ranchi (Jharkhand)", state_id: 10, state_name: "Jharkhand" },
+  { city_id: 59, name: "Jamshedpur (Jharkhand)", state_id: 10, state_name: "Jharkhand" },
   
   // Chhattisgarh
-  { id: 60, name: "Raipur", state_id: 5 },
-  { id: 61, name: "Bhilai", state_id: 5 },
+  { city_id: 60, name: "Raipur (Chhattisgarh)", state_id: 5, state_name: "Chhattisgarh" },
+  { city_id: 61, name: "Bhilai (Chhattisgarh)", state_id: 5, state_name: "Chhattisgarh" },
   
   // Uttarakhand
-  { id: 62, name: "Dehradun", state_id: 27 },
-  { id: 63, name: "Haridwar", state_id: 27 },
+  { city_id: 62, name: "Dehradun (Uttarakhand)", state_id: 27, state_name: "Uttarakhand" },
+  { city_id: 63, name: "Haridwar (Uttarakhand)", state_id: 27, state_name: "Uttarakhand" },
   
   // Goa
-  { id: 64, name: "Panaji", state_id: 6 },
-  { id: 65, name: "Margao", state_id: 6 }
+  { city_id: 64, name: "Panaji (Goa)", state_id: 6, state_name: "Goa" },
+  { city_id: 65, name: "Margao (Goa)", state_id: 6, state_name: "Goa" }
 ];
 
 interface FilterOption {
@@ -1059,51 +1102,51 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
         );
 
         case 'location':
+          // Convert cities to React Select options format
+          const cityOptions = cities.map(city => ({
+            value: city.city_id,
+            label: city.name,
+            state_id: city.state_id,
+            state_name: city.state_name
+          }));
+
+          // Find selected city option
+          const selectedCityOption = cityOptions.find(
+            option => option.value === selectedFilters['location']?.city
+          );
+
           return (
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">{currentCategory.label}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
-                  <select
-                    value={selectedFilters['location']?.state || ''}
-                    onChange={(e) => {
-                      const newState = e.target.value;
-                      handleFilterChange('location', { 
-                        state: newState, 
-                        city: '' // Clear city when state changes
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+                <Select
+                  options={cityOptions}
+                  value={selectedCityOption || null}
+                  onChange={(selectedOption) => {
+                    if (selectedOption) {
+                      handleFilterChange('location', {
+                        state: selectedOption.state_name,
+                        city: selectedOption.value
                       });
-                    }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036]"
-                  >
-                    <option value="">Select State</option>
-                    {states.map((state) => (
-                      <option key={state.id} value={state.id}>
-                        {state.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">City</label>
-                  <select
-                    value={selectedFilters['location']?.city || ''}
-                    onChange={(e) => handleFilterChange('location', { ...selectedFilters['location'], city: e.target.value })}
-                    disabled={!selectedFilters['location']?.state}
-                    className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] ${
-                      !selectedFilters['location']?.state ? 'bg-gray-100 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    <option value="">Select City</option>
-                    {selectedFilters['location']?.state && cities
-                      .filter(city => city.state_id == selectedFilters['location'].state)
-                      .map((city) => (
-                        <option key={city.id} value={city.id}>
-                          {city.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
+                    } else {
+                      handleFilterChange('location', {
+                        state: '',
+                        city: ''
+                      });
+                    }
+                  }}
+                  placeholder="Search and select location..."
+                  isSearchable
+                  isClearable
+                  styles={customSelectStyles}
+                  className="text-sm"
+                  noOptionsMessage={() => "No locations found"}
+                  components={{
+                    IndicatorSeparator: () => null,
+                    DropdownIndicator: () => null,
+                  }}
+                />
               </div>
             </div>
           );
