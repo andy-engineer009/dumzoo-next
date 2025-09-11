@@ -1141,7 +1141,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={onClose}
           />
           
           {/* Modal */}
@@ -1160,6 +1159,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </svg>
                 <h2 className="text-xl font-bold text-gray-800">All Filters</h2>
               </div>
+              <svg onClick={onClose} className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </div>
 
             {/* Content */}
@@ -1170,7 +1172,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`w-full text-left px-4 py-3 border-l-4 transition-colors ${
+                    className={`w-full text-left px-4 py-3 border-l-4 transition-colors text-[14px] ${
                       activeCategory === category.id
                         ? 'bg-[#1fb0361c] border-[#1fb036] text-[#1fb036]'
                         : 'border-transparent text-gray-700 hover:bg-gray-100'
