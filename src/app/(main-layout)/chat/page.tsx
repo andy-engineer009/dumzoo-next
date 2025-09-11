@@ -304,8 +304,8 @@ const EmptyState = () => (
                               target.nextElementSibling?.classList.remove('hidden');
                             }}
                           /> */}
-                          <div className="hidden w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
-                            {user?.name?.split(' ').map((n: string) => n[0]).join('') || 'AN'}
+                          <div className=" w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
+                            {user?.displayUser?.split(' ').map((n: string) => n[0]).join('') || 'AN'}
                           </div>
                         </div>
                         {user?.isOnline && (
@@ -316,7 +316,7 @@ const EmptyState = () => (
                       {/* Chat info */}
                       <div className="flex-1 min-w-0 ml-4">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-medium text-gray-900 truncate">{user?.name || 'Andy'}</h3>
+                          <h3 className="text-sm font-medium text-gray-900 truncate">{user?.displayUser || 'Andy'}</h3>
                           <div className="flex items-center space-x-2">
                             <span className="text-xs text-gray-500">{user?.lastMessageTime || '---'}</span>  
                             <button
