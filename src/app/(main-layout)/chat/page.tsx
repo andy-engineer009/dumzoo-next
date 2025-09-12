@@ -1,54 +1,14 @@
 'use client';
 
 import { api } from '@/common/services/rest-api/rest-api';
-import { useParams, useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { useSocket } from '@/hooks/useSocket';
 import LoginPopup from '@/components/login-popup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatUsers, clearChatUsers, selectChatUsers } from '@/store/apiDataSlice';
 import { RootState } from '@/store/store';
-
-const mockChatUsers = [
-    {
-      id: '1',
-      name: 'Sarah Johnson',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Hey! How are you doing?',
-      lastMessageTime: '2:30 PM',
-      unreadCount: 2,
-      isOnline: true,
-    },
-    {
-      id: '2',
-      name: 'Mike Chen',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'The project looks great!',
-      lastMessageTime: '1:45 PM',
-      unreadCount: 0,
-      isOnline: false,
-    },
-    {
-      id: '3',
-      name: 'Emma Wilson',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Can we meet tomorrow?',
-      lastMessageTime: '11:20 AM',
-      unreadCount: 1,
-      isOnline: true,
-    },
-    {
-      id: '4',
-      name: 'David Brown',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Thanks for the help!',
-      lastMessageTime: 'Yesterday',
-      unreadCount: 0,
-      isOnline: false,
-    },
-  ];
 
 export default function ChatList() {
     const router = useRouter();

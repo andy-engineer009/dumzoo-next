@@ -105,6 +105,7 @@ interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onFilterChange: (filters: any) => void;
+  initialActiveCategory?: string;
 }
 
 const filterCategories: FilterCategory[] = [
@@ -121,7 +122,7 @@ const filterCategories: FilterCategory[] = [
     ]
   },
   {
-    id: 'socialPlatform',
+    id: 'platform',
     label: 'Social Platform',
     type: 'checkbox',
     options: [
@@ -292,7 +293,7 @@ const filterCategories: FilterCategory[] = [
     ]
   },
   {
-    id: 'contentLanguage',
+    id: 'languages',
     label: 'Language',
     type: 'checkbox',
     options: [
@@ -338,7 +339,7 @@ const filterCategories: FilterCategory[] = [
   // },
 ];
 
-export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterModalProps) {
+export default function FilterModal({ isOpen, onClose, onFilterChange, initialActiveCategory }: FilterModalProps) {
   // Add custom styles for range slider
   useEffect(() => {
     const style = document.createElement('style');
@@ -402,23 +403,32 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       document.head.removeChild(style);
     };
   }, []);
-  const [activeCategory, setActiveCategory] = useState('sortBy');
+  const [activeCategory, setActiveCategory] = useState(initialActiveCategory || 'sortBy');
+  
+  // Update active category when initialActiveCategory prop changes
+  useEffect(() => {
+    if (initialActiveCategory) {
+      setActiveCategory(initialActiveCategory);
+    }
+  }, [initialActiveCategory]);
+  
   const [selectedFilters, setSelectedFilters] = useState<any>({
-    sortBy: 'popularity',
-    socialPlatform: [],
-    categories: [],
     location: { state: '', city: '' },
-    followers: '',
-    followerMin: 0,
-    followerMax: 250000,
+    platform: [],
+    gender: '',
     budgetMin: 0,
     budgetMax: 100000,
+    followerMin: 0,
+    followerMax: 250000,
+    categories: [],
+    languages: [],
     audienceType: [],
     audienceAgeGroup: [],
-    gender: '',
-    contentLanguage: [],
-    contentQuality: '',
-    creatorType: [],
+    sortBy: 'popularity',
+
+    // followers: '',
+    // contentQuality: '',
+    // creatorType: [],
   });
 
   // Get current category data
@@ -489,10 +499,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   const handleClearFilters = () => {
     const defaultFilters = {
       sortBy: 'popularity',
-      socialPlatform: [],
+      platform: [],
       categories: [],
       location: { state: '', city: '' },
-      followers: '',
       followerMin: 0,
       followerMax: 250000,
       budgetMin: 0,
@@ -500,7 +509,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       audienceType: [],
       audienceAgeGroup: [],
       gender: '',
-      contentLanguage: [],
+      languages: [],
+
+      //followers: '',
       // contentQuality: '',
       // creatorType: [],
     };

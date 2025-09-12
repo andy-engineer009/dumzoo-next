@@ -98,7 +98,7 @@ export default function ChatPage() {
     const fetchMessages = async () => {
        api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
-          setMessages(res.data);
+          setMessages(res.data?.messages);
         }
         else{
           // showError(res.message, 2000);
@@ -179,6 +179,7 @@ export default function ChatPage() {
       api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
         if(res.status == 1){
           // Message will be added via Socket.IO listener, no need to add here
+          setMessages(prev => [...prev, res.data]);
           resetForm();
         }
         else{
@@ -275,6 +276,7 @@ export default function ChatPage() {
         ) : (
           <>
             {messages.map((message) => (
+              console.log(message, 'message'),
               <div
                 key={message.id}
                 className={`flex ${message.userId === currentUserId ? 'justify-end' : 'justify-start'}`}
