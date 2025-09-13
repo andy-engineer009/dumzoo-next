@@ -121,7 +121,7 @@ const filterCategories: FilterCategory[] = [
     ]
   },
   {
-    id: 'socialPlatform',
+    id: 'platform',
     label: 'Social Platform',
     type: 'checkbox',
     options: [
@@ -256,6 +256,41 @@ const filterCategories: FilterCategory[] = [
     type: 'range',
   },
   {
+    id: 'gender',
+    label: 'Gender',
+    type: 'radio',
+    options: [
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Male' },
+      { value: 2, label: 'Female' },
+      { value: 3, label: 'Other' },
+    ]
+  },
+  {
+    id: 'languages',
+    label: 'Language',
+    type: 'checkbox',
+    options: [
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Hindi' },
+      { value: 2, label: 'English' },
+      { value: 3, label: 'Punjabi' },
+      { value: 4, label: 'Marathi' },
+      { value: 5, label: 'Haryanvi' },
+      { value: 6, label: 'Bhojpuri' },
+      { value: 7, label: 'Rajasthani' },
+      { value: 8, label: 'Tamil' },
+      { value: 9, label: 'Telugu' },
+      { value: 10, label: 'Urdu' },
+      { value: 11, label: 'Kannada' },
+      { value: 12, label: 'Malayalam' },
+      { value: 13, label: 'Nepali' },
+      { value: 14, label: 'Sanskrit' },
+      { value: 15, label: 'Bengali' },
+      { value: 16, label: 'Assamese' }
+    ]
+  },
+  {
     id: 'audienceType',
     label: 'Audience Type',
     type: 'checkbox',
@@ -280,41 +315,7 @@ const filterCategories: FilterCategory[] = [
       { value: 6, label: '56+ years' },
     ]
   },
-  {
-    id: 'gender',
-    label: 'Gender',
-    type: 'radio',
-    options: [
-      { value: 0, label: 'All' },
-      { value: 1, label: 'Male' },
-      { value: 2, label: 'Female' },
-      { value: 3, label: 'Other' },
-    ]
-  },
-  {
-    id: 'contentLanguage',
-    label: 'Language',
-    type: 'checkbox',
-    options: [
-      { value: 0, label: 'All' },
-      { value: 1, label: 'Hindi' },
-      { value: 2, label: 'English' },
-      { value: 3, label: 'Punjabi' },
-      { value: 4, label: 'Marathi' },
-      { value: 5, label: 'Haryanvi' },
-      { value: 6, label: 'Bhojpuri' },
-      { value: 7, label: 'Rajasthani' },
-      { value: 8, label: 'Tamil' },
-      { value: 9, label: 'Telugu' },
-      { value: 10, label: 'Urdu' },
-      { value: 11, label: 'Kannada' },
-      { value: 12, label: 'Malayalam' },
-      { value: 13, label: 'Nepali' },
-      { value: 14, label: 'Sanskrit' },
-      { value: 15, label: 'Bengali' },
-      { value: 16, label: 'Assamese' }
-    ]
-  },
+
   // {
   //   id: 'contentQuality',
   //   label: 'Content Quality',
@@ -405,18 +406,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   const [activeCategory, setActiveCategory] = useState('sortBy');
   const [selectedFilters, setSelectedFilters] = useState<any>({
     sortBy: 'popularity',
-    socialPlatform: [],
-    categories: [],
-    location: { state: '', city: '' },
-    followers: '',
-    followerMin: 0,
-    followerMax: 250000,
+    platform: [],
+    gender: '',
     budgetMin: 0,
     budgetMax: 100000,
-    audienceType: [],
+    followerMin: 0,
+    followerMax: 250000,
+    categories: [],
+    langenceType: [],
+    audiuages: [],
     audienceAgeGroup: [],
-    gender: '',
-    contentLanguage: [],
+
+    location: { state: '', city: '' },
     contentQuality: '',
     creatorType: [],
   });
@@ -489,10 +490,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   const handleClearFilters = () => {
     const defaultFilters = {
       sortBy: 'popularity',
-      socialPlatform: [],
+      platform: [],
       categories: [],
       location: { state: '', city: '' },
-      followers: '',
       followerMin: 0,
       followerMax: 250000,
       budgetMin: 0,
@@ -500,7 +500,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       audienceType: [],
       audienceAgeGroup: [],
       gender: '',
-      contentLanguage: [],
+      languages: [],
       // contentQuality: '',
       // creatorType: [],
     };
@@ -1141,7 +1141,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
-            onClick={onClose}
           />
           
           {/* Modal */}
@@ -1160,6 +1159,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                 </svg>
                 <h2 className="text-xl font-bold text-gray-800">All Filters</h2>
               </div>
+              <svg onClick={onClose} className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </div>
 
             {/* Content */}
@@ -1170,7 +1172,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
                   <button
                     key={category.id}
                     onClick={() => setActiveCategory(category.id)}
-                    className={`w-full text-left px-4 py-3 border-l-4 transition-colors ${
+                    className={`w-full text-left px-4 py-3 border-l-4 transition-colors text-[14px] ${
                       activeCategory === category.id
                         ? 'bg-[#1fb0361c] border-[#1fb036] text-[#1fb036]'
                         : 'border-transparent text-gray-700 hover:bg-gray-100'

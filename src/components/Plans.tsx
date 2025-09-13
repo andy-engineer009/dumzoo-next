@@ -168,3 +168,23 @@ const BoosterPlan = () => {
 };
 
 export default BoosterPlan;
+
+
+// Each package card should include:
+// 1. Title (Feature Your Ad / Boost to Top)
+// 2. Key benefits (bullet points with check icons)
+// 3. Discounted Pricing with strikethrough old price and bold new price
+// 4. Tags like "Best Value", "Limited Time", "Save More"
+// 5. Call-to-action button (Buy Now) with rounded-xl, bold font, hover scale effect
+
+// Design:
+// - "Feature Your Ad" card → green gradient (#1fb036 → #4ade80).
+// - "Boost to Top" card → purple gradient (#6d28d9 → #a78bfa).
+// - Title → bold, larger font size.
+// - Discount → strikethrough in gray, final price in large bold white.
+// - Tag (Best Value / Limited Time) → small pill badge in corner with bright color.
+// - Buttons → gradient background, hover glow.
+
+// Discounted Pricing:
+// - Feature Your Ad: Weekly ~₹199~ → ₹149, Monthly ~₹299~ → ₹199 (Best Value)
+// - Boost to Top: Weekly ~₹149~ → ₹99 (Limited Time), Monthly ~₹249~ → ₹179 (Save More)

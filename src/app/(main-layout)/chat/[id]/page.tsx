@@ -219,14 +219,9 @@ export default function ChatPage() {
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <button 
-              onClick={() => router.push('/chat')}
-              className="p-2 rounded-full hover:bg-gray-100 mr-3"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+          <svg onClick={() => router.back()} className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             
             <div className="flex items-center">
               <div className="relative">
@@ -355,10 +350,11 @@ export default function ChatPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-[#1fb036] hover:bg-[#1fb036]/90 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+                className="bg-[#1fb036] hover:bg-[#1fb036]/90 disabled:bg-gray-400 text-white px-3 py-[10px] h-[42px] rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M22 2L11 13" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M22 2L15 22L11 13L2 9L22 2Z" />
                 </svg>
               </button>
             </Form>

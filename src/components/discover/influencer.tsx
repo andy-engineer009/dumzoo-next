@@ -41,8 +41,8 @@ export default function InfluencerDiscover() {
   const fetchInfluencers = async (start: number, searchFilters = {}) => {
     try {
       const res = await api.post(API_ROUTES.influencerList, {
-        start: start,
-        length: ITEMS_PER_PAGE,
+        page: start,
+        limit: ITEMS_PER_PAGE,
         ...searchFilters
       });
 
@@ -135,7 +135,7 @@ export default function InfluencerDiscover() {
   useEffect(() => {
     return () => {
       // Save current state to Redux before leaving
-      if (influencers.length > 0) {
+      if (influencers?.length > 0) {
         dispatch(discoverData({
           influencers,
           totalRecords,

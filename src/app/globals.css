@@ -316,14 +316,14 @@ footer .bg-image {
   position: absolute;
   bottom: 0;
   right: 0;
-  height: 100%;
+  height: 162px;
   z-index: 1;
   opacity: 1;
-  width: 150px;
+  width: 120px;
   background: url('/images/footer-only.png') no-repeat center bottom;
-  background-size:150px;
+  background-size:120px;
   background-position: top;
   background-repeat: no-repeat;
-  padding-bottom: 150px;
+  /* padding-bottom: 150px; */
 
 }
