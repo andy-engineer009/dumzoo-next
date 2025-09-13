@@ -10,45 +10,7 @@ import LoginPopup from '@/components/login-popup';
 import { useDispatch, useSelector } from 'react-redux';
 import { setChatUsers, clearChatUsers, selectChatUsers } from '@/store/apiDataSlice';
 import { RootState } from '@/store/store';
-
-const mockChatUsers = [
-    {
-      id: '1',
-      name: 'Sarah Johnson',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Hey! How are you doing?',
-      lastMessageTime: '2:30 PM',
-      unreadCount: 2,
-      isOnline: true,
-    },
-    {
-      id: '2',
-      name: 'Mike Chen',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'The project looks great!',
-      lastMessageTime: '1:45 PM',
-      unreadCount: 0,
-      isOnline: false,
-    },
-    {
-      id: '3',
-      name: 'Emma Wilson',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Can we meet tomorrow?',
-      lastMessageTime: '11:20 AM',
-      unreadCount: 1,
-      isOnline: true,
-    },
-    {
-      id: '4',
-      name: 'David Brown',
-      image: '/api/placeholder/40/40',
-      lastMessage: 'Thanks for the help!',
-      lastMessageTime: 'Yesterday',
-      unreadCount: 0,
-      isOnline: false,
-    },
-  ];
+import { selectIsLoggedIn } from '@/store/userRoleSlice';
 
 export default function ChatList() {
     const router = useRouter();
@@ -56,7 +18,8 @@ export default function ChatList() {
     const [selectedChat, setSelectedChat] = useState<any>(null);
     const [currentUserId, setCurrentUserId] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    
+    const isLoggedIn = useSelector(selectIsLoggedIn);
+
     // Get chat users from Redux
     const chatUsers = useSelector((state: RootState) => selectChatUsers(state));
     
@@ -105,7 +68,11 @@ export default function ChatList() {
           setIsLoading(false);
         });
       };
-      fetchChatUsers();
+      if(isLoggedIn){
+        fetchChatUsers();
+      } else{
+        setIsLoading(false);
+      }
     }, [dispatch, chatUsers.length]);
 
     // Listen for new messages and update chat list
@@ -276,7 +243,7 @@ const EmptyState = () => (
 
             {/* Chat list */}
             <div className="flex-1 overflow-y-auto">
-              {chatUsers.length === 0 ? (
+              {(chatUsers.length === 0 && !isLoggedIn) ? (
                 <EmptyState />
               ) : (
                 <div className="divide-y divide-gray-100">
@@ -284,14 +251,14 @@ const EmptyState = () => (
                     <div
                       key={user?.id}
                       onClick={() => handleChatSelect(user)}
-                      className={`flex items-center p-4 hover:bg-gray-50 cursor-pointer transition-colors ${
-                        selectedChat?.id === user?.id ? 'bg-[#1fb036]/10 border-r-2 border-[#1fb036]' : ''
+                      className={`flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors ${
+                        selectedChat?.id === user?.id ? '' : ''
                       }`}
                     >
                       {/* <div className='mb-3'>{user?.id}</div> */}
                       {/* User avatar */}
                       <div className="relative flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
+                        <div className="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
                           {/* <Image
                             src={user?.image}
                             alt={user?.name}
@@ -316,9 +283,13 @@ const EmptyState = () => (
                       {/* Chat info */}
                       <div className="flex-1 min-w-0 ml-4">
                         <div className="flex items-center justify-between">
-                          <h3 className="text-sm font-medium text-gray-900 truncate">{user?.displayUser || 'Andy'}</h3>
+                          <div>
+                          <h3 className="text-sm font-medium text-gray-900 truncate " style={{lineHeight: 'normal'}}>{user?.displayUser || 'Andy'}</h3>
+                          <span className="text-xs text-gray-500 block">{user?.lastMessageTime || '---'}</span> 
+                          </div>
+                         
                           <div className="flex items-center space-x-2">
-                            <span className="text-xs text-gray-500">{user?.lastMessageTime || '---'}</span>  
+
                             <button
                               onClick={(e) => handleDeleteSingleChat(user?.id, e)}
                               className="text-gray-400 hover:text-red-500 transition-colors p-1"

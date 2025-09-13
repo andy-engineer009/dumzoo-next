@@ -121,7 +121,7 @@ const filterCategories: FilterCategory[] = [
     ]
   },
   {
-    id: 'socialPlatform',
+    id: 'platform',
     label: 'Social Platform',
     type: 'checkbox',
     options: [
@@ -256,6 +256,41 @@ const filterCategories: FilterCategory[] = [
     type: 'range',
   },
   {
+    id: 'gender',
+    label: 'Gender',
+    type: 'radio',
+    options: [
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Male' },
+      { value: 2, label: 'Female' },
+      { value: 3, label: 'Other' },
+    ]
+  },
+  {
+    id: 'languages',
+    label: 'Language',
+    type: 'checkbox',
+    options: [
+      { value: 0, label: 'All' },
+      { value: 1, label: 'Hindi' },
+      { value: 2, label: 'English' },
+      { value: 3, label: 'Punjabi' },
+      { value: 4, label: 'Marathi' },
+      { value: 5, label: 'Haryanvi' },
+      { value: 6, label: 'Bhojpuri' },
+      { value: 7, label: 'Rajasthani' },
+      { value: 8, label: 'Tamil' },
+      { value: 9, label: 'Telugu' },
+      { value: 10, label: 'Urdu' },
+      { value: 11, label: 'Kannada' },
+      { value: 12, label: 'Malayalam' },
+      { value: 13, label: 'Nepali' },
+      { value: 14, label: 'Sanskrit' },
+      { value: 15, label: 'Bengali' },
+      { value: 16, label: 'Assamese' }
+    ]
+  },
+  {
     id: 'audienceType',
     label: 'Audience Type',
     type: 'checkbox',
@@ -280,41 +315,7 @@ const filterCategories: FilterCategory[] = [
       { value: 6, label: '56+ years' },
     ]
   },
-  {
-    id: 'gender',
-    label: 'Gender',
-    type: 'radio',
-    options: [
-      { value: 0, label: 'All' },
-      { value: 1, label: 'Male' },
-      { value: 2, label: 'Female' },
-      { value: 3, label: 'Other' },
-    ]
-  },
-  {
-    id: 'contentLanguage',
-    label: 'Language',
-    type: 'checkbox',
-    options: [
-      { value: 0, label: 'All' },
-      { value: 1, label: 'Hindi' },
-      { value: 2, label: 'English' },
-      { value: 3, label: 'Punjabi' },
-      { value: 4, label: 'Marathi' },
-      { value: 5, label: 'Haryanvi' },
-      { value: 6, label: 'Bhojpuri' },
-      { value: 7, label: 'Rajasthani' },
-      { value: 8, label: 'Tamil' },
-      { value: 9, label: 'Telugu' },
-      { value: 10, label: 'Urdu' },
-      { value: 11, label: 'Kannada' },
-      { value: 12, label: 'Malayalam' },
-      { value: 13, label: 'Nepali' },
-      { value: 14, label: 'Sanskrit' },
-      { value: 15, label: 'Bengali' },
-      { value: 16, label: 'Assamese' }
-    ]
-  },
+
   // {
   //   id: 'contentQuality',
   //   label: 'Content Quality',
@@ -405,18 +406,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   const [activeCategory, setActiveCategory] = useState('sortBy');
   const [selectedFilters, setSelectedFilters] = useState<any>({
     sortBy: 'popularity',
-    socialPlatform: [],
-    categories: [],
-    location: { state: '', city: '' },
-    followers: '',
-    followerMin: 0,
-    followerMax: 250000,
+    platform: [],
+    gender: '',
     budgetMin: 0,
     budgetMax: 100000,
-    audienceType: [],
+    followerMin: 0,
+    followerMax: 250000,
+    categories: [],
+    langenceType: [],
+    audiuages: [],
     audienceAgeGroup: [],
-    gender: '',
-    contentLanguage: [],
+
+    location: { state: '', city: '' },
     contentQuality: '',
     creatorType: [],
   });
@@ -489,10 +490,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
   const handleClearFilters = () => {
     const defaultFilters = {
       sortBy: 'popularity',
-      socialPlatform: [],
+      platform: [],
       categories: [],
       location: { state: '', city: '' },
-      followers: '',
       followerMin: 0,
       followerMax: 250000,
       budgetMin: 0,
@@ -500,7 +500,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       audienceType: [],
       audienceAgeGroup: [],
       gender: '',
-      contentLanguage: [],
+      languages: [],
       // contentQuality: '',
       // creatorType: [],
     };
