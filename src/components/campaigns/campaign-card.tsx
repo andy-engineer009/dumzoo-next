@@ -82,6 +82,14 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             className={`block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-200 relative ${isExpired ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
             onClick={isExpired ? (e) => e.preventDefault() : undefined}
         >
+            {/* Expired Overlay */}
+            {isExpired && (
+                <div className="absolute inset-0 bg-[#ffffffa1] bg-opacity-70 flex items-center justify-center z-20">
+                    <div className="text-center bg-white bg-opacity-90 px-4 py-2 rounded-lg">
+                        <span className="text-xl font-bold text-grey">EXPIRED</span>
+                    </div>
+                </div>
+            )}
             {/* Top Section - Product Image Area */}
             <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
                 {/* Product Image */}
@@ -95,18 +103,9 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                 )
             }
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
-                {/* Yellow Banner - Applied Count or Expired */}
-                {
-                    isExpired ? 
-                    <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
-                        <div className="flex items-center">
-                            <span>EXPIRED</span>
-                            <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
-                    : campaign?.applied_campaign_status == 1 ? 
+                {/* Yellow Banner - Applied Count (only for non-expired campaigns) */}
+                {!isExpired && (
+                    campaign?.applied_campaign_status == 1 ? 
                     <div className="absolute top-3 right-3 bg-green-500 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
                     <div className="flex items-center">
                          <span>Applied</span>
@@ -126,8 +125,7 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                      </svg>
                  </div>
              </div>
-             
-                }
+                )}
               
             </div>
 

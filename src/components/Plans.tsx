@@ -303,22 +303,32 @@ const BoosterPlan = () => {
 
 export default BoosterPlan;
 
+//Apne followers se kamao, brands ke saath jud jao.
+// Chhote budget mein badi promotion.
+//Aapka business, influencer ke zariye har jagah.
+//Sasta bhi, fast bhi
+//“Local ho ya national, har influencer aapke brand ke liye yahan milega.
 
-// Each package card should include:
-// 1. Title (Feature Your Ad / Boost to Top)
-// 2. Key benefits (bullet points with check icons)
-// 3. Discounted Pricing with strikethrough old price and bold new price
-// 4. Tags like "Best Value", "Limited Time", "Save More"
-// 5. Call-to-action button (Buy Now) with rounded-xl, bold font, hover scale effect
 
-// Design:
-// - "Feature Your Ad" card → green gradient (#1fb036 → #4ade80).
-// - "Boost to Top" card → purple gradient (#6d28d9 → #a78bfa).
-// - Title → bold, larger font size.
-// - Discount → strikethrough in gray, final price in large bold white.
-// - Tag (Best Value / Limited Time) → small pill badge in corner with bright color.
-// - Buttons → gradient background, hover glow.
+// “Hi 👋 Kya aap Instagram, YouTube ya Facebook chalaate ho?
+// Aur kya aapke paas 1k+ followers hai?
+// Toh abhi se social media se paisa banao — sirf Dumzoo par, bilkul FREE!
 
-// Discounted Pricing:
-// - Feature Your Ad: Weekly ~₹199~ → ₹149, Monthly ~₹299~ → ₹199 (Best Value)
-// - Boost to Top: Weekly ~₹149~ → ₹99 (Limited Time), Monthly ~₹249~ → ₹179 (Save More)
+// 👉 Bas app kholo aur as an Influencer login karo,
+// 👉 Apni profile banao, promotion ka price set karo aur phir promotions find karke apply karo,
+// 👉 Deal lock karo — bina kisi commission ke,
+// 👉 Aur brands ya promoters ke sath direct chat karo.”
+
+ //"Acha sun bhai 👋
+// Tere paas Insta pe 1k+ followers hai na?
+// Agar hai, toh Dumzoo pe aa — apne followers se paisa kama.
+
+// Yahan log apni promotions karvane ke liye influencers dhundhte hain,
+// apna budget aur requirement ke saath.
+
+// Bas tu app pe ja, as an Influencer login kar,
+// apni profile bana, apna promotion ka price/offer set kar,
+// aur directly paisa kama. 🚀
+
+// Sabse mast baat – Dumzoo beech me koi commission nahi khata.
+// Jo deal tu karega, paisa seedha tere pocket me aayega."
