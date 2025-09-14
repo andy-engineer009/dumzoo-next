@@ -7,6 +7,7 @@ import { API_ROUTES } from "@/appApi";
 import Link from "next/link";
 import InfluencerGrid from "@/components/influencer/InfluencerGrid";
 import { useParams } from "next/navigation";
+import InfluencerSkeleton from "../discover/InfluencerSkeleton";
 
 export default function CampaignsList() {
   const params = useParams();
@@ -123,21 +124,9 @@ export default function CampaignsList() {
 
           <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px] ">
             <div className="md:pl-9" style={{flex: 1}}>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
                 {Array.from({ length: 20 }, (_, index) => (
-                  <div key={`initial-skeleton-${index}`} className="bg-white rounded-lg shadow-sm border border-gray-100 p-4 animate-pulse">
-                    <div className="w-full aspect-square bg-gray-200 rounded-lg mb-3"></div>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="h-4 bg-gray-200 rounded w-20"></div>
-                        <div className="w-4 h-4 bg-gray-200 rounded-full"></div>
-                      </div>
-                      <div className="h-3 bg-gray-200 rounded w-16"></div>
-                      <div className="h-3 bg-gray-200 rounded w-24"></div>
-                      <div className="h-3 bg-gray-200 rounded w-28"></div>
-                      <div className="h-4 bg-gray-200 rounded w-20"></div>
-                    </div>
-                  </div>
+                  <InfluencerSkeleton key={`initial-skeleton-${index}`} />
                 ))}
               </div>
             </div>
