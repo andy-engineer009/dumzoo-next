@@ -200,7 +200,7 @@ const Signup = () => {
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg"></div>
               </div>
               <span className="text-3xl font-bold text-gray-900">DUMZOO</span> */}
-                            <Image src="/images/main-logo.svg" alt="logo" width={150} height={100}/> 
+                            <Image src="/images/dumzoo.svg" alt="logo" width={150} height={100}/> 
 
             </div>
           </div>
@@ -221,7 +221,7 @@ const Signup = () => {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
-                  <span>I'm a Influencer</span>
+                  <span> Find Work as a Influencer</span>
                 </button>
                 <button
                   onClick={() => setUserType(3)}
@@ -231,8 +231,8 @@ const Signup = () => {
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
-                  <span>I'm a Promoter <span className="text-[12px] text-gray-500">
-                     (find influencers)
+                  <span> Find Influencers for Your Business <span className="text-[12px] text-gray-500">
+                     {/* (find influencers) */}
                   </span>
                   </span>
                 </button>

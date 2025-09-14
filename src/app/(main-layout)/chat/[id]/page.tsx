@@ -56,6 +56,7 @@ export default function ChatPage() {
   const [currentUserId, setCurrentUserId] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [typingUser, setTypingUser] = useState<string>('');
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
   const { id } = useParams();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -95,8 +96,11 @@ export default function ChatPage() {
 
   // Fetch initial messages
   useEffect(() => {
+    if (!id) return; // Don't fetch if no id
+    
     const fetchMessages = async () => {
-       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
+      console.log('Fetching messages for conversation:', id);
+      api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
           setMessages(res.data.messages);
         }
@@ -167,24 +171,9 @@ export default function ChatPage() {
   const handleSendMessage = (values: { message: string }, { resetForm }: any) => {
     if (isConnected && currentUserId) {
       // Send message via Socket.IO for real-time delivery
+      // The backend should handle persistence when receiving socket messages
       socketSendMessage(id as string, currentUserId, values.message);
-      
-      // Also send via REST API for persistence
-      const payload = {
-        message: values.message,
-        conversationId: id,
-        userId: currentUserId
-      };
-      
-      api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
-        if(res.status == 1){
-          // Message will be added via Socket.IO listener, no need to add here
-          resetForm();
-        }
-        else{
-          // showError(res.message, 2000);
-        }
-      });
+      resetForm();
     } else {
       // Fallback to REST API only if Socket.IO is not connected
       const payload = {

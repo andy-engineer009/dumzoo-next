@@ -195,7 +195,7 @@ const Login = () => {
                 <div className="w-8 h-8 bg-gradient-to-br from-purple-600 to-blue-600 rounded-lg"></div>
               </div>
               <span className="text-3xl font-bold text-gray-900">DUMZOO</span> */}
-              <Image src="/images/main-logo.svg" alt="logo" width={150} height={100}/> 
+              <Image src="/images/dumzoo.svg" alt="logo" width={150} height={100}/> 
             </div>
           </div>
 
