@@ -4,6 +4,7 @@ import { setIsLoggedIn, setUserRole, logout, setIsInfluencerRegistered } from "@
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useLogoutListener } from "@/hooks/useLogoutListener";
+import { getIsLoggedInFromObject,getAllLocalStorageData } from "@/helpers/common";
 
 export default function LocalStorageValueHandler() {
     const dispatch = useDispatch();
@@ -13,19 +14,22 @@ export default function LocalStorageValueHandler() {
     useLogoutListener();
     
     useEffect(() => {
-        const isLoggedIn = localStorage.getItem('isLoggedIn');
-        if (isLoggedIn == null || isLoggedIn === "false") {
+        // const isLoggedIn = localStorage.getItem('isLoggedIn');
+        const data = getAllLocalStorageData();
+        const isLoggedIn = data?.isLoggedIn;
+        console.log(isLoggedIn, 'isLoggedIn')
+        if (isLoggedIn == null || isLoggedIn === "false" || isLoggedIn === 'undefined') {
             dispatch(setIsLoggedIn(false));
         } else {
             dispatch(setIsLoggedIn(true));
         }
 
-        const is_new_user = localStorage.getItem('is_new_user');
+        const is_new_user = data?.is_new_user;
         if(is_new_user == '1'){
             router.push('/referral');
         }
 
-        const user_role = localStorage.getItem('userRole');
+        const user_role = data?.userRole;
         console.log(user_role);
         if(user_role == '2'){
             dispatch(setUserRole('2'));
@@ -35,7 +39,7 @@ export default function LocalStorageValueHandler() {
             dispatch(setUserRole('3'));
         }
 
-        const isInfluencerRegistered = localStorage.getItem('isInfluencerRegistered');
+        const isInfluencerRegistered = data?.isInfluencerRegistered;
         if(isInfluencerRegistered == 'true'){
             dispatch(setIsInfluencerRegistered(true));
         }else{

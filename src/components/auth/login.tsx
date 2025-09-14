@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setIsLoggedIn,setUserRole } from '@/store/userRoleSlice';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
@@ -53,17 +52,6 @@ const Login = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
-
-  // Check if user is already logged in and redirect
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
-    if (token && isLoggedIn) {
-      const redirectUrl = searchParams.get('redirect') || '/';
-      router.replace(redirectUrl);
-    }
-  }, [router, searchParams]);
   
   // Show toast notification
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
@@ -109,16 +97,6 @@ const Login = () => {
 
   return (
     <>
-     {/* <button onClick={() => {
-      dispatch(setUserRole('2'))
-      dispatch(setIsLoggedIn(true))
-     }}>infulancer</button>
-     <button onClick={() => {
-      dispatch(setUserRole('3'))
-      dispatch(setIsLoggedIn(true))
-     }}>promoter</button>
-         <Link href="/">home</Link> */}
-      {/* {isLoading && <Loader/>} */}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
         {toast && (
@@ -132,14 +110,8 @@ const Login = () => {
 
         {/* Main Content */}
         <div className="pt-0 pb-2 flex flex-col items-center min-h-screen">
-                    {/* Influencer Image Grid with Infinite Scroll Animation */}
           <div className="relative w-full mb-8 overflow-hidden" style={{height: '55vh'}}>
-            {/*
-              Dynamically render the influencer image grid for infinite scroll animation.
-              Gradients are removed; only images are shown.
-            */}
             {(() => {
-              // Array of influencer images (repeat for infinite effect)
               const influencerImages = [
                 '/images/login/w1.jpg',
                 '/images/login/w4.jpg',

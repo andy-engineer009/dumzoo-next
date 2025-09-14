@@ -289,7 +289,6 @@ console.log('mak')
             
                 </button> */}
                 
-              {/* {localStorage.getItem('token') ? ( */}
                 <button className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-red-50 transition-colors" onClick={() => {
                   setIsConfirmationOpen(true);
                 }}>

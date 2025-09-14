@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setChatUsers, clearChatUsers, selectChatUsers } from '@/store/apiDataSlice';
 import { RootState } from '@/store/store';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
+import { getAllLocalStorageData } from '@/helpers/common';
 
 export default function ChatList() {
     const router = useRouter();
@@ -42,7 +43,7 @@ export default function ChatList() {
     }, [dispatch]);
 
     useEffect(() => {
-      const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+      const userId = getAllLocalStorageData()?.activeUser?.id;
       setCurrentUserId(userId);
       
       // Check if data exists in Redux

@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useSocket } from '@/hooks/useSocket';
+import { getAllLocalStorageData } from '@/helpers/common';
 
 // Types
 interface ChatUser {
@@ -77,7 +78,7 @@ export default function ChatPage() {
 
   // Get current user ID
   useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+    const userId = getAllLocalStorageData()?.activeUser?.id;
     setCurrentUserId(userId);
   }, []);
 

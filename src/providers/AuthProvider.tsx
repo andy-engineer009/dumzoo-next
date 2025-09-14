@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUserRole, selectIsLoggedIn, logout, setUserRole, setIsLoggedIn } from '@/store/userRoleSlice';
+import { getAllLocalStorageData } from '@/helpers/common';
 
 // Route configuration for authentication and authorization
 const ROUTES = {
@@ -113,8 +114,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // Handle route protection
   useEffect(() => {
     if(userRole == null){
-      userRole = localStorage.getItem('userRole') || null;
+      userRole = getAllLocalStorageData()?.userRole || null;
     }
+
+      // If user is logged in but trying to access login/signup, redirect to home
+      if (isLoggedIn && (pathname === '/login' || pathname === '/signup')) {
+        router.push('/');
+        return;
+      }
 
     // Skip auth check for public routes
     if (isPublicRoute(pathname)) {
@@ -136,11 +143,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return;
     }
 
-    // If user is logged in but trying to access login/signup, redirect to home
-    if (isLoggedIn && (pathname === '/login' || pathname === '/signup')) {
-      router.push('/');
-      return;
-    }
 
     // All checks passed
     setIsLoading(false);

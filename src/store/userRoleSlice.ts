@@ -49,13 +49,13 @@ const userRoleSlice = createSlice({
       state.role = action.payload;
       
       // Save to localStorage (convert role to number format)
-      if (action.payload === '2') {
-        localStorage.setItem('userRole', '2');
-      } else if (action.payload === '3') {
-        localStorage.setItem('userRole', '3');
-      } else {
-        localStorage.removeItem('userRole');
-      }
+      // if (action.payload === '2') {
+      //   localStorage.setItem('userRole', '2');
+      // } else if (action.payload === '3') {
+      //   localStorage.setItem('userRole', '3');
+      // } else {
+      //   localStorage.removeItem('userRole');
+      // }
     },
     
     // Mark user as having visited and save to localStorage
@@ -75,9 +75,9 @@ const userRoleSlice = createSlice({
       state.isLoggedIn = action.payload;
       
       // Save to localStorage
-      if (action.payload) {
-        localStorage.setItem('isLoggedIn', 'true');
-      } else {
+      if (!action.payload) {
+      //   localStorage.setItem('isLoggedIn', 'true');
+      // } else {
         localStorage.removeItem('isLoggedIn');
       }
     },
@@ -99,7 +99,7 @@ const userRoleSlice = createSlice({
 
     setIsInfluencerRegistered: (state, action: PayloadAction<boolean>) => {
       state.isInfluencerRegistered = action.payload;
-      localStorage.setItem('isInfluencerRegistered', action.payload ? 'true' : 'false');
+      // localStorage.setItem('isInfluencerRegistered', action.payload ? 'true' : 'false');
     },
 
     // Logout
@@ -111,11 +111,11 @@ const userRoleSlice = createSlice({
       localStorage.removeItem('is_new_user');
       localStorage.removeItem('userRole');
       
-      localStorage.removeItem('google_cache');
-      localStorage.removeItem('cto_bundle');
-      localStorage.removeItem('WZRK_LR');
-      localStorage.removeItem('infulancer_profile_created');
+      localStorage.removeItem('isInfluencerRegistered');
       localStorage.removeItem('referral_code');
+
+      // Clear corrupted data
+      localStorage.removeItem("browserCache")
     }
   }
 });

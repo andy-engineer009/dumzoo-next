@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useDispatch } from 'react-redux';
-import { setIsLoggedIn,setUserRole } from '@/store/userRoleSlice';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useGoogleLogin } from '@react-oauth/google';
 // import Loader from '../loader';
-import { setVerfiedUser, setVerfiedUserV2 } from '@/helpers/common';
+import { setVerfiedUserV2 } from '@/helpers/common';
 import Image from 'next/image';
 
 // Toast notification component
@@ -54,17 +53,6 @@ const Signup = () => {
   const searchParams = useSearchParams();
   const dispatch = useDispatch();
 
-  // Check if user is already logged in and redirect
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-    
-    if (token && isLoggedIn) {
-      const redirectUrl = searchParams.get('redirect') || '/';
-      router.replace(redirectUrl);
-    }
-  }, [router, searchParams]);
-  
   // Show toast notification
   const showToast = (message: string, type: 'success' | 'error' | 'info') => {
     setToast({ message, type });
@@ -115,15 +103,6 @@ const Signup = () => {
 
   return (
     <>
-     {/* <button onClick={() => {
-      dispatch(setUserRole('2'))
-      dispatch(setIsLoggedIn(true))
-     }}>infulancer</button>
-     <button onClick={() => {
-      dispatch(setUserRole('3'))
-      dispatch(setIsLoggedIn(true))
-     }}>promoter</button> */}
-      {/* {isLoading && <Loader/>} */}
       <div className="min-h-screen bg-white text-black relative overflow-hidden">
         {/* Toast Notifications */}
         {toast && (

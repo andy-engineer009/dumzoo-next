@@ -1,4 +1,5 @@
 import { handleUnauthorized } from "@/common/services/rest-api/logoutHelper";
+import { getTokenFromObject } from "@/helpers/common";
 
 // API Configuration
 // const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5050/';
@@ -53,10 +54,9 @@ class TokenManager {
 
   private getTokenFromStorage(): any {
     if (typeof window !== 'undefined') {
-      console.log('token', localStorage.getItem('token'));
-      return localStorage.getItem('token');
+      console.log('getTokenFromStorage', getTokenFromObject());
+      return  getTokenFromObject();
     }
-    
     return null;
   }
 
@@ -105,7 +105,8 @@ class RequestInterceptor {
   intercept(config: any): any {
     const tokenManager = TokenManager.getInstance();
     // const token = tokenManager.getToken();
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const token = getTokenFromObject();
     console.log(token);
     // Add default headers
     const headers: any = {

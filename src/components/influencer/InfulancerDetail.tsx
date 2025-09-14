@@ -11,6 +11,7 @@ import CampaignDetailSkeleton from "@/components/campaigns/CampaignDetailSkeleto
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useSelector } from 'react-redux';
+import { getAllLocalStorageData } from '@/helpers/common';
 
 const InfluencerDetail = ({
   data
@@ -51,7 +52,7 @@ const InfluencerDetail = ({
       setShowLoginPopup(true);
       return;
     }
-    const activeUserId = JSON.parse(localStorage.getItem('activeUser') || '{}').id;
+    const activeUserId = getAllLocalStorageData()?.activeUser?.id; 
     api.post(API_ROUTES.createNewConversation, {
       user1Id: activeUserId,
       user2Id: data?.user_id
