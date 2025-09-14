@@ -98,7 +98,7 @@ export default function ChatPage() {
     const fetchMessages = async () => {
        api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
-          setMessages(res.data);
+          setMessages(res.data.messages);
         }
         else{
           // showError(res.message, 2000);
