@@ -88,12 +88,7 @@ export default function CampaignsGrid({
           >
             Refresh
           </button>
-          <button 
-            onClick={() => window.history.back()} 
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors"
-          >
-            Go Back
-          </button>
+
         </div>
       </div>
     );

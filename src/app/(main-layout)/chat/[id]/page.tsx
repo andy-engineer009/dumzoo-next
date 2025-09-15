@@ -56,6 +56,7 @@ export default function ChatPage() {
   const [currentUserId, setCurrentUserId] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [typingUser, setTypingUser] = useState<string>('');
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
   const { id } = useParams();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -95,8 +96,11 @@ export default function ChatPage() {
 
   // Fetch initial messages
   useEffect(() => {
+    if (!id) return; // Don't fetch if no id
+    
     const fetchMessages = async () => {
-       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
+      console.log('Fetching messages for conversation:', id);
+      api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
           setMessages(res.data?.messages);
         }
@@ -167,25 +171,9 @@ export default function ChatPage() {
   const handleSendMessage = (values: { message: string }, { resetForm }: any) => {
     if (isConnected && currentUserId) {
       // Send message via Socket.IO for real-time delivery
+      // The backend should handle persistence when receiving socket messages
       socketSendMessage(id as string, currentUserId, values.message);
-      
-      // Also send via REST API for persistence
-      const payload = {
-        message: values.message,
-        conversationId: id,
-        userId: currentUserId
-      };
-      
-      api.post(`${API_ROUTES.sendChatMessage}`, payload).then((res) => {
-        if(res.status == 1){
-          // Message will be added via Socket.IO listener, no need to add here
-          setMessages(prev => [...prev, res.data]);
-          resetForm();
-        }
-        else{
-          // showError(res.message, 2000);
-        }
-      });
+      resetForm();
     } else {
       // Fallback to REST API only if Socket.IO is not connected
       const payload = {
@@ -220,14 +208,9 @@ export default function ChatPage() {
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <button 
-              onClick={() => router.push('/chat')}
-              className="p-2 rounded-full hover:bg-gray-100 mr-3"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+          <svg onClick={() => router.back()} className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
             
             <div className="flex items-center">
               <div className="relative">
@@ -254,7 +237,7 @@ export default function ChatPage() {
               </div>
               <div className="ml-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-black">{currentUser.name}</h3>
+                  <h3 className="text-md font-semibold text-black">{currentUser.name}</h3>
                   <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
                        title={isConnected ? 'Connected' : 'Disconnected'}></div>
                 </div>
@@ -268,7 +251,7 @@ export default function ChatPage() {
       </header>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 messages-wrapper relative">
         {messages.length === 0 ? (
           <div className="text-center text-gray-500 mt-8">
             <p>No messages yet. Start the conversation!</p>
@@ -284,8 +267,8 @@ export default function ChatPage() {
                 <div
                   className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                     message.userId === currentUserId
-                      ? 'bg-[#1fb036] text-white'
-                      : 'bg-gray-100 text-black'
+                      ? 'bg-[#D9FDD3] text-[#000]'
+                      : 'bg-[#fff] text-black shadow-[0_1px_0.5px_rgba(11,20,26,0.13)]'
                   }`}
                 >
                   <p className="text-sm">{message.message}</p>
@@ -357,11 +340,9 @@ export default function ChatPage() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-[#1fb036] hover:bg-[#1fb036]/90 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+                className="bg-[#1A9254] hover:bg-[#1fb036]/90 disabled:bg-gray-400 text-white px-3 py-[10px] h-[42px] rounded-lg transition-colors"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                </svg>
+                <svg viewBox="0 0 24 24" height="24" width="24" preserveAspectRatio="xMidYMid meet" className="" fill="none"><title>wds-ic-send-filled</title><path d="M5.4 19.425C5.06667 19.5583 4.75 19.5291 4.45 19.3375C4.15 19.1458 4 18.8666 4 18.5V14L12 12L4 9.99997V5.49997C4 5.1333 4.15 4.85414 4.45 4.66247C4.75 4.4708 5.06667 4.44164 5.4 4.57497L20.8 11.075C21.2167 11.2583 21.425 11.5666 21.425 12C21.425 12.4333 21.2167 12.7416 20.8 12.925L5.4 19.425Z" fill="currentColor"></path></svg>
               </button>
             </Form>
           )}

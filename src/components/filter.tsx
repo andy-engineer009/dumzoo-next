@@ -257,31 +257,6 @@ const filterCategories: FilterCategory[] = [
     type: 'range',
   },
   {
-    id: 'audienceType',
-    label: 'Audience Type',
-    type: 'checkbox',
-    options: [
-      { value: 0, label: 'All' },
-      { value: 1, label: 'General' },
-      { value: 2, label: 'Niche' },
-      { value: 3, label: 'Specific' },
-    ]
-  },
-  {
-    id: 'audienceAgeGroup',
-    label: 'Audience Age Group',
-    type: 'checkbox',
-    options: [
-      { value: 0  , label: 'All' },
-      { value: 1, label: '13-18 years' },
-      { value: 2, label: '19-25 years' },
-      { value: 3, label: '26-35 years' },
-      { value: 4, label: '36-45 years' },
-      { value: 5, label: '46-55 years' },
-      { value: 6, label: '56+ years' },
-    ]
-  },
-  {
     id: 'gender',
     label: 'Gender',
     type: 'radio',
@@ -316,6 +291,32 @@ const filterCategories: FilterCategory[] = [
       { value: 16, label: 'Assamese' }
     ]
   },
+  {
+    id: 'audienceType',
+    label: 'Audience Type',
+    type: 'checkbox',
+    options: [
+      { value: 0, label: 'All' },
+      { value: 1, label: 'General' },
+      { value: 2, label: 'Niche' },
+      { value: 3, label: 'Specific' },
+    ]
+  },
+  {
+    id: 'audienceAgeGroup',
+    label: 'Audience Age Group',
+    type: 'checkbox',
+    options: [
+      { value: 0  , label: 'All' },
+      { value: 1, label: '13-18 years' },
+      { value: 2, label: '19-25 years' },
+      { value: 3, label: '26-35 years' },
+      { value: 4, label: '36-45 years' },
+      { value: 5, label: '46-55 years' },
+      { value: 6, label: '56+ years' },
+    ]
+  },
+
   // {
   //   id: 'contentQuality',
   //   label: 'Content Quality',
@@ -413,7 +414,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   }, [initialActiveCategory]);
   
   const [selectedFilters, setSelectedFilters] = useState<any>({
-    location: { state: '', city: '' },
+    sortBy: 'popularity',
     platform: [],
     gender: '',
     budgetMin: 0,
@@ -421,14 +422,13 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
     followerMin: 0,
     followerMax: 250000,
     categories: [],
-    languages: [],
-    audienceType: [],
+    langenceType: [],
+    audiuages: [],
     audienceAgeGroup: [],
-    sortBy: 'popularity',
 
-    // followers: '',
-    // contentQuality: '',
-    // creatorType: [],
+    location: { state: '', city: '' },
+    contentQuality: '',
+    creatorType: [],
   });
 
   // Get current category data
@@ -510,8 +510,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
       audienceAgeGroup: [],
       gender: '',
       languages: [],
-
-      //followers: '',
       // contentQuality: '',
       // creatorType: [],
     };
