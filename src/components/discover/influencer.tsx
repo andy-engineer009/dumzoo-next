@@ -49,8 +49,8 @@ export default function InfluencerDiscover() {
       if (res.status === 1) {
         return {
           data: res.data || [],
-          totalRecords: res.recordsTotal || 0,
-          hasMore: (start + ITEMS_PER_PAGE) < (res.recordsTotal || 0)
+          totalRecords: res.data.count || 0,
+          hasMore: (start + ITEMS_PER_PAGE) < (res.data.count || 0)
         };
       } else {
         return {

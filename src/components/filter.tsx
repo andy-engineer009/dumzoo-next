@@ -105,6 +105,7 @@ interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
   onFilterChange: (filters: any) => void;
+  initialActiveCategory?: string;
 }
 
 const filterCategories: FilterCategory[] = [
@@ -339,7 +340,7 @@ const filterCategories: FilterCategory[] = [
   // },
 ];
 
-export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterModalProps) {
+export default function FilterModal({ isOpen, onClose, onFilterChange, initialActiveCategory }: FilterModalProps) {
   // Add custom styles for range slider
   useEffect(() => {
     const style = document.createElement('style');
@@ -403,7 +404,15 @@ export default function FilterModal({ isOpen, onClose, onFilterChange }: FilterM
       document.head.removeChild(style);
     };
   }, []);
-  const [activeCategory, setActiveCategory] = useState('sortBy');
+  const [activeCategory, setActiveCategory] = useState(initialActiveCategory || 'sortBy');
+  
+  // Update active category when initialActiveCategory prop changes
+  useEffect(() => {
+    if (initialActiveCategory) {
+      setActiveCategory(initialActiveCategory);
+    }
+  }, [initialActiveCategory]);
+  
   const [selectedFilters, setSelectedFilters] = useState<any>({
     sortBy: 'popularity',
     platform: [],

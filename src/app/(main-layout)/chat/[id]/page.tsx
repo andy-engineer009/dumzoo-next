@@ -103,7 +103,7 @@ export default function ChatPage() {
       console.log('Fetching messages for conversation:', id);
       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
-          setMessages(res.data.messages);
+          setMessages(res.data?.messages);
         }
         else{
           // showError(res.message, 2000);
@@ -260,6 +260,7 @@ export default function ChatPage() {
         ) : (
           <>
             {messages.map((message) => (
+              console.log(message, 'message'),
               <div
                 key={message.id}
                 className={`flex ${message.userId === currentUserId ? 'justify-end' : 'justify-start'}`}

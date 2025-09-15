@@ -1,9 +1,8 @@
 'use client';
 
 import { api } from '@/common/services/rest-api/rest-api';
-import { useParams, useRouter } from 'next/navigation';
+import {  useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { API_ROUTES } from '@/appApi';
 import { useSocket } from '@/hooks/useSocket';
 import LoginPopup from '@/components/login-popup';
