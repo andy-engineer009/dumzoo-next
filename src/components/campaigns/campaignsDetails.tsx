@@ -9,7 +9,8 @@ import { API_ROUTES } from "@/appApi";
 import { api } from "@/common/services/rest-api/rest-api";
 
 import { selectIsInfluencerRegistered, selectIsLoggedIn } from '@/store/userRoleSlice';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCampaignAppliedStatus } from '@/store/apiDataSlice';
 import CreateProfilePopup from '../influencer/create-profile-popup';
 import LoginPopup from '../login-popup';
 
@@ -19,6 +20,7 @@ const CampaignDetails = (data: any) => {
   const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
   const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const dispatch = useDispatch();
   
   // Debug useEffect to track state changes
   useEffect(() => {
@@ -61,6 +63,12 @@ const CampaignDetails = (data: any) => {
         showSuccess('Applied successfully',2000)
         
         setApplied(true);
+        
+        // Update Redux store to reflect the applied status
+        dispatch(updateCampaignAppliedStatus({
+          campaignId: data.id,
+          appliedStatus: 1
+        }));
       } else {
           // showError(res.message, 2000);
       }
