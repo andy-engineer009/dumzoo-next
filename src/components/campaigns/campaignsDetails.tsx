@@ -283,7 +283,7 @@ function getGender(value: number) {
 
         {/* Bottom Action Bar */}
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
-          {applied ? (
+          {applied  || data.isApplied ? (
             <button
               className="w-full bg-green-700 text-white py-3 rounded-lg font-semibold cursor-default"
               disabled
