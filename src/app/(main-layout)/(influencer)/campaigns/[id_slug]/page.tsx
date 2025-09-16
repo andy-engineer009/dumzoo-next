@@ -32,9 +32,11 @@ export default function CampaignPage() {
     const { showError } = useToast();
 
     useEffect(() => {
+        const user_id = JSON.parse(localStorage.getItem('activeUser') || '{}')?.id;
         setLoading(true);
         api.post(API_ROUTES.influencerCampaignDetail, {
-            campaign_id: id_slug
+            campaign_id: id_slug,
+            user_id: user_id
         }).then((res: any) => {
             setLoading(false);
             if(res.status == 1) {
