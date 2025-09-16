@@ -91,7 +91,7 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                 </div>
             )}
             {/* Top Section - Product Image Area */}
-            <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center">
+            <div className="relative bg-[#ddd] h-[150px] flex items-center justify-center overflow-hidden">
                 {/* Product Image */}
                 {/* <h3>PAID</h3> */}
                 {campaign.campaign_logo_url ? (

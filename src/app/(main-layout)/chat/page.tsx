@@ -242,7 +242,7 @@ const EmptyState = () => (
 
             {/* Chat list */}
             <div className="flex-1 overflow-y-auto">
-              {(chatUsers.length === 0 && !isLoggedIn) ? (
+              {(chatUsers.length === 0 || !isLoggedIn) ? (
                 <EmptyState />
               ) : (
                 <div className="divide-y divide-gray-100">
