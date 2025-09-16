@@ -56,7 +56,7 @@ export default function CreateProfilePopup({showProfilePopup, onClose}: {showPro
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                className="w-16 h-16 bg-[#1fb036] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"
+                className="w-16 h-16 bg-[orange] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg"
               >
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -91,7 +91,7 @@ export default function CreateProfilePopup({showProfilePopup, onClose}: {showPro
               >
                 <button
                   onClick={handleCreateProfileClick}
-                  className="w-full bg-[#1fb036] text-white py-3 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                  className="w-full bg-[orange] text-white py-3 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

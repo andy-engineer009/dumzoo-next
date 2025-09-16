@@ -91,6 +91,16 @@ const apiDataSlice = createSlice({
 
         clearChatUsers: (state) => {
             state.chatUsers = [];
+        },
+
+        // Update campaign applied status by ID
+        updateCampaignAppliedStatus: (state, action: PayloadAction<{ campaignId: number; appliedStatus: number }>) => {
+            const { campaignId, appliedStatus } = action.payload;
+            const campaign = state.campaignsData.campaigns.find(c => c.id === campaignId);
+            if (campaign) {
+                campaign.applied_campaign_status = appliedStatus;
+                campaign.isApplied = appliedStatus === 1;
+            }
         }
     }
 })
@@ -106,7 +116,8 @@ export const {
     updateCampaignsScrollPosition,
     clearCampaignsData,
     setChatUsers,
-    clearChatUsers
+    clearChatUsers,
+    updateCampaignAppliedStatus
   } = apiDataSlice.actions;
 
   export const selectInfluencerDropdownData = (state: { apiData: any }) => state.apiData.influencerDropdownData;

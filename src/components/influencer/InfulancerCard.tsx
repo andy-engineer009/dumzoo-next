@@ -54,17 +54,19 @@ const InfluencerCard = ({data}: any) => {
         {/* Left Side - Image (40%) */}
         <div className="w-2/5 relative">
           <div className="relative w-full h-[168px] bg-gray-100">
-            {data?.influencer_media_detail?.map((image:any, index:any) => (
+            {/* {data?.influencer_media_detail?.map((image:any, index:any) => ( */}
               <Image
-                key={index}
-                src={image?.image_url || '/images/default-profile.jpg'}
-                alt={image?.image_url || 'Influencer profile'}
+               src={'/images/login/w6.jpg'}
+                alt={'Influencer profile'}
+                // key={index}
+                // src={image?.image_url || '/images/default-profile.jpg'}
+                // alt={image?.image_url || 'Influencer profile'}
                 width={400}
                 height={400}
                 className="w-full h-full object-cover"
                 onError={() => setImageError(true)}
               />
-            ))}
+            {/* ))} */}
           </div>
         </div>
 
