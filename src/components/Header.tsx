@@ -78,7 +78,7 @@ const Header = () => {
                 onClick={() => router.push('/')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname === '/' 
-                      ? 'bg-[#6f43fe]/10 text-[#1fb036] shadow-sm' 
+                      ? 'bg-[#c4e72930] text-[#000] shadow-sm' 
                       : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
                   }`}
               >
@@ -90,13 +90,14 @@ const Header = () => {
                 {/* <span className="text-xs font-medium">Home</span> */}
               </button>
 
-              {/* Discover */}
+              {/* Discover */} 
               {!isLoggedIn && (
               <button
                 onClick={() => router.push((role === '2' && isLoggedIn) ? '/campaigns' : (role === '3' && isLoggedIn) ? '/discover' : '/finder')}
                                   className={`flex flex-col items-center justify-center py-3 px-2 rounded-xl transition-all duration-300 ${
                     pathname === '/discover' 
-                      ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm' 
+                    // #6f43fe
+                      ? 'bg-[#6f43fe]/10 text-[#6f43fe] shadow-sm'  
                       : 'text-gray-600 hover:text-[#6f43fe] hover:bg-gray-50'
                   }`}
               >
@@ -134,9 +135,10 @@ const Header = () => {
               {/* Center - Add Influencer Button (Floating) */}
               {role === '2' && (
                 <div className="flex justify-center">
+                  {/* 1fb036 color green */}
                   <button
                     onClick={() => router.push(isInfluencerRegistered ? '/plans' : '/registration')}
-                    className="flex flex-col items-center justify-center w-14 h-14 bg-[#1fb036] text-white rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
+                    className="flex flex-col items-center justify-center w-14 h-14 bg-[#C4E729] text-[#000] rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
                   >
                     {isInfluencerRegistered ? (
                     <svg className='w-[30px] h-[30px]' viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" fill="none"><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="M92.953 57.154c22.628-22.627 57.983-35.355 76.368-33.94 1.414 18.384-11.314 53.74-33.941 76.367-22.628 22.627-48.084 39.598-62.226 45.255L47.698 119.38c5.657-14.142 22.628-39.598 45.255-62.226Zm-5.657 48.084-39.598 39.598"/><circle cx="128.309" cy="64.225" r="12" fill="#fff" transform="rotate(45 128.309 64.225)"/><path stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" d="m115.581 119.38 1.569 17.256c.779 8.57-3.09 16.9-10.139 21.835l-16.886 11.82-1.414-32.527M73.154 76.953l-17.256-1.569a24 24 0 0 0-21.835 10.139l-11.82 16.886 32.527 1.414"/></svg>
@@ -153,7 +155,7 @@ const Header = () => {
                 <div className="flex justify-center">
                   <button
                     onClick={() => router.push('/create-campaign')}
-                    className="flex flex-col items-center justify-center w-14 h-14 bg-[#1fb036] text-white rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
+                    className="flex flex-col items-center justify-center w-14 h-14 bg-[#C4E729] text-[#000] rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />

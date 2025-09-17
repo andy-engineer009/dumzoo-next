@@ -27,13 +27,13 @@ export default function Finder() {
       </header>
 
         {/* Tab Navigation */}
-        <div className="my-4 px-4">
+        <div className="mt-4  px-2">
           <nav className="flex bg-gray-100 rounded-lg p-1">
             <button
               onClick={() => setActiveTab('creators')}
-              className={`flex-1 py-3 px-4 rounded-2xl font-medium text-sm transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200 ${
                 activeTab === 'creators'
-                  ? 'bg-[#1fb036] text-white shadow-sm'
+                  ? 'bg-[#000] text-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-200'
               }`}
             >
@@ -41,9 +41,9 @@ export default function Finder() {
             </button>
             <button
               onClick={() => setActiveTab('promotions')}
-              className={`flex-1 py-3 px-4 rounded-2xl font-medium text-sm transition-all duration-200 ${
+              className={`flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200 ${
                 activeTab === 'promotions'
-                  ? 'bg-[#1fb036] text-white shadow-sm'
+                  ? 'bg-[#000] text-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-200'
               }`}
             >

@@ -194,11 +194,11 @@ const EmptyState = () => (
       </div>
       <h3 className="text-xl font-semibold text-gray-900 mb-2">No Active Chats</h3>
       <p className="text-gray-500 mb-6 max-w-md">
-        You don't have any active conversations yet. Start chatting with other users to see your conversations here.
+        You don't have any active conversations yet
       </p>
       <button 
         onClick={() => router.push('/')}
-        className="bg-[#1fb036] hover:bg-[#1fb036]/90 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+        className="bg-[#000] hover:bg-[#1fb036]/90 text-white px-6 py-3 rounded-lg font-medium transition-colors"
       >
         Explore Users
       </button>

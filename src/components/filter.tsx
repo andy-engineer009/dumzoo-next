@@ -468,7 +468,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   };
 
   // Handle range slider for budget
-  const handleBudgetRangeChange = (min: number, max: number) => {
+  const handleBudgetRangeChange = (min: number | string, max: number | string) => {
     const newFilters = {
       ...selectedFilters,
       budgetMin: min,
@@ -480,7 +480,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   };
 
   // Handle range slider for followers
-  const handleFollowerRangeChange = (min: number, max: number) => {
+  const handleFollowerRangeChange = (min: number | string, max: number | string) => {
     const newFilters = {
       ...selectedFilters,
       followerMin: min,
@@ -583,8 +583,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                 <div className="relative">
                   <div className="mb-4">
                     <div className="flex justify-between text-sm text-gray-600 mb-4">
-                      <span>Min: ₹{selectedFilters.budgetMin?.toLocaleString() || 0}</span>
-                      <span>Max: ₹{selectedFilters.budgetMax?.toLocaleString() || 100000}</span>
+                      <span>Min: ₹{selectedFilters.budgetMin ? selectedFilters.budgetMin.toLocaleString() : 0}</span>
+                      <span>Max: ₹{selectedFilters.budgetMax ? selectedFilters.budgetMax.toLocaleString() : 100000}</span>
                 </div>
                     
                     {/* Single Dual-Handle Range Slider */}
@@ -596,16 +596,16 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       <div 
                         className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
-                          left: `${(selectedFilters.budgetMin / 100000) * 100}%`,
-                          width: `${((selectedFilters.budgetMax - selectedFilters.budgetMin) / 100000) * 100}%`
+                          left: `${((selectedFilters.budgetMin || 0) / 100000) * 100}%`,
+                          width: `${(((selectedFilters.budgetMax || 100000) - (selectedFilters.budgetMin || 0)) / 100000) * 100}%`
                         }}
                       ></div>
                       
                       {/* Min Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
+                        className="absolute w-4 h-4 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[12px] select-none"
                         style={{
-                          left: `calc(${(selectedFilters.budgetMin / 100000) * 100}% - 12px)`
+                          left: `calc(${((selectedFilters.budgetMin || 0) / 100000) * 100}% - 12px)`
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
@@ -663,9 +663,9 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       
                       {/* Max Handle */}
                       <div 
-                        className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
+                        className="absolute w-4 h-4 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[12px] select-none"
                         style={{
-                          left: `calc(${(selectedFilters.budgetMax / 100000) * 100}% - 12px)`
+                          left: `calc(${((selectedFilters.budgetMax || 100000) / 100000) * 100}% - 12px)`
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
@@ -736,12 +736,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                           min="0"
                           max="100000"
                           step="100"
-                          value={selectedFilters.budgetMin || 0}
+                          value={selectedFilters.budgetMin || ''}
                           onChange={(e) => {
-                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 0));
+                            const value = e.target.value === '' ? '' : parseInt(e.target.value) || '';
+                            handleBudgetRangeChange(value, selectedFilters.budgetMax);
+                          }}
+                          onBlur={(e) => {
+                            const value = e.target.value === '' ? 0 : Math.max(0, Math.min(100000, parseInt(e.target.value) || 0));
                             const maxValue = selectedFilters.budgetMax;
                             if (value <= maxValue) {
                               handleBudgetRangeChange(value, maxValue);
+                            } else {
+                              handleBudgetRangeChange(maxValue, maxValue);
                             }
                           }}
                           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
@@ -755,12 +761,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                           min="0"
                           max="100000"
                           step="100"
-                          value={selectedFilters.budgetMax || 100000}
+                          value={selectedFilters.budgetMax || ''}
                           onChange={(e) => {
-                            const value = Math.max(0, Math.min(100000, parseInt(e.target.value) || 100000));
+                            const value = e.target.value === '' ? '' : parseInt(e.target.value) || '';
+                            handleBudgetRangeChange(selectedFilters.budgetMin, value);
+                          }}
+                          onBlur={(e) => {
+                            const value = e.target.value === '' ? 100000 : Math.max(0, Math.min(100000, parseInt(e.target.value) || 100000));
                             const minValue = selectedFilters.budgetMin;
                             if (value >= minValue) {
                               handleBudgetRangeChange(minValue, value);
+                            } else {
+                              handleBudgetRangeChange(minValue, minValue);
                             }
                           }}
                           className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
@@ -831,8 +843,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                 <div className="relative">
                   <div className="mb-4">
                     <div className="flex justify-between text-sm text-gray-600 mb-4">
-                      <span>Min: {selectedFilters.followerMin?.toLocaleString() || 0}</span>
-                      <span>Max: {selectedFilters.followerMax?.toLocaleString() || 250000}</span>
+                      <span>Min: {selectedFilters.followerMin ? selectedFilters.followerMin.toLocaleString() : 0}</span>
+                      <span>Max: {selectedFilters.followerMax ? selectedFilters.followerMax.toLocaleString() : 250000}</span>
                 </div>
                     
                     {/* Single Dual-Handle Range Slider */}
@@ -844,8 +856,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       <div 
                         className="absolute top-0 h-2 bg-[#000] rounded-lg"
                         style={{
-                          left: `${(selectedFilters.followerMin / 250000) * 100}%`,
-                          width: `${((selectedFilters.followerMax - selectedFilters.followerMin) / 250000) * 100}%`
+                          left: `${((selectedFilters.followerMin || 0) / 250000) * 100}%`,
+                          width: `${(((selectedFilters.followerMax || 250000) - (selectedFilters.followerMin || 0)) / 250000) * 100}%`
                         }}
                       ></div>
                       
@@ -853,7 +865,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       <div 
                         className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
-                          left: `calc(${(selectedFilters.followerMin / 250000) * 100}% - 12px)`
+                          left: `calc(${((selectedFilters.followerMin || 0) / 250000) * 100}% - 12px)`
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
@@ -913,7 +925,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       <div 
                         className="absolute w-6 h-6 bg-[#fff] border-[#000] rounded-full border-2 shadow-lg cursor-pointer transform -translate-y-[17px] select-none"
                         style={{
-                          left: `calc(${(selectedFilters.followerMax / 250000) * 100}% - 12px)`
+                          left: `calc(${((selectedFilters.followerMax || 250000) / 250000) * 100}% - 12px)`
                         }}
                         onMouseDown={(e) => {
                           e.preventDefault();
@@ -984,12 +996,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                             min="0"
                             max="250000"
                             step="1000"
-                            value={selectedFilters.followerMin || 0}
+                            value={selectedFilters.followerMin || ''}
                             onChange={(e) => {
-                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 0));
+                              const value = e.target.value === '' ? '' : parseInt(e.target.value) || '';
+                              handleFollowerRangeChange(value, selectedFilters.followerMax);
+                            }}
+                            onBlur={(e) => {
+                              const value = e.target.value === '' ? 0 : Math.max(0, Math.min(250000, parseInt(e.target.value) || 0));
                               const maxValue = selectedFilters.followerMax;
                               if (value <= maxValue) {
                                 handleFollowerRangeChange(value, maxValue);
+                              } else {
+                                handleFollowerRangeChange(maxValue, maxValue);
                               }
                             }}
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
@@ -1003,12 +1021,18 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                             min="0"
                             max="250000"
                             step="1000"
-                            value={selectedFilters.followerMax || 250000}
+                            value={selectedFilters.followerMax || ''}
                             onChange={(e) => {
-                              const value = Math.max(0, Math.min(250000, parseInt(e.target.value) || 250000));
+                              const value = e.target.value === '' ? '' : parseInt(e.target.value) || '';
+                              handleFollowerRangeChange(selectedFilters.followerMin, value);
+                            }}
+                            onBlur={(e) => {
+                              const value = e.target.value === '' ? 250000 : Math.max(0, Math.min(250000, parseInt(e.target.value) || 250000));
                               const minValue = selectedFilters.followerMin;
                               if (value >= minValue) {
                                 handleFollowerRangeChange(minValue, value);
+                              } else {
+                                handleFollowerRangeChange(minValue, minValue);
                               }
                             }}
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#1fb036] focus:border-[#1fb036]"
