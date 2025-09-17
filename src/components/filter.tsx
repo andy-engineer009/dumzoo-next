@@ -106,6 +106,7 @@ interface FilterModalProps {
   onClose: () => void;
   onFilterChange: (filters: any) => void;
   initialActiveCategory?: string;
+  appliedFilters?: any; // Add this to receive the last applied filters
 }
 
 const filterCategories: FilterCategory[] = [
@@ -341,7 +342,7 @@ const filterCategories: FilterCategory[] = [
   // },
 ];
 
-export default function FilterModal({ isOpen, onClose, onFilterChange, initialActiveCategory }: FilterModalProps) {
+export default function FilterModal({ isOpen, onClose, onFilterChange, initialActiveCategory, appliedFilters }: FilterModalProps) {
   // Add custom styles for range slider
   useEffect(() => {
     const style = document.createElement('style');
@@ -415,7 +416,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   }, [initialActiveCategory]);
   
   const [selectedFilters, setSelectedFilters] = useState<any>({
-    sortBy: 'popularity',
+    sortBy: '', // Don't set default - only set when user actually applies
     platform: [],
     gender: '',
     budgetMin: 0,
@@ -431,6 +432,26 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
     // contentQuality: '',
     // creatorType: [],
   });
+
+  // Initialize filters with applied filters when modal opens
+  useEffect(() => {
+    if (isOpen && appliedFilters) {
+      setSelectedFilters({
+        sortBy: appliedFilters.sortBy || '',
+        platform: appliedFilters.platform || [],
+        gender: appliedFilters.gender || '',
+        budgetMin: appliedFilters.budgetMin || 0,
+        budgetMax: appliedFilters.budgetMax || 100000,
+        followerMin: appliedFilters.followerMin || 0,
+        followerMax: appliedFilters.followerMax || 250000,
+        categories: appliedFilters.categories || [],
+        languages: appliedFilters.languages || [],
+        audienceType: appliedFilters.audienceType || [],
+        audienceAgeGroup: appliedFilters.audienceAgeGroup || [],
+        city_id: appliedFilters.city_id || '',
+      });
+    }
+  }, [isOpen, appliedFilters]);
 
   // Get current category data
   const currentCategory = filterCategories.find(cat => cat.id === activeCategory);
@@ -499,7 +520,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   // Clear all filters
   const handleClearFilters = () => {
     const defaultFilters = {
-      sortBy: 'popularity',
+      sortBy: '',
       platform: [],
       categories: [],
       city_id: '',
@@ -541,7 +562,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                   type="radio"
                   name={currentCategory.id}
                   value={option.value}
-                  checked={selectedFilters[currentCategory.id] === option.value}
+                  checked={selectedFilters[currentCategory.id] === option.value || (currentCategory.id === 'sortBy' && !selectedFilters[currentCategory.id] && option.default)}
                   onChange={() => handleRadioChange(option.value)}
                   className="w-4 h-4 text-[#1fb036] bg-gray-100 border-gray-300 focus:ring-[#1fb036]"
                 />

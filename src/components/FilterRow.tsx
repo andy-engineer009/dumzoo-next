@@ -1,14 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import FilterModal from './filter';
 import { platform } from 'os';
 
 interface FilterRowProps {
   onFilterChange: (filters: any) => void;
+  appliedFilters?: any; // Add this to receive the last applied filters
 }
 
-export default function FilterRow({ onFilterChange }: FilterRowProps) {
+export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowProps) {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   // Helper functions to get state and city names
@@ -128,34 +129,117 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
   };
 
   const [activeFilters, setActiveFilters] = useState<any>({
-    sortBy: '',
-    location: { state: '', city: '' },
-    // budget: { min: 0, max: 100000 }, 
-    budgetMin: 0,
-    budgetMax: 100000,
-    platform: [],
-    categories: [],
-    followerMin: 0,
-    followerMax: 250000,
-    audienceType: [],
-    audienceAgeGroup: [],
-    gender: '',
-    languages: [],
+    sortBy: appliedFilters?.sortBy || '',
+    budgetMin: appliedFilters?.budgetMin || 0,
+    budgetMax: appliedFilters?.budgetMax || 100000,
+    platform: appliedFilters?.platform || [],
+    categories: appliedFilters?.categories || [],
+    followerMin: appliedFilters?.followerMin || 0,
+    followerMax: appliedFilters?.followerMax || 250000,
+    audienceType: appliedFilters?.audienceType || [],
+    audienceAgeGroup: appliedFilters?.audienceAgeGroup || [],
+    gender: appliedFilters?.gender || '',
+    languages: appliedFilters?.languages || [],
+    city_id: appliedFilters?.city_id || '',
     // contentQuality: '',
     // creatorType: [],
   });
 
+  // Sync activeFilters when appliedFilters prop changes
+  useEffect(() => {
+    // console.log('🔄 FilterRow: appliedFilters changed:', appliedFilters);
+    if (appliedFilters) {
+      const newActiveFilters = {
+        sortBy: appliedFilters.sortBy || '',
+        location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
+        budgetMin: appliedFilters.budgetMin || 0,
+        budgetMax: appliedFilters.budgetMax || 100000,
+        platform: appliedFilters.platform || [],
+        categories: appliedFilters.categories || [],
+        followerMin: appliedFilters.followerMin || 0,
+        followerMax: appliedFilters.followerMax || 250000,
+        audienceType: appliedFilters.audienceType || [],
+        audienceAgeGroup: appliedFilters.audienceAgeGroup || [],
+        gender: appliedFilters.gender || '',
+        languages: appliedFilters.languages || [],
+        city_id: appliedFilters.city_id || '',
+      };
+      // console.log('🔄 FilterRow: setting activeFilters to:', newActiveFilters);
+      setActiveFilters(newActiveFilters);
+    }
+  }, [appliedFilters]);
+
+  // Function to count applied filters
+  const getAppliedFiltersCount = () => {
+    let count = 0;
+    
+    
+    // Check sortBy (only if actually applied)
+    if (activeFilters.sortBy && activeFilters.sortBy !== '') {
+      count++;
+    }
+    
+    // Check platform
+    if (activeFilters.platform && activeFilters.platform.length > 0) {
+      count++;
+    }
+    
+    // Check categories
+    if (activeFilters.categories && activeFilters.categories.length > 0) {
+      count++;
+    }
+    
+    // Check location
+    if (activeFilters.city_id || (activeFilters.location && (activeFilters.location.state || activeFilters.location.city))) {
+      count++;
+    }
+    
+    // Check budget
+    if (activeFilters.budgetMin > 0 || activeFilters.budgetMax < 100000) {
+      count++;
+    }
+    
+    // Check followers
+    if (activeFilters.followerMin > 0 || activeFilters.followerMax < 250000) {
+      count++;
+    }
+    
+    // Check gender
+    if (activeFilters.gender && activeFilters.gender !== '') {
+      count++;
+    }
+    
+    // Check languages
+    if (activeFilters.languages && activeFilters.languages.length > 0) {
+      count++;
+    }
+    
+    // Check audience type
+    if (activeFilters.audienceType && activeFilters.audienceType.length > 0) {
+      count++;
+    }
+    
+    // Check audience age group
+    if (activeFilters.audienceAgeGroup && activeFilters.audienceAgeGroup.length > 0) {
+      count++;
+    }
+    
+    return count;
+  };
+
+  const appliedFiltersCount = getAppliedFiltersCount();
+
   const filterChips = [
     {
       id: 'filter',
-      label: 'Filter',
+      label: appliedFiltersCount > 0 ? `Filter (${appliedFiltersCount})` : 'Filter',
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
         </svg>
       ),
-      hasValue: false,
-      value: null,
+      hasValue: appliedFiltersCount > 0,
+      value: appliedFiltersCount > 0 ? `${appliedFiltersCount} applied` : null,
     },
     {
       id: 'sortBy',
@@ -165,20 +249,20 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
         </svg>
       ),
-      hasValue: !!activeFilters.sortBy,
+      hasValue: activeFilters.sortBy && activeFilters.sortBy !== '',
       value: activeFilters.sortBy ? getSortByLabel(activeFilters.sortBy) : null,
     },
-    {
-      id: 'instagram',
-      label: 'Instagram',
-      icon: (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-        </svg>
-      ),
-      hasValue: activeFilters.platform.includes('instagram'),
-      value: activeFilters.platform.includes('instagram') ? 'Instagram' : null,
-    },
+    // {
+    //   id: 'instagram',
+    //   label: 'Instagram',
+    //   icon: (
+    //     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+    //       <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    //     </svg>
+    //   ),
+    //   hasValue: activeFilters.platform.includes('instagram'),
+    //   value: activeFilters.platform.includes('instagram') ? 'Instagram' : null,
+    // },
     {
       id: 'location',
       label: 'Location',
@@ -274,15 +358,19 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
     },
   ];
 
-  function getSortByLabel(value: string): string {
+  function getSortByLabel(value: string | number): string {
     const labels: { [key: string]: string } = {
+      '1': 'Followers: High to Low',
+      '2': 'Followers: Low to High',
+      '3': 'Price: High to Low',
+      '4': 'Price: Low to High',
       'popularity': 'Popularity',
       'followersHigh': 'Followers: High to Low',
       'followersLow': 'Followers: Low to High',
       'nameAZ': 'Name: A to Z',
       'nameZA': 'Name: Z to A',
     };
-    return labels[value] || value;
+    return labels[value.toString()] || value.toString();
   }
 
   function getFollowersLabel(value: string): string {
@@ -312,7 +400,7 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
     const categoryMapping: { [key: string]: string } = {
       'filter': 'sortBy', // General filter button
       'sortBy': 'sortBy',
-      'instagram': 'platform',
+      // 'instagram': 'platform',
       'location': 'location',
       'budget': 'budget',
       'followers': 'followers',
@@ -344,20 +432,46 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
 
   const handleClearFilter = (filterId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    const newFilters = { ...activeFilters };
     
-    if (filterId === 'budget') {
-      newFilters.budget = { min: 0, max: 100000 };
-    } else if (filterId === 'location') {
-      newFilters.location = { state: '', city: '' };
-    } else if (Array.isArray(newFilters[filterId])) {
-      newFilters[filterId] = [];
+    if (filterId === 'filter') {
+      // Clear ALL filters when clicking the main Filter button
+      const clearedFilters = {
+        sortBy: '',
+        platform: [],
+        categories: [],
+        city_id: '',
+        followerMin: 0,
+        followerMax: 250000,
+        budgetMin: 0,
+        budgetMax: 100000,
+        audienceType: [],
+        audienceAgeGroup: [],
+        gender: '',
+        languages: [],
+      };
+      setActiveFilters(clearedFilters);
+      onFilterChange(clearedFilters);
     } else {
-      newFilters[filterId] = '';
+      // Clear specific filter
+      const newFilters = { ...activeFilters };
+      
+      if (filterId === 'budget') {
+        newFilters.budgetMin = 0;
+        newFilters.budgetMax = 100000;
+      } else if (filterId === 'followers') {
+        newFilters.followerMin = 0;
+        newFilters.followerMax = 250000;
+      } else if (filterId === 'location') {
+        newFilters.city_id = '';
+      } else if (Array.isArray(newFilters[filterId])) {
+        newFilters[filterId] = [];
+      } else {
+        newFilters[filterId] = '';
+      }
+      
+      setActiveFilters(newFilters);
+      onFilterChange(newFilters);
     }
-    
-    setActiveFilters(newFilters);
-    onFilterChange(newFilters);
   };
 
   return (
@@ -400,6 +514,18 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
                   </>
                 )}
                 
+                {/* Show X button for main Filter button when filters are applied */}
+                {chip.id === 'filter' && appliedFiltersCount > 0 && (
+                  <button
+                    onClick={(e) => handleClearFilter('filter', e)}
+                    className="ml-1 text-purple-600 hover:text-purple-800"
+                  >
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+                
                 {/* {!chip.hasValue && (
                   <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7 7" />
@@ -417,6 +543,7 @@ export default function FilterRow({ onFilterChange }: FilterRowProps) {
         onClose={() => setIsFilterOpen(false)}
         onFilterChange={handleFilterChange}
         initialActiveCategory={activeFilters._activeCategory}
+        appliedFilters={activeFilters}
       />
 
       {/* Hide scrollbar styles */}
