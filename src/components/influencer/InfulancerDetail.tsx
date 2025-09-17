@@ -455,7 +455,7 @@ const InfluencerDetail = ({
             <button 
               // onClick={handleChat}
               onClick={handleChatRedirection}
-            className="w-full bg-[#1fb036] text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+            className="w-full bg-[#000] text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors"
             >
             Send Message
             </button>

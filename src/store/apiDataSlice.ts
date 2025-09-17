@@ -6,6 +6,7 @@ interface DiscoverData {
   scrollPosition: number;
   hasMore: boolean;
   startIndex: number;
+  appliedFilters: any;
 }
 
 interface CampaignsData {
@@ -26,7 +27,8 @@ const apiDataSlice = createSlice({
           totalRecords: 0,
           scrollPosition: 0,
           hasMore: true,
-          startIndex: 0
+          startIndex: 0,
+          appliedFilters: {}
         } as DiscoverData,
         campaignsData: {
           campaigns: [],
@@ -62,7 +64,8 @@ const apiDataSlice = createSlice({
                 totalRecords: 0,
                 scrollPosition: 0,
                 hasMore: true,
-                startIndex: 0
+                startIndex: 0,
+                appliedFilters: {}
             };
         },
 
