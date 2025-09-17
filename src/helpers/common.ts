@@ -37,7 +37,7 @@ const setVerfiedUserV2 = (data: any, dispatch?: any) => {
         localStorage.setItem('WZRK_LR', 'true');
         localStorage.setItem('is_new_user', data.is_new_user);
         localStorage.setItem('infulancer_profile_created', data.user?.is_influencer_profile_created == 1 ? 'true' : 'false');
-        localStorage.setItem('referral_code', data.user?.referral_code );
+        localStorage.setItem('referral_code', data.user?.invite_code );
         if (dispatch) {
             dispatch(setIsLoggedIn(true));
             dispatch(setUserRole(data.user.role_id.toString()));
