@@ -25,13 +25,13 @@ interface Message {
   senderId: string;
 }
 
-// Mock data for current chat
-const mockCurrentUser: ChatUser = {
-  id: '1',
-  name: 'Sarah Johnson',
-  image: '/api/placeholder/40/40',
-  isOnline: true,
-};
+// // Mock data for current chat
+// const mockCurrentUser: ChatUser = {
+//   id: '1',
+//   name: 'Sarah Johnson',
+//   image: '/api/placeholder/40/40',
+//   isOnline: true,
+// };
 
 const mockMessages: Message[] = [
   { id: '1', text: 'Hey! How are you doing?', timestamp: '2:30 PM', isOwn: false, senderId: '1' },
@@ -51,7 +51,7 @@ const messageSchema = Yup.object().shape({
 
 export default function ChatPage() {
   const router = useRouter();
-  const [currentUser] = useState<any>(mockCurrentUser);
+  const [currentUser, setCurrentUser] = useState<any>();
   const [messages, setMessages] = useState<any[]>([]);
   const [currentUserId, setCurrentUserId] = useState<string>('');
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -102,6 +102,7 @@ export default function ChatPage() {
       console.log('Fetching messages for conversation:', id);
       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
+          setCurrentUser(res.data?.username);
           setMessages(res.data?.messages);
         }
         else{
@@ -216,8 +217,8 @@ export default function ChatPage() {
               <div className="relative">
                 <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
                   <Image
-                    src={currentUser.image}
-                    alt={currentUser.name}
+                    src={currentUser?.image}
+                    alt={currentUser?.name}
                     width={40}
                     height={40}
                     className="w-full h-full object-cover"
@@ -228,21 +229,21 @@ export default function ChatPage() {
                     }}
                   />
                   <div className="hidden w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
-                    {currentUser.name.split(' ').map((n: string) => n[0]).join('')}
+                    {currentUser?.split(' ').map((n: string) => n[0]).join('')}
                   </div>
                 </div>
-                {currentUser.isOnline && (
+                {currentUser?.isOnline && (
                   <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
                 )}
               </div>
               <div className="ml-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-md font-semibold text-black">{currentUser.name}</h3>
+                  <h3 className="text-md font-semibold text-black">{currentUser}</h3>
                   <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-red-500'}`} 
                        title={isConnected ? 'Connected' : 'Disconnected'}></div>
                 </div>
                 <p className="text-sm text-gray-500">
-                  {currentUser.isOnline ? 'Online' : 'Offline'}
+                  {currentUser?.isOnline ? 'Online' : 'Offline'}
                 </p>
               </div>
             </div>
