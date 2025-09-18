@@ -91,7 +91,6 @@ export default function InfluencerDiscover() {
     }
 
     // Fetch fresh data from API
-    console.log('🔄 Fetching fresh data from API (no cache available)');
     setIsInitialLoading(true);
     try {
       const cleanedFilters = cleanFilters(filters);
@@ -196,6 +195,7 @@ export default function InfluencerDiscover() {
 
   // Function to clean filters - remove empty values and unwanted parameters
   const cleanFilters = (filters: any) => {
+    console.log('clean filters', filters);
     const cleaned: any = {};
     
     // Only include non-empty values

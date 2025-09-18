@@ -130,19 +130,17 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
 
   const [activeFilters, setActiveFilters] = useState<any>({
     sortBy: appliedFilters?.sortBy || '',
+    platform: appliedFilters?.platform || [],
+    gender: appliedFilters?.gender || '',
     budgetMin: appliedFilters?.budgetMin || 0,
     budgetMax: appliedFilters?.budgetMax || 100000,
-    platform: appliedFilters?.platform || [],
-    categories: appliedFilters?.categories || [],
     followerMin: appliedFilters?.followerMin || 0,
     followerMax: appliedFilters?.followerMax || 250000,
+    categories: appliedFilters?.categories || [],
+    languages: appliedFilters?.languages || [],
     audienceType: appliedFilters?.audienceType || [],
     audienceAgeGroup: appliedFilters?.audienceAgeGroup || [],
-    gender: appliedFilters?.gender || '',
-    languages: appliedFilters?.languages || [],
     city_id: appliedFilters?.city_id || '',
-    // contentQuality: '',
-    // creatorType: [],
   });
 
   // Sync activeFilters when appliedFilters prop changes
@@ -151,17 +149,16 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
     if (appliedFilters) {
       const newActiveFilters = {
         sortBy: appliedFilters.sortBy || '',
-        location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
+        platform: appliedFilters.platform || [],
+        gender: appliedFilters.gender || '',
         budgetMin: appliedFilters.budgetMin || 0,
         budgetMax: appliedFilters.budgetMax || 100000,
-        platform: appliedFilters.platform || [],
-        categories: appliedFilters.categories || [],
         followerMin: appliedFilters.followerMin || 0,
         followerMax: appliedFilters.followerMax || 250000,
+        categories: appliedFilters.categories || [],
+        languages: appliedFilters.languages || [],
         audienceType: appliedFilters.audienceType || [],
         audienceAgeGroup: appliedFilters.audienceAgeGroup || [],
-        gender: appliedFilters.gender || '',
-        languages: appliedFilters.languages || [],
         city_id: appliedFilters.city_id || '',
       };
       // console.log('🔄 FilterRow: setting activeFilters to:', newActiveFilters);
@@ -190,7 +187,7 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
     }
     
     // Check location
-    if (activeFilters.city_id || (activeFilters.location && (activeFilters.location.state || activeFilters.location.city))) {
+    if (activeFilters.city_id) {
       count++;
     }
     
@@ -272,21 +269,8 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
       ),
-      hasValue: !!(activeFilters.location?.state || activeFilters.location?.city),
-      value: activeFilters.location?.state || activeFilters.location?.city ? 
-        (() => {
-          if (activeFilters.location?.state && activeFilters.location?.city) {
-            // Get state and city names from the filter data
-            const stateName = getStateName(activeFilters.location.state);
-            const cityName = getCityName(activeFilters.location.city);
-            return `${cityName}, ${stateName}`;
-          } else if (activeFilters.location?.state) {
-            return getStateName(activeFilters.location.state);
-          } else if (activeFilters.location?.city) {
-            return getCityName(activeFilters.location.city);
-          }
-          return '';
-        })() : null,
+      hasValue: !!activeFilters.city_id,
+      value: activeFilters.city_id ? getCityName(activeFilters.city_id) : null,
     },
     {
       id: 'budget',
@@ -438,16 +422,16 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
       const clearedFilters = {
         sortBy: '',
         platform: [],
-        categories: [],
-        city_id: '',
-        followerMin: 0,
-        followerMax: 250000,
+        gender: '',
         budgetMin: 0,
         budgetMax: 100000,
+        followerMin: 0,
+        followerMax: 250000,
+        categories: [],
+        languages: [],
         audienceType: [],
         audienceAgeGroup: [],
-        gender: '',
-        languages: [],
+        city_id: '',
       };
       setActiveFilters(clearedFilters);
       onFilterChange(clearedFilters);
