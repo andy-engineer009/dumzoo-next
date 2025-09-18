@@ -232,14 +232,14 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
   const filterChips = [
     {
       id: 'filter',
-      label: appliedFiltersCount > 0 ? `Filter (${appliedFiltersCount})` : 'Filter',
+      label: appliedFiltersCount > 0 ? `Filter` : 'Filter',
       icon: (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
         </svg>
       ),
       hasValue: appliedFiltersCount > 0,
-      value: appliedFiltersCount > 0 ? `${appliedFiltersCount} applied` : null,
+      value:  null,
     },
     {
       id: 'sortBy',
@@ -488,26 +488,26 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
                   chip.hasValue
                     ? chip.id === 'instagram' 
                       ? 'border-purple-600 bg-purple-50 text-purple-700'
-                      : 'border-purple-500 bg-purple-50 text-purple-700'
+                      : 'border-[#1fb036] bg-[#fff] text-[#1fb036]'
                     : 'border-gray-300 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50'
                 }`}
               >
-                <div className="text-gray-700">
+                {/* <div className="text-gray-700">
                   {chip.icon}
-                </div>
-                <span className="text-xs font-medium">{chip.label}</span>
+                </div> */}
+                <span className="text-xs font-medium flex text-[#000]">{chip.label} {appliedFiltersCount > 0 && chip.id === 'filter' && <span className="text-xs text-white bg-[#1fb036] w-4 h-4 rounded-full block ms-1">{appliedFiltersCount}</span>}</span>
                 
                 {chip.hasValue && chip.value && (
                   <>
-                    <span className="text-xs text-purple-600">•</span>
-                    <span className="text-xs text-purple-600 max-w-20 truncate">
+                    <span className="text-xs text-[#1fb036]">•</span>
+                    <span className="text-xs text-[#1fb036] max-w-20 truncate">
                       {chip.value}
                     </span>
                     <button
                       onClick={(e) => handleClearFilter(chip.id, e)}
-                      className="ml-1 text-purple-600 hover:text-purple-800"
+                      className="ml-1 text-[#000] hover:text-purple-800"
                     >
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-3 h-3" fill="none" stroke="#000" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </button>
@@ -518,7 +518,7 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
                 {chip.id === 'filter' && appliedFiltersCount > 0 && (
                   <button
                     onClick={(e) => handleClearFilter('filter', e)}
-                    className="ml-1 text-purple-600 hover:text-purple-800"
+                    className="ml-1 text-[#000] hover:text-purple-800"
                   >
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
