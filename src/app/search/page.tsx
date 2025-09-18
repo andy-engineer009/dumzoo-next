@@ -3,23 +3,26 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api } from '@/common/services/rest-api/rest-api';
+import { API_ROUTES } from '@/appApi';
 
 interface SearchResult {
   id: string;
   name: string;
   username: string;
-  image: string;
+  profile_image: string;
   followers: number;
   category: string;
-  isVerified: boolean;
+  is_verified: boolean;
 }
 
 export default function SearchPage() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [searchResults, setSearchResults] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasSearched, setHasSearched] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Focus on input when component mounts
@@ -43,52 +46,32 @@ export default function SearchPage() {
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 
-  // Mock API call function
+  // Real API call function
   const performSearch = async (query: string) => {
     setIsLoading(true);
     setHasSearched(true);
+    setError(null);
     
     try {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Mock search results
-      const mockResults: SearchResult[] = [
-        {
-          id: '1',
-          name: 'John Doe',
-          username: 'johndoe',
-          image: '/images/men.png',
-          followers: 15000,
-          category: 'Fashion',
-          isVerified: true,
-        },
-        {
-          id: '2',
-          name: 'Jane Smith',
-          username: 'janesmith',
-          image: '/images/women.png',
-          followers: 25000,
-          category: 'Beauty',
-          isVerified: false,
-        },
-        {
-          id: '3',
-          name: 'Mike Johnson',
-          username: 'mikejohnson',
-          image: '/images/men.png',
-          followers: 8000,
-          category: 'Lifestyle',
-          isVerified: true,
-        },
-      ].filter(result => 
-        result.name.toLowerCase().includes(query.toLowerCase()) ||
-        result.username.toLowerCase().includes(query.toLowerCase())
-      );
-      
-      setSearchResults(mockResults);
-    } catch (error) {
+      const response = await api.post(API_ROUTES.influencerList, {
+        page: 0,
+        limit: 50,
+        search: query.trim()
+      });
+
+      if (response.status === 1) {
+        // Transform API response to match SearchResult interface
+        const transformedResults: any = response.data.rows;
+        
+        setSearchResults(transformedResults);
+        setError(null);
+      } else {
+        setError(response.message || 'Failed to search influencers');
+        setSearchResults([]);
+      }
+    } catch (error: any) {
       console.error('Search error:', error);
+      setError(error.message || 'Network error. Please try again.');
       setSearchResults([]);
     } finally {
       setIsLoading(false);
@@ -115,13 +98,21 @@ export default function SearchPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <div className="sticky top-0 bg-white border-b border-gray-200 z-10">
-        <div className="flex items-center px-4 py-3">
+      <div className="sticky top-0 bg-white z-10 px-3">
+        <div className="flex items-center px-4 py-2 bg-gray-100"     style={{
+              borderRadius:' 9px',
+              margin: '10px 0 0',
+              background: '#cccccc30',
+              boxShadow: 'none',
+           
+            }}>
           <button 
             onClick={handleBackClick}
             className="text-gray-600 text-xl font-bold mr-3"
           >
-            ←
+                     <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
           
           {/* Search Input */}
@@ -133,13 +124,13 @@ export default function SearchPage() {
                 value={searchQuery}
                 onChange={handleInputChange}
                 placeholder="Try creator's 'Username'"
-                className="w-full px-4 py-3 pl-10 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+                className="w-full pl-0 bg-gray-100 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-gray-100"
               />
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              {/* <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -162,6 +153,27 @@ export default function SearchPage() {
                 <div className="w-4 h-4 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
               </div>
             </motion.div>
+          ) : error ? (
+            <motion.div
+              key="error"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="text-center py-8"
+            >
+              <div className="text-red-400 mb-2">
+                <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <p className="text-red-500 mb-2">{error}</p>
+              <button
+                onClick={() => performSearch(searchQuery)}
+                className="text-purple-500 hover:text-purple-700 text-sm font-medium"
+              >
+                Try again
+              </button>
+            </motion.div>
           ) : hasSearched && searchQuery.trim() ? (
             <motion.div
               key="results"
@@ -170,49 +182,58 @@ export default function SearchPage() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4"
             >
+              {/* <h1 className='text-end text-gray-500 text-sm'>{searchResults?.length || 0} results found</h1> */}
               {searchResults.length > 0 ? (
                 searchResults.map((result) => (
                   <motion.div
                     key={result.id}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex items-center space-x-3 p-3 bg-white rounded-lg border border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+                    className="flex items-center space-x-3 bg-white cursor-pointer"
                   >
                     {/* Profile Image */}
                     <div className="relative">
                       <img
-                        src={result.image}
+                        src={result.profile_image}
                         alt={result.name}
-                        className="w-12 h-12 rounded-full object-cover"
+                        className="w-10 h-10 rounded-full object-cover"
+                        onError={(e) => {
+                          // Fallback to default image if profile image fails to load
+                          (e.target as HTMLImageElement).src = '/images/men.png';
+                        }}
                       />
-                      {result.isVerified && (
-                        <div className="absolute -top-1 -right-1 w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                          <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                      )}
+                  
                     </div>
 
                     {/* User Info */}
                     <div className="flex-1">
                       <div className="flex items-center space-x-2">
-                        <h3 className="font-semibold text-gray-900">{result.name}</h3>
-                        <span className="text-gray-500">@{result.username}</span>
+                        <h3 className="font-semibold text-gray-900">{result.name} 
+                      
+                        </h3>
+                        <span className="text-[#000] font-semibold text-sm flex items-center">{result.username}
+                        {result.verified_profile == 1 && (
+                        <div className=" w-3 h-3 bg-blue-500 rounded-full flex items-center justify-center ms-1">
+                          <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                      )}
+                        </span>
                       </div>
-                      <div className="flex items-center space-x-2 text-sm text-gray-500">
+                      {/* <div className="flex items-center space-x-2 text-sm text-gray-500">
                         <span>{formatFollowers(result.followers)} followers</span>
                         <span>•</span>
                         <span>{result.category}</span>
-                      </div>
+                      </div> */}
                     </div>
 
                     {/* Arrow */}
-                    <div className="text-gray-400">
+                    {/* <div className="text-gray-400">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
-                    </div>
+                    </div> */}
                   </motion.div>
                 ))
               ) : (
