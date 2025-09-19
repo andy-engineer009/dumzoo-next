@@ -20,6 +20,7 @@ export const influencerApi = {
   // Fetch influencers with page pagination
   fetchInfluencers: async (page: number, limit: number = 10, filters: any = {}) => {
     try {
+      console.log('🔍 Fetching influencers:', { page, limit, filters });
       const cleanedFilters = cleanFilters(filters);
       
       const response = await api.post(API_ROUTES.influencerList, {
@@ -28,10 +29,19 @@ export const influencerApi = {
         ...cleanedFilters
       });
 
+      console.log('📡 Influencer API Response:', response);
+
       if (response.status === 1) {
         const data = response.data?.rows || [];
         const totalCount = response.data?.count || 0;
         const totalPages = Math.ceil(totalCount / limit);
+        
+        console.log('✅ Influencer data processed:', { 
+          dataLength: data.length, 
+          totalCount, 
+          totalPages, 
+          hasMore: page < totalPages - 1 
+        });
         
         return {
           data,
@@ -39,6 +49,7 @@ export const influencerApi = {
           totalPages
         };
       } else {
+        console.log('❌ Influencer API error:', response);
         return {
           data: [],
           hasMore: false,
@@ -46,7 +57,7 @@ export const influencerApi = {
         };
       }
     } catch (error) {
-      console.error('Error fetching influencers:', error);
+      console.error('💥 Error fetching influencers:', error);
       throw new Error('Failed to fetch influencers');
     }
   }
@@ -57,6 +68,7 @@ export const campaignApi = {
   // Fetch campaigns with page pagination
   fetchCampaigns: async (page: number, limit: number = 10, filters: any = {}) => {
     try {
+      console.log('🔍 Fetching campaigns:', { page, limit, filters });
       const cleanedFilters = cleanFilters(filters);
       
       const response = await api.post(API_ROUTES.influencerCampaignList, {
@@ -65,10 +77,19 @@ export const campaignApi = {
         ...cleanedFilters
       });
 
+      console.log('📡 Campaign API Response:', response);
+
       if (response.status === 1) {
         const data = response.data || [];
         const totalCount = response.recordsTotal || 0;
         const totalPages = Math.ceil(totalCount / limit);
+        
+        console.log('✅ Campaign data processed:', { 
+          dataLength: data.length, 
+          totalCount, 
+          totalPages, 
+          hasMore: page < totalPages - 1 
+        });
         
         return {
           data,
@@ -76,6 +97,7 @@ export const campaignApi = {
           totalPages
         };
       } else {
+        console.log('❌ Campaign API error:', response);
         return {
           data: [],
           hasMore: false,
@@ -83,7 +105,7 @@ export const campaignApi = {
         };
       }
     } catch (error) {
-      console.error('Error fetching campaigns:', error);
+      console.error('💥 Error fetching campaigns:', error);
       throw new Error('Failed to fetch campaigns');
     }
   }

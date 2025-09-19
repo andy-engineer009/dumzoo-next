@@ -122,22 +122,33 @@ function InfiniteScrollGrid<T>({
   }
 
   return (
-    <div className={gridClassName}>
-      {items.map((item, index) => renderItem(item, index))}
+    <div>
+      {/* Debug Panel */}
+      <div className="bg-gray-100 p-2 mb-4 rounded text-xs">
+        <div>Items: {items.length} | Loading: {isLoading ? 'Yes' : 'No'} | HasMore: {hasMore ? 'Yes' : 'No'}</div>
+      </div>
       
-      {/* Loading indicator with skeletons - IMMEDIATE display */}
-      {isLoading && (loadingComponent || defaultLoadingComponent)}
-      
-      {/* Empty state */}
-      {!isLoading && items.length === 0 && (emptyComponent || defaultEmptyComponent)}
-      
-      {/* End of results */}
-      {!hasMore && items.length > 0 && (endComponent || defaultEndComponent)}
+      <div className={gridClassName}>
+        {items.map((item, index) => renderItem(item, index))}
+        
+        {/* Loading indicator with skeletons - IMMEDIATE display */}
+        {isLoading && (loadingComponent || defaultLoadingComponent)}
+        
+        {/* Empty state */}
+        {!isLoading && items.length === 0 && (emptyComponent || defaultEmptyComponent)}
+        
+        {/* End of results */}
+        {!hasMore && items.length > 0 && (endComponent || defaultEndComponent)}
       
       {/* Intersection observer target */}
       {hasMore && !isLoading && (
-        <div ref={observerRef} className="col-span-full h-4" />
+        <div 
+          ref={observerRef} 
+          className="col-span-full h-4" 
+          style={{ minHeight: '16px' }}
+        />
       )}
+      </div>
     </div>
   );
 }
