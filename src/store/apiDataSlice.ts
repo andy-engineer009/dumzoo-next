@@ -3,18 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface DiscoverData {
   influencers: any[];
   totalRecords: number;
-  scrollPosition: number;
-  hasMore: boolean;
-  startIndex: number;
   appliedFilters: any;
 }
 
 interface CampaignsData {
   campaigns: any[];
   totalRecords: number;
-  scrollPosition: number;
-  hasMore: boolean;
-  startIndex: number;
 }
 
 const apiDataSlice = createSlice({
@@ -25,17 +19,11 @@ const apiDataSlice = createSlice({
         discoverData: {
           influencers: [],
           totalRecords: 0,
-          scrollPosition: 0,
-          hasMore: true,
-          startIndex: 0,
           appliedFilters: {}
         } as DiscoverData,
         campaignsData: {
           campaigns: [],
-          totalRecords: 0,
-          scrollPosition: 0,
-          hasMore: true,
-          startIndex: 0
+          totalRecords: 0
         } as CampaignsData,
         chatUsers: [] as any[],
         // loading: false,
@@ -54,17 +42,10 @@ const apiDataSlice = createSlice({
             state.discoverData = { ...state.discoverData, ...action.payload };
         },
 
-        updateDiscoverScrollPosition: (state, action: PayloadAction<number>) => {
-            state.discoverData.scrollPosition = action.payload;
-        },
-
         clearDiscoverData: (state) => {
             state.discoverData = {
                 influencers: [],
                 totalRecords: 0,
-                scrollPosition: 0,
-                hasMore: true,
-                startIndex: 0,
                 appliedFilters: {}
             };
         },
@@ -73,17 +54,10 @@ const apiDataSlice = createSlice({
             state.campaignsData = { ...state.campaignsData, ...action.payload };
         },
 
-        updateCampaignsScrollPosition: (state, action: PayloadAction<number>) => {
-            state.campaignsData.scrollPosition = action.payload;
-        },
-
         clearCampaignsData: (state) => {
             state.campaignsData = {
                 campaigns: [],
-                totalRecords: 0,
-                scrollPosition: 0,
-                hasMore: true,
-                startIndex: 0
+                totalRecords: 0
             };
         },
 
@@ -113,10 +87,8 @@ export const {
     influencerDropodownData, 
     dashboardData,
     discoverData,
-    updateDiscoverScrollPosition,
     clearDiscoverData,
     campaignsData,
-    updateCampaignsScrollPosition,
     clearCampaignsData,
     setChatUsers,
     clearChatUsers,

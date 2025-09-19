@@ -1,7 +1,6 @@
 import React from 'react';
 import CampaignCard from "@/components/campaigns/campaign-card";
 import CampaignSkeleton from "./CampaignSkeleton";
-import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
 
 interface Campaign {
   id: string;
@@ -18,25 +17,15 @@ interface Campaign {
 
 interface CampaignsGridProps {
   campaigns: Campaign[];
-  onLoadMore: () => void;
-  isLoading: boolean;
-  hasMore: boolean;
   error?: string | null;
   isInitialLoad?: boolean;
 }
 
 export default function CampaignsGrid({ 
   campaigns, 
-  onLoadMore, 
-  isLoading, 
-  hasMore, 
   error, 
   isInitialLoad 
 }: CampaignsGridProps) {
-  const { ref, isIntersecting } = useInfiniteScroll(onLoadMore, {
-    threshold: 0.1,
-    rootMargin: '200px', // Trigger earlier to load more content
-  });
 
   // Show loading skeleton for initial load
   if (isInitialLoad) {
@@ -71,7 +60,7 @@ export default function CampaignsGrid({
   }
 
   // Show empty state
-  if (campaigns.length === 0 && !isLoading) {
+  if (campaigns?.length === 0 && !isInitialLoad) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -95,46 +84,10 @@ export default function CampaignsGrid({
   }
 
   return (
-    <>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
-        {campaigns.map((campaign) => (
-          <CampaignCard key={campaign.id} campaign={campaign} userRole={2} />
-        ))}
-      </div>
-
-      {/* Loading indicator for pagination */}
-      {isLoading && hasMore && (
-        <div className="flex justify-center py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 w-full">
-            {Array.from({ length: 10 }, (index) => (
-              <CampaignSkeleton key={`loading-skeleton-${index}`} />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Intersection observer target for infinite scroll - Only show when there's more data */}
-      {hasMore && !isLoading && (
-        <div 
-          ref={ref} 
-          className="h-20 flex items-center justify-center"
-          data-testid="infinite-scroll-trigger"
-        >
-          <div className="text-sm text-gray-500">Loading more campaigns...</div>
-        </div>
-      )}
-
-      {/* End of results message */}
-      {!hasMore && campaigns.length > 0 && (
-        <div className="text-center py-8">
-          <div className="inline-flex items-center px-4 py-2 bg-green-100 text-green-800 rounded-full">
-            <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            All caught up! No more campaigns to load.
-          </div>
-        </div>
-      )}
-    </>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
+      {campaigns.map((campaign) => (
+        <CampaignCard key={campaign.id} campaign={campaign} userRole={2} />
+      ))}
+    </div>
   );
 }
