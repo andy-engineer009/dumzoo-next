@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useHeaderScroll } from '@/hooks/useHeaderScroll';
 import { useRouter, usePathname } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectUserRole, selectIsLoggedIn, selectIsInfluencerRegistered } from '@/store/userRoleSlice';
@@ -14,47 +15,11 @@ const Header = () => {
   const router = useRouter();
   const pathname:any = usePathname();
 
-  // Scroll behavior state
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  // Handle scroll behavior
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      // Simple rules:
-      // 1. Scroll down = hide menu
-      // 2. Scroll up = show menu
-      if (currentScrollY > lastScrollY && currentScrollY > 50) {
-        // Scrolling down - hide menu
-        setIsVisible(false);
-      } else if (currentScrollY < lastScrollY) {
-        // Scrolling up - show menu
-        setIsVisible(true);
-      }
-      
-      setLastScrollY(currentScrollY);
-    };
-
-    // Throttle scroll events for better performance
-    let ticking = false;
-    const throttledHandleScroll = () => {
-      if (!ticking) {
-        requestAnimationFrame(() => {
-          handleScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', throttledHandleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', throttledHandleScroll);
-    };
-  }, [lastScrollY]); 
+  // Use optimized header scroll hook - minimal CPU usage
+  const isVisible = useHeaderScroll({
+    threshold: 15, // Only process scroll changes > 15px
+    hideAfterPx: 50 // Hide header after scrolling down 50px
+  }); 
 
   return (
     <>

@@ -4,17 +4,17 @@ import FilterRow from "@/components/FilterRow";
 import InfluencerGrid from "@/components/influencer/InfluencerGrid";
 import SearchBar from "@/components/SearchBar";
 import ScrollToTop from "@/components/ScrollToTop";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { API_ROUTES } from "@/appApi";
 import { api } from "@/common/services/rest-api/rest-api";
 import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { 
   selectDiscoverData, 
   discoverData, 
-  updateDiscoverScrollPosition,
   clearDiscoverData 
 } from "@/store/apiDataSlice";
 import InfluencerSkeleton from "./InfluencerSkeleton";
+import { useOptimizedScroll } from "@/hooks/useOptimizedScroll";
 
 
 export default function InfluencerDiscover() {
@@ -29,6 +29,14 @@ export default function InfluencerDiscover() {
   const [startIndex, setStartIndex] = useState(0);
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [totalRecords, setTotalRecords] = useState(0);
+  
+  // Use ref to track current filters without causing re-renders
+  const filtersRef = useRef(filters);
+  
+  // Update ref whenever filters change
+  useEffect(() => {
+    filtersRef.current = filters;
+  }, [filters]);
 
   const ITEMS_PER_PAGE = 3;
 
@@ -69,94 +77,102 @@ export default function InfluencerDiscover() {
   };
 
   // Load data from cache or API
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
+    
     if (shouldUseCache()) {
       // Use cached data
-      console.log('🚀 Using cached data from Redux');
       setInfluencers(cachedData.influencers);
       setTotalRecords(cachedData.totalRecords);
       setHasMore(cachedData.hasMore);
       setStartIndex(cachedData.startIndex);
       setIsInitialLoading(false);
       
-      // Restore scroll position after component mounts
-      setTimeout(() => {
-        if (cachedData.scrollPosition > 0) {
-          console.log('📍 Restoring scroll position:', cachedData.scrollPosition);
-          window.scrollTo(0, cachedData.scrollPosition);
-        }
-      }, 100);
-      
+      // Scroll position is now handled by useOptimizedScroll hook
+      // No need for manual restoration
       return;
     }
 
     // Fetch fresh data from API
     setIsInitialLoading(true);
     try {
-      const cleanedFilters = cleanFilters(filters);
+      const currentFilters = filtersRef.current;
+      const cleanedFilters = cleanFilters(currentFilters);
       const result: any = await fetchInfluencers(0, cleanedFilters);
+      
       setInfluencers(result.data?.rows || []);
       setTotalRecords(result.totalRecords);
       setHasMore(result.hasMore);
       setStartIndex(0);
       
       // Update Redux cache - save FULL filter state for UI
+      // CRITICAL FIX: Only save meaningful filters to prevent old state restoration
+      const hasMeaningfulFiltersInLoadData = Object.values(currentFilters).some(value => {
+        if (Array.isArray(value)) return value.length > 0;
+        if (typeof value === 'string') return value !== '';
+        if (typeof value === 'number') return value !== 0 && value !== 100000 && value !== 250000;
+        return value !== null && value !== undefined;
+      });
+      
+      
       dispatch(discoverData({
         influencers: result.data?.rows || [],
         totalRecords: result.totalRecords,
         hasMore: result.hasMore,
         startIndex: 0,
-        scrollPosition: 0,
-        appliedFilters: filters // Save full state, not cleaned
+        appliedFilters: hasMeaningfulFiltersInLoadData ? currentFilters : {} // Only save meaningful filters
       }));
     } catch (error) {
       console.error('Error loading initial data:', error);
     } finally {
       setIsInitialLoading(false);
     }
-  };
+  }, [cachedData, dispatch]);
 
   // Load initial data
   useEffect(() => {
     loadData();
-  }, []);
+  }, []); // Empty dependency array to run only once
 
   // Sync filters with cached data when component mounts
   useEffect(() => {
-    console.log('🔄 InfluencerDiscover: cachedData.appliedFilters changed:', cachedData.appliedFilters);
-    if (cachedData.appliedFilters && Object.keys(cachedData.appliedFilters).length > 0) {
-      console.log('🔄 InfluencerDiscover: setting filters to:', cachedData.appliedFilters);
+    
+    // CRITICAL FIX: Only sync if we have meaningful cached filters
+    // This prevents restoring old state when filters are being cleared
+    const hasMeaningfulCachedFilters = cachedData.appliedFilters && 
+      Object.keys(cachedData.appliedFilters).length > 0 &&
+      Object.values(cachedData.appliedFilters).some(value => {
+        if (Array.isArray(value)) return value.length > 0;
+        if (typeof value === 'string') return value !== '';
+        if (typeof value === 'number') return value !== 0 && value !== 100000 && value !== 250000;
+        return value !== null && value !== undefined;
+      });
+    
+    if (hasMeaningfulCachedFilters) {
       setFilters(cachedData.appliedFilters);
     }
   }, [cachedData.appliedFilters]);
 
-  // Save scroll position when user scrolls
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY;
-      dispatch(updateDiscoverScrollPosition(scrollPos));
-    };
+  // Use optimized scroll hook instead of Redux for scroll position
+  const scrollData = useOptimizedScroll({
+    throttleMs: 150, // Reduced frequency for better performance
+    savePosition: true // Save to sessionStorage instead of Redux
+  });
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [dispatch]);
-
-  // Save current state when component unmounts
+  // Save current state when component unmounts (optimized)
   useEffect(() => {
     return () => {
-      // Save current state to Redux before leaving - save FULL filter state for UI
+      // Only save essential data to Redux, scroll position handled by hook
       if (influencers?.length > 0) {
         dispatch(discoverData({
           influencers,
           totalRecords,
           hasMore,
           startIndex,
-          scrollPosition: window.scrollY,
-          appliedFilters: filters // Save full state, not cleaned
+          appliedFilters: cachedData.appliedFilters // Use current Redux state
         }));
       }
     };
-  }, [influencers, totalRecords, hasMore, startIndex, dispatch]);
+  }, [influencers, totalRecords, hasMore, startIndex, dispatch]); // Removed cachedData.appliedFilters to prevent infinite loop
 
   // Load more data function
   const loadMore = useCallback(async () => {
@@ -176,11 +192,12 @@ export default function InfluencerDiscover() {
         setHasMore(result.hasMore);
         
         // Update Redux cache with new data - save FULL filter state for UI
+        // CRITICAL FIX: Use current Redux state instead of old local filters state
         dispatch(discoverData({
           influencers: newInfluencers,
           startIndex: nextStartIndex,
           hasMore: result.hasMore,
-          appliedFilters: filters // Save full state, not cleaned
+          appliedFilters: cachedData.appliedFilters // Use current Redux state
         }));
       } else {
         setHasMore(false);
@@ -193,9 +210,8 @@ export default function InfluencerDiscover() {
     }
   }, [startIndex, isLoading, hasMore, filters, influencers, dispatch]);
 
-  // Function to clean filters - remove empty values and unwanted parameters
-  const cleanFilters = (filters: any) => {
-    console.log('clean filters', filters);
+  // Function to clean filters - remove empty values and unwanted parameters (optimized)
+  const cleanFilters = useCallback((filters: any) => {
     const cleaned: any = {};
     
     // Only include non-empty values
@@ -230,11 +246,11 @@ export default function InfluencerDiscover() {
     });
     
     return cleaned;
-  };
+  }, []);
 
-  const handleFilterChange = (newFilters: any) => {
-    console.log('🔄 InfluencerDiscover: handleFilterChange called with:', newFilters);
+  const handleFilterChange = useCallback((newFilters: any) => {
     setFilters(newFilters);
+    
     // Reset pagination when filters change
     setStartIndex(0);
     setHasMore(true);
@@ -246,36 +262,45 @@ export default function InfluencerDiscover() {
     
     // Clean the filters before sending to API
     const cleanedFilters = cleanFilters(newFilters);
-    console.log('🔄 InfluencerDiscover: cleaned filters for API:', cleanedFilters);
     
     // Reload with new filters
     const reloadWithFilters = async () => {
       try {
         const result: any = await fetchInfluencers(0, cleanedFilters);
+        
         setInfluencers(result?.data?.rows);
         setTotalRecords(result.totalRecords);
         setHasMore(result.hasMore);
         setStartIndex(0);
         
-        // Update Redux cache with filtered data - save FULL filter state for UI
-        console.log('🔄 InfluencerDiscover: saving to Redux:', newFilters);
-        dispatch(discoverData({
+        // Update Redux cache with filtered data
+        // CRITICAL FIX: Only save appliedFilters if they have meaningful content
+        const hasMeaningfulFilters = Object.values(newFilters).some(value => {
+          if (Array.isArray(value)) return value.length > 0;
+          if (typeof value === 'string') return value !== '';
+          if (typeof value === 'number') return value !== 0 && value !== 100000 && value !== 250000;
+          return value !== null && value !== undefined;
+        });
+        
+        const reduxData = {
           influencers: result?.data?.rows,
           totalRecords: result.totalRecords,
           hasMore: result.hasMore,
           startIndex: 0,
-          scrollPosition: 0,
-          appliedFilters: newFilters // Save full state, not cleaned
-        }));
+          appliedFilters: hasMeaningfulFilters ? newFilters : {} // Only save meaningful filters
+        };
+        
+        dispatch(discoverData(reduxData));
+        
       } catch (error) {
-        console.error('Error reloading with filters:', error);
+        console.error('❌ InfluencerDiscover: Error reloading with filters:', error);
       } finally {
         setIsInitialLoading(false);
       }
     };
 
     reloadWithFilters();
-  };
+  }, [dispatch, cleanFilters]);
 
   // Show loading skeleton for initial load
   if (isInitialLoading) {
@@ -286,9 +311,9 @@ export default function InfluencerDiscover() {
           isOpen={isFilterOpen}
           onClose={() => setIsFilterOpen(false)}
           onFilterChange={handleFilterChange}
-          appliedFilters={filters}
+          appliedFilters={cachedData.appliedFilters}
         />
-        <FilterRow onFilterChange={handleFilterChange} appliedFilters={filters} />
+        <FilterRow onFilterChange={handleFilterChange} appliedFilters={cachedData.appliedFilters} />
         <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px] influencer-discover-screen">
           <div className="md:pl-9" style={{flex: 1}}>
             <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
@@ -322,10 +347,10 @@ export default function InfluencerDiscover() {
         isOpen={isFilterOpen}
         onClose={() => setIsFilterOpen(false)}
         onFilterChange={handleFilterChange}
-        appliedFilters={filters}
+        appliedFilters={cachedData.appliedFilters}
       />
 
-      <FilterRow onFilterChange={handleFilterChange} appliedFilters={filters} />
+      <FilterRow onFilterChange={handleFilterChange} appliedFilters={cachedData.appliedFilters} />
 
       <div className="flex mt-0 px-3 md:p-8 items-start pt-[10px]">
         <div className="md:pl-9" style={{flex: 1}}>

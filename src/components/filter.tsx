@@ -435,7 +435,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
 
   // Initialize filters with applied filters when modal opens
   useEffect(() => {
-    if (isOpen && appliedFilters) {
+    // Only update when modal opens and appliedFilters exists
+    if (isOpen && appliedFilters && Object.keys(appliedFilters).length > 0) {
       setSelectedFilters({
         sortBy: appliedFilters.sortBy || '',
         platform: appliedFilters.platform || [],
@@ -450,8 +451,24 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
         audienceAgeGroup: appliedFilters.audienceAgeGroup || [],
         city_id: appliedFilters.city_id || '',
       });
+    } else if (isOpen && (!appliedFilters || Object.keys(appliedFilters).length === 0)) {
+      // Clear FilterModal's internal state when appliedFilters is empty
+      setSelectedFilters({
+        sortBy: '',
+        platform: [],
+        gender: '',
+        budgetMin: 0,
+        budgetMax: 100000,
+        followerMin: 0,
+        followerMax: 250000,
+        categories: [],
+        languages: [],
+        audienceType: [],
+        audienceAgeGroup: [],
+        city_id: '',
+      });
     }
-  }, [isOpen, appliedFilters]);
+  }, [isOpen, appliedFilters]); // Add appliedFilters back to dependencies to detect changes
 
   // Get current category data
   const currentCategory = filterCategories.find(cat => cat.id === activeCategory);
@@ -464,7 +481,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
     };
     
     setSelectedFilters(newFilters);
-    console.log(newFilters);
     
     // Don't trigger API call immediately - wait for Apply button
   };
@@ -542,7 +558,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
 
   // Apply filters and trigger API call
   const handleApplyFilters = () => {
-    console.log(selectedFilters);
     onFilterChange(selectedFilters);
     onClose(); // Close the modal after applying
   };

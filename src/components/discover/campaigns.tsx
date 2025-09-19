@@ -9,9 +9,9 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks";
 import { 
   selectCampaignsData, 
   campaignsData, 
-  updateCampaignsScrollPosition,
   clearCampaignsData 
 } from "@/store/apiDataSlice";
+import { useOptimizedScroll } from "@/hooks/useOptimizedScroll";
 
 export default function CampaignsDiscover() {
   const dispatch = useAppDispatch();
@@ -74,13 +74,7 @@ export default function CampaignsDiscover() {
       setStartIndex(cachedData.startIndex);
       setIsInitialLoading(false);
       
-      // Restore scroll position after component mounts
-      setTimeout(() => {
-        if (cachedData.scrollPosition > 0) {
-          console.log('📍 Restoring campaigns scroll position:', cachedData.scrollPosition);
-          window.scrollTo(0, cachedData.scrollPosition);
-        }
-      }, 100);
+      // Scroll position is now handled by useOptimizedScroll hook
       
       return;
     }
@@ -104,7 +98,6 @@ export default function CampaignsDiscover() {
         totalRecords: result.totalRecords,
         hasMore: result.hasMore,
         startIndex: 0,
-        scrollPosition: 0
       }));
     } catch (error: any) {
       setError(error.message || 'Failed to load campaigns');
@@ -119,16 +112,11 @@ export default function CampaignsDiscover() {
     loadData();
   }, []);
 
-  // Save scroll position when user scrolls
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY;
-      dispatch(updateCampaignsScrollPosition(scrollPos));
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [dispatch]);
+  // Use optimized scroll hook instead of Redux for scroll position
+  useOptimizedScroll({
+    throttleMs: 150,
+    savePosition: true
+  });
 
   // Save current state when component unmounts
   useEffect(() => {
@@ -140,7 +128,6 @@ export default function CampaignsDiscover() {
           totalRecords,
           hasMore,
           startIndex,
-          scrollPosition: window.scrollY
         }));
       }
     };
@@ -217,7 +204,6 @@ export default function CampaignsDiscover() {
         totalRecords: result.totalRecords,
         hasMore: result.hasMore,
         startIndex: 0,
-        scrollPosition: 0
       }));
     } catch (error: any) {
       setError(error.message || 'Failed to search campaigns');

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import FilterModal from './filter';
 import { platform } from 'os';
 
@@ -10,6 +10,7 @@ interface FilterRowProps {
 }
 
 export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowProps) {
+  
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   // Helper functions to get state and city names
@@ -143,10 +144,18 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
     city_id: appliedFilters?.city_id || '',
   });
 
-  // Sync activeFilters when appliedFilters prop changes
+  // Sync activeFilters when appliedFilters prop changes - prevent infinite loops
   useEffect(() => {
-    // console.log('🔄 FilterRow: appliedFilters changed:', appliedFilters);
-    if (appliedFilters) {
+    // CRITICAL FIX: Check if appliedFilters has actual meaningful content
+    const hasMeaningfulContent = appliedFilters && Object.keys(appliedFilters).length > 0 && 
+      Object.values(appliedFilters).some(value => {
+        if (Array.isArray(value)) return value.length > 0;
+        if (typeof value === 'string') return value !== '';
+        if (typeof value === 'number') return value !== 0 && value !== 100000 && value !== 250000;
+        return value !== null && value !== undefined;
+      });
+    
+    if (hasMeaningfulContent) {
       const newActiveFilters = {
         sortBy: appliedFilters.sortBy || '',
         platform: appliedFilters.platform || [],
@@ -161,70 +170,106 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
         audienceAgeGroup: appliedFilters.audienceAgeGroup || [],
         city_id: appliedFilters.city_id || '',
       };
-      // console.log('🔄 FilterRow: setting activeFilters to:', newActiveFilters);
-      setActiveFilters(newActiveFilters);
+      
+      // CRITICAL FIX: Only update if values are actually different
+      setActiveFilters((prev: any) => {
+        const isDifferent = Object.keys(newActiveFilters).some((key: string) => {
+          const prevVal = (prev as any)[key];
+          const newVal = (newActiveFilters as any)[key];
+          
+          if (Array.isArray(prevVal) && Array.isArray(newVal)) {
+            return JSON.stringify(prevVal) !== JSON.stringify(newVal);
+          }
+          return prevVal !== newVal;
+        });
+        
+        if (isDifferent) {
+          return newActiveFilters;
+        } else {
+          return prev;
+        }
+      });
+    } else {
+      // Reset activeFilters to default values when appliedFilters is empty
+      const defaultFilters = {
+        sortBy: '',
+        platform: [],
+        gender: '',
+        budgetMin: 0,
+        budgetMax: 100000,
+        followerMin: 0,
+        followerMax: 250000,
+        categories: [],
+        languages: [],
+        audienceType: [],
+        audienceAgeGroup: [],
+        city_id: '',
+      };
+      
+      setActiveFilters(defaultFilters);
     }
   }, [appliedFilters]);
 
-  // Function to count applied filters
-  const getAppliedFiltersCount = () => {
+  // Function to count applied filters - use appliedFilters directly instead of activeFilters
+  const appliedFiltersCount = useMemo(() => {
+    if (!appliedFilters || Object.keys(appliedFilters).length === 0) {
+      return 0;
+    }
+    
     let count = 0;
     
-    
-    // Check sortBy (only if actually applied)
-    if (activeFilters.sortBy && activeFilters.sortBy !== '') {
+    // Check sortBy (only if actually applied and not default)
+    if (appliedFilters.sortBy && appliedFilters.sortBy !== '' && appliedFilters.sortBy !== 1 && appliedFilters.sortBy !== '1') {
       count++;
     }
     
     // Check platform
-    if (activeFilters.platform && activeFilters.platform.length > 0) {
+    if (appliedFilters.platform && appliedFilters.platform.length > 0) {
       count++;
     }
     
     // Check categories
-    if (activeFilters.categories && activeFilters.categories.length > 0) {
+    if (appliedFilters.categories && appliedFilters.categories.length > 0) {
       count++;
     }
     
     // Check location
-    if (activeFilters.city_id) {
+    if (appliedFilters.city_id && appliedFilters.city_id !== '') {
       count++;
     }
     
-    // Check budget
-    if (activeFilters.budgetMin > 0 || activeFilters.budgetMax < 100000) {
+    // Check budget (only if changed from default)
+    if (appliedFilters.budgetMin > 0 || appliedFilters.budgetMax < 100000) {
       count++;
     }
     
-    // Check followers
-    if (activeFilters.followerMin > 0 || activeFilters.followerMax < 250000) {
+    // Check followers (only if changed from default)
+    if (appliedFilters.followerMin > 0 || appliedFilters.followerMax < 250000) {
       count++;
     }
     
     // Check gender
-    if (activeFilters.gender && activeFilters.gender !== '') {
+    if (appliedFilters.gender && appliedFilters.gender !== '') {
       count++;
     }
     
     // Check languages
-    if (activeFilters.languages && activeFilters.languages.length > 0) {
+    if (appliedFilters.languages && appliedFilters.languages.length > 0) {
       count++;
     }
     
     // Check audience type
-    if (activeFilters.audienceType && activeFilters.audienceType.length > 0) {
+    if (appliedFilters.audienceType && appliedFilters.audienceType.length > 0) {
       count++;
     }
     
     // Check audience age group
-    if (activeFilters.audienceAgeGroup && activeFilters.audienceAgeGroup.length > 0) {
+    if (appliedFilters.audienceAgeGroup && appliedFilters.audienceAgeGroup.length > 0) {
       count++;
     }
     
     return count;
-  };
-
-  const appliedFiltersCount = getAppliedFiltersCount();
+  }, [appliedFilters]);
 
   const filterChips = [
     {
@@ -293,8 +338,10 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
         </svg>
       ),
-      hasValue: !!activeFilters.followers,
-      value: activeFilters.followers ? getFollowersLabel(activeFilters.followers) : null,
+      hasValue: activeFilters.followerMin > 0 || activeFilters.followerMax < 250000,
+      value: activeFilters.followerMin > 0 || activeFilters.followerMax < 250000 
+        ? `${activeFilters.followerMin.toLocaleString()} - ${activeFilters.followerMax.toLocaleString()}`
+        : null,
     },
     {
       id: 'categories',
@@ -418,7 +465,7 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
     e.stopPropagation();
     
     if (filterId === 'filter') {
-      // Clear ALL filters when clicking the main Filter button
+      // Clear ALL filters - send empty filters to parent
       const clearedFilters = {
         sortBy: '',
         platform: [],
@@ -433,10 +480,11 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
         audienceAgeGroup: [],
         city_id: '',
       };
-      setActiveFilters(clearedFilters);
+      
+      // Don't update local state immediately - let parent handle it
       onFilterChange(clearedFilters);
     } else {
-      // Clear specific filter
+      // Clear specific filter - use current activeFilters as base but with proper defaults
       const newFilters = { ...activeFilters };
       
       if (filterId === 'budget') {
@@ -447,13 +495,17 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
         newFilters.followerMax = 250000;
       } else if (filterId === 'location') {
         newFilters.city_id = '';
+      } else if (filterId === 'sortBy') {
+        newFilters.sortBy = '';
+      } else if (filterId === 'gender') {
+        newFilters.gender = '';
       } else if (Array.isArray(newFilters[filterId])) {
         newFilters[filterId] = [];
       } else {
         newFilters[filterId] = '';
       }
       
-      setActiveFilters(newFilters);
+      // Don't update local state immediately - let parent handle it
       onFilterChange(newFilters);
     }
   };
