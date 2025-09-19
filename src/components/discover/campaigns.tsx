@@ -1,113 +1,78 @@
 'use client';
-import CampaignsGrid from "./CampaignsGrid";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { API_ROUTES } from "@/appApi";
-import { api } from "@/common/services/rest-api/rest-api";
+import InfiniteScrollGrid from "@/components/common/InfiniteScrollGrid";
+import CampaignCard from "@/components/campaigns/campaign-card";
+import CampaignSkeleton from "./CampaignSkeleton";
+import { useState, useCallback } from "react";
+import { campaignApi } from "@/services/infiniteScrollApi";
 import ScrollToTop from "@/components/ScrollToTop";
 
 export default function CampaignsDiscover() {
-  const [campaigns, setCampaigns] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialLoading, setIsInitialLoading] = useState(true);
-  const [totalRecords, setTotalRecords] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [filters, setFilters] = useState({});
 
-  // API call function for campaigns
-  const fetchCampaigns = async (searchFilters = {}) => {
-    try {
-      const res = await api.post(API_ROUTES.influencerCampaignList, {
-        limit: 3,
-        page:0,
-        ...searchFilters
-      });
-
-      if (res.status === 1) {
-        return {
-          data: res.data || [],
-          totalRecords: res.recordsTotal || 0
-        };
-      } else {
-        return {
-          data: [],
-          totalRecords: 0
-        };
-      }
-    } catch (error) {
-      console.error('❌ Error fetching campaigns:', error);
-      throw new Error('Failed to fetch campaigns. Please try again.');
-    }
-  };
-
-  // Load data from API
-  const loadData = async () => {
-    setIsInitialLoading(true);
-    setError(null);
+  // Helper function to clean filters
+  const cleanFilters = (filters: any) => {
+    const cleaned: any = {};
     
-    try {
-      const result = await fetchCampaigns({});
-      setCampaigns(result.data);
-      setTotalRecords(result.totalRecords);
-    } catch (error: any) {
-      setError(error.message || 'Failed to load campaigns');
-      console.error('❌ Error loading initial campaigns data:', error);
-    } finally {
-      setIsInitialLoading(false);
-    }
+    Object.keys(filters).forEach(key => {
+      const value = filters[key];
+      if (value !== null && value !== undefined && value !== '' && value !== 'all') {
+        cleaned[key] = value;
+      }
+    });
+    
+    return cleaned;
   };
 
-  // Load initial data
-  useEffect(() => {
-    loadData();
-  }, []);
+  // Fetch function for infinite scroll
+  const fetchCampaigns = useCallback(async (page: number, limit?: number) => {
+    const cleanedFilters = cleanFilters(filters);
+    return await campaignApi.fetchCampaigns(page, limit, cleanedFilters);
+  }, [filters]);
+
+  // Render function for each campaign item
+  const renderCampaign = useCallback((campaign: any, index: number) => (
+    <CampaignCard 
+      key={index}
+      campaign={campaign} 
+      userRole={2} 
+    />
+  ), []);
+
+  // Render function for campaign skeleton
+  const renderCampaignSkeleton = useCallback((index: number) => (
+    <CampaignSkeleton key={`skeleton-${index}`} />
+  ), []);
 
   return (
-    <div className="campaigns-discover-screen">
-        {/* Header */}
-        <header className=" top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
-        <div className="flex items-center justify-center relative">
-          {/* <Link 
-            href="/"
-            className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </Link> */}
-          <h1 className="text-lg font-medium text-gray-900"> Find Promotions</h1>
+    <>
+      <div className="flex justify-between items-center px-3 md:px-8 pt-4">
+        <h1 className="text-2xl font-bold text-gray-900">Campaigns</h1>
+        <Link 
+          href="/campaigns/create" 
+          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Create Campaign
+        </Link>
         </div>
-      </header>
-
-      {/* Cache Status Indicator */}
-      {/* {!isInitialLoading && campaigns.length > 0 && (
-        <div className="px-3 md:px-8 md:pl-9 mb-2">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            {shouldUseCache() ? (
-              <>
-                <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span>Showing cached campaigns data</span>
-              </>
-            ) : (
-              <>
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                <span>Showing fresh campaigns data from API</span>
-              </>
-            )}
-          </div>
-        </div>
-      )} */}
 
       <div className="flex mt-3 px-3 md:p-8 items-start">
         <div className="md:pl-9" style={{flex: 1}}>
-          <CampaignsGrid 
-            campaigns={campaigns}
-            error={error}
-            isInitialLoad={isInitialLoading}
+          <InfiniteScrollGrid
+            fetchFunction={fetchCampaigns}
+            renderItem={renderCampaign}
+            renderSkeleton={renderCampaignSkeleton}
+            pageSize={12}
+            maxItems={200}
+            threshold={0.1}
+            rootMargin="0px 0px 200px 0px"
+            prefetchDistance={5}
+            gridClassName="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pb-20 md:pb-0"
           />
         </div>
       </div>
       
       <ScrollToTop />
-    </div>
+    </>
   );
 }
