@@ -11,7 +11,7 @@ import {
   campaignsData, 
   clearCampaignsData 
 } from "@/store/apiDataSlice";
-import { useOptimizedScroll } from "@/hooks/useOptimizedScroll";
+import { useScrollManager } from "@/hooks/useScrollManager";
 
 export default function CampaignsDiscover() {
   const dispatch = useAppDispatch();
@@ -112,10 +112,10 @@ export default function CampaignsDiscover() {
     loadData();
   }, []);
 
-  // Use optimized scroll hook instead of Redux for scroll position
-  useOptimizedScroll({
-    throttleMs: 150,
-    savePosition: true
+  // Use centralized scroll manager for optimal performance
+  useScrollManager({
+    savePosition: true,
+    priority: 1 // High priority for main content scroll
   });
 
   // Save current state when component unmounts

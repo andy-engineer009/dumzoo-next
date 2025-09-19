@@ -1,19 +1,17 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useOptimizedScroll } from '@/hooks/useOptimizedScroll';
+import React, { useState } from 'react';
+import { useScrollManager } from '@/hooks/useScrollManager';
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
-  // Use optimized scroll hook instead of direct scroll listener
-  const onScrollCallback = useCallback((scrollData: any) => {
-    setIsVisible(scrollData.position > 300);
-  }, []);
-
-  useOptimizedScroll({
-    throttleMs: 150,
-    onScroll: onScrollCallback
+  // Use centralized scroll manager
+  useScrollManager({
+    onScroll: (data) => {
+      setIsVisible(data.position > 300);
+    },
+    priority: 3 // Lowest priority
   });
 
   const scrollToTop = () => {

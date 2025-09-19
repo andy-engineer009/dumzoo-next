@@ -31,23 +31,28 @@ export const useInfiniteScroll = (
       const wasIntersecting = isIntersecting;
       const isNowIntersecting = entry.isIntersecting;
       
+      
       setIsIntersecting(isNowIntersecting);
       
-      // Only trigger callback when element becomes visible and hasn't been triggered recently
-      if (isNowIntersecting && !wasIntersecting && !isTriggeredRef.current) {
+      // Trigger callback when element becomes visible and hasn't been triggered recently
+      if (isNowIntersecting && !isTriggeredRef.current) {
+        console.log('🎯 useInfiniteScroll: Triggering callback', { isNowIntersecting, wasIntersecting, isTriggered: isTriggeredRef.current });
         isTriggeredRef.current = true;
         callbackRef.current();
-        
-        // Reset trigger flag after a short delay to prevent rapid firing
-        setTimeout(() => {
-          isTriggeredRef.current = false;
-        }, 1000);
+      }
+      
+      // Reset trigger flag when element is no longer intersecting
+      if (!isNowIntersecting) {
+        console.log('🎯 useInfiniteScroll: Resetting trigger flag', { isNowIntersecting });
+        isTriggeredRef.current = false;
       }
     },
     [isIntersecting]
   );
 
   useEffect(() => {
+    console.log('🎯 useInfiniteScroll: Creating observer', { threshold, rootMargin });
+    
     const observer = new IntersectionObserver(handleIntersection, {
       threshold,
       rootMargin,
@@ -55,15 +60,30 @@ export const useInfiniteScroll = (
 
     const currentRef = ref.current;
     if (currentRef) {
+      console.log('🎯 useInfiniteScroll: Observing element', { element: currentRef, rect: currentRef.getBoundingClientRect() });
       observer.observe(currentRef);
+    } else {
+      console.log('🎯 useInfiniteScroll: No ref found, will retry');
+      // Retry when ref becomes available
+      const checkRef = () => {
+        if (ref.current) {
+          console.log('🎯 useInfiniteScroll: Ref now available, observing');
+          observer.observe(ref.current);
+        } else {
+          setTimeout(checkRef, 100);
+        }
+      };
+      setTimeout(checkRef, 100);
     }
 
     return () => {
+      console.log('🎯 useInfiniteScroll: Cleaning up observer');
       if (currentRef) {
         observer.unobserve(currentRef);
       }
+      observer.disconnect();
     };
-  }, [handleIntersection, threshold, rootMargin]);
+  }, [threshold, rootMargin]);
 
   return { isIntersecting, ref };
 };

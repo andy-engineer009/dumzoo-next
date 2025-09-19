@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useScrollManager } from './useScrollManager';
 
 interface UseHeaderScrollOptions {
   threshold?: number;
@@ -9,20 +10,15 @@ export const useHeaderScroll = (options: UseHeaderScrollOptions = {}) => {
   const { threshold = 10, hideAfterPx = 50 } = options;
   const [isVisible, setIsVisible] = useState(true);
   const lastScrollYRef = useRef(0);
-  const tickingRef = useRef(false);
 
-  const handleScroll = useCallback(() => {
-    if (tickingRef.current) return;
-    
-    tickingRef.current = true;
-    
-    requestAnimationFrame(() => {
-      const currentScrollY = window.scrollY;
+  // Use the centralized scroll manager
+  const scrollData = useScrollManager({
+    onScroll: (data) => {
+      const currentScrollY = data.position;
       const lastScrollY = lastScrollYRef.current;
       
       // Only process if scroll position changed significantly
       if (Math.abs(currentScrollY - lastScrollY) < threshold) {
-        tickingRef.current = false;
         return;
       }
       
@@ -36,17 +32,9 @@ export const useHeaderScroll = (options: UseHeaderScrollOptions = {}) => {
       }
       
       lastScrollYRef.current = currentScrollY;
-      tickingRef.current = false;
-    });
-  }, [threshold, hideAfterPx]);
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [handleScroll]);
+    },
+    priority: 2 // Lower priority than main scroll
+  });
 
   return isVisible;
 };

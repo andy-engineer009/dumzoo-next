@@ -3,6 +3,7 @@
 import InfluencerCard from './InfulancerCard';
 import InfluencerSkeleton from '../discover/InfluencerSkeleton';
 import LoadingIndicator from '../LoadingIndicator';
+import VirtualScrollList from '../VirtualScrollList';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 
 interface InfluencerGridProps {
@@ -22,11 +23,6 @@ const InfluencerGrid = ({
   error,
   isInitialLoad = false 
 }: InfluencerGridProps) => {
-  const { ref } = useInfiniteScroll(() => {
-    if (hasMore && !isLoading) {
-      onLoadMore();
-    }
-  }, { threshold: 0.1, rootMargin: '200px' });
 
   // Show error state
   if (error) {
@@ -74,27 +70,47 @@ const InfluencerGrid = ({
     );
   }
 
+  // Use virtual scrolling for large lists (1000+ items)
+  const shouldUseVirtualScrolling = influencers.length > 1000;
+  const itemHeight = 400; // Approximate height of influencer card
+
+  if (shouldUseVirtualScrolling) {
+    return (
+      <VirtualScrollList
+        items={influencers}
+        itemHeight={itemHeight}
+        containerHeight={window.innerHeight - 200} // Adjust based on your layout
+        renderItem={(influencer, index) => (
+          <InfluencerCard
+            key={influencer.id || index}
+            data={influencer}
+          />
+        )}
+        onLoadMore={onLoadMore}
+        hasMore={hasMore}
+        isLoading={isLoading}
+        className="pb-20 md:pb-0"
+      />
+    );
+  }
+
+  // Regular grid for smaller lists with infinite scroll
+  const { ref } = useInfiniteScroll(() => {
+    console.log('🎯 InfluencerGrid: Infinite scroll triggered', { hasMore, isLoading });
+    if (hasMore && !isLoading) {
+      console.log('🎯 InfluencerGrid: Calling onLoadMore');
+      onLoadMore();
+    } else {
+      console.log('🎯 InfluencerGrid: Not loading more', { hasMore, isLoading });
+    }
+  }, { threshold: 0.1, rootMargin: '200px' });
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-4 md:gap-6 pb-20 md:pb-0">
-      {influencers?.map((influencer) => (
+      {influencers?.map((influencer, index) => (
         <InfluencerCard
+          key={influencer.id || index}
           data={influencer}
-          // key={influencer.id}
-          // id={influencer.id}
-          // uuid={influencer.uuid}
-          // user_id={influencer.user_id}
-          // name={influencer.name || influencer.username || 'Unknown'}
-          // username={influencer.username}
-          // image={influencer.image || '/images/women.png'}
-          // isVerified={influencer.isVerified || false}
-          // location={influencer.location || 'Unknown'}
-          // category={influencer.category || 'General'}
-          // followers={influencer.followers || 0}
-          // startingPrice={influencer.startingPrice || 0}
-          // instagramUrl={influencer.instagramUrl}
-          // youtubeUrl={influencer.youtubeUrl}
-          // facebookUrl={influencer.facebookUrl}
-          // isFeatured={influencer.isFeatured || false}
         />
       ))}
       
@@ -117,9 +133,15 @@ const InfluencerGrid = ({
       )}
       
       {/* Intersection observer target for infinite scroll */}
-      {hasMore && !isLoading && (
-        <div ref={ref} className="col-span-full h-4" />
-      )}
+      <div 
+        ref={ref} 
+        className="col-span-full h-20 bg-red-100 border-2 border-red-300 flex items-center justify-center"
+        style={{ minHeight: '80px' }}
+      >
+        <span className="text-red-600 text-sm font-medium">
+          SCROLL TARGET - hasMore: {hasMore ? 'true' : 'false'}, isLoading: {isLoading ? 'true' : 'false'}, influencers: {influencers?.length || 0}
+        </span>
+      </div>
     </div>
   );
 };

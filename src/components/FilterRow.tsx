@@ -481,6 +481,8 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
         city_id: '',
       };
       
+      console.log('🧹 FilterRow: Clearing ALL filters', clearedFilters);
+      
       // Don't update local state immediately - let parent handle it
       onFilterChange(clearedFilters);
     } else {
