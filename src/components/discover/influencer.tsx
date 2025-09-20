@@ -73,7 +73,7 @@ export default function InfluencerDiscover() {
   };
 
   return (
-    <>
+    <div className="bg-[#f5f5f5]">
       <SearchBar /> 
       <FilterModal 
         isOpen={isFilterOpen}
@@ -99,6 +99,6 @@ export default function InfluencerDiscover() {
           />
         </div>
       </div>
-    </>
+    </div>
   );
 }   

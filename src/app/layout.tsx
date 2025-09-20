@@ -32,7 +32,10 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <meta name="theme-color" content="#0f172a" />
-        <link rel="icon" href="/icon-192x192.png" />     
+        <link rel="icon" href="/icon-192x192.png" />   
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />  
       </head>
       <body
         className= {`${geistSans.variable} ${geistMono.variable} antialiased`}
