@@ -1,30 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface DiscoverData {
-  influencers: any[];
-  totalRecords: number;
-  appliedFilters: any;
-}
-
-interface CampaignsData {
-  campaigns: any[];
-  totalRecords: number;
-}
 
 const apiDataSlice = createSlice({
     name: 'apiData',
     initialState: {
         influencerDropdownData: null,
         dashboardData: null,
-        discoverData: {
-          influencers: [],
-          totalRecords: 0,
-          appliedFilters: {}
-        } as DiscoverData,
-        campaignsData: {
-          campaigns: [],
-          totalRecords: 0
-        } as CampaignsData,
         chatUsers: [] as any[],
         // loading: false,
         // error: null
@@ -38,29 +19,6 @@ const apiDataSlice = createSlice({
             state.dashboardData = action.payload;
         },
 
-        discoverData: (state, action: PayloadAction<Partial<DiscoverData>>) => {
-            state.discoverData = { ...state.discoverData, ...action.payload };
-        },
-
-        clearDiscoverData: (state) => {
-            state.discoverData = {
-                influencers: [],
-                totalRecords: 0,
-                appliedFilters: {}
-            };
-        },
-
-        campaignsData: (state, action: PayloadAction<Partial<CampaignsData>>) => {
-            state.campaignsData = { ...state.campaignsData, ...action.payload };
-        },
-
-        clearCampaignsData: (state) => {
-            state.campaignsData = {
-                campaigns: [],
-                totalRecords: 0
-            };
-        },
-
         // Simple chat users actions
         setChatUsers: (state, action: PayloadAction<any[]>) => {
             state.chatUsers = action.payload;
@@ -70,15 +28,6 @@ const apiDataSlice = createSlice({
             state.chatUsers = [];
         },
 
-        // Update campaign applied status by ID
-        updateCampaignAppliedStatus: (state, action: PayloadAction<{ campaignId: number; appliedStatus: number }>) => {
-            const { campaignId, appliedStatus } = action.payload;
-            const campaign = state.campaignsData.campaigns.find(c => c.id === campaignId);
-            if (campaign) {
-                campaign.applied_campaign_status = appliedStatus;
-                campaign.isApplied = appliedStatus === 1;
-            }
-        }
     }
 })
 
@@ -86,19 +35,12 @@ const apiDataSlice = createSlice({
 export const { 
     influencerDropodownData, 
     dashboardData,
-    discoverData,
-    clearDiscoverData,
-    campaignsData,
-    clearCampaignsData,
     setChatUsers,
-    clearChatUsers,
-    updateCampaignAppliedStatus
+    clearChatUsers
   } = apiDataSlice.actions;
 
   export const selectInfluencerDropdownData = (state: { apiData: any }) => state.apiData.influencerDropdownData;
   export const selectDashboardData = (state: { apiData: any }) => state.apiData.dashboardData;
-  export const selectDiscoverData = (state: { apiData: any }) => state.apiData.discoverData;
-  export const selectCampaignsData = (state: { apiData: any }) => state.apiData.campaignsData;
   export const selectChatUsers = (state: { apiData: any }) => state.apiData.chatUsers;
 // Export reducer
 export default apiDataSlice.reducer;
