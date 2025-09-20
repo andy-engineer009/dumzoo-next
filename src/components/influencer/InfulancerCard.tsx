@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
-const InfluencerCard = ({data}: any) => {
+const InfluencerCard = memo(({data}: any) => {
   const [imageError, setImageError] = useState(false);
   const router = useRouter();
 
@@ -132,6 +132,8 @@ const InfluencerCard = ({data}: any) => {
       </div>
     </div>
   );
-};
+});
+
+InfluencerCard.displayName = 'InfluencerCard';
 
 export default InfluencerCard;
