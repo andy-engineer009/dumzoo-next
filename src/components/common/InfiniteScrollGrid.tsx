@@ -134,16 +134,18 @@ function InfiniteScrollGrid<T>({
         
         {/* End of results */}
         {!hasMore && items.length > 0 && (endComponent || defaultEndComponent)}
+      </div>
       
-      {/* Intersection observer target */}
+      {/* Intersection observer target - OUTSIDE the grid */}
       {hasMore && !isLoading && (
         <div 
           ref={observerRef} 
-          className="col-span-full h-4" 
+          className="w-full h-4 flex justify-center items-center"
           style={{ minHeight: '16px' }}
-        />
+        >
+          <div className="w-1 h-1 bg-transparent"></div>
+        </div>
       )}
-      </div>
     </div>
   );
 }

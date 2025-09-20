@@ -147,7 +147,6 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
 
   // Sync activeFilters when appliedFilters prop changes
   useEffect(() => {
-    // console.log('🔄 FilterRow: appliedFilters changed:', appliedFilters);
     if (appliedFilters) {
       const newActiveFilters = {
         sortBy: appliedFilters.sortBy || '',

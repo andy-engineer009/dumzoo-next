@@ -87,7 +87,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
         }
 
         if (enableLogging) {
-          console.log(`✅ Cleaned ${cleanedCount} old sessionStorage items`);
+          // console.log(`✅ Cleaned ${cleanedCount} old sessionStorage items`);
         }
       }
     } catch (error) {
@@ -121,7 +121,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
       });
 
       if (enableLogging && cleanedCount > 0) {
-        console.log(`✅ Cleaned ${cleanedCount} cached images`);
+        // console.log(`✅ Cleaned ${cleanedCount} cached images`);
       }
     } catch (error) {
       console.error('❌ Error cleaning cached images:', error);
@@ -135,7 +135,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
       if (window.gc) {
         window.gc();
         if (enableLogging) {
-          console.log('✅ Forced garbage collection');
+          // console.log('✅ Forced garbage collection');
         }
       }
 
@@ -156,7 +156,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
         });
 
         if (enableLogging && cleanedCount > 0) {
-          console.log(`✅ Cleaned ${cleanedCount} unused cache objects`);
+          // console.log(`✅ Cleaned ${cleanedCount} unused cache objects`);
         }
       }
     } catch (error) {
@@ -178,7 +178,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
           oldCaches.forEach(cacheName => {
             caches.delete(cacheName);
             if (enableLogging) {
-              console.log(`✅ Deleted old cache: ${cacheName}`);
+              // console.log(`✅ Deleted old cache: ${cacheName}`);
             }
           });
         });
@@ -189,7 +189,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
         // This would be app-specific implementation
         // For now, just log that we could clean IndexedDB
         if (enableLogging) {
-          console.log('🔍 IndexedDB cleanup available (app-specific)');
+          // console.log('🔍 IndexedDB cleanup available (app-specific)');
         }
       }
     } catch (error) {
@@ -207,7 +207,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
       const memoryInfo = getMemoryInfo();
       
       if (enableLogging) {
-        console.log('🧹 Starting memory cleanup...', memoryInfo);
+        // console.log('🧹 Starting memory cleanup...', memoryInfo);
       }
 
       // Always clean sessionStorage
@@ -225,7 +225,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
       // Check if we need more aggressive cleanup
       if (memoryInfo && memoryInfo.percentage > 80) {
         if (enableLogging) {
-          console.log('⚠️ High memory usage detected, performing aggressive cleanup');
+          // console.log('⚠️ High memory usage detected, performing aggressive cleanup');
         }
         
         // More aggressive cleanup
@@ -240,7 +240,7 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
 
       if (enableLogging) {
         const newMemoryInfo = getMemoryInfo();
-        console.log('✅ Memory cleanup completed', newMemoryInfo);
+        // console.log('✅ Memory cleanup completed', newMemoryInfo);
       }
     } catch (error) {
       console.error('❌ Error during memory cleanup:', error);
@@ -264,12 +264,12 @@ export function useMemoryManager(options: MemoryManagerOptions = {}) {
   // Initialize memory manager
   useEffect(() => {
     if (enableLogging) {
-      console.log('🚀 Memory Manager initialized', {
-        memoryThreshold,
-        cleanupInterval,
-        maxSessionStorageSize,
-        maxCachedImages
-      });
+      // console.log('Memory Manager initialized', {
+      //   memoryThreshold,
+      //   cleanupInterval,
+      //   maxSessionStorageSize,
+      //   maxCachedImages
+      // });
     }
 
     // Start cleanup cycle

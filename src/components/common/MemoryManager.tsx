@@ -101,7 +101,8 @@ export default function MemoryManager({
   // Log device settings on mount
   useEffect(() => {
     if (enableLogging) {
-      console.log('📱 Memory Manager - Device Settings:', {
+      console.log('📱 Memory Manager - Device Settings:', 
+        {
         deviceMemory: (navigator as any).deviceMemory || 'unknown',
         hardwareConcurrency: navigator.hardwareConcurrency || 'unknown',
         connection: (navigator as any).connection?.effectiveType || 'unknown',
