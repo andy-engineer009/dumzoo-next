@@ -84,8 +84,8 @@ export default function CampaignsList() {
             fetchFunction={fetchInfluencers}
             renderItem={renderInfluencer}
             renderSkeleton={renderInfluencerSkeleton}
-            pageSize={3}
-            maxItems={200}
+            pageSize={15}
+            maxItems={1000}
             threshold={0.1}
             rootMargin="0px 0px 200px 0px"
             prefetchDistance={5}
