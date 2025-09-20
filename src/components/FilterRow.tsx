@@ -433,6 +433,9 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
   const handleClearFilter = (filterId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     
+    // Scroll to top when clearing filters (instant, no animation)
+    window.scrollTo(0, 0);
+    
     if (filterId === 'filter') {
       // Clear ALL filters when clicking the main Filter button
       const clearedFilters = {

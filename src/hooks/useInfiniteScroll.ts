@@ -225,6 +225,9 @@ export function useInfiniteScroll<T>(
     setIsLoading(false);
     setError(null);
     
+    // Scroll to top when filters change (instant, no animation)
+    window.scrollTo(0, 0);
+    
     loadInitialData();
   }, [loadInitialData]);
 
