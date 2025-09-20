@@ -536,6 +536,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
       // creatorType: [],
     };
     
+    // Scroll to top when clearing filters (instant, no animation)
+    window.scrollTo(0, 0);
     setSelectedFilters(defaultFilters);
     // Don't trigger API call immediately - wait for Apply button
   };
@@ -543,6 +545,8 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
   // Apply filters and trigger API call
   const handleApplyFilters = () => {
     console.log(selectedFilters);
+    // Scroll to top when applying filters (instant, no animation)
+    window.scrollTo(0, 0);
     onFilterChange(selectedFilters);
     onClose(); // Close the modal after applying
   };

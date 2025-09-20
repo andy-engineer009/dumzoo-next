@@ -99,7 +99,6 @@ export default function ChatPage() {
     if (!id) return; // Don't fetch if no id
     
     const fetchMessages = async () => {
-      console.log('Fetching messages for conversation:', id);
       api.get(`${API_ROUTES.getChatMessages}${id}`).then((res) => {
         if(res.status == 1){
           setCurrentUser(res.data?.username);

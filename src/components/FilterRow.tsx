@@ -147,11 +147,10 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
 
   // Sync activeFilters when appliedFilters prop changes
   useEffect(() => {
-    // console.log('🔄 FilterRow: appliedFilters changed:', appliedFilters);
     if (appliedFilters) {
       const newActiveFilters = {
         sortBy: appliedFilters.sortBy || '',
-        location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
+        // location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
         budgetMin: appliedFilters.budgetMin || 0,
         budgetMax: appliedFilters.budgetMax || 100000,
         platform: appliedFilters.platform || [],
@@ -432,6 +431,9 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
 
   const handleClearFilter = (filterId: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    
+    // Scroll to top when clearing filters (instant, no animation)
+    window.scrollTo(0, 0);
     
     if (filterId === 'filter') {
       // Clear ALL filters when clicking the main Filter button

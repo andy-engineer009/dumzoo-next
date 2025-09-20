@@ -77,9 +77,7 @@ export default function ChatList() {
     // Listen for new messages and update chat list
     useEffect(() => {
       if (isConnected) {
-        const handleNewMessage = (message: any) => {
-          console.log('New message received in chat list:', message);
-          
+        const handleNewMessage = (message: any) => {          
           // Update the chat list with the new message
           const updatedChats = chatUsers.map((chat: any) => {
             if (chat.id === message.conversationId) {

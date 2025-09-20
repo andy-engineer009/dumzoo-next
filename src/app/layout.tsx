@@ -4,6 +4,7 @@ import "./globals.css";
 import { Provider } from "@/store/Provider";
 import LocalStorageValueHandler from "@/components/localstroageValue-handler";
 import { AuthProvider } from "@/providers/AuthProvider";
+import MemoryManager from "@/components/common/MemoryManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -40,6 +41,11 @@ export default function RootLayout({
         <LocalStorageValueHandler />
           <AuthProvider>
             {children}
+            <MemoryManager 
+              enableDeviceOptimization={true}
+              enableLogging={true}
+              showDebugPanel={false}
+            />
           </AuthProvider>
         </Provider>
       </body>

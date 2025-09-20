@@ -55,23 +55,16 @@ export function useInfiniteScroll<T>(
 
   // Load initial data
   const loadInitialData = useCallback(async () => {
-    console.log('🚀 Loading initial data...', { pageSize });
     setIsInitialLoading(true);
     setError(null);
 
     try {
-      console.log('📞 Calling fetchFunction with page 0, limit:', pageSize);
       const result = await fetchFunction(0, pageSize);
-      console.log('✅ Initial data loaded:', { 
-        dataLength: result.data.length, 
-        hasMore: result.hasMore,
-        result 
-      });
       setItems(result.data);
       setHasMore(result.hasMore);
       setCurrentPage(0);
     } catch (err: any) {
-      console.error('💥 Error loading initial data:', err);
+      console.error('Error loading initial data:', err);
       setError(err.message || 'Failed to load data');
     } finally {
       setIsInitialLoading(false);
@@ -80,41 +73,26 @@ export function useInfiniteScroll<T>(
 
   // Load more data
   const loadMore = useCallback(async () => {
-    console.log('🔄 loadMore called', { isLoading, hasMore, currentPage });
-    
     if (isLoading || !hasMore) {
-      console.log('🚫 loadMore blocked', { isLoading, hasMore });
       return;
     }
 
-    // IMMEDIATE loading state - no delays
     setIsLoading(true);
     setError(null);
-    console.log('⏳ Starting to load more data...');
 
     try {
       const nextPage = currentPage + 1;
-      console.log('📞 Fetching page:', nextPage, 'with limit:', pageSize);
       const result = await fetchFunction(nextPage, pageSize);
-      console.log('✅ Fetch result:', { 
-        dataLength: result.data.length, 
-        hasMore: result.hasMore,
-        result 
-      });
       
       setItems(prevItems => {
         const newItems = [...prevItems, ...result.data];
-        console.log('📊 Updated items count:', newItems.length);
-        
-        // Keep all items - no auto-cleanup
         return newItems;
       });
       
       setCurrentPage(nextPage);
       setHasMore(result.hasMore);
-      console.log('✅ Load more completed successfully');
     } catch (err: any) {
-      console.error('💥 Error loading more data:', err);
+      console.error('Error loading more data:', err);
       setError(err.message || 'Failed to load more data');
     } finally {
       setIsLoading(false);
@@ -129,18 +107,14 @@ export function useInfiniteScroll<T>(
   const prefetchNextBatch = useCallback(async () => {
     if (isPrefetching || !hasMore) return;
 
-    // IMMEDIATE prefetching state - no delays
     setIsPrefetching(true);
     
     try {
       const nextPage = currentPage + 1;
       const result = await fetchFunction(nextPage, pageSize);
       
-      // Store prefetched data for immediate use
       setItems(prevItems => {
         const newItems = [...prevItems, ...result.data];
-        
-        // Keep all items - no auto-cleanup
         return newItems;
       });
       
@@ -168,35 +142,24 @@ export function useInfiniteScroll<T>(
     }
   }, []);
 
-  // Simple scroll listener instead of Intersection Observer
+  // Intersection Observer setup - Primary method
   useEffect(() => {
-    const handleScroll = () => {
-      if (isLoading || !hasMore) return;
+    // Clean up previous observer
+    if (observer.current) {
+      observer.current.disconnect();
+      observer.current = null;
+    }
 
-      const scrollTop = window.pageYOffset;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
-
-      // Load more when user is 200px from bottom
-      if (scrollTop + windowHeight >= documentHeight - 200) {
-        console.log('🔄 Scroll detected - loading more data');
-        loadMoreRef.current?.();
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [isLoading, hasMore]);
-
-  // Intersection Observer setup - Fallback
-  useEffect(() => {
-    if (!observerRef.current) return;
+    // Only set up observer if we have a target element and should load more
+    if (!observerRef.current || !hasMore || isLoading || isPrefetching) {
+      return;
+    }
 
     observer.current = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
+        
         if (entry.isIntersecting && hasMore && !isLoading && !isPrefetching) {
-          console.log('🔄 Intersection Observer - loading more data');
           loadMoreRef.current?.();
         }
       },
@@ -211,14 +174,52 @@ export function useInfiniteScroll<T>(
     return () => {
       if (observer.current) {
         observer.current.disconnect();
+        observer.current = null;
       }
     };
-  }, [hasMore, isLoading, isPrefetching]);
+  }, [hasMore, isLoading, isPrefetching, observerRef.current]);
 
-  // Load initial data on mount
+  // Fallback: Manual scroll detection if Intersection Observer fails
   useEffect(() => {
+    const handleScroll = () => {
+      if (isLoading || !hasMore || !observerRef.current) return;
+
+      const rect = observerRef.current.getBoundingClientRect();
+      const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+      
+      if (isVisible) {
+        loadMoreRef.current?.();
+      }
+    };
+
+    // Only add fallback if Intersection Observer is not working
+    const timeoutId = setTimeout(() => {
+      if (!observer.current && hasMore && !isLoading) {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [hasMore, isLoading, observerRef.current]);
+
+  // Load initial data on mount and when fetchFunction changes
+  useEffect(() => {
+    // Reset items when fetchFunction changes (e.g., when filters change)
+    setItems([]);
+    setCurrentPage(0);
+    setHasMore(true);
+    setIsInitialLoading(true);
+    setIsLoading(false);
+    setError(null);
+    
+    // Scroll to top when filters change (instant, no animation)
+    window.scrollTo(0, 0);
+    
     loadInitialData();
-  }, []);
+  }, [loadInitialData]);
 
 
   // Cleanup on unmount

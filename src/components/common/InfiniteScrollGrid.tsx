@@ -123,11 +123,6 @@ function InfiniteScrollGrid<T>({
 
   return (
     <div>
-      {/* Debug Panel */}
-      <div className="bg-gray-100 p-2 mb-4 rounded text-xs">
-        <div>Items: {items.length} | Loading: {isLoading ? 'Yes' : 'No'} | HasMore: {hasMore ? 'Yes' : 'No'}</div>
-      </div>
-      
       <div className={gridClassName}>
         {items.map((item, index) => renderItem(item, index))}
         
@@ -139,16 +134,18 @@ function InfiniteScrollGrid<T>({
         
         {/* End of results */}
         {!hasMore && items.length > 0 && (endComponent || defaultEndComponent)}
+      </div>
       
-      {/* Intersection observer target */}
+      {/* Intersection observer target - OUTSIDE the grid */}
       {hasMore && !isLoading && (
         <div 
           ref={observerRef} 
-          className="col-span-full h-4" 
+          className="w-full h-4 flex justify-center items-center"
           style={{ minHeight: '16px' }}
-        />
+        >
+          <div className="w-1 h-1 bg-transparent"></div>
+        </div>
       )}
-      </div>
     </div>
   );
 }
