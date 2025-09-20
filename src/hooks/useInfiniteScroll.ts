@@ -106,12 +106,7 @@ export function useInfiniteScroll<T>(
         const newItems = [...prevItems, ...result.data];
         console.log('📊 Updated items count:', newItems.length);
         
-        // Auto-cleanup: Keep only the last maxItems
-        if (newItems.length > maxItems) {
-          console.log('🧹 Cleaning up items, keeping last:', maxItems);
-          return newItems.slice(-maxItems);
-        }
-        
+        // Keep all items - no auto-cleanup
         return newItems;
       });
       
@@ -145,10 +140,7 @@ export function useInfiniteScroll<T>(
       setItems(prevItems => {
         const newItems = [...prevItems, ...result.data];
         
-        if (newItems.length > maxItems) {
-          return newItems.slice(-maxItems);
-        }
-        
+        // Keep all items - no auto-cleanup
         return newItems;
       });
       
