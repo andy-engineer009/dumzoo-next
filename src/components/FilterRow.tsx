@@ -151,7 +151,7 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
     if (appliedFilters) {
       const newActiveFilters = {
         sortBy: appliedFilters.sortBy || '',
-        location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
+        // location: { state: appliedFilters.location?.state || '', city: appliedFilters.location?.city || '' },
         budgetMin: appliedFilters.budgetMin || 0,
         budgetMax: appliedFilters.budgetMax || 100000,
         platform: appliedFilters.platform || [],

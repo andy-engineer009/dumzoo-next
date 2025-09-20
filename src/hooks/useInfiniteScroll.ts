@@ -215,10 +215,18 @@ export function useInfiniteScroll<T>(
     };
   }, [hasMore, isLoading, isPrefetching]);
 
-  // Load initial data on mount
+  // Load initial data on mount and when fetchFunction changes
   useEffect(() => {
+    // Reset items when fetchFunction changes (e.g., when filters change)
+    setItems([]);
+    setCurrentPage(0);
+    setHasMore(true);
+    setIsInitialLoading(true);
+    setIsLoading(false);
+    setError(null);
+    
     loadInitialData();
-  }, []);
+  }, [loadInitialData]);
 
 
   // Cleanup on unmount
