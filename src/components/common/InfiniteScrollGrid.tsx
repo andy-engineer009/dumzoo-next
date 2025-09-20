@@ -123,11 +123,6 @@ function InfiniteScrollGrid<T>({
 
   return (
     <div>
-      {/* Debug Panel */}
-      <div className="bg-gray-100 p-2 mb-4 rounded text-xs">
-        <div>Items: {items.length} | Loading: {isLoading ? 'Yes' : 'No'} | HasMore: {hasMore ? 'Yes' : 'No'}</div>
-      </div>
-      
       <div className={gridClassName}>
         {items.map((item, index) => renderItem(item, index))}
         
