@@ -77,15 +77,17 @@ export const campaignApi = {
         const totalCount = response.recordsTotal || 0;
         const totalPages = Math.ceil(totalCount / limit);
         
-
-        
         return {
           data,
           hasMore: page < totalPages - 1,
           totalPages
         };
       } else {
-    
+        return {
+          data: [],
+          hasMore: false,
+          totalPages: 0
+        };
       }
     } catch (error) {
       console.error('💥 Error fetching campaigns:', error);

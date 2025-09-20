@@ -7,6 +7,7 @@ const apiDataSlice = createSlice({
         influencerDropdownData: null,
         dashboardData: null,
         chatUsers: [] as any[],
+        campaignAppliedStatus: {} as Record<string, number>,
         // loading: false,
         // error: null
     },
@@ -28,6 +29,15 @@ const apiDataSlice = createSlice({
             state.chatUsers = [];
         },
 
+        // Campaign applied status actions
+        updateCampaignAppliedStatus: (state, action: PayloadAction<{campaignId: string, appliedStatus: number}>) => {
+            state.campaignAppliedStatus[action.payload.campaignId] = action.payload.appliedStatus;
+        },
+
+        clearCampaignAppliedStatus: (state) => {
+            state.campaignAppliedStatus = {};
+        },
+
     }
 })
 
@@ -36,11 +46,14 @@ export const {
     influencerDropodownData, 
     dashboardData,
     setChatUsers,
-    clearChatUsers
+    clearChatUsers,
+    updateCampaignAppliedStatus,
+    clearCampaignAppliedStatus
   } = apiDataSlice.actions;
 
   export const selectInfluencerDropdownData = (state: { apiData: any }) => state.apiData.influencerDropdownData;
   export const selectDashboardData = (state: { apiData: any }) => state.apiData.dashboardData;
   export const selectChatUsers = (state: { apiData: any }) => state.apiData.chatUsers;
+  export const selectCampaignAppliedStatus = (state: { apiData: any }) => state.apiData.campaignAppliedStatus;
 // Export reducer
 export default apiDataSlice.reducer;
