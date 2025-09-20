@@ -87,19 +87,19 @@ export const useInfluencersStore = () => {
     return await influencerApi.fetchInfluencers(page, limit, cleanedFilters);
   }, [filters, cleanFilters]);
 
-  // Save scroll position
-  const saveScrollPosition = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      actions.setScrollY(window.scrollY);
-    }
-  }, [actions]);
+  // Save scroll position - REMOVED (not needed)
+  // const saveScrollPosition = useCallback(() => {
+  //   if (typeof window !== 'undefined') {
+  //     actions.setScrollY(window.scrollY);
+  //   }
+  // }, [actions]);
 
-  // Restore scroll position
-  const restoreScrollPosition = useCallback(() => {
-    if (typeof window !== 'undefined' && scrollY > 0) {
-      window.scrollTo({ top: scrollY, behavior: 'instant' });
-    }
-  }, [scrollY]);
+  // Restore scroll position - REMOVED (using router.back() instead)
+  // const restoreScrollPosition = useCallback(() => {
+  //   if (typeof window !== 'undefined' && scrollY > 0) {
+  //     window.scrollTo({ top: scrollY, behavior: 'instant' });
+  //   }
+  // }, [scrollY]);
 
   // Load initial data only if no items exist
   const loadInitialData = useCallback(async () => {
@@ -107,12 +107,12 @@ export const useInfluencersStore = () => {
     const currentState = store.getState();
     const currentItems = currentState.influencers.items;
 
-    // Check if data already exists in Redux store
-    if (currentItems.length > 0) {
-      // Data already exists, restore scroll position
-      restoreScrollPosition();
-      return;
-    }
+      // Check if data already exists in Redux store
+      if (currentItems.length > 0) {
+        // Data already exists, no need to fetch again
+        // Scroll position will be handled by router.back() naturally
+        return;
+      }
 
     // Check if we've already loaded data (prevent multiple calls)
     if (hasLoadedInitialData.current) {
@@ -131,7 +131,7 @@ export const useInfluencersStore = () => {
     } finally {
       actions.setLoading(false);
     }
-  }, [fetchInfluencers, actions, restoreScrollPosition]);
+  }, [fetchInfluencers, actions]);
 
   // Load more data
   const loadMore = useCallback(async () => {
@@ -176,8 +176,6 @@ export const useInfluencersStore = () => {
     
     // Helper functions
     fetchInfluencers,
-    saveScrollPosition,
-    restoreScrollPosition,
     loadInitialData,
     loadMore,
     updateFilters,

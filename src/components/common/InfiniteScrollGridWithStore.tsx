@@ -32,7 +32,6 @@ function InfiniteScrollGridWithStore({
     hasMore,
     loadInitialData,
     loadMore,
-    saveScrollPosition,
     resetLoadFlag
   } = useInfluencersStore();
 
@@ -96,13 +95,12 @@ function InfiniteScrollGridWithStore({
     loadInitialData();
   }, []); // Empty dependency array to run only once
 
-  // Save scroll position and reset load flag on unmount
+  // Reset load flag on unmount
   useEffect(() => {
     return () => {
-      saveScrollPosition();
       resetLoadFlag();
     };
-  }, [saveScrollPosition, resetLoadFlag]);
+  }, [resetLoadFlag]);
 
   // Default loading component with skeletons
   const defaultLoadingComponent = (

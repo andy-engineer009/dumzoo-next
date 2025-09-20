@@ -69,7 +69,8 @@ const influencersSlice = createSlice({
       state.nextPage = 0;
       state.loading = false;
       state.hasMore = true;
-      state.scrollY = 0;
+      // Don't reset scrollY - preserve scroll position
+      // state.scrollY = 0;
       state.filters = {};
     }
   }

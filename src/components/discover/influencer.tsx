@@ -12,7 +12,7 @@ export default function InfluencerDiscover() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   // Use the Redux store
-  const { filters, updateFilters, restoreScrollPosition } = useInfluencersStore();
+  const { filters, updateFilters } = useInfluencersStore();
 
   // Render function for each influencer item
   const renderInfluencer = useCallback((influencer: any, index: number) => (
