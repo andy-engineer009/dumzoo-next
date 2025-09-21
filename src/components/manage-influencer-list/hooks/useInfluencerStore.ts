@@ -67,11 +67,12 @@ export const useInfluencerStore = () => {
     const currentItems = currentState.influencer.items;
 
     if (currentItems.length > 0) {
-      // Just return if data already exists, no scroll restoration
       return;
     }
 
-    if (hasLoadedInitialData.current) return;
+    if (hasLoadedInitialData.current) {
+      return;
+    }
     hasLoadedInitialData.current = true;
 
     actions.setLoading(true);
@@ -109,6 +110,12 @@ export const useInfluencerStore = () => {
     actions.setFilters(newFilters);
     actions.resetInfluencers();
     dispatch(clearScrollPosition('influencers'));
+    
+    // Check the state immediately after setting
+    setTimeout(() => {
+      const currentState = store.getState();
+    }, 0);
+    
   }, [actions, dispatch]);
 
   const resetLoadFlag = useCallback(() => {

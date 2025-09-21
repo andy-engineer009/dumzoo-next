@@ -30,6 +30,7 @@ function InfluencerGrid({
     items,
     loading,
     hasMore,
+    filters,
     loadInitialData,
     loadMore,
     resetLoadFlag,
@@ -97,6 +98,15 @@ function InfluencerGrid({
     loadInitialData();
     checkAndApplyScrollPosition();
   }, [loadInitialData, checkAndApplyScrollPosition]);
+
+  // Watch for filter changes and reload data
+  useEffect(() => {
+    // If filters changed and we have no items, reload data
+    if (items.length === 0 && !loading) {
+      loadInitialData();
+    } else {
+    }
+  }, [filters, items.length, loading, loadInitialData]);
 
   // Setup scroll tracking and save position when user leaves
   useEffect(() => {

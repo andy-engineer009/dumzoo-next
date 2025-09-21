@@ -62,7 +62,7 @@ const influencerSlice = createSlice({
       state.nextPage = 0;
       state.loading = false;
       state.hasMore = true;
-      state.filters = {};
+      // Don't clear filters - they should persist
     }
   }
 });
