@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface Influencer {
-  id: number;
+  id?: number;
+  uuid?: string;
   name: string;
   username: string;
   profile_image: string;

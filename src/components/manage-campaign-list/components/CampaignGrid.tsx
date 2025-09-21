@@ -1,9 +1,9 @@
 'use client';
 
 import React, { memo, useCallback, useEffect, useRef } from 'react';
-import { useInfluencerStore } from '../hooks/useInfluencerStore';
+import { useCampaignStore } from '../hooks/useCampaignStore';
 
-interface InfluencerGridProps {
+interface CampaignGridProps {
   renderItem: (item: any, index: number) => React.ReactNode;
   renderSkeleton: (index: number) => React.ReactNode;
   gridClassName?: string;
@@ -15,17 +15,17 @@ interface InfluencerGridProps {
   rootMargin?: string;
 }
 
-function InfluencerGrid({
+function CampaignGrid({
   renderItem,
   renderSkeleton,
-  gridClassName = "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0",
+  gridClassName = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 pb-20 md:pb-0",
   loadingComponent,
   emptyComponent,
   endComponent,
   pageSize = 15,
   threshold = 0.1,
   rootMargin = '0px 0px 200px 0px'
-}: InfluencerGridProps) {
+}: CampaignGridProps) {
   const {
     items,
     loading,
@@ -36,7 +36,7 @@ function InfluencerGrid({
     resetLoadFlag,
     checkAndApplyScrollPosition,
     setupScrollTracking
-  } = useInfluencerStore();
+  } = useCampaignStore();
 
   // Refs
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -104,7 +104,6 @@ function InfluencerGrid({
     // If filters changed and we have no items, reload data
     if (items.length === 0 && !loading) {
       loadInitialData();
-    } else {
     }
   }, [filters, items.length, loading, loadInitialData]);
 
@@ -123,7 +122,7 @@ function InfluencerGrid({
       <div className="flex items-center justify-center py-4 mb-4">
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-          <span>Loading more influencers...</span>
+          <span>Loading more campaigns...</span>
         </div>
       </div>
       <div className={gridClassName}>
@@ -137,11 +136,11 @@ function InfluencerGrid({
     <div className="col-span-full text-center py-12">
       <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
         <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">No influencers found</h3>
-      <p className="text-gray-600 mb-4">We couldn't find any influencers matching your criteria.</p>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">No campaigns found</h3>
+      <p className="text-gray-600 mb-4">We couldn't find any campaigns matching your criteria.</p>
     </div>
   );
 
@@ -152,7 +151,7 @@ function InfluencerGrid({
         <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
         </svg>
-        All caught up! No more influencers to load.
+        All caught up! No more campaigns to load.
       </div>
     </div>
   );
@@ -174,7 +173,7 @@ function InfluencerGrid({
     <div>
       <div className={gridClassName}>
         {items.map((item, index) => (
-          <React.Fragment key={item.uuid || item.id || `influencer-${index}`}>
+          <React.Fragment key={item.id || `campaign-${index}`}>
             {renderItem(item, index)}
           </React.Fragment>
         ))}
@@ -204,4 +203,4 @@ function InfluencerGrid({
 }
 
 // Memoize the component to prevent unnecessary re-renders
-export default memo(InfluencerGrid);
+export default memo(CampaignGrid);

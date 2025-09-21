@@ -17,14 +17,13 @@ export default function InfluencerDiscover() {
   // Render function for each influencer item
   const renderInfluencer = useCallback((influencer: any, index: number) => (
     <InfluencerCard
-      key={influencer.uuid || index}
       data={influencer}
     />
   ), []);
 
   // Render function for influencer skeleton
   const renderInfluencerSkeleton = useCallback((index: number) => (
-    <InfluencerSkeleton key={`skeleton-${index}`} />
+    <InfluencerSkeleton />
   ), []);
 
   const handleFilterChange = (newFilters: any) => {

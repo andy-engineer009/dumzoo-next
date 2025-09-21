@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userRoleReducer from './userRoleSlice';
 import apiDataReducer from './apiDataSlice';
 import { influencerReducer, scrollPositionReducer } from '@/components/manage-influencer-list';
+import { campaignReducer, campaignScrollPositionReducer } from '@/components/manage-campaign-list';
 
 // Configure the Redux store
 export const store = configureStore({
@@ -12,6 +13,9 @@ export const store = configureStore({
     // New dedicated influencer management
     influencer: influencerReducer,
     scrollPosition: scrollPositionReducer,
+    // New dedicated campaign management
+    campaign: campaignReducer,
+    campaignScrollPosition: campaignScrollPositionReducer,
   },
   // Enable Redux DevTools in development
   devTools: process.env.NODE_ENV !== 'production',
