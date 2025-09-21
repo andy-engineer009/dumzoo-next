@@ -544,7 +544,6 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
 
   // Apply filters and trigger API call
   const handleApplyFilters = () => {
-    console.log(selectedFilters);
     // Scroll to top when applying filters (instant, no animation)
     window.scrollTo(0, 0);
     onFilterChange(selectedFilters);

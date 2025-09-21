@@ -2,17 +2,17 @@
 import FilterModal from "@/components/filter";
 import FilterRow from "@/components/FilterRow";
 import SearchBar from "@/components/SearchBar";
-import InfiniteScrollGridWithStore from "@/components/common/InfiniteScrollGridWithStore";
+import { InfluencerGrid } from "@/components/manage-influencer-list";
 import InfluencerCard from "@/components/influencer/InfulancerCard";
 import InfluencerSkeleton from "./InfluencerSkeleton";
-import { useState, useCallback, useEffect } from "react";
-import { useInfluencersStore } from "@/hooks/useInfluencersStore";
+import { useState, useCallback } from "react";
+import { useInfluencerStore } from "@/components/manage-influencer-list";
 
 export default function InfluencerDiscover() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   
   // Use the Redux store
-  const { filters, updateFilters, restoreScrollPosition } = useInfluencersStore();
+  const { filters, updateFilters } = useInfluencerStore();
 
   // Render function for each influencer item
   const renderInfluencer = useCallback((influencer: any, index: number) => (
@@ -45,7 +45,7 @@ export default function InfluencerDiscover() {
 
       <div className="flex mt-0 px-3 md:p-8 items-start pt-[10px]">
         <div className="md:pl-9" style={{flex: 1}}>
-          <InfiniteScrollGridWithStore
+          <InfluencerGrid
             renderItem={renderInfluencer}
             renderSkeleton={renderInfluencerSkeleton}
             pageSize={15}

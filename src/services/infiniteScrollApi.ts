@@ -20,14 +20,15 @@ export const influencerApi = {
   // Fetch influencers with page pagination
   fetchInfluencers: async (page: number, limit: number = 10, filters: any = {}) => {
     try {
-      // console.log('🔍 Fetching influencers:', { page, limit, filters });
       const cleanedFilters = cleanFilters(filters);
       
-      const response = await api.post(API_ROUTES.influencerList, {
+      const payload = {
         page,
         limit,
         ...cleanedFilters
-      });
+      };
+      
+      const response = await api.post(API_ROUTES.influencerList, payload);
 
       // console.log('📡 Influencer API Response:', response);
 
