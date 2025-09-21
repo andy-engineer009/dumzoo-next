@@ -1,14 +1,7 @@
 'use client'
 
-import { useCallback } from "react";
-import { API_ROUTES } from "@/appApi";
-import { api } from "@/common/services/rest-api/rest-api";
-
-import Link from "next/link";
-import InfiniteScrollGrid from "@/components/common/InfiniteScrollGrid";
-import InfluencerCard from "@/components/influencer/InfulancerCard";
 import { useParams } from "next/navigation";
-import InfluencerSkeleton from "../discover/InfluencerSkeleton";
+import Link from "next/link";
 
 export default function CampaignsList() {
   const params = useParams();
@@ -16,50 +9,6 @@ export default function CampaignsList() {
 
   console.log(campaign_id);
 
-  // Fetch function for infinite scroll
-  const fetchInfluencers = useCallback(async (page: number, limit: number = 3) => {
-    try {
-      const res = await api.post(API_ROUTES.appliedCampaingsInfluencerList, {
-        campaign_id,
-        start: page * limit,
-        length: limit
-      });
-
-      if (res.status === 1) {
-        const data = res.data || [];
-        const totalRecords = res.recordsTotal || 0;
-        const totalPages = Math.ceil(totalRecords / limit);
-        
-        return {
-          data,
-          hasMore: page < totalPages - 1,
-          totalPages
-        };
-      } else {
-        return {
-          data: [],
-          hasMore: false,
-          totalPages: 0
-        };
-      }
-    } catch (error) {
-      console.error('Error fetching influencers:', error);
-      throw new Error('Failed to fetch influencers');
-    }
-  }, [campaign_id]);
-
-  // Render function for each influencer item
-  const renderInfluencer = useCallback((influencer: any, index: number) => (
-    <InfluencerCard
-      key={index}
-      data={influencer}
-    />
-  ), []);
-
-  // Render function for influencer skeleton
-  const renderInfluencerSkeleton = useCallback((index: number) => (
-    <InfluencerSkeleton key={`skeleton-${index}`} />
-  ), []);
 
   return (
     <div className="promotoradded_campaigns_list">
@@ -80,17 +29,12 @@ export default function CampaignsList() {
 
       <div className="flex mt-0 px-4 md:p-8 items-start pt-[10px]">
         <div className="md:pl-9" style={{flex: 1}}>
-          <InfiniteScrollGrid
-            fetchFunction={fetchInfluencers}
-            renderItem={renderInfluencer}
-            renderSkeleton={renderInfluencerSkeleton}
-            pageSize={15}
-            maxItems={1000}
-            threshold={0.1}
-            rootMargin="0px 0px 200px 0px"
-            prefetchDistance={5}
-            gridClassName="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0"
-          />
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0">
+            {/* Applied influencers will be loaded here */}
+            <div className="col-span-full text-center py-12">
+              <p className="text-gray-600">Applied influencers loading...</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

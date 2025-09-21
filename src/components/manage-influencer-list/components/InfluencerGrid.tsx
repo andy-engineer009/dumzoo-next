@@ -1,9 +1,9 @@
 'use client';
 
 import React, { memo, useCallback, useEffect, useRef } from 'react';
-import { useInfluencersStore } from '@/hooks/useInfluencersStore';
+import { useInfluencerStore } from '../hooks/useInfluencerStore';
 
-interface InfiniteScrollGridWithStoreProps {
+interface InfluencerGridProps {
   renderItem: (item: any, index: number) => React.ReactNode;
   renderSkeleton: (index: number) => React.ReactNode;
   gridClassName?: string;
@@ -15,7 +15,7 @@ interface InfiniteScrollGridWithStoreProps {
   rootMargin?: string;
 }
 
-function InfiniteScrollGridWithStore({
+function InfluencerGrid({
   renderItem,
   renderSkeleton,
   gridClassName = "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-6 pb-20 md:pb-0",
@@ -25,15 +25,17 @@ function InfiniteScrollGridWithStore({
   pageSize = 15,
   threshold = 0.1,
   rootMargin = '0px 0px 200px 0px'
-}: InfiniteScrollGridWithStoreProps) {
+}: InfluencerGridProps) {
   const {
     items,
     loading,
     hasMore,
     loadInitialData,
     loadMore,
-    resetLoadFlag
-  } = useInfluencersStore();
+    resetLoadFlag,
+    checkAndApplyScrollPosition,
+    setupScrollTracking
+  } = useInfluencerStore();
 
   // Refs
   const observerRef = useRef<HTMLDivElement | null>(null);
@@ -90,17 +92,20 @@ function InfiniteScrollGridWithStore({
     };
   }, [hasMore, loading, threshold, rootMargin, debouncedLoadMore]);
 
-  // Load initial data on mount
+  // Load initial data on mount and restore scroll position
   useEffect(() => {
     loadInitialData();
-  }, []); // Empty dependency array to run only once
+    checkAndApplyScrollPosition();
+  }, [loadInitialData, checkAndApplyScrollPosition]);
 
-  // Reset load flag on unmount
+  // Setup scroll tracking and save position when user leaves
   useEffect(() => {
+    const cleanup = setupScrollTracking();
     return () => {
+      cleanup();
       resetLoadFlag();
     };
-  }, [resetLoadFlag]);
+  }, [resetLoadFlag, setupScrollTracking]);
 
   // Default loading component with skeletons
   const defaultLoadingComponent = (
@@ -108,7 +113,7 @@ function InfiniteScrollGridWithStore({
       <div className="flex items-center justify-center py-4 mb-4">
         <div className="flex items-center space-x-2 text-sm text-gray-500">
           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
-          <span>Loading more content...</span>
+          <span>Loading more influencers...</span>
         </div>
       </div>
       <div className={gridClassName}>
@@ -122,7 +127,7 @@ function InfiniteScrollGridWithStore({
     <div className="col-span-full text-center py-12">
       <div className="w-20 h-20 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
         <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
         </svg>
       </div>
       <h3 className="text-lg font-semibold text-gray-900 mb-2">No influencers found</h3>
@@ -181,4 +186,4 @@ function InfiniteScrollGridWithStore({
 }
 
 // Memoize the component to prevent unnecessary re-renders
-export default memo(InfiniteScrollGridWithStore);
+export default memo(InfluencerGrid);
