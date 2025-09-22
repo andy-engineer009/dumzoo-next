@@ -19,14 +19,13 @@ interface FormData {
 }
 
 const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
-  const [currentStep, setCurrentStep] = useState<'input' | 'code' | 'verifying' | 'form'>('input');
+  const [currentStep, setCurrentStep] = useState<'input' | 'code' | 'verifying' | 'form' | 'success'>('input');
   const [bioCode, setBioCode] = useState<string>('');
   const [username, setUsername] = useState<string>('');
   const [instagramUrl, setInstagramUrl] = useState<string>('');
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
   const [verificationSuccess, setVerificationSuccess] = useState<boolean>(false);
   const [formStep, setFormStep] = useState<number>(0);
-  const [showConfetti, setShowConfetti] = useState<boolean>(false);
   
   const router = useRouter()
   // Test mode - set to true to bypass API calls
@@ -146,16 +145,12 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
     console.log('Current step before submission:', currentStep);
     
     if (TEST_MODE) {
-      // Test mode - bypass API call and show confetti then complete
-      console.log('Test mode: Profile completed with confetti');
-      setShowConfetti(true);
+      // Test mode - bypass API call and show success screen
+      console.log('Test mode: Profile completed');
+      setCurrentStep('success');
       if (onComplete) {
         onComplete(values);
       }
-      // Show confetti briefly then redirect or complete
-      setTimeout(() => {
-        router.push('/')
-      }, 2000);
       return;
     }
     
@@ -168,13 +163,10 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
       });
       
       if (response.success !== false) {
+        setCurrentStep('success');
         if (onComplete) {
           onComplete(values);
         }
-        // Show confetti briefly then redirect
-        setTimeout(() => {
-          window.location.href = '/dashboard';
-        }, 2000);
       } else {
         console.error('Error saving profile:', response.error);
       }
@@ -203,23 +195,6 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-orange-50 flex items-center justify-center p-3">
       <div className="w-full max-w-sm">
-        {/* Confetti Overlay */}
-        {showConfetti && (
-          <div className="fixed inset-0 pointer-events-none z-50">
-            <div className="confetti-container absolute inset-0">
-              <div className="confetti confetti-1"></div>
-              <div className="confetti confetti-2"></div>
-              <div className="confetti confetti-3"></div>
-              <div className="confetti confetti-4"></div>
-              <div className="confetti confetti-5"></div>
-              <div className="confetti confetti-6"></div>
-              <div className="confetti confetti-7"></div>
-              <div className="confetti confetti-8"></div>
-              <div className="confetti confetti-9"></div>
-              <div className="confetti confetti-10"></div>
-            </div>
-          </div>
-        )}
         {/* Profile Input Screen */}
         {currentStep === 'input' && (
           <div className="bg-white rounded-xl shadow-lg p-6 text-center animate-fadeIn">
@@ -408,6 +383,28 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
           </div>
         )}
 
+        {/* Success Popup Screen */}
+        {currentStep === 'success' && (
+          <div className="bg-white rounded-xl shadow-lg p-6 text-center animate-fadeIn">
+            <div className="mb-6">
+              <div className="w-16 h-16 bg-[#1fb036] rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-gray-900 mb-2">Congratulations!</h2>
+              <p className="text-sm text-gray-600 mb-6">Your profile has been created successfully</p>
+            </div>
+
+            <button
+              onClick={() => router.push('/')}
+              className="w-full bg-[#1fb036] text-white py-3 rounded-lg font-semibold text-sm hover:bg-[#1a9a2e] transition-all duration-300"
+            >
+              Find Promotions
+            </button>
+          </div>
+        )}
+
       </div>
 
       <style jsx>{`
@@ -431,11 +428,6 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(30px); }
           to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes confetti-fall {
-          0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
-          100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
         }
         
         .animate-fadeIn {
@@ -464,74 +456,6 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
         
         .delay-400 {
           animation-delay: 0.4s;
-        }
-        
-        .confetti {
-          position: absolute;
-          width: 10px;
-          height: 10px;
-          background: #f39c12;
-          animation: confetti-fall 3s linear infinite;
-        }
-        
-        .confetti-1 {
-          left: 10%;
-          background: #e74c3c;
-          animation-delay: 0s;
-        }
-        
-        .confetti-2 {
-          left: 20%;
-          background: #f39c12;
-          animation-delay: 0.2s;
-        }
-        
-        .confetti-3 {
-          left: 30%;
-          background: #2ecc71;
-          animation-delay: 0.4s;
-        }
-        
-        .confetti-4 {
-          left: 40%;
-          background: #3498db;
-          animation-delay: 0.6s;
-        }
-        
-        .confetti-5 {
-          left: 50%;
-          background: #9b59b6;
-          animation-delay: 0.8s;
-        }
-        
-        .confetti-6 {
-          left: 60%;
-          background: #e67e22;
-          animation-delay: 1s;
-        }
-        
-        .confetti-7 {
-          left: 70%;
-          background: #1abc9c;
-          animation-delay: 1.2s;
-        }
-        
-        .confetti-8 {
-          left: 80%;
-          background: #e91e63;
-          animation-delay: 1.4s;
-        }
-        
-        .confetti-9 {
-          left: 90%;
-          background: #ff9800;
-          animation-delay: 1.6s;
-        }
-        
-        .confetti-10 {
-          left: 95%;
-          background: #673ab7;
-          animation-delay: 1.8s;
         }
       `}</style>
     </div>
