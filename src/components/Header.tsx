@@ -135,9 +135,9 @@ const Header = () => {
               {/* Center - Add Influencer Button (Floating) */}
               {role === '2' && (
                 <div className="flex justify-center">
-                  {/* 1fb036 color green */}
+                  {/* 1fb036 color green  /registration*/}
                   <button
-                    onClick={() => router.push(isInfluencerRegistered ? '/plans' : '/registration')}
+                    onClick={() => router.push(isInfluencerRegistered ? '/plans' : '/verification')}
                     className="flex flex-col items-center justify-center w-14 h-14 bg-[#C4E729] text-[#000] rounded-[10px] shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 border-4 border-white"
                   >
                     {isInfluencerRegistered ? (

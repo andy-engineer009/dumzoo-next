@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import AwarePopup from '../aware-popup';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
 
-import CampaignDetailSkeleton from "@/components/campaigns/CampaignDetailSkeleton";
+import InfluencerDetailSkeleton from "@/components/influencer/influencerDetailSkeleton";
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
 import { useSelector } from 'react-redux';
@@ -23,7 +23,7 @@ const InfluencerDetail = ({
   // Show loading state if data is not yet loaded
   if (!data) {
     return (
-<CampaignDetailSkeleton />
+<InfluencerDetailSkeleton />
     );
   }
 
