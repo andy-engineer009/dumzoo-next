@@ -36,6 +36,11 @@ export const API_ROUTES = {
      createNewConversation: "chat/conversations",
      getChatMessages: "chat/messages/",
      sendChatMessage: "chat/messages",
+
+    // instagram verification
+    getBioCode: "instagram/get-bio-code",
+    verifyProfile: "instagram/verify-profile",
+    saveProfile: "instagram/save-profile",
     // getInfluencerProfile: "promoter/profile",
     // influencerDetail: "influencer/detail",
     // goToSignup: "http://localhost:5000/api/auth/signup",
