@@ -17,14 +17,12 @@ interface NewPageState {
   data: InfluencerData[];
   hasData: boolean;
   lastPage: number;
-  lastScrollPosition: number;
 }
 
 const initialState: NewPageState = {
   data: [],
   hasData: false,
   lastPage: 0,
-  lastScrollPosition: 0,
 };
 
 const newPageSlice = createSlice({
@@ -38,17 +36,13 @@ const newPageSlice = createSlice({
     setLastPage: (state, action: PayloadAction<number>) => {
       state.lastPage = action.payload;
     },
-    setLastScrollPosition: (state, action: PayloadAction<number>) => {
-      state.lastScrollPosition = action.payload;
-    },
     clearData: (state) => {
       state.data = [];
       state.hasData = false;
       state.lastPage = 0;
-      state.lastScrollPosition = 0;
     },
   },
 });
 
-export const { setData, setLastPage, setLastScrollPosition, clearData } = newPageSlice.actions;
+export const { setData, setLastPage, clearData } = newPageSlice.actions;
 export default newPageSlice.reducer;
