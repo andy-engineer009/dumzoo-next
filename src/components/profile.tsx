@@ -90,7 +90,7 @@ console.log('mak')
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
         <div className="flex items-center justify-center relative">
           <button 
-            onClick={() => router.push('/')}
+            onClick={() => router.push('/new')}
             className="p-2 rounded-full hover:bg-gray-100 absolute left-0 top-1/2 -translate-y-1/2"
           >
             <svg className="w-5 h-5" fill="none" stroke="#ccc" viewBox="0 0 24 24">

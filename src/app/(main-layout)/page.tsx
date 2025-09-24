@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUserRole , selectIsLoggedIn} from "@/store/userRoleSlice";
 import CampaignsPage from "./(influencer)/campaigns/page";
 import Discover from "./(promoter)/discover/page";
+import New from "./new/page";
 export default function Home() {
   const userRole = useSelector(selectUserRole);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -12,7 +13,7 @@ export default function Home() {
     <>
     {(userRole === null || userRole === undefined) && ''}
     {(isLoggedIn && userRole === '2') && <CampaignsPage />} {/* Influencer Home */}
-    {(isLoggedIn && userRole === '3') && <Discover />}
+    {(isLoggedIn && userRole === '3') && <New />}
     {((!isLoggedIn && userRole != null && userRole != undefined )) && <PromotorHome />}
 
     {/* {(isLoggedIn && userRole === '2') && <InfluencerHome />} */}
