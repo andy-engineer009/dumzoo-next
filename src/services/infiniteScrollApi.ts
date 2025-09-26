@@ -37,7 +37,7 @@ export const appliedInfluencersApi = {
         
         return {
           data,
-          hasMore: page < totalPages - 1,
+          hasMore: page < totalPages,
           totalPages
         };
       } else {
@@ -83,7 +83,7 @@ export const influencerApi = {
         
         return {
           data,
-          hasMore: page < totalPages - 1,
+          hasMore: page < totalPages,
           totalPages
         };
       } else {
@@ -124,7 +124,7 @@ export const campaignApi = {
         
         return {
           data,
-          hasMore: page < totalPages - 1,
+          hasMore: page < totalPages,
           totalPages
         };
       } else {
@@ -161,7 +161,7 @@ export const createInfiniteScrollApi = (endpoint: string) => {
           
           return {
             data,
-            hasMore: page < totalPages - 1,
+            hasMore: page < totalPages,
             totalPages
           };
         } else {
