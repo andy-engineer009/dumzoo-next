@@ -1,18 +1,64 @@
 'use client';
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer, elementScroll } from '@tanstack/react-virtual';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import InfluencerCard from "@/components/influencer/InfulancerCard";
 import { influencerApi } from '@/services/infiniteScrollApi';
+import type { VirtualizerOptions } from '@tanstack/react-virtual';
+import { setData, setScrollPosition, clearData } from '@/store/influencerCacheSlice';
+import type { RootState } from '@/store/store';
 
 interface VirtualInfluencerListProps {
   filters?: any;
 }
 
+// Redux selectors
+const selectInfluencerCache = (state: RootState) => state.influencerCache;
+
+// Smooth scroll easing function
+function easeInOutQuint(t: number) {
+  return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
+}
+
 export default function VirtualInfluencerList({ filters = {} }: VirtualInfluencerListProps) {
+  // Redux
+  const dispatch = useDispatch();
+  const { data: cachedData, lastPage, scrollPosition, hasData } = useSelector(selectInfluencerCache);
+  
   // The scrollable element for your list
   const parentRef = React.useRef<HTMLDivElement>(null);
-  const [scrollPos, setScrollPos] = useState(0); // ✅ Track scroll position
+  const scrollingRef = React.useRef<number | undefined>(undefined);
+  const [scrollPos, setScrollPos] = useState(0);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const isRestoringScroll = useRef(false);
+  const hasRestoredScroll = useRef(false);
+  const processedPagesRef = useRef<number>(0);
+
+  // Custom smooth scroll function
+  const scrollToFn: VirtualizerOptions<any, any>['scrollToFn'] =
+    React.useCallback((offset, canSmooth, instance) => {
+      const duration = 0;
+      const start = parentRef.current?.scrollTop || 0;
+      const startTime = (scrollingRef.current = Date.now());
+
+      const run = () => {
+        if (scrollingRef.current !== startTime) return;
+        const now = Date.now();
+        const elapsed = now - startTime;
+        const progress = easeInOutQuint(Math.min(elapsed / duration, 1));
+        const interpolated = start + (offset - start) * progress;
+
+        if (elapsed < duration) {
+          elementScroll(interpolated, canSmooth, instance);
+          requestAnimationFrame(run);
+        } else {
+          elementScroll(interpolated, canSmooth, instance);
+        }
+      };
+
+      requestAnimationFrame(run);
+    }, []);
 
   // useInfiniteQuery for infinite scroll pagination
   const {
@@ -26,57 +72,130 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   } = useInfiniteQuery({
     queryKey: ['influencers', filters],
     queryFn: ({ pageParam = 1 }: { pageParam: number }) => {
-      console.log('🔄 API Call - Page:', pageParam, 'Filters:', filters);
+      // console.log('🔄 API Call - Page:', pageParam, 'Filters:', filters);
       return influencerApi.fetchInfluencers(pageParam, 15, filters);
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
-      // Return next page number if there are more pages
       return lastPage.hasMore ? allPages.length + 1 : undefined;
     },
     initialPageParam: 1,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
+    // Always enable - we'll handle data merging manually
   });
 
-  // Flatten all pages into a single array for virtual scrolling
-  const influencers = data?.pages.flatMap((page: any) => page.data) || [];
+  // Merge cached data with new API data - prevent duplicates
+  const influencers = React.useMemo(() => {
+    if (hasData && data?.pages && data.pages.length > 0) {
+      // We have cached data AND new API data - merge them carefully
+      const newInfluencers = data.pages.flatMap((page: any) => page.data);
+      
+      // Create a Set of existing IDs to prevent duplicates
+      const existingIds = new Set(cachedData.map((item: any) => item.id || item.uuid));
+      const uniqueNewInfluencers = newInfluencers.filter((item: any) => 
+        !existingIds.has(item.id || item.uuid)
+      );
+      
+      return [...cachedData, ...uniqueNewInfluencers];
+    } else if (hasData) {
+      // Only cached data
+      return cachedData;
+    } else if (data?.pages && data.pages.length > 0) {
+      // Only API data
+      return data.pages.flatMap((page: any) => page.data);
+    }
+    return [];
+  }, [hasData, cachedData, data]);
 
-  // Debug logging
+  // Save data when new data arrives
   useEffect(() => {
-    console.log('📊 Data Status:', {
-      hasData: !!data,
-      pagesCount: data?.pages?.length || 0,
-      totalInfluencers: influencers.length,
-      hasNextPage,
-      isFetchingNextPage,
-      isLoading,
-      lastPage: data?.pages?.[data?.pages?.length - 1]
-    });
-  }, [data, influencers.length, hasNextPage, isFetchingNextPage, isLoading]);
+    if (data && data.pages.length > 0 && data.pages.length > processedPagesRef.current) {
+      const allInfluencers = data.pages.flatMap((page: any) => page.data);
+      const currentPage = data.pages.length;
+      
+      if (!hasData) {
+        // First time - save to Redux
+        dispatch(setData({ data: allInfluencers, lastPage: currentPage }));
+        processedPagesRef.current = currentPage;
+      } else {
+        // We have cached data - merge and save (prevent duplicates)
+        const existingIds = new Set(cachedData.map((item: any) => item.id || item.uuid));
+        const uniqueNewInfluencers = allInfluencers.filter((item: any) => 
+          !existingIds.has(item.id || item.uuid)
+        );
+        const mergedData = [...cachedData, ...uniqueNewInfluencers];
+        
+        // console.log('🔄 Merging data:', {
+        //   cachedCount: cachedData.length,
+        //   newCount: allInfluencers.length,
+        //   uniqueNewCount: uniqueNewInfluencers.length,
+        //   finalCount: mergedData.length,
+        //   existingIds: Array.from(existingIds).slice(0, 5), // Show first 5 IDs
+        //   newIds: allInfluencers.slice(0, 5).map((item: any) => item.id || item.uuid) // Show first 5 new IDs
+        // });
+        
+        dispatch(setData({ data: mergedData, lastPage: currentPage }));
+        processedPagesRef.current = currentPage;
+      }
+    }
+  }, [data, hasData, cachedData, dispatch]);
 
-  // The virtualizer - handles virtual scrolling
+  // The virtualizer - handles virtual scrolling with smooth scroll
   const rowVirtualizer = useVirtualizer({
     count: hasNextPage ? influencers.length + 1 : influencers.length, // Add 1 for loader row
     getScrollElement: () => parentRef.current,
     estimateSize: () => 130, // Height of each influencer card
     overscan: 5, // Render extra items for smooth scrolling
+    scrollToFn, // Custom smooth scroll function
   });
 
-  // ✅ Listen for scroll events and update scrollPos
+  // Restore scroll position when data is loaded (only once)
   useEffect(() => {
-    const el = parentRef.current;
-    if (!el) return;
+    if (influencers.length > 0 && !hasRestoredScroll.current && scrollPosition > 0) {
+      hasRestoredScroll.current = true;
+      isRestoringScroll.current = true;
+      // console.log('🔄 Restoring scroll position:', scrollPosition);
+      setTimeout(() => {
+        // Use useVirtualizer's scrollToOffset with smooth animation
+        rowVirtualizer.scrollToOffset(scrollPosition, { align: 'start' });
+        // console.log('✅ Scroll position restored to:', scrollPosition);
+        isRestoringScroll.current = false;
+      }, 100);
+    }
+  }, [influencers.length, rowVirtualizer, scrollPosition]);
 
+  // Save scroll position with throttling
+  useEffect(() => {
     const handleScroll = () => {
-      // TanStack's internal offset is most accurate
-      setScrollPos(rowVirtualizer.scrollOffset || 0);
+      if (isRestoringScroll.current) return;
+      
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      
+      scrollTimeoutRef.current = setTimeout(() => {
+        if (!isRestoringScroll.current) {
+          const position = rowVirtualizer.scrollOffset || 0;
+          setScrollPos(position);
+          dispatch(setScrollPosition(position));
+          // console.log('💾 Saving scroll position to Redux:', position);
+        }
+      }, 300);
     };
 
-    el.addEventListener('scroll', handleScroll);
-    return () => el.removeEventListener('scroll', handleScroll);
-  }, [rowVirtualizer]);
+    const element = parentRef.current;
+    if (element) {
+      element.addEventListener('scroll', handleScroll, { passive: true });
+      return () => {
+        element.removeEventListener('scroll', handleScroll);
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+      };
+    }
+  }, [influencers.length, rowVirtualizer, dispatch]);
 
-  // 🔄 Infinite scroll logic - following TanStack official pattern
+  // 🔄 Infinite scroll logic - always enabled
   React.useEffect(() => {
     const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
 
@@ -89,7 +208,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       hasNextPage &&
       !isFetchingNextPage
     ) {
-      console.log('🔄 Fetching next page (TanStack pattern)...');
+      // console.log('🔄 Fetching next page...');
       fetchNextPage();
     }
   }, [
@@ -100,12 +219,8 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
     rowVirtualizer.getVirtualItems(),
   ]);
 
-  useEffect(() => {
-    console.log('Current scroll position:', scrollPos);
-  }, [scrollPos]);
-
-  // Loading state
-  if (isLoading) {
+  // Loading state - only show if no cached data
+  if (isLoading && !hasData) {
     return (
       <div className="flex justify-center items-center h-96">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fb036]"></div>
@@ -114,7 +229,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   }
 
   // Error state
-  if (isError) {
+  if (isError && !hasData) {
     return (
       <div className="flex justify-center items-center h-96">
         <div className="text-red-500">
@@ -152,7 +267,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       {/* The large inner element to hold all of the items */}
       <div
         style={{
-          height: `130px`,
+          height: `${rowVirtualizer.getTotalSize()}px`,
           width: '100%',
           position: 'relative',
         }}

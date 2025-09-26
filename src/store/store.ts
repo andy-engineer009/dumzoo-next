@@ -3,6 +3,7 @@ import userRoleReducer from './userRoleSlice';
 import apiDataReducer from './apiDataSlice';
 import { influencerReducer, scrollPositionReducer } from '@/components/manage-influencer-list';
 import { campaignReducer, campaignScrollPositionReducer } from '@/components/manage-campaign-list';
+import influencerCacheReducer from './influencerCacheSlice';
 
 // Configure the Redux store
 export const store = configureStore({
@@ -16,6 +17,8 @@ export const store = configureStore({
     // New dedicated campaign management
     campaign: campaignReducer,
     campaignScrollPosition: campaignScrollPositionReducer,
+    // Influencer cache for VirtualInfluencerList
+    influencerCache: influencerCacheReducer,
   },
   // Enable Redux DevTools in development
   devTools: process.env.NODE_ENV !== 'production',
