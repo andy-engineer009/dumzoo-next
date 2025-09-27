@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import InfluencerCard from "@/components/influencer/InfulancerCard";
 import { influencerApi } from '@/services/infiniteScrollApi';
 import type { VirtualizerOptions } from '@tanstack/react-virtual';
-import { setData, setScrollPosition, clearData } from '@/store/influencerCacheSlice';
+import { setData, setScrollPosition, setFilters, clearData } from '@/store/influencerCacheSlice';
 import type { RootState } from '@/store/store';
 
 interface VirtualInfluencerListProps {
@@ -24,7 +24,18 @@ function easeInOutQuint(t: number) {
 export default function VirtualInfluencerList({ filters = {} }: VirtualInfluencerListProps) {
   // Redux
   const dispatch = useDispatch();
-  const { data: cachedData, lastPage, scrollPosition, hasData } = useSelector(selectInfluencerCache);
+  const { data: cachedData, lastPage, scrollPosition, hasData, lastFilters } = useSelector(selectInfluencerCache);
+  
+  // Debug Redux state
+  useEffect(() => {
+    console.log('📊 Redux State:', {
+      hasData,
+      dataLength: cachedData?.length || 0,
+      lastPage,
+      scrollPosition,
+      lastFilters
+    });
+  }, [hasData, cachedData?.length, lastPage, scrollPosition, lastFilters]);
   
   // The scrollable element for your list
   const parentRef = React.useRef<HTMLDivElement>(null);
@@ -34,6 +45,26 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   const isRestoringScroll = useRef(false);
   const hasRestoredScroll = useRef(false);
   const processedPagesRef = useRef<number>(0);
+
+  // Use saved filters from Redux if no current filters provided
+  const effectiveFilters = Object.keys(filters).length > 0 ? filters : lastFilters;
+  console.log(effectiveFilters, 'effectiveFilters top line 51')
+
+  // Check if filters have changed
+  const filtersChanged = JSON.stringify(filters) !== JSON.stringify(lastFilters);
+  
+  // Only clear data and save filters when filters actually change
+  useEffect(() => {
+    if (filtersChanged) {
+      console.log('🔄 Filter change detected, clearing cached data');
+      dispatch(clearData());
+      processedPagesRef.current = 0;
+      hasRestoredScroll.current = false;
+      
+      console.log('💾 Saving new filters:', filters);
+      dispatch(setFilters(filters));
+    }
+  }, [filters, lastFilters, dispatch, filtersChanged]);
 
   // Custom smooth scroll function
   const scrollToFn: VirtualizerOptions<any, any>['scrollToFn'] =
@@ -60,6 +91,9 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       requestAnimationFrame(run);
     }, []);
 
+  // Only call API when needed
+  const shouldFetch = !hasData || filtersChanged;
+  
   // useInfiniteQuery for infinite scroll pagination
   const {
     data,
@@ -70,42 +104,30 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
     isError,
     error
   } = useInfiniteQuery({
-    queryKey: ['influencers', filters],
-    queryFn: ({ pageParam = 1 }: { pageParam: number }) => {
-      // console.log('🔄 API Call - Page:', pageParam, 'Filters:', filters);
-      return influencerApi.fetchInfluencers(pageParam, 15, filters);
+    queryKey: ['influencers', effectiveFilters],
+    queryFn: ({ pageParam = 0 }: { pageParam: number }) => {
+      console.log('🔄 API Call - Page:', pageParam, 'Filters:', effectiveFilters, 'Should fetch:', shouldFetch);
+      return influencerApi.fetchInfluencers(pageParam, 15, effectiveFilters);
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;
     },
-    initialPageParam: 1,
-    staleTime: 5 * 60 * 1000,
+    initialPageParam: 0,
+    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
     refetchOnWindowFocus: false,
-    // Always enable - we'll handle data merging manually
+    enabled: shouldFetch, // Only call API when needed
   });
 
-  // Merge cached data with new API data - prevent duplicates
+  // Use Redux cache if available, otherwise API data
   const influencers = React.useMemo(() => {
-    if (hasData && data?.pages && data.pages.length > 0) {
-      // We have cached data AND new API data - merge them carefully
-      const newInfluencers = data.pages.flatMap((page: any) => page.data);
-      
-      // Create a Set of existing IDs to prevent duplicates
-      const existingIds = new Set(cachedData.map((item: any) => item.id || item.uuid));
-      const uniqueNewInfluencers = newInfluencers.filter((item: any) => 
-        !existingIds.has(item.id || item.uuid)
-      );
-      
-      return [...cachedData, ...uniqueNewInfluencers];
-    } else if (hasData) {
-      // Only cached data
-      return cachedData;
-    } else if (data?.pages && data.pages.length > 0) {
-      // Only API data
-      return data.pages.flatMap((page: any) => page.data);
+    if (hasData && !isLoading) {
+      return cachedData; // Use Redux cache
+    }
+    if (data?.pages && data.pages.length > 0) {
+      return data.pages.flatMap((page: any) => page.data); // Use API data
     }
     return [];
-  }, [hasData, cachedData, data]);
+  }, [hasData, cachedData, data, isLoading]);
 
   // Save data when new data arrives
   useEffect(() => {
@@ -113,32 +135,12 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       const allInfluencers = data.pages.flatMap((page: any) => page.data);
       const currentPage = data.pages.length;
       
-      if (!hasData) {
-        // First time - save to Redux
-        dispatch(setData({ data: allInfluencers, lastPage: currentPage }));
-        processedPagesRef.current = currentPage;
-      } else {
-        // We have cached data - merge and save (prevent duplicates)
-        const existingIds = new Set(cachedData.map((item: any) => item.id || item.uuid));
-        const uniqueNewInfluencers = allInfluencers.filter((item: any) => 
-          !existingIds.has(item.id || item.uuid)
-        );
-        const mergedData = [...cachedData, ...uniqueNewInfluencers];
-        
-        // console.log('🔄 Merging data:', {
-        //   cachedCount: cachedData.length,
-        //   newCount: allInfluencers.length,
-        //   uniqueNewCount: uniqueNewInfluencers.length,
-        //   finalCount: mergedData.length,
-        //   existingIds: Array.from(existingIds).slice(0, 5), // Show first 5 IDs
-        //   newIds: allInfluencers.slice(0, 5).map((item: any) => item.id || item.uuid) // Show first 5 new IDs
-        // });
-        
-        dispatch(setData({ data: mergedData, lastPage: currentPage }));
-        processedPagesRef.current = currentPage;
-      }
+      console.log(allInfluencers,'all setData line 130')
+      // Always save new data to Redux
+      dispatch(setData({ data: allInfluencers, lastPage: currentPage, filters: effectiveFilters }));
+      processedPagesRef.current = currentPage;
     }
-  }, [data, hasData, cachedData, dispatch]);
+  }, [data, dispatch, effectiveFilters]);
 
   // The virtualizer - handles virtual scrolling with smooth scroll
   const rowVirtualizer = useVirtualizer({
@@ -180,7 +182,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
           dispatch(setScrollPosition(position));
           // console.log('💾 Saving scroll position to Redux:', position);
         }
-      }, 300);
+      }, 100);
     };
 
     const element = parentRef.current;

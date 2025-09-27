@@ -163,7 +163,8 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
         languages: appliedFilters.languages || [],
         city_id: appliedFilters.city_id || '',
       };
-      // console.log('🔄 FilterRow: setting activeFilters to:', newActiveFilters);
+      
+      console.log('🔄 FilterRow: setting activeFilters to:', newActiveFilters);
       setActiveFilters(newActiveFilters);
     }
   }, [appliedFilters]);
