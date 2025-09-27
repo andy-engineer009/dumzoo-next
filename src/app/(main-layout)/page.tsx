@@ -13,7 +13,7 @@ export default function Home() {
     {(userRole === null || userRole === undefined) && ''}
     {(isLoggedIn && userRole === '2') && <CampaignsPage />} {/* Influencer Home */}
     {(isLoggedIn && userRole === '3') && <Discover />}
-    {((!isLoggedIn && userRole != null && userRole != undefined )) && <PromotorHome />}
+    {((!isLoggedIn && userRole != null && userRole != undefined )) && <Discover />}
 
     {/* {(isLoggedIn && userRole === '2') && <InfluencerHome />} */}
     {/* {(userRole == '3' || (!isLoggedIn && userRole != null && userRole != undefined )) && <PromotorHome />} */}
