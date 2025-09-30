@@ -13,7 +13,8 @@ import { api } from '@/common/services/rest-api/rest-api';
 import { useSelector } from 'react-redux';
 
 const InfluencerDetail = ({
-  data
+  data,
+  onClose
 }: any) => {
   const router = useRouter();
   const [isAwareOpen, setIsAwareOpen] = useState(false);
@@ -204,7 +205,7 @@ const InfluencerDetail = ({
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">
               {/* Back Icon - absolute left */}
             <button 
-              onClick={() => router.back()} 
+              onClick={onClose || (() => router.back())} 
                 className="back-icon-d absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
                 aria-label="Go back"
                 type="button"

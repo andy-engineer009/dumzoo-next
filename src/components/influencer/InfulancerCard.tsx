@@ -35,7 +35,6 @@ const InfluencerCard = memo(({data}: any) => {
     <div 
       key={data?.uuid}
       className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 cursor-pointer p-4 w-full"
-      onClick={() => router.push(`/discover/${data?.uuid}`)}
     >
       <div
         className="flex items-center space-x-4 relative"
