@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import VirtualInfluencerList from "@/components/VirtualInfluencerList";
+import VirtualInfluencerList from "@/components/manage-influencer-list/VirtualInfluencerList";
 import FilterModal from "@/components/filter";
 import FilterRow from "@/components/FilterRow";
 import { RootState } from '@/store/store';

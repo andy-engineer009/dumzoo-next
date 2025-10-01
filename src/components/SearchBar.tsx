@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
-export default function SearchBar() {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+interface SearchBarProps {
+  onSearchClick: () => void;
+}
 
+export default function SearchBar({ onSearchClick }: SearchBarProps) {
   const handleSearchClick = () => {
-    router.push('/search');
+    onSearchClick();
   };
 
   return (

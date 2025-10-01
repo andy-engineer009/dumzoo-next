@@ -38,7 +38,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [showSkeletons, setShowSkeletons] = useState(false);
   
-  // Handle influencer click - show overlay
+  // Handle influencer click - show overlay (from list or search)
   const handleInfluencerClick = async (influencer: any) => {
     setSelectedInfluencer(influencer);
     setIsLoadingDetail(true);
@@ -414,7 +414,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
         </div>
       </div>
 
-      {/* Full Screen Overlay */}
+      {/* Full Screen Overlay - Influencer Detail */}
       {selectedInfluencer && (
         <div className="fixed inset-0 z-50 bg-white">
           <InfluencerDetail 

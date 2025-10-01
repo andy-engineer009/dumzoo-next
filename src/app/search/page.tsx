@@ -190,6 +190,7 @@ export default function SearchPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center space-x-3 bg-white cursor-pointer"
+                    onClick={() => router.push(`/discover/${result.uuid}`)}
                   >
                     {/* Profile Image */}
                     <div className="relative">
