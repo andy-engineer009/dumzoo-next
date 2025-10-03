@@ -1,11 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "@/store/userRoleSlice";
 
 // userRole 1 admin 2 influencer 3 Promoter or brand
 export default function CampaignCard({campaign, userRole}: {campaign: any, userRole: any}) {    
     const router = useRouter();
-
+    const isLoggedIn = useSelector(selectIsLoggedIn);
     const formatAppliedInfluencers = (count: any): string => {
         if (count >= 1000000) {
           return `${(count / 1000000).toFixed(1)}M`;
@@ -106,7 +108,7 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             }
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
                 {/* Yellow Banner - Applied Count (only for non-expired campaigns) */}
-                {!isExpired && (
+                {(!isExpired && isLoggedIn) && (
                     campaign?.applied_campaign_status == 1 ? 
                     <div className="absolute top-3 right-3 bg-[#7DDF64] text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
                     <div className="flex items-center">
