@@ -20,20 +20,20 @@ export default function CampaignAppliedInfluencerList() {
 
   const ITEMS_PER_PAGE = 15;
 
-  console.log('🎯 Campaign ID:', campaign_id);
+  // console.log('🎯 Campaign ID:', campaign_id);
 
   // Load initial data
   const loadInitialData = useCallback(async () => {
     if (!campaign_id) return;
     
-    console.log('🚀 Loading initial applied influencers data...');
+    // console.log('🚀 Loading initial applied influencers data...');
     setInitialLoading(true);
     setPage(0);
     
     try {
       const result = await appliedInfluencersApi.fetchAppliedInfluencers(0, ITEMS_PER_PAGE, campaign_id);
       
-      console.log('📊 Initial data result:', result);
+      // console.log('📊 Initial data result:', result);
       
       setInfluencers(result.data);
       setHasMore(result.hasMore);
@@ -52,14 +52,14 @@ export default function CampaignAppliedInfluencerList() {
   const loadMore = useCallback(async () => {
     if (loading || !hasMore || !campaign_id) return;
     
-    console.log('🔄 Loading more applied influencers...');
+    // console.log('🔄 Loading more applied influencers...');
     setLoading(true);
     
     try {
       const nextPage = page + 1;
       const result = await appliedInfluencersApi.fetchAppliedInfluencers(nextPage, ITEMS_PER_PAGE, campaign_id);
       
-      console.log('📊 Load more result:', result);
+      // console.log('📊 Load more result:', result);
       
       if (result.data.length > 0) {
         setInfluencers(prev => [...prev, ...result.data]);

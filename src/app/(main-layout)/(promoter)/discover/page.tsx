@@ -16,17 +16,17 @@ export default function Discover() {
 
   // Update local filters when Redux filters change (when returning to page)
   useEffect(() => {
-    console.log('🔍 Discover Page - Filter State:', {
-      lastFilters,
-      hasLastFilters: lastFilters && Object.keys(lastFilters).length > 0,
-      currentFilters: filters
-    });
+    // console.log('🔍 Discover Page - Filter State:', {
+    //   lastFilters,
+    //   hasLastFilters: lastFilters && Object.keys(lastFilters).length > 0,
+    //   currentFilters: filters
+    // });
     
     if (lastFilters && Object.keys(lastFilters).length > 0) {
       // Only update if the filters are actually different to prevent loops
       const filtersChanged = JSON.stringify(lastFilters) !== JSON.stringify(filters);
       if (filtersChanged) {
-        console.log('🔄 Restoring saved filters:', lastFilters);
+        // console.log('🔄 Restoring saved filters:', lastFilters);
         setFilters(lastFilters);
       }
     }
