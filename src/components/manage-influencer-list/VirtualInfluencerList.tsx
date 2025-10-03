@@ -66,13 +66,13 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   
   // Debug Redux state
   useEffect(() => {
-    console.log('📊 Redux State:', {
-      hasData,
-      dataLength: cachedData?.length || 0,
-      lastPage,
-      scrollPosition,
-      lastFilters
-    });
+    // console.log('📊 Redux State:', {
+    //   hasData,
+    //   dataLength: cachedData?.length || 0,
+    //   lastPage,
+    //   scrollPosition,
+    //   lastFilters
+    // });
   }, [hasData, cachedData?.length, lastPage, scrollPosition, lastFilters]);
   
   // The scrollable element for your list
@@ -86,7 +86,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
 
   // Use saved filters from Redux if no current filters provided
   const effectiveFilters = Object.keys(filters).length > 0 ? filters : lastFilters;
-  console.log(effectiveFilters, 'effectiveFilters top line 51')
+  // console.log(effectiveFilters, 'effectiveFilters top line 51')
 
   // Check if filters have changed
   const filtersChanged = JSON.stringify(filters) !== JSON.stringify(lastFilters);
@@ -94,7 +94,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   // Only clear data and save filters when filters actually change
   useEffect(() => {
     if (filtersChanged) {
-      console.log('🔄 Filter change detected, clearing cached data');
+      // console.log('🔄 Filter change detected, clearing cached data');
       
       // Set loading state and show skeletons
       setIsFilterLoading(true);
@@ -112,7 +112,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
         }
       }, 50);
       
-      console.log('💾 Saving new filters:', filters);
+      // console.log('💾 Saving new filters:', filters);
       dispatch(setFilters(filters));
     }
   }, [filters, lastFilters, dispatch, filtersChanged]);
@@ -157,7 +157,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   } = useInfiniteQuery({
     queryKey: ['influencers', effectiveFilters],
     queryFn: ({ pageParam = 0 }: { pageParam: number }) => {
-      console.log('🔄 API Call - Page:', pageParam, 'Filters:', effectiveFilters, 'Should fetch:', shouldFetch);
+      // console.log('🔄 API Call - Page:', pageParam, 'Filters:', effectiveFilters, 'Should fetch:', shouldFetch);
       return influencerApi.fetchInfluencers(pageParam, 15, effectiveFilters);
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
@@ -191,7 +191,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       const allInfluencers = data.pages.flatMap((page: any) => page.data);
       const currentPage = data.pages.length;
       
-      console.log(allInfluencers,'all setData line 130')
+      // console.log(allInfluencers,'all setData line 130')
       
       // If filter loading, wait 500ms before setting data
       if (isFilterLoading) {

@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 // userRole 1 admin 2 influencer 3 Promoter or brand
 export default function CampaignCard({campaign, userRole}: {campaign: any, userRole: any}) {    
+    const router = useRouter();
 
     const formatAppliedInfluencers = (count: any): string => {
         if (count >= 1000000) {
@@ -76,8 +78,8 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
     const isExpired = isCampaignExpired(campaign.expires_at);
 
     return (
-        <Link 
-            href={isExpired ? '#' : ` ${userRole == 2 ? `/campaigns/${campaign.id}` : `/manage-campaigns/${campaign.id}`}`} 
+        <div 
+            // href={isExpired ? '#' : ` ${userRole == 2 ? `/campaigns/${campaign.id}` : `/manage-campaigns/${campaign.id}`}`} 
             key={campaign.id} 
             className={`block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-200 relative ${isExpired ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
             onClick={isExpired ? (e) => e.preventDefault() : undefined}
@@ -85,8 +87,8 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             {/* Expired Overlay */}
             {isExpired && (
                 <div className="absolute inset-0 bg-[#ffffffa1] bg-opacity-70 flex items-center justify-center z-20">
-                    <div className="text-center bg-white bg-opacity-90 px-4 py-2 rounded-lg">
-                        <span className="text-xl font-bold text-grey">EXPIRED</span>
+                    <div className="text-center px-4 py-2 rounded-lg">
+                        <Image src={'/images/expired-icon.png'} alt='expired' width={100} height={100} />
                     </div>
                 </div>
             )}
@@ -106,23 +108,24 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                 {/* Yellow Banner - Applied Count (only for non-expired campaigns) */}
                 {!isExpired && (
                     campaign?.applied_campaign_status == 1 ? 
-                    <div className="absolute top-3 right-3 bg-green-500 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                    <div className="absolute top-3 right-3 bg-[#7DDF64] text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
                     <div className="flex items-center">
                          <span>Applied</span>
-                        <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                        {/* <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                        </svg>
+                        </svg> */}
                     </div>
                 </div>
                  : 
-                 <div className="absolute top-3 right-3 bg-yellow-400 text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                 <div className="absolute top-3 right-3  bg-[#E30B5C] text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
+                    {/* bg-yellow-400 */}
                  <div className="flex items-center">
-                     <span>{campaign?.applied_influencers_count ? formatAppliedInfluencers(campaign?.applied_influencers_count) : 0} Applied</span>
+                     <span className="text-white">{campaign?.applied_influencers_count ? formatAppliedInfluencers(campaign?.applied_influencers_count) : 0} Applied</span>
                      
                      
-                     <svg className="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                     {/* <svg className="w-3 h-3 ml-1" fill="#fff" viewBox="0 0 20 20">
                          <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                     </svg>
+                     </svg> */}
                  </div>
              </div>
                 )}
@@ -199,12 +202,13 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                     userRole == 3 &&
                 <button
                     className="mt-2 px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded transition-colors mx-auto block"
+                    onClick={() => router.push(`/manage-campaigns/${campaign.id}`)}
                 >
                     See Applied Users
                 </button>
                   }
 
             </div>
-        </Link>
+        </div>
     )
 }

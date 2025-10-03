@@ -14,7 +14,12 @@ import { updateCampaignAppliedStatus } from '@/store/apiDataSlice';
 import CreateProfilePopup from '../influencer/create-profile-popup';
 import LoginPopup from '../login-popup';
 
-const CampaignDetails = (data: any) => {
+interface CampaignDetailsProps {
+  onClose?: () => void;
+  [key: string]: any;
+}
+
+const CampaignDetails = ({ onClose, ...data }: CampaignDetailsProps) => {
   const [loading, setLoading] = useState(false);
   const [applied, setApplied] = useState(false);
   const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
@@ -143,7 +148,7 @@ function getGender(value: number) {
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">
               {/* Back Icon - absolute left */}
               <button
-                onClick={() => router.back()}
+                onClick={() => onClose ? onClose() : router.back()}
                 className="absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
                 aria-label="Go back"
                 type="button"
@@ -291,9 +296,9 @@ function getGender(value: number) {
 
         {/* Bottom Action Bar */}
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-30">
-          {applied  || data.isApplied ? (
+          {applied  || data.applied_campaign_status == '1' ? (
             <button
-              className="w-full bg-green-700 text-white py-3 rounded-lg font-semibold cursor-default"
+              className="w-full bg-[#7DDF64] text-[#000] py-3 rounded-lg font-semibold cursor-default"
               disabled
             >
               Applied
@@ -301,7 +306,7 @@ function getGender(value: number) {
           ) : (
             <button 
               onClick={handleApply}
-              className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center"
+              className="w-full bg-[#E30B5C] text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center"
               disabled={loading}
             >
               {loading ? (

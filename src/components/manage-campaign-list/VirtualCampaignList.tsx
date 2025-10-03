@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CampaignCard from "@/components/campaigns/campaign-card";
 import CampaignSkeleton from "@/components/discover/CampaignSkeleton";
+import CampaignDetails from "@/components/campaigns/campaignsDetails";
 import { campaignApi, type CampaignData } from '@/services/campaignApi';
 import type { VirtualizerOptions } from '@tanstack/react-virtual';
 import { setData, setScrollPosition, clearData } from '@/store/campaignCacheSlice';
@@ -30,14 +31,27 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
   // Loading state
   const [showSkeletons, setShowSkeletons] = useState(false);
   
+  // Overlay state
+  const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
+  
+  // Handle campaign click - show overlay
+  const handleCampaignClick = async (campaign: any) => {
+    setSelectedCampaign(campaign);
+  };
+  
+  // Close overlay
+  const closeOverlay = () => {
+    setSelectedCampaign(null);
+  };
+  
   // Debug Redux state
   useEffect(() => {
-    console.log('📊 Campaign Redux State:', {
-      hasData,
-      dataLength: cachedData?.length || 0,
-      lastPage,
-      scrollPosition
-    });
+    // console.log('📊 Campaign Redux State:', {
+    //   hasData,
+    //   dataLength: cachedData?.length || 0,
+    //   lastPage,
+    //   scrollPosition
+    // });
   }, [hasData, cachedData?.length, lastPage, scrollPosition]);
   
   // The scrollable element for your list
@@ -89,7 +103,7 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
   } = useInfiniteQuery({
     queryKey: ['campaigns'],
     queryFn: ({ pageParam = 0 }: { pageParam: number }) => {
-      console.log('🔄 Campaign API Call - Page:', pageParam, 'Should fetch:', shouldFetch);
+      // console.log('🔄 Campaign API Call - Page:', pageParam, 'Should fetch:', shouldFetch);
       return campaignApi.fetchCampaigns(pageParam, 15);
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
@@ -123,7 +137,7 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
       const allCampaigns = data.pages.flatMap((page: any) => page.data);
       const currentPage = data.pages.length;
       
-      console.log(allCampaigns,'all setData campaigns line 130')
+      // console.log(allCampaigns,'all setData campaigns line 130')
       
       if (data.pages.length > processedPagesRef.current) {
         // Normal data save - only if new pages
@@ -157,11 +171,11 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
     if (campaigns.length > 0 && !hasRestoredScroll.current && scrollPosition > 0) {
       hasRestoredScroll.current = true;
       isRestoringScroll.current = true;
-      console.log('🔄 Restoring campaign scroll position:', scrollPosition);
+      // console.log('🔄 Restoring campaign scroll position:', scrollPosition);
       setTimeout(() => {
         // Use useVirtualizer's scrollToOffset with smooth animation
         rowVirtualizer.scrollToOffset(scrollPosition, { align: 'start' });
-        console.log('✅ Campaign scroll position restored to:', scrollPosition);
+        // console.log('✅ Campaign scroll position restored to:', scrollPosition);
         isRestoringScroll.current = false;
       }, 100);
     }
@@ -181,7 +195,7 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
           const position = rowVirtualizer.scrollOffset || 0;
           setScrollPos(position);
           dispatch(setScrollPosition(position));
-          console.log('💾 Saving campaign scroll position to Redux:', position);
+          // console.log('💾 Saving campaign scroll position to Redux:', position);
         }
       }, 100);
     };
@@ -211,7 +225,7 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
       hasNextPage &&
       !isFetchingNextPage
     ) {
-      console.log('🔄 Fetching next campaign page...');
+      // console.log('🔄 Fetching next campaign page...');
       fetchNextPage();
     }
   }, [
@@ -312,7 +326,9 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
                 ) : item?.isSkeleton ? (
                   <CampaignSkeleton />
                 ) : item ? (
-                  <CampaignCard campaign={item} userRole={userRole} />
+                  <div onClick={() => handleCampaignClick(item)}>
+                    <CampaignCard campaign={item} userRole={userRole} />
+                  </div>
                 ) : (
                   <div className="animate-pulse bg-gray-200 h-32 rounded"></div>
                 )}
@@ -321,6 +337,16 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
           })}
         </div>
       </div>
+
+      {/* Full Screen Overlay - Campaign Detail */}
+      {selectedCampaign && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <CampaignDetails 
+            {...selectedCampaign}
+            onClose={closeOverlay}
+          />
+        </div>
+      )}
     </>
   );
 }

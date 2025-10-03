@@ -1,10 +1,11 @@
 'use client';
 
 import CampaignsDiscover from '@/components/discover/campaigns';
-import InfluencerDiscover from '@/components/discover/influencer';
+// import InfluencerDiscover from '@/components/discover/InfluencerDiscover';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import VirtualInfluencerList from '@/components/manage-influencer-list/VirtualInfluencerList';
+import VirtualCampaignList from '@/components/manage-campaign-list/VirtualCampaignList';
 export default function Finder() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'creators' | 'promotions'>('creators');
@@ -56,7 +57,7 @@ export default function Finder() {
         <div className="bg-white">
           {activeTab === 'creators' && (
             <div>
-                  <InfluencerDiscover />
+                  <VirtualInfluencerList />
 
               {/* Add your creators content here */}
             </div>
@@ -64,7 +65,7 @@ export default function Finder() {
 
           {activeTab === 'promotions' && (
             <div>
-        <CampaignsDiscover />
+        <VirtualCampaignList />
             
               {/* Add your promotions content here */}
             </div>

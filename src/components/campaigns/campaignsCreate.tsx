@@ -381,7 +381,7 @@ export default function CampaignsCreate() {
         campaign_logo_url: values.brand_image
       };
 
-      console.log(payload);
+      // console.log(payload);
       // return
       setIsLoading(true);
 
