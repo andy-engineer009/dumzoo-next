@@ -38,10 +38,21 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [showSkeletons, setShowSkeletons] = useState(false);
   
+  // History state for mobile back button handling
+  const [historyStatePushed, setHistoryStatePushed] = useState(false);
+  
   // Handle influencer click - show overlay (from list or search)
   const handleInfluencerClick = async (influencer: any) => {
     setSelectedInfluencer(influencer);
     setIsLoadingDetail(true);
+    
+    // Push history state for mobile back button handling
+    if (!historyStatePushed) {
+      // Create a unique state object to identify this overlay
+      const overlayState = { overlayOpen: true, influencerId: influencer.uuid, timestamp: Date.now() };
+      window.history.pushState(overlayState, '', window.location.href);
+      setHistoryStatePushed(true);
+    }
     
     try {
       const res = await api.post(API_ROUTES.getBasicDetails, {
@@ -62,8 +73,36 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
     setSelectedInfluencer(null);
     setInfluencerDetail(null);
     setIsLoadingDetail(false);
+    
+    // Clean up history state if we pushed one
+    if (historyStatePushed) {
+      // Go back to remove the overlay state from history
+      window.history.back();
+      setHistoryStatePushed(false);
+    }
   };
   
+  // Handle browser back button for overlay
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If overlay is open and back button is pressed, close the overlay
+      if (selectedInfluencer && historyStatePushed) {
+        // Close the overlay without calling history.back() again
+        // to avoid the double navigation issue
+        setSelectedInfluencer(null);
+        setInfluencerDetail(null);
+        setIsLoadingDetail(false);
+        setHistoryStatePushed(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedInfluencer, historyStatePushed]);
+
   // Debug Redux state
   useEffect(() => {
     // console.log('📊 Redux State:', {

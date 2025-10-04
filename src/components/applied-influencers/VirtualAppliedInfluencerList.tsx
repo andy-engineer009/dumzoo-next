@@ -24,16 +24,53 @@ export default function VirtualAppliedInfluencerList() {
   // Overlay state
   const [selectedInfluencer, setSelectedInfluencer] = useState<any>(null);
   
+  // History state for mobile back button handling
+  const [historyStatePushed, setHistoryStatePushed] = useState(false);
+  
   // Handle influencer click - show overlay
   const handleInfluencerClick = async (influencer: any) => {
     setSelectedInfluencer(influencer);
+    
+    // Push history state for mobile back button handling
+    if (!historyStatePushed) {
+      // Create a unique state object to identify this overlay
+      const overlayState = { overlayOpen: true, influencerId: influencer.id, timestamp: Date.now() };
+      window.history.pushState(overlayState, '', window.location.href);
+      setHistoryStatePushed(true);
+    }
   };
   
   // Close overlay
   const closeOverlay = () => {
     setSelectedInfluencer(null);
+    
+    // Clean up history state if we pushed one
+    if (historyStatePushed) {
+      // Go back to remove the overlay state from history
+      window.history.back();
+      setHistoryStatePushed(false);
+    }
   };
   
+  // Handle browser back button for applied influencer overlay
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If overlay is open and back button is pressed, close the overlay
+      if (selectedInfluencer && historyStatePushed) {
+        // Close the overlay without calling history.back() again
+        // to avoid the double navigation issue
+        setSelectedInfluencer(null);
+        setHistoryStatePushed(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedInfluencer, historyStatePushed]);
+
   // Debug campaign ID
   useEffect(() => {
     // console.log('🎯 Campaign ID from URL:', campaignId);
