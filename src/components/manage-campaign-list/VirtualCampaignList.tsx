@@ -34,16 +34,53 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
   // Overlay state
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
   
+  // History state for mobile back button handling
+  const [historyStatePushed, setHistoryStatePushed] = useState(false);
+  
   // Handle campaign click - show overlay
   const handleCampaignClick = async (campaign: any) => {
     setSelectedCampaign(campaign);
+    
+    // Push history state for mobile back button handling
+    if (!historyStatePushed) {
+      // Create a unique state object to identify this overlay
+      const overlayState = { overlayOpen: true, campaignId: campaign.id, timestamp: Date.now() };
+      window.history.pushState(overlayState, '', window.location.href);
+      setHistoryStatePushed(true);
+    }
   };
   
   // Close overlay
   const closeOverlay = () => {
     setSelectedCampaign(null);
+    
+    // Clean up history state if we pushed one
+    if (historyStatePushed) {
+      // Go back to remove the overlay state from history
+      window.history.back();
+      setHistoryStatePushed(false);
+    }
   };
   
+  // Handle browser back button for campaign overlay
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      // If overlay is open and back button is pressed, close the overlay
+      if (selectedCampaign && historyStatePushed) {
+        // Close the overlay without calling history.back() again
+        // to avoid the double navigation issue
+        setSelectedCampaign(null);
+        setHistoryStatePushed(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedCampaign, historyStatePushed]);
+
   // Debug Redux state
   useEffect(() => {
     // console.log('📊 Campaign Redux State:', {
