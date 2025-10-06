@@ -85,7 +85,7 @@ const Signup = () => {
         if(response?.status == 1) {
           setVerfiedUserV2(response?.data, dispatch);
           showToast(response?.message, 'success')
-          if(response?.data?.user?.is_new_user == 1) {
+          if(response?.data?.user?.is_new_user == 1 && response?.data?.user?.role_id == 3) {
             router.push('/referral');
           } else {
             router.push('/');
