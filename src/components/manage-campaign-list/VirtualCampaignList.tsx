@@ -315,7 +315,7 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
       <div
         ref={parentRef}
         style={{
-          height: `80vh`,
+          height: `86vh`,
           overflow: 'auto', // Make it scroll!
         }}
       >

@@ -67,25 +67,25 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
   const handleProfileSubmit = async (values: FormData) => {
     console.log('Profile submission values:', values);
     
-    // Store the Instagram URL for later use
-    setInstagramUrl(values.instagramUrl);
+    // Extract and store just the handler name from the Instagram URL
+    const handleName = values.instagramUrl.split('/').filter(Boolean).pop() || '';
+    console.log('Handle name:', handleName);
+    setInstagramUrl(handleName);
     
-    if (TEST_MODE) {
-      // Test mode - bypass API call
-      setBioCode('DUMZOO_TEST_123');
-      setUsername('testuser');
-      setCurrentStep('code');
-      return;
-    }
+    // if (TEST_MODE) {
+    //   // Test mode - bypass API call
+    //   setBioCode('DUMZOO_TEST_123');
+    //   setUsername('testuser');
+    //   setCurrentStep('code');
+    //   return;
+    // }
     
     try {
-      const response = await api.post(API_ROUTES.getBioCode, {
-        instagramUrl: values.instagramUrl
-      });
+      const response = await api.get(API_ROUTES.getBioCode);
       
-      if (response.success !== false) {
-        setBioCode(response.bioCode);
-        setUsername(response.username);
+      if (response.status == 1) {
+        setBioCode(response.data);
+        // setUsername(response.username);
         setCurrentStep('code');
       } else {
         console.error('Error getting bio code:', response.error);
@@ -100,25 +100,25 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
     setIsVerifying(true);
     setCurrentStep('verifying');
     
-    if (TEST_MODE) {
-      // Test mode - simulate verification
-      setTimeout(() => {
-        setVerificationSuccess(true);
-        setCurrentStep('form');
-      }, 2000);
-      return;
-    }
+    // if (TEST_MODE) {
+    //   // Test mode - simulate verification
+    //   setTimeout(() => {
+    //     setVerificationSuccess(true);
+    //     setCurrentStep('form');
+    //   }, 2000);
+    //   return;
+    // }
     
     try {
       const response = await api.post(API_ROUTES.verifyProfile, {
-        instagramUrl: initialValues.instagramUrl,
-        bioCode: bioCode
+        handle_name: instagramUrl,
+        verification_code: bioCode
       });
       
-      if (response.success !== false) {
-        setVerificationSuccess(response.verified);
+      if (response.status == 1) {
+        setVerificationSuccess(response.data);
         
-        if (response.verified) {
+        if (response.data) {
           setTimeout(() => {
             setCurrentStep('form');
           }, 2000);

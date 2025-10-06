@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setChatUsers, clearChatUsers, selectChatUsers } from '@/store/apiDataSlice';
 import { RootState } from '@/store/store';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
+import Image from 'next/image';
 
 export default function ChatList() {
     const router = useRouter();
@@ -256,8 +257,8 @@ const EmptyState = () => (
                       {/* User avatar */}
                       <div className="relative flex-shrink-0">
                         <div className="w-[40px] h-[40px] rounded-full bg-gray-300 flex items-center justify-center overflow-hidden">
-                          {/* <Image
-                            src={user?.image}
+                          <Image
+                            src={user?.user2?.profile_pic}
                             alt={user?.name}
                             width={48}
                             height={48}
@@ -267,10 +268,10 @@ const EmptyState = () => (
                               target.style.display = 'none';
                               target.nextElementSibling?.classList.remove('hidden');
                             }}
-                          /> */}
-                          <div className=" w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
+                          />
+                          {/* <div className=" w-full h-full bg-[#1fb036] flex items-center justify-center text-white font-semibold">
                             {user?.displayUser?.split(' ').map((n: string) => n[0]).join('') || 'AN'}
-                          </div>
+                          </div> */}
                         </div>
                         {user?.isOnline && (
                           <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>

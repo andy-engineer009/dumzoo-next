@@ -39,8 +39,8 @@ export const API_ROUTES = {
      sendChatMessage: "chat/messages",
 
     // instagram verification
-    getBioCode: "instagram/get-bio-code",
-    verifyProfile: "instagram/verify-profile",
+    getBioCode: "influencer/generate-random-code",
+    verifyProfile: "influencer/verify-instagram-profile",
     saveProfile: "instagram/save-profile",
     // getInfluencerProfile: "promoter/profile",
     // influencerDetail: "influencer/detail",
