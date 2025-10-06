@@ -86,9 +86,7 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             className={`block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-200 relative ${isExpired ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
             onClick={isExpired ? (e) => e.preventDefault() : undefined}
         >
-                  <h1 style={{whiteSpace: 'pre-wrap',wordBreak: 'break-all'}}>
-               {JSON.stringify(campaign)}
-               </h1>
+                 
             {/* Expired Overlay */}
             {isExpired && (
                 <div className="absolute inset-0 bg-[#ffffffa1] bg-opacity-70 flex items-center justify-center z-20">
