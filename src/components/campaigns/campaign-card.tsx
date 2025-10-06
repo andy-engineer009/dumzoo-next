@@ -84,6 +84,9 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             className={`block bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden transition-all duration-200 relative ${isExpired ? 'cursor-not-allowed' : 'hover:shadow-lg'}`}
             onClick={isExpired ? (e) => e.preventDefault() : undefined}
         >
+                  <h1 style={{whiteSpace: 'pre-wrap',wordBreak: 'break-all'}}>
+               {JSON.stringify(campaign)}
+               </h1>
             {/* Expired Overlay */}
             {isExpired && (
                 <div className="absolute inset-0 bg-[#ffffffa1] bg-opacity-70 flex items-center justify-center z-20">
@@ -106,6 +109,8 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
             }
                 {/* <Image src={campaign.image} alt={campaign.name} width={100} height={100} /> */}
                 {/* Yellow Banner - Applied Count (only for non-expired campaigns) */}
+ 
+                {/* <h1>{campaign?.applied_campaign_status}</h1> */}
                 {!isExpired && (
                     campaign?.applied_campaign_status == 1 ? 
                     <div className="absolute top-3 right-3 bg-[#7DDF64] text-black text-xs font-bold px-2 py-1 rounded-r-full clip-path-arrow">
@@ -209,6 +214,8 @@ export default function CampaignCard({campaign, userRole}: {campaign: any, userR
                   }
 
             </div>
+      
         </div>
+        
     )
 }
