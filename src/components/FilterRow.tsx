@@ -491,19 +491,19 @@ export default function FilterRow({ onFilterChange, appliedFilters }: FilterRowP
                   chip.hasValue
                     ? chip.id === 'instagram' 
                       ? 'border-purple-600 bg-purple-50 text-purple-700'
-                      : 'border-[#1fb036] bg-[#fff] text-[#1fb036]'
+                      : 'border-[#592C93] bg-[#fff] text-[#592C93]'
                     : 'border-gray-300 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50'
                 }`}
               >
                 {/* <div className="text-gray-700">
                   {chip.icon}
                 </div> */}
-                <span className="text-xs font-medium flex text-[#000]">{chip.label} {appliedFiltersCount > 0 && chip.id === 'filter' && <span className="text-xs text-white bg-[#1fb036] w-4 h-4 rounded-full block ms-1">{appliedFiltersCount}</span>}</span>
+                <span className="text-xs font-medium flex text-[#000]">{chip.label} {appliedFiltersCount > 0 && chip.id === 'filter' && <span className="text-xs text-white bg-[#592C93] w-4 h-4 rounded-full block ms-1">{appliedFiltersCount}</span>}</span>
                 
                 {chip.hasValue && chip.value && (
                   <>
-                    <span className="text-xs text-[#1fb036]">•</span>
-                    <span className="text-xs text-[#1fb036] max-w-20 truncate">
+                    <span className="text-xs text-[#592C93]">•</span>
+                    <span className="text-xs text-[#592C93] max-w-20 truncate">
                       {chip.value}
                     </span>
                     <button

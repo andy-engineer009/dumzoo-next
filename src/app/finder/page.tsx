@@ -1,7 +1,5 @@
 'use client';
 
-import CampaignsDiscover from '@/components/discover/campaigns';
-// import InfluencerDiscover from '@/components/discover/InfluencerDiscover';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import VirtualInfluencerList from '@/components/manage-influencer-list/VirtualInfluencerList';
@@ -65,7 +63,7 @@ export default function Finder() {
 
           {activeTab === 'promotions' && (
             <div>
-        <VirtualCampaignList />
+        <VirtualCampaignList isPublic={true} />
             
               {/* Add your promotions content here */}
             </div>

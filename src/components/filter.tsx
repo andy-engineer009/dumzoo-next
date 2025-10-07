@@ -618,7 +618,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#592C93] rounded-lg"
                         style={{
                           left: `${((selectedFilters.budgetMin || 0) / 100000) * 100}%`,
                           width: `${(((selectedFilters.budgetMax || 100000) - (selectedFilters.budgetMin || 0)) / 100000) * 100}%`
@@ -878,7 +878,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                       
                       {/* Active Range */}
                       <div 
-                        className="absolute top-0 h-2 bg-[#000] rounded-lg"
+                        className="absolute top-0 h-2 bg-[#592C93] rounded-lg"
                         style={{
                           left: `${((selectedFilters.followerMin || 0) / 250000) * 100}%`,
                           width: `${(((selectedFilters.followerMax || 250000) - (selectedFilters.followerMin || 0)) / 250000) * 100}%`
@@ -1226,7 +1226,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
                     onClick={() => setActiveCategory(category.id)}
                     className={`w-full text-left px-4 py-3 border-l-4 transition-colors text-[14px] ${
                       activeCategory === category.id
-                        ? 'bg-[#1fb0361c] border-[#1fb036] text-[#1fb036]'
+                        ? 'bg-[#592c9326] border-[#592C93] text-[#592C93]'
                         : 'border-transparent text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -1251,7 +1251,7 @@ export default function FilterModal({ isOpen, onClose, onFilterChange, initialAc
               </button>
               <button
                 onClick={handleApplyFilters}
-                className="flex-1 px-4 py-3 bg-[#1fb036] text-white rounded-lg font-medium hover:bg-[#1fb036]/90 transition-colors"
+                className="flex-1 px-4 py-3 bg-[#592C93] text-white rounded-lg font-medium hover:bg-[#592C93]/90 transition-colors"
               >
                 Apply Filters
               </button>

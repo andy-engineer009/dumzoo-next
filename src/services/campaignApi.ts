@@ -29,9 +29,12 @@ export interface CampaignResponse {
 }
 
 export const campaignApi = {
-  async fetchCampaigns(page: number = 0, limit: number = 15): Promise<CampaignResponse> {
+  async fetchCampaigns(page: number = 0, limit: number = 15, isPublic: boolean = false): Promise<CampaignResponse> {
     try {
-      const response = await api.post(API_ROUTES.influencerCampaignList, {
+      // Use public API for finder page, private API for other pages
+      const endpoint = isPublic ? API_ROUTES.publicCampaignList : API_ROUTES.influencerCampaignList;
+      
+      const response = await api.post(endpoint, {
         page,
         limit,
         // Add campaign-specific filters if needed

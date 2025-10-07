@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
+import InfluencerDetail from '@/components/influencer/InfulancerDetail';
 
 interface SearchResult {
   id: string;
@@ -24,6 +25,65 @@ export default function SearchPage() {
   const [hasSearched, setHasSearched] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
+  
+  // Overlay state for influencer details
+  const [selectedInfluencer, setSelectedInfluencer] = useState<any>(null);
+  const [influencerDetail, setInfluencerDetail] = useState<any>(null);
+  const [historyStatePushed, setHistoryStatePushed] = useState(false);
+
+  // Handle influencer click - show overlay with fake URL history
+  const handleInfluencerClick = async (influencer: any) => {
+    setSelectedInfluencer(influencer);
+    
+    // Fetch detailed influencer data
+    try {
+      const response = await api.post(API_ROUTES.getBasicDetails, {
+        uuid: influencer.uuid
+      });
+      
+      if (response.status === 1) {
+        setInfluencerDetail(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching influencer details:', error);
+    }
+    
+    // Push history state for mobile back button handling
+    if (!historyStatePushed) {
+      const overlayState = { overlayOpen: true, influencerId: influencer.id, timestamp: Date.now() };
+      window.history.pushState(overlayState, '', window.location.href);
+      setHistoryStatePushed(true);
+    }
+  };
+
+  // Close overlay
+  const closeOverlay = () => {
+    setSelectedInfluencer(null);
+    setInfluencerDetail(null);
+    
+    // Clean up history state if we pushed one
+    if (historyStatePushed) {
+      window.history.back();
+      setHistoryStatePushed(false);
+    }
+  };
+
+  // Handle browser back button for overlay
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (selectedInfluencer && historyStatePushed) {
+        setSelectedInfluencer(null);
+        setInfluencerDetail(null);
+        setHistoryStatePushed(false);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [selectedInfluencer, historyStatePushed]);
 
   // Focus on input when component mounts
   useEffect(() => {
@@ -190,7 +250,7 @@ export default function SearchPage() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="flex items-center space-x-3 bg-white cursor-pointer"
-                    onClick={() => router.push(`/discover/${result.uuid}`)}
+                    onClick={() => handleInfluencerClick(result)}
                   >
                     {/* Profile Image */}
                     <div className="relative">
@@ -270,6 +330,16 @@ export default function SearchPage() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Influencer Details Overlay */}
+      {selectedInfluencer && (
+        <div className="fixed inset-0 z-50 bg-white">
+          <InfluencerDetail 
+            data={influencerDetail} 
+            onClose={closeOverlay}
+          />
+        </div>
+      )}
     </div>
   );
 } 

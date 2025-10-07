@@ -13,6 +13,7 @@ import type { RootState } from '@/store/store';
 
 interface VirtualCampaignListProps {
   userRole?: string;
+  isPublic?: boolean; // Flag to determine if using public API (for finder page)
 }
 
 // Redux selectors
@@ -23,7 +24,7 @@ function easeInOutQuint(t: number) {
   return t < 0.5 ? 16 * t * t * t * t * t : 1 + 16 * --t * t * t * t * t;
 }
 
-export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignListProps) {
+export default function VirtualCampaignList({ userRole = '2', isPublic = false }: VirtualCampaignListProps) {
   // Redux
   const dispatch = useDispatch();
   const { data: cachedData, lastPage, scrollPosition, hasData } = useSelector(selectCampaignCache);
@@ -138,10 +139,10 @@ export default function VirtualCampaignList({ userRole = '2' }: VirtualCampaignL
     isError,
     error
   } = useInfiniteQuery({
-    queryKey: ['campaigns'],
+    queryKey: ['campaigns', isPublic ? 'public' : 'private'], // Different cache keys for public/private
     queryFn: ({ pageParam = 0 }: { pageParam: number }) => {
-      // console.log('🔄 Campaign API Call - Page:', pageParam, 'Should fetch:', shouldFetch);
-      return campaignApi.fetchCampaigns(pageParam, 15);
+      // console.log('🔄 Campaign API Call - Page:', pageParam, 'Should fetch:', shouldFetch, 'IsPublic:', isPublic);
+      return campaignApi.fetchCampaigns(pageParam, 15, isPublic);
     },
     getNextPageParam: (lastPage: any, allPages: any[]) => {
       return lastPage.hasMore ? allPages.length + 1 : undefined;
