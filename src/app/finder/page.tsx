@@ -9,7 +9,7 @@ export default function Finder() {
   const [activeTab, setActiveTab] = useState<'creators' | 'promotions'>('creators');
 
   return (
-    <div className="min-h-screen bg-gray-50 finder-screen">
+    <div className="bg-gray-50 finder-screen " style={{height: '100vh',overflow: 'hidden'}}>
       <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8 pb-8">
       <header className="sticky top-0 z-20 bg-white border-b border-gray-200 pr-4 py-3">
         <div className="flex items-center justify-center relative">
@@ -28,6 +28,7 @@ export default function Finder() {
         {/* Tab Navigation */}
         <div className="mt-4  px-2">
           <nav className="flex bg-gray-100 rounded-lg p-1">
+            
             <button
               onClick={() => setActiveTab('creators')}
               className={`flex-1 py-3 px-4 rounded-xl font-medium text-sm transition-all duration-200 ${

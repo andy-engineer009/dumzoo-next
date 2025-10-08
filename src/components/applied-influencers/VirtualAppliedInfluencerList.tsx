@@ -312,7 +312,7 @@ export default function VirtualAppliedInfluencerList() {
 
       {/* Full Screen Overlay - Applied Influencer Detail */}
       {selectedInfluencer && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="absolute inset-0 z-50 bg-white">
           <AppliedInfluencerDetail 
             data={selectedInfluencer} 
             onClose={closeOverlay}
