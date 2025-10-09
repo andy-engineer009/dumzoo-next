@@ -10,6 +10,7 @@ import { campaignApi, type CampaignData } from '@/services/campaignApi';
 import type { VirtualizerOptions } from '@tanstack/react-virtual';
 import { setData, setScrollPosition, clearData } from '@/store/campaignCacheSlice';
 import type { RootState } from '@/store/store';
+import Image from 'next/image';
 
 interface VirtualCampaignListProps {
   userRole?: string;
@@ -31,6 +32,9 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
   
   // Loading state
   const [showSkeletons, setShowSkeletons] = useState(false);
+  
+  // Scroll restoration loading state
+  const [isRestoringScrollLoader, setIsRestoringScrollLoader] = useState(false);
   
   // Overlay state
   const [selectedCampaign, setSelectedCampaign] = useState<any>(null);
@@ -209,13 +213,24 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
     if (campaigns.length > 0 && !hasRestoredScroll.current && scrollPosition > 0) {
       hasRestoredScroll.current = true;
       isRestoringScroll.current = true;
+      
+      // Show full page loader
+      setIsRestoringScrollLoader(true);
+      
       // console.log('🔄 Restoring campaign scroll position:', scrollPosition);
+      
+      // Restore scroll position after 100ms
       setTimeout(() => {
         // Use useVirtualizer's scrollToOffset with smooth animation
         rowVirtualizer.scrollToOffset(scrollPosition, { align: 'start' });
         // console.log('✅ Campaign scroll position restored to:', scrollPosition);
         isRestoringScroll.current = false;
       }, 100);
+      
+      // Hide loader after 1 second to mask the jerk
+      setTimeout(() => {
+        setIsRestoringScrollLoader(false);
+      }, 1000);
     }
   }, [campaigns.length, rowVirtualizer, scrollPosition]);
 
@@ -277,8 +292,12 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
   // Loading state - only show if no cached data AND not showing skeletons
   if (isLoading && !hasData && !showSkeletons) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fb036]"></div>
+      <div className="space-y-4 p-2">
+        {Array.from({ length: 5 }, (_, index) => (
+          <div key={index}>
+            <CampaignSkeleton />
+          </div>
+        ))}
       </div>
     );
   }
@@ -348,12 +367,7 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
               >
                 {isLoaderRow ? (
                   hasNextPage ? (
-                    <div className="flex items-center justify-center h-full">
-                      <div className="flex items-center space-x-2 text-gray-500">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#1fb036]"></div>
-                        <span>Loading more campaigns...</span>
-                      </div>
-                    </div>
+                    <CampaignSkeleton />
                   ) : (
                     <div className="flex items-center justify-center h-full">
                       <div className="text-gray-500 text-sm">
@@ -383,6 +397,16 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
             {...selectedCampaign}
             onClose={closeOverlay}
           />
+        </div>
+      )}
+
+      {/* Full Page Loader - Scroll Restoration */}
+      {isRestoringScrollLoader && (
+        <div className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <Image src="/images/loader.gif" alt="Loading" width={64} height={64} />
+            {/* <p className="text-gray-600 text-lg font-medium">Restoring your position...</p> */}
+          </div>
         </div>
       )}
     </>

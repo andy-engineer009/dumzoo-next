@@ -64,7 +64,7 @@ const Header = () => {
       {/* Mobile Bottom Navigation - Modern Floating Design */}
         {/* {!pathname.includes('/detail') && !pathname.includes('/chat') && !pathname.includes('/profile') && !pathname.includes('/login') && !pathname.includes('/referral') && !pathname.includes('/discover')&& !pathname.includes('/plans') && ( */}
         { pathname ==='/' && (
-          <nav className={`fixed bottom-0 z-50 md:hidden w-full transition-all duration-300 ease-in-out ${
+          <nav className={`fixed bottom-0 z-[100] md:hidden w-full transition-all duration-300 ease-in-out ${
             isVisible 
               ? 'translate-y-0 opacity-100' 
               : 'translate-y-full opacity-0'

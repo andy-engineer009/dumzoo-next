@@ -11,7 +11,7 @@ import { setData, setScrollPosition, setFilters, clearData } from '@/store/influ
 import type { RootState } from '@/store/store';
 import { API_ROUTES } from '@/appApi';
 import { api } from '@/common/services/rest-api/rest-api';
-
+import Image from 'next/image';
 interface VirtualInfluencerListProps {
   filters?: any;
 }
@@ -37,6 +37,9 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   // Filter loading state
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [showSkeletons, setShowSkeletons] = useState(false);
+  
+  // Scroll restoration loading state
+  const [isRestoringScrollLoader, setIsRestoringScrollLoader] = useState(false);
   
   // History state for mobile back button handling
   const [historyStatePushed, setHistoryStatePushed] = useState(false);
@@ -272,13 +275,26 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
     if (influencers.length > 0 && !hasRestoredScroll.current && scrollPosition > 0) {
       hasRestoredScroll.current = true;
       isRestoringScroll.current = true;
+      
+      // Show full page loader
+      setIsRestoringScrollLoader(true);
+      
       // console.log('🔄 Restoring scroll position:', scrollPosition);
+      
+      // Wait 3 seconds before restoring scroll
       setTimeout(() => {
         // Use useVirtualizer's scrollToOffset with smooth animation
         rowVirtualizer.scrollToOffset(scrollPosition, { align: 'start' });
         // console.log('✅ Scroll position restored to:', scrollPosition);
         isRestoringScroll.current = false;
-      }, 100);
+        
+        // Hide loader after scroll is restored
+        // setIsRestoringScrollLoader(false);
+      }, 100); // 3 seconds
+
+      setTimeout(() => {
+        setIsRestoringScrollLoader(false);
+      }, 1000);
     }
   }, [influencers.length, rowVirtualizer, scrollPosition]);
 
@@ -340,9 +356,15 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   // Loading state - only show if no cached data AND not showing skeletons
   if (isLoading && !hasData && !showSkeletons) {
     return (
-      <div className="flex justify-center items-center h-96">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fb036]"></div>
-      </div>
+      // <div className="flex justify-center items-center h-96">
+      //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fb036]"></div>
+      // </div>
+       <div className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center">
+       <div className="flex flex-col items-center space-y-4">
+         <Image src="/images/loader.gif" alt="Loading" width={64} height={64} />
+         {/* <p className="text-gray-600 text-lg font-medium">Restoring your position...</p> */}
+       </div>
+     </div>
     );
   }
 
@@ -460,6 +482,16 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
             data={influencerDetail} 
             onClose={closeOverlay}
           />
+        </div>
+      )}
+
+      {/* Full Page Loader - Scroll Restoration */}
+      {isRestoringScrollLoader && (
+        <div className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center">
+          <div className="flex flex-col items-center space-y-4">
+            <Image src="/images/loader.gif" alt="Loading" width={64} height={64} />
+            {/* <p className="text-gray-600 text-lg font-medium">Restoring your position...</p> */}
+          </div>
         </div>
       )}
     </>
