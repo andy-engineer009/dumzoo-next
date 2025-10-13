@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfluencerCard from "@/components/influencer/InfulancerCard";
 import InfluencerDetail from "@/components/influencer/InfulancerDetail";
+import InfluencerSkeleton from "@/components/discover/InfluencerSkeleton";
 import { influencerApi } from '@/services/infiniteScrollApi';
 import type { VirtualizerOptions } from '@tanstack/react-virtual';
 import { setData, setScrollPosition, setFilters, clearData } from '@/store/influencerCacheSlice';
@@ -356,15 +357,11 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
   // Loading state - only show if no cached data AND not showing skeletons
   if (isLoading && !hasData && !showSkeletons) {
     return (
-      // <div className="flex justify-center items-center h-96">
-      //   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#1fb036]"></div>
-      // </div>
-       <div className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center">
-       <div className="flex flex-col items-center space-y-4">
-         <Image src="/images/loader.gif" alt="Loading" width={64} height={64} />
-         {/* <p className="text-gray-600 text-lg font-medium">Restoring your position...</p> */}
-       </div>
-     </div>
+      <div className="space-y-4 p-2">
+        {Array.from({ length: 5 }, (_, index) => (
+          <InfluencerSkeleton key={index} />
+        ))}
+      </div>
     );
   }
 
@@ -433,12 +430,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
               >
                 {isLoaderRow ? (
                   hasNextPage ? (
-                    <div className="flex items-center justify-center h-full">
-                      <div className="flex items-center space-x-2 text-gray-500">
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-[#1fb036]"></div>
-                        <span>Loading more influencers...</span>
-                      </div>
-                    </div>
+                    <InfluencerSkeleton />
                   ) : (
                     <div className="flex items-center justify-center h-full">
                       <div className="text-gray-500 text-sm">
@@ -447,21 +439,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
                     </div>
                   )
                 ) : item?.isSkeleton ? (
-                  <div className="bg-white rounded-2xl shadow-sm p-4 w-full">
-                    <div className="flex items-center space-x-4">
-                      {/* Skeleton Profile Picture */}
-                      <div className="flex-shrink-0">
-                        <div className="w-[90px] h-[90px] rounded-full bg-gray-200 animate-pulse"></div>
-                      </div>
-                      {/* Skeleton Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="h-4 bg-gray-200 rounded animate-pulse mb-2 w-3/4"></div>
-                        <div className="h-3 bg-gray-200 rounded animate-pulse mb-1 w-1/2"></div>
-                        <div className="h-3 bg-gray-200 rounded animate-pulse mb-1 w-2/3"></div>
-                        <div className="h-3 bg-gray-200 rounded animate-pulse w-1/3"></div>
-                      </div>
-                    </div>
-                  </div>
+                  <InfluencerSkeleton />
                 ) : item ? (
                   <div onClick={() => handleInfluencerClick(item)}>
                     <InfluencerCard data={item} />
@@ -477,7 +455,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
 
       {/* Full Screen Overlay - Influencer Detail */}
       {selectedInfluencer && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-[100] bg-white">
           <InfluencerDetail 
             data={influencerDetail} 
             onClose={closeOverlay}
@@ -487,12 +465,11 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
 
       {/* Full Page Loader - Scroll Restoration */}
       {isRestoringScrollLoader && (
-        <div className="fixed inset-0 z-[60] bg-white/90 backdrop-blur-sm flex items-center justify-center">
-          <div className="flex flex-col items-center space-y-4">
-            <Image src="/images/loader.gif" alt="Loading" width={64} height={64} />
-            {/* <p className="text-gray-600 text-lg font-medium">Restoring your position...</p> */}
-          </div>
-        </div>
+           <div className="space-y-4 p-2 fixed inset-0 z-[100] bg-white">
+           {Array.from({ length: 5 }, (_, index) => (
+             <InfluencerSkeleton key={index} />
+           ))}
+         </div>
       )}
     </>
   );

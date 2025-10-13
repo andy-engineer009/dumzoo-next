@@ -392,7 +392,7 @@ export default function VirtualCampaignList({ userRole = '2', isPublic = false }
 
       {/* Full Screen Overlay - Campaign Detail */}
       {selectedCampaign && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-[100] bg-white">
           <CampaignDetails 
             {...selectedCampaign}
             onClose={closeOverlay}

@@ -359,7 +359,7 @@ export default function VirtualSearchInfluencerList({
 
       {/* Full Screen Overlay - Influencer Detail */}
       {selectedInfluencer && (
-        <div className="fixed inset-0 z-50 bg-white">
+        <div className="fixed inset-0 z-[100] bg-white">
           <InfluencerDetail 
             data={influencerDetail} 
             onClose={closeOverlay}
