@@ -398,7 +398,7 @@ export default function VirtualInfluencerList({ filters = {} }: VirtualInfluence
       <div
         ref={parentRef}
         style={{
-          height: `80vh`,
+          height: `88vh`,
           overflow: 'auto', // Make it scroll!
         }}
       >
