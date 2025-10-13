@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
+import Select from 'react-select';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { selectIsLoggedIn } from '@/store/userRoleSlice';
@@ -11,6 +12,7 @@ import { API_ROUTES } from '@/appApi';
 import { useSelector,useDispatch } from 'react-redux';
 import { influencerDropodownData, selectInfluencerDropdownData } from '@/store/apiDataSlice';
 import Loader from '../../loader';
+import citiesData from '@/data/cities.json';
 
 // Types
 interface FormValues {
@@ -23,9 +25,7 @@ interface FormValues {
   categories: any[];
   languages: any[];
   verified_profile: boolean;
-  state: string;
-  city: string;
-  locality: string;
+  city_id: number | null;
   age: number;
   follower_count: number;
   instagram_url: string;
@@ -53,9 +53,8 @@ const formSchema = Yup.object().shape({
   gender: Yup.string().required('Gender is required'),
   categories: Yup.array().min(1, 'At least one category is required'),
   languages: Yup.array().min(1, 'At least one language is required'),
-  state: Yup.string().required('State is required'),
-  city: Yup.string().required('City is required'),
-  age: Yup.number().required('Age is required').min(13, 'Must be at least 13 years old').max(100, 'Invalid age'),
+  city_id: Yup.number().nullable().required('City is required'),
+  // age: Yup.number().required('Age is required').min(13, 'Must be at least 13 years old').max(100, 'Invalid age'),
   follower_count: Yup.number().required('Follower count is required').min(100, 'Must have at least 100 followers'),
   instagram_url: Yup.string().when('is_instagram_enabled', {
     is: (is_instagram_enabled: boolean) => is_instagram_enabled === true,
@@ -151,6 +150,46 @@ const LoadingSpinner = ({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) => {
   );
 };
 
+// Custom styles for react-select
+const customSelectStyles = {
+  control: (provided: any, state: any) => ({
+    ...provided,
+    borderColor: state.isFocused ? '#000' : '#d1d5db',
+    borderWidth: '1px',
+    borderRadius: '0.5rem',
+    backgroundColor: '#fff',
+    padding: '0.5rem',
+    boxShadow: 'none',
+    '&:hover': {
+      borderColor: '#000'
+    }
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? '#000' : state.isFocused ? '#f3f4f6' : 'white',
+    color: state.isSelected ? 'white' : '#111827',
+    padding: '0.5rem 0.75rem',
+    cursor: 'pointer'
+  }),
+  menu: (provided: any) => ({
+    ...provided,
+    zIndex: 1000,
+    position: 'relative',
+  }),
+  placeholder: (provided: any) => ({
+    ...provided,
+    color: '#9ca3af'
+  })
+};
+
+// Transform cities data for react-select
+const cityOptions = citiesData.map(city => ({
+  value: city.city_id,
+  label: city.name,
+  state_id: city.state_id,
+  state_name: city.state_name
+}));
+
 export default function EditBasicDetails() {    
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -160,9 +199,6 @@ export default function EditBasicDetails() {
 
   const [categories, setCategories] = useState([]);
   const [languages, setLanguages] = useState([]);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [localities, setLocalities] = useState([]);
 
   //unused
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -178,9 +214,7 @@ export default function EditBasicDetails() {
     categories: [],
     languages: [],
     verified_profile: true,
-    state: '',
-    city: '',
-    locality: '',
+    city_id: null,
     age: 0,
     follower_count: 0,
     instagram_url: '',
@@ -206,9 +240,6 @@ export default function EditBasicDetails() {
         if(influencerDropdownData) {
           setCategories(influencerDropdownData.categories);
           setLanguages(influencerDropdownData.languages);
-          setStates(influencerDropdownData.states);
-          setCities(influencerDropdownData.cities);
-          setLocalities(influencerDropdownData.locality);
           getBasicDetails();
         } else {
           // Fetch dropdown data
@@ -217,9 +248,6 @@ export default function EditBasicDetails() {
           const data: any = dropdownResponse.data;
           setCategories(data.categories);
           setLanguages(data.languages);
-          setStates(data.states);
-          setCities(data.cities);
-          setLocalities(data.locality);
           dispatch(influencerDropodownData(data));
           getBasicDetails();
         }
@@ -255,9 +283,7 @@ export default function EditBasicDetails() {
           categories: data.influencer_categories.map((item: any) => item.category_id),
           languages: data.influencer_languages.map((item: any) => item.language_id),
           verified_profile: data.verified_profile == 1 ? true : false,
-          state: data.state.toString(),
-          city: data.city.toString(),
-          locality: data.locality != null ? data.locality.toString() : '',
+          city_id: data.city ? parseInt(data.city.toString()) : null,
           age: data.age || 0,
           follower_count: data.follower_count || 0,
           instagram_url: data.instagram_url || '',
@@ -292,9 +318,7 @@ export default function EditBasicDetails() {
         facebook_url: values.facebook_url,
         audience_type: parseInt(values.audience_type.toString()),
         audience_age_group: parseInt(values.audience_age_group.toString()),
-        state: parseInt(values.state.toString()),
-        city: parseInt(values.city.toString()),
-        locality: parseInt(values.locality.toString()),
+        city_id: values.city_id,
         categories: values.categories.map((category: any) => parseInt(category.toString())),
         languages: values.languages.map((language: any) => parseInt(language.toString())),
         starting_price: values.starting_price
@@ -377,7 +401,7 @@ export default function EditBasicDetails() {
           >
             {({ values, setFieldValue, isValid, dirty }) => (
               <Form className="space-y-6">
-                {/* Username */}
+                {/* Username - DISABLED */}
                 <div>
                   <label htmlFor="username" className="block text-sm font-medium text-black mb-2">
                     Username
@@ -387,56 +411,34 @@ export default function EditBasicDetails() {
                     id="username"
                     name="username"
                     placeholder="Enter your username"
-                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                    disabled
+                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-black placeholder-gray-400 cursor-not-allowed opacity-60"
                   />
                   <ErrorMessage name="username" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
-                {/* Platforms */}
+                {/* Platforms - DISABLED (Only Instagram) */}
                 <div>
                   <label className="block text-sm font-medium text-black mb-2">
-                    Social Media Platforms
+                    Social Media Platform
                   </label>
                   <div className="space-y-3">
                     <div className="grid grid-cols-2 gap-x-3">
-                      <label className="flex items-center space-x-3 cursor-pointer p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                      <label className="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg opacity-60 cursor-not-allowed">
                         <input
                           type="checkbox"
                           name="is_instagram_enabled"
                           checked={values.is_instagram_enabled === true}
-                          onChange={() => setFieldValue('is_instagram_enabled', !values.is_instagram_enabled)}
-                          className="h-5 w-5 text-black focus:ring-black border-gray-300 rounded"
+                          disabled
+                          className="h-5 w-5 text-black border-gray-300 rounded cursor-not-allowed"
                         />
                         <span className="text-sm font-medium text-black">Instagram</span>
                       </label>
-
-                      <label className="flex items-center space-x-3 cursor-pointer p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <input
-                          type="checkbox"
-                          name="is_youtube_enabled"
-                          checked={values.is_youtube_enabled === true}
-                          onChange={() => setFieldValue('is_youtube_enabled', !values.is_youtube_enabled)}
-                          className="h-5 w-5 text-black focus:ring-black border-gray-300 rounded"
-                        />
-                        <span className="text-sm font-medium text-black">YouTube</span>
-                      </label>
-
-                      <label className="flex items-center space-x-3 cursor-pointer p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                        <input
-                          type="checkbox"
-                          name="is_facebook_enabled"
-                          checked={values.is_facebook_enabled === true}
-                          onChange={() => setFieldValue('is_facebook_enabled', !values.is_facebook_enabled)}
-                          className="h-5 w-5 text-black focus:ring-black border-gray-300 rounded"
-                        />
-                        <span className="text-sm font-medium text-black">Facebook</span>
-                      </label>
                     </div>
                   </div>
-                  <ErrorMessage name="platforms_required" component="div" className="mt-1 text-sm text-red-500" />
                 </div>
 
-                {/* Platform URLs */}
+                {/* Platform URLs - DISABLED */}
                 {values.is_instagram_enabled && (
                   <div>
                     <label htmlFor="instagram_url" className="block text-sm font-medium text-black mb-2">
@@ -447,61 +449,14 @@ export default function EditBasicDetails() {
                       id="instagram_url"
                       name="instagram_url"
                       placeholder="https://instagram.com/yourusername"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                      disabled
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-black placeholder-gray-400 cursor-not-allowed opacity-60"
                     />
                     <ErrorMessage name="instagram_url" component="div" className="mt-1 text-sm text-red-500" />
                   </div>
                 )}
 
-                {values.is_youtube_enabled && (
-                  <div>
-                    <label htmlFor="youtube_url" className="block text-sm font-medium text-black mb-2">
-                      YouTube Channel URL
-                    </label>
-                    <Field
-                      type="url"
-                      id="youtube_url"
-                      name="youtube_url"
-                      placeholder="https://youtube.com/@yourchannel"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
-                    />
-                    <ErrorMessage name="youtube_url" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
-                )}
-
-                {values.is_facebook_enabled && (
-                  <div>
-                    <label htmlFor="facebook_url" className="block text-sm font-medium text-black mb-2">
-                      Facebook Profile URL
-                    </label>
-                    <Field
-                      type="url"
-                      id="facebook_url"
-                      name="facebook_url"
-                      placeholder="https://facebook.com/yourusername"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
-                    />
-                    <ErrorMessage name="facebook_url" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
-                )}
-
-                {/* Age and Followers */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="age" className="block text-sm font-medium text-black mb-2">
-                      Your Age
-                    </label>
-                    <Field
-                      type="number"
-                      id="age"
-                      name="age"
-                      placeholder="Enter your age"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
-                    />
-                    <ErrorMessage name="age" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
-
-                  <div>
+<div>
                     <label htmlFor="follower_count" className="block text-sm font-medium text-black mb-2">
                       Total Follower Count
                     </label>
@@ -510,11 +465,48 @@ export default function EditBasicDetails() {
                       id="follower_count"
                       name="follower_count"
                       placeholder="Enter total follower count"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                      disabled
+                      className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-black placeholder-gray-400 cursor-not-allowed opacity-60"
                     />
                     <ErrorMessage name="follower_count" component="div" className="mt-1 text-sm text-red-500" />
                   </div>
+
+                  {/* Verified Profile - DISABLED */}
+                <div>
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Is your profile verified?
+                  </label>
+                  <div className="flex items-center space-x-6 opacity-60">
+                    <div className="flex items-center space-x-2">
+                      <Field
+                        type="radio"
+                        id="verified_profile_yes"
+                        name="verified_profile" 
+                        value={true}
+                        disabled
+                        className="h-4 w-4 text-black border-gray-300 cursor-not-allowed"
+                      />
+                      <label htmlFor="verified_profile_yes" className="text-sm font-medium text-black cursor-not-allowed">
+                        Yes
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Field
+                        type="radio"
+                        id="verified_profile_no"
+                        name="verified_profile"
+                        value={false}
+                        disabled
+                        className="h-4 w-4 text-black border-gray-300 cursor-not-allowed"
+                      />
+                      <label htmlFor="verified_profile_no" className="text-sm font-medium text-black cursor-not-allowed">
+                        No
+                      </label>
+                    </div>
+                  </div>
                 </div>
+
+          
 
                 {/* Gender */}
                 <div>
@@ -533,6 +525,59 @@ export default function EditBasicDetails() {
                     <option value="3">Other</option>
                   </Field>
                   <ErrorMessage name="gender" component="div" className="mt-1 text-sm text-red-500" />
+                </div>
+
+                      {/* Age and Followers */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="age" className="block text-sm font-medium text-black mb-2">
+                       Age (optional)
+                    </label>
+                    <Field
+                      type="number"
+                      id="age"
+                      name="age"
+                      placeholder="Enter your age"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                    />
+                    {/* <ErrorMessage name="age" component="div" className="mt-1 text-sm text-red-500" /> */}
+                  </div>
+                 
+                </div>
+                                {/* Location - Single City Dropdown */}
+                                <div>
+                  <label className="block text-sm font-medium text-black mb-2">
+                    Location
+                  </label>
+                  <Select
+                    options={cityOptions}
+                    value={cityOptions.find(option => option.value === values.city_id) || null}
+                    onChange={(selectedOption) => {
+                      setFieldValue('city_id', selectedOption ? selectedOption.value : null);
+                    }}
+                    placeholder="Select city"
+                    styles={customSelectStyles}
+                    isClearable
+                    isSearchable
+                  />
+                  <ErrorMessage name="city_id" component="div" className="mt-1 text-sm text-red-500" />
+                </div>
+
+                                {/* Age and Followers */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="starting_price" className="block text-sm font-medium text-black mb-2">
+                      Starting Price
+                    </label>
+                    <Field
+                      type="number"
+                      id="starting_price"
+                      name="starting_price"
+                      placeholder="Enter starting price"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
+                    />
+                    <ErrorMessage name="starting_price" component="div" className="mt-1 text-sm text-red-500" />
+                  </div>
                 </div>
 
                 {/* Categories */}
@@ -563,124 +608,11 @@ export default function EditBasicDetails() {
                   )}
                 </Field>
 
-                {/* Verified Profile */}
-                <div>
-                  <label className="block text-sm font-medium text-black mb-2">
-                    Is your profile verified?
-                  </label>
-                  <div className="flex items-center space-x-6">
-                    <div className="flex items-center space-x-2">
-                      <Field
-                        type="radio"
-                        id="verified_profile_yes"
-                        name="verified_profile" 
-                        value={true}
-                        onChange={() => setFieldValue('verified_profile', true)}
-                        className="h-4 w-4 text-black focus:ring-black border-gray-300"
-                      />
-                      <label htmlFor="verified_profile_yes" className="text-sm font-medium text-black">
-                        Yes
-                      </label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Field
-                        type="radio"
-                        id="verified_profile_no"
-                        name="verified_profile"
-                        value={false}
-                        onChange={() => setFieldValue('verified_profile', false)}
-                        className="h-4 w-4 text-black focus:ring-black border-gray-300"
-                      />
-                      <label htmlFor="verified_profile_no" className="text-sm font-medium text-black">
-                        No
-                      </label>
-                    </div>
-                  </div>
-                </div>
+                
 
-                {/* Location Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label htmlFor="state" className="block text-sm font-medium text-black mb-2">
-                      State
-                    </label>
-                    <Field
-                      as="select"
-                      id="state"
-                      name="state"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black"
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setFieldValue('state', e.target.value);
-                        setFieldValue('city', '');
-                        setFieldValue('locality', '');
-                      }}
-                    >
-                      <option value="">Select State</option>
-                      {states.map((state: any) => (
-                        <option key={state.id} value={state.id}>{state.name}</option>
-                      ))}
-                    </Field>
-                    <ErrorMessage name="state" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
 
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-medium text-black mb-2">
-                      City
-                    </label>
-                    <Field
-                      as="select"
-                      id="city"
-                      name="city"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black"
-                      disabled={!values.state}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        setFieldValue('city', e.target.value);
-                        setFieldValue('locality', '');
-                      }}
-                    >
-                      <option value="">Select City</option>
-                      {values.state && cities.filter((city: any) => city.state_id === parseInt(values.state)).map((city: any) => (
-                        <option key={city.id} value={city.id}>{city.name}</option>
-                      ))}
-                    </Field>
-                    <ErrorMessage name="city" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
 
-                  <div>
-                    <label htmlFor="locality" className="block text-sm font-medium text-black mb-2">
-                      Locality (Optional)
-                    </label>
-                    <Field
-                      as="select"
-                      id="locality"
-                      name="locality"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black"
-                      disabled={!values.city}
-                    >
-                      <option value="">Select Locality</option>
-                      {values.city && localities.filter((locality: any) => locality.city_id === parseInt(values.city)).map((locality: any) => (
-                        <option key={locality.id} value={locality.id}>{locality.name}</option>
-                      ))}
-                    </Field>
-                  </div>
-                </div>
 
-                {/* Age and Followers */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="starting_price" className="block text-sm font-medium text-black mb-2">
-                      Starting Price
-                    </label>
-                    <Field
-                      type="number"
-                      id="starting_price"
-                      name="starting_price"
-                      placeholder="Enter starting price"
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-black transition-all duration-200 text-black placeholder-gray-400"
-                    />
-                    <ErrorMessage name="starting_price" component="div" className="mt-1 text-sm text-red-500" />
-                  </div>
-                </div>
 
                 {/* Audience Type and Age Group */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

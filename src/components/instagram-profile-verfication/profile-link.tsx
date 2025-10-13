@@ -2,9 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import Select from 'react-select';
 import { api } from '@/common/services/rest-api/rest-api';
 import { API_ROUTES } from '@/appApi';
 import { useRouter } from 'next/navigation';
+import citiesData from '@/data/cities.json';
 
 interface ProfileLinkProps {
   onComplete?: (data: any) => void;
@@ -13,8 +15,8 @@ interface ProfileLinkProps {
 interface FormData {
   instagramUrl: string;
   bioCode: string;
-  advertisementPrice: string;
-  location: string;
+  starting_price: string;
+  city_id: number | null;
   languages: string[];
 }
 
@@ -34,6 +36,50 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
   // Test mode - set to true to bypass API calls
   const TEST_MODE = true;
 
+  // Transform cities data for react-select
+  const cityOptions = citiesData.map(city => ({
+    value: city.city_id,
+    label: city.name,
+    state_id: city.state_id,
+    state_name: city.state_name
+  }));
+
+  // Custom styles for react-select
+  const customSelectStyles = {
+    control: (provided: any, state: any) => ({
+      ...provided,
+      borderColor: state.isFocused ? '#1fb036' : '#e5e7eb',
+      borderWidth: '2px',
+      borderRadius: '0.5rem',
+      backgroundColor: '#fff',
+      padding: '0.125rem',
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: '#1fb036'
+      },
+      fontSize: '0.875rem'
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#1fb036' : state.isFocused ? '#f3f4f6' : 'white',
+      color: state.isSelected ? 'white' : '#111827',
+      fontSize: '0.875rem',
+      padding: '0.5rem 0.75rem',
+      cursor: 'pointer'
+    }),
+    menu: (provided: any) => ({
+      ...provided,
+      fontSize: '0.875rem',
+      zIndex: 1000,
+      position: 'relative',
+    }),
+    placeholder: (provided: any) => ({
+      ...provided,
+      color: '#9ca3af',
+      fontSize: '0.875rem'
+    })
+  };
+
   // Form validation schemas for different steps
   const profileValidationSchema = Yup.object({
     instagramUrl: Yup.string()
@@ -47,22 +93,22 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
       .url('Please enter a valid URL')
       .matches(/instagram\.com/, 'Please enter a valid Instagram URL')
       .required('Instagram URL is required'),
-    advertisementPrice: Yup.string().required('Advertisement price is required'),
-    location: Yup.string().required('Location is required'),
+    starting_price: Yup.string().required('Advertisement price is required'),
+    city_id: Yup.number().nullable().required('City is required'),
     languages: Yup.array().min(1, 'Please select at least one language'),
   });
 
   const initialValues: FormData = {
     instagramUrl: '',
     bioCode: '',
-    advertisementPrice: '',
-    location: '',
+    starting_price: '',
+    city_id: null,
     languages: [],
   };
 
   // Language options
   const languageOptions = [
-    'English', 'Hindi', 'Tamil', 'Telugu', 'Bengali', 'Gujarati', 
+   'All', 'English', 'Hindi', 'Tamil', 'Telugu', 'Bengali', 'Gujarati', 
     'Marathi', 'Kannada', 'Malayalam', 'Punjabi', 'Urdu'
   ];
 
@@ -165,8 +211,8 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
     try {
       const response = await api.post(API_ROUTES.saveProfile, {
         instagramUrl: values.instagramUrl,
-        advertisementPrice: values.advertisementPrice,
-        location: values.location,
+        starting_price: values.starting_price,
+        city_id: values.city_id,
         languages: values.languages
       });
       
@@ -393,28 +439,35 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₹</span>
                       <Field
                         type="number"
-                        name="advertisementPrice"
+                        name="starting_price"
                         placeholder="5000"
                         className="w-full pl-7 pr-3 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-[#1fb036] focus:outline-none transition-colors"
                         onBlur={handleNextField}
                       />
                     </div>
-                    <ErrorMessage name="advertisementPrice" component="div" className="text-red-500 text-xs mt-1" />
+                    <ErrorMessage name="starting_price" component="div" className="text-red-500 text-xs mt-1" />
                   </div>
 
                   {/* Location */}
                   <div className={`mb-4 transition-all duration-500 ${formStep >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                     <label className="block text-sm font-semibold text-gray-900 mb-2">
-                      Location
+                      City
                     </label>
-                    <Field
-                      type="text"
-                      name="location"
-                      placeholder="Mumbai, India"
-                      className="w-full px-3 py-2 text-sm border-2 border-gray-200 rounded-lg focus:border-[#1fb036] focus:outline-none transition-colors"
-                      onBlur={handleNextField}
+                    <Select
+                      key="city-select"
+                      options={cityOptions}
+                      value={cityOptions.find(option => option.value === values.city_id) || null}
+                      onChange={(selectedOption) => {
+                        setFieldValue('city_id', selectedOption ? selectedOption.value : null);
+                        handleNextField();
+                      }}
+                      placeholder="Select city"
+                      styles={customSelectStyles}
+                      className="text-sm"
+                      isClearable
+                      isSearchable
                     />
-                    <ErrorMessage name="location" component="div" className="text-red-500 text-xs mt-1" />
+                    <ErrorMessage name="city_id" component="div" className="text-red-500 text-xs mt-1" />
                   </div>
 
                   {/* Languages */}

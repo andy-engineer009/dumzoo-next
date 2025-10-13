@@ -199,21 +199,22 @@ const InfluencerDetail = ({
         {/* Main Content */}
         {data && (
         <main className="pb-24">
- 
           {/* Top Banner Image */}
           <section className="relative">
             <div className="relative h-[200px] bg-gradient-to-br from-blue-100 to-purple-100">
-              {/* Back Icon - absolute left */}
-            <button 
-              onClick={onClose || (() => router.back())} 
-                className="back-icon-d absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
+              {/* Back Icon */}
+              <button 
+                onClick={onClose || (() => router.back())} 
+                className="absolute top-4 left-4 z-10 p-2 bg-white/80 rounded-full shadow hover:bg-white transition-colors"
                 aria-label="Go back"
                 type="button"
-            >
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+              >
+                <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              {/* Influencer Images */}
               {data?.influencer_media_detail?.length > 0 ? (
                 data.influencer_media_detail.map((image: any, index: any) => (
                   <Image
@@ -221,7 +222,7 @@ const InfluencerDetail = ({
                     src={image?.image_url}
                     alt={data?.username || 'Influencer'}
                     width={400}
-                    height={400}
+                    height={200}
                     className="w-full h-full object-cover"
                   />
                 ))
@@ -232,135 +233,158 @@ const InfluencerDetail = ({
                   </svg>
                 </div>
               )}
-                </div>
+            </div>
           </section>
 
-          {/* Service Information */}
-          <section className="px-4 py-6">
+          {/* Influencer Information */}
+          <section className="px-4 py-6" style={{ overflow: 'scroll', height: 'calc(100vh - 280px)' }}>
             {/* Main Title */}
-            <h1 className="text-2xl font-bold text-black mb-3">
-              {data?.username}
-               {data?.verified_profile == 1 && (
-                <svg className="inline w-5 h-5 text-blue-400 ml-2" fill="currentColor" viewBox="0 0 24 24">
-                          <path fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0112 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 013.498 1.307 4.491 4.491 0 011.307 3.497A4.49 4.49 0 0121.75 12a4.49 4.49 0 01-1.549 3.397 4.491 4.491 0 01-1.307 3.497 4.491 4.491 0 01-3.497 1.307A4.49 4.49 0 0112 21.75a4.49 4.49 0 01-3.397-1.549 4.49 4.49 0 01-3.498-1.306 4.491 4.491 0 01-1.307-3.498A4.49 4.49 0 012.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 011.307-3.497 4.49 4.49 0 013.497-1.307zm7.007 6.387a.75.75 0 10-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.14-.094l3.75-5.25z" clipRule="evenodd"/>
-                        </svg>
-                      )}
-            </h1>
-
-            {/* Posted Date and Views */}
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-gray-500">@{data?.username || 'username'}</span>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">{formatFollowers(data?.follower_count)} Followers</span>
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                    </div>
-                  </div>
-                  
-            {/* Price */}
-            <div className="mb-6 flex items-center justify-between">
-              <div className=''>
-              <span className="inline-block bg-gray-200 text-black font-semibold px-4 py-2 rounded-lg">
-              {formatCurrency(data?.starting_price)}
-              </span>
-              </div>
-     
-              <div className="flex items-center gap-2">
-                {/* YouTube Icon */}
-                {data?.is_youtube_enabled == 1 && (
-                  <a href={data?.youtube_url} target="_blank" rel="noopener noreferrer">
-                    <svg className="w-6 h-6 text-black hover:text-red-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M21.8 8.001a2.75 2.75 0 0 0-1.94-1.94C18.1 6 12 6 12 6s-6.1 0-7.86.06a2.75 2.75 0 0 0-1.94 1.94A28.6 28.6 0 0 0 2 12a28.6 28.6 0 0 0 .2 3.999 2.75 2.75 0 0 0 1.94 1.94C5.9 18 12 18 12 18s6.1 0 7.86-.06a2.75 2.75 0 0 0 1.94-1.94A28.6 28.6 0 0 0 22 12a28.6 28.6 0 0 0-.2-3.999zM10 15.5v-7l6 3.5-6 3.5z"/>
-                        </svg>
-                      </a>
-                    )}
-                {/* Instagram Icon */}
-                {data?.is_instagram_enabled == 1 && (
-                  <a href={data?.instagram_url} target="_blank" rel="noopener noreferrer">
-                    <svg className="w-6 h-6 text-black hover:text-pink-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2zm0 1.5A4.25 4.25 0 0 0 3.5 7.75v8.5A4.25 4.25 0 0 0 7.75 20.5h8.5A4.25 4.25 0 0 0 20.5 16.25v-8.5A4.25 4.25 0 0 0 16.25 3.5h-8.5zm4.25 3.25a5.25 5.25 0 1 1 0 10.5 5.25 5.25 0 0 1 0-10.5zm0 1.5a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5zm5.25.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-                        </svg>
-                      </a>
-                    )}
-                {/* Facebook Icon */}
-                {data?.is_facebook_enabled == 1 && (
-                  <a href={data?.facebook_url} target="_blank" rel="noopener noreferrer">
-                    <svg className="w-6 h-6 text-black hover:text-blue-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12"/>
-                        </svg>
-                      </a>
-                    )}
-                  </div>
+            <div className="flex items-center gap-3 mb-3">
+              <h1 className="text-2xl font-bold text-black">
+                {data?.username}
+              </h1>
+              {data?.verified_profile == 1 && (
+                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
                 </div>
+              )}
+            </div>
 
-            {/* Service Details Grid */}
+            {/* Username */}
+            <p className="text-sm text-gray-600 mb-4">@{data?.username}</p>
+
+            {/* Stats Grid */}
             <div className="grid grid-cols-2 gap-4 mb-6">
-              <div>
-                <p className="text-sm font-semibold text-black mb-1">Location</p>
-                <p className="text-sm text-black">{data?.influencer_city?.name} {data?.influencer_state?.short_name}</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm font-medium text-gray-600">Followers</p>
+                <p className="text-xl font-bold text-black">{formatFollowers(data?.follower_count || 0)}</p>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-black mb-1">Age</p>
-                <p className="text-sm text-black">{data?.age} years</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm font-medium text-gray-600">Starting Price</p>
+                <p className="text-xl font-bold text-black">{formatCurrency(data?.starting_price)}</p>
               </div>
-              <div>
-                <p className="text-sm font-semibold text-black mb-1">Gender</p>
-                <p className="text-sm text-black">{getgender(data?.gender)}</p>
-                  </div>
-              <div>
-                <p className="text-sm font-semibold text-black mb-1">Languages</p>
-                {data?.influencer_languages && data?.influencer_languages.length > 0 ? (
-                  <p className="text-sm text-black">
-                    {data.influencer_languages.map((language: any) => language?.language?.name || 'Unknown').join(', ')}
-                  </p>
-                ) : (
-                  <p className="text-sm text-black">--</p>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm font-medium text-gray-600">Gender</p>
+                <p className="text-lg font-semibold text-black">{getgender(data?.gender)}</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm font-medium text-gray-600">Age</p>
+                <p className="text-lg font-semibold text-black">{data?.age || 'Not specified'}</p>
+              </div>
+            </div>
+
+            {/* Location */}
+            <div className="mb-6">
+              <h3 className="text-sm font-bold text-black mb-2">Location</h3>
+              <p className="text-sm text-black">
+                {data?.influencer_city?.name && data?.influencer_state?.name 
+                  ? `${data.influencer_city.name}, ${data.influencer_state.name}`
+                  : 'Location not specified'
+                }
+              </p>
+            </div>
+
+            {/* Platform Links */}
+            <div className="mb-6">
+              <h3 className="text-sm font-bold text-black mb-3">Social Platforms</h3>
+              <div className="flex gap-4">
+                {data?.is_instagram_enabled == 1 && data?.instagram_url && (
+                  <a 
+                    href={data.instagram_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-pink-100 text-pink-800 rounded-lg hover:bg-pink-200 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
+                  </a>
                 )}
-                  </div>
+                {data?.is_youtube_enabled == 1 && data?.youtube_url && (
+                  <a 
+                    href={data.youtube_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-800 rounded-lg hover:bg-red-200 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M21.8 8.001a2.75 2.75 0 0 0-1.94-1.94C18.1 6 12 6 12 6s-6.1 0-7.86.06a2.75 2.75 0 0 0-1.94 1.94A28.6 28.6 0 0 0 2 12a28.6 28.6 0 0 0 .2 3.999 2.75 2.75 0 0 0 1.94 1.94C5.9 18 12 18 12 18s6.1 0 7.86-.06a2.75 2.75 0 0 0 1.94-1.94A28.6 28.6 0 0 0 22 12a28.6 28.6 0 0 0-.2-3.999zM10 15.5v-7l6 3.5-6 3.5z"/>
+                    </svg>
+                    YouTube
+                  </a>
+                )}
+                {data?.is_facebook_enabled == 1 && data?.facebook_url && (
+                  <a 
+                    href={data.facebook_url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M22 12c0-5.522-4.477-10-10-10S2 6.478 2 12c0 5 3.657 9.127 8.438 9.877v-6.987h-2.54v-2.89h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.242 0-1.63.771-1.63 1.562v1.875h2.773l-.443 2.89h-2.33v6.987C18.343 21.127 22 17 22 12"/>
+                    </svg>
+                    Facebook
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Categories */}
+            {data?.influencer_categories?.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-sm font-bold text-black mb-3">Categories</h3>
+                <div className="flex flex-wrap gap-2">
+                  {data.influencer_categories.map((category: any, index: any) => (
+                    <span key={index} className="px-3 py-2 bg-gray-200 text-black text-sm rounded-lg">
+                      {category?.category?.name || 'Unknown'}
+                    </span>
+                  ))}
                 </div>
-                
-            {/* Description */}
+              </div>
+            )}
+
+            {/* Languages */}
+            {data?.influencer_languages?.length > 0 && (
+              <div className="mb-6">
+                <h3 className="text-sm font-bold text-black mb-3">Languages</h3>
+                <div className="flex flex-wrap gap-2">
+                  {data.influencer_languages.map((languageItem: any, index: any) => (
+                    <span key={index} className="px-3 py-2 bg-blue-100 text-blue-800 text-sm rounded-lg">
+                      {languageItem?.language?.name || 'Unknown'}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Description/Overview */}
             {data?.overview && (
               <div className="mb-6">
-                <h3 className="text-sm font-semibold text-black mb-2">Overview</h3>
+                <h3 className="text-sm font-bold text-black mb-2">Overview</h3>
                 <p className="text-sm text-black leading-relaxed">
                   {data?.overview}
                 </p>
               </div>
             )}
 
-            {/* Categories */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold text-black mb-3">Categories</h3>
-              <div className="flex flex-wrap gap-2">
-                {data?.influencer_categories && data?.influencer_categories.length > 0 ? (
-                  data.influencer_categories.map((category: any) => (
-                    <span key={category?.id || Math.random()} className="px-3 py-2 bg-gray-200 text-black text-sm rounded-lg">
-                      {category?.category?.name || 'Unknown'}
-                  </span>
-                  ))
-                ) : (
-                  <span className="px-3 py-2 bg-gray-200 text-black text-sm rounded-lg">--</span>
-                )}
-              </div>
-            </div>
-
             {/* Audience Info */}
-            {(data?.audience_type || data?.audience_age_group) && (
+            {(data?.audience_type != null || data?.audience_age_group) && (
               <div className="mb-6">
-                {/* <h3 className="text-sm font-semibold text-black mb-3">Audience</h3> */}
+                <h3 className="text-sm font-bold text-black mb-3">Audience</h3>
                 <div className="grid grid-cols-2 gap-4">
                   {data?.audience_type != null && (
-                    <div>
-                      <p className="text-sm font-semibold text-black mb-1">Audience Type</p>
-                      <p className="text-sm text-black">{getaudienceType(data?.audience_type)}</p>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm font-medium text-gray-600">Audience Type</p>
+                      <p className="text-lg font-semibold text-black">{getaudienceType(data?.audience_type)}</p>
                     </div>
                   )}
                   {data?.audience_age_group && (
-                    <div>
-                      <p className="text-sm font-semibold text-black mb-1">Age Group</p>
-                      <p className="text-sm text-black">{getaudienceAgeGroup(data?.audience_age_group)}</p>
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <p className="text-sm font-medium text-gray-600">Age Group</p>
+                      <p className="text-lg font-semibold text-black">{getaudienceAgeGroup(data?.audience_age_group)}</p>
                     </div>
                   )}
                 </div>
@@ -446,7 +470,7 @@ const InfluencerDetail = ({
                   </div>
                 )}
 
-       
+    
           </section>
         </main>
         )}
