@@ -25,6 +25,7 @@ const CampaignDetails = ({ onClose, ...data }: CampaignDetailsProps) => {
   const isInfluencerRegistered = useSelector(selectIsInfluencerRegistered);
   const [isProfileCreatePopupOpen, setIsProfileCreatePopupOpen] = useState(false);
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
   const dispatch = useDispatch();
   
   // Debug useEffect to track state changes
@@ -52,12 +53,22 @@ const CampaignDetails = ({ onClose, ...data }: CampaignDetailsProps) => {
   };
 
   const handleApply = () => {
+    if(!isLoggedIn){
+      setShowLoginPopup(true);
+      return;
+    }
     if(!isInfluencerRegistered){
       setIsProfileCreatePopupOpen(true);
       console.log('User not registered, showing profile popup');
       console.log('isProfileCreatePopupOpen state:', isProfileCreatePopupOpen);
       return;
     }
+
+    
+    // if(!isLoggedIn){
+    //   setShowLoginPopup(true);
+    //   return;
+    // }
     
     setLoading(true);
     api.post(API_ROUTES.influencerCampaignApplied, {
@@ -339,7 +350,7 @@ function getGender(value: number) {
       )
     }
     {
-      !isLoggedIn && isProfileCreatePopupOpen && (
+      showLoginPopup && (
         <LoginPopup />
       )
     }

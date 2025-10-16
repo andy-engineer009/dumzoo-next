@@ -17,7 +17,7 @@ interface FormData {
   bioCode: string;
   starting_price: string;
   city_id: number | null;
-  languages: string[];
+  languages: number[];
 }
 
 const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
@@ -95,7 +95,7 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
       .required('Instagram URL is required'),
     starting_price: Yup.string().required('Advertisement price is required'),
     city_id: Yup.number().nullable().required('City is required'),
-    languages: Yup.array().min(1, 'Please select at least one language'),
+    languages: Yup.array().of(Yup.number()).min(1, 'Please select at least one language'),
   });
 
   const initialValues: FormData = {
@@ -108,17 +108,83 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
 
   // Language options
   const languageOptions = [
-   'All', 'English', 'Hindi', 'Tamil', 'Telugu', 'Bengali', 'Gujarati', 
-    'Marathi', 'Kannada', 'Malayalam', 'Punjabi', 'Urdu'
+      {
+          "id": 1,
+          "name": "All"
+      },
+      {
+          "id": 2,
+          "name": "Hindi"
+      },
+      {
+          "id": 3,
+          "name": "English"
+      },
+      {
+          "id": 4,
+          "name": "Punjabi"
+      },
+      {
+          "id": 5,
+          "name": "Marathi"
+      },
+      {
+          "id": 6,
+          "name": "Haryanvi"
+      },
+      {
+          "id": 7,
+          "name": "Bhojpuri"
+      },
+      {
+          "id": 8,
+          "name": "Rajasthani"
+      },
+      {
+          "id": 9,
+          "name": "Tamil"
+      },
+      {
+          "id": 10,
+          "name": "Telugu"
+      },
+      {
+          "id": 11,
+          "name": "Urdu"
+      },
+      {
+          "id": 12,
+          "name": "Kannada"
+      },
+      {
+          "id": 13,
+          "name": "Malayalam"
+      },
+      {
+          "id": 14,
+          "name": "Nepali"
+      },
+      {
+          "id": 15,
+          "name": "Sanskrit"
+      },
+      {
+          "id": 16,
+          "name": "Bengali"
+      },
+      {
+          "id": 17,
+          "name": "Assamese"
+      }
   ];
 
   // Handle profile URL submission
   const handleProfileSubmit = async (values: FormData) => {
-    console.log('Profile submission values:', values);
+    // console.log('Profile submission values:', values);
     
     // Extract and store just the handler name from the Instagram URL
     const handleName = values.instagramUrl.split('/').filter(Boolean).pop() || '';
-    console.log('Handle name:', handleName);
+    // console.log('Handle name:', handleName);
     setInstagramUrl(handleName); // Store username for API call
     setFullInstagramUrl(values.instagramUrl); // Store full URL for form validation
     
@@ -194,9 +260,9 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
 
   // Handle form submission
   const handleFormSubmit = async (values: FormData) => {
-    console.log('Form submission triggered!');
-    console.log('Form submission values:', values);
-    console.log('Current step before submission:', currentStep);
+    // console.log('Form submission triggered!');
+    // console.log('Form submission values:', values);
+    // console.log('Current step before submission:', currentStep);
     
     if (TEST_MODE) {
       // Test mode - bypass API call and show success screen
@@ -209,7 +275,7 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
     }
     
     try {
-      const response = await api.post(API_ROUTES.saveProfile, {
+      const response = await api.post(API_ROUTES.addUpdateInfluencer, {
         instagramUrl: values.instagramUrl,
         starting_price: values.starting_price,
         city_id: values.city_id,
@@ -425,9 +491,9 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
               onSubmit={handleFormSubmit}
             >
               {({ values, errors, touched, setFieldValue }) => {
-                console.log('Form values:', values);
-                console.log('Form errors:', errors);
-                console.log('Form touched:', touched);
+                // console.log('Form values:', values);
+                // console.log('Form errors:', errors);
+                // console.log('Form touched:', touched);
                 return (
                 <Form>
                   {/* Advertisement Price */}
@@ -477,14 +543,27 @@ const ProfileLink: React.FC<ProfileLinkProps> = ({ onComplete }) => {
                     </label>
                     <div className="grid grid-cols-2 gap-1">
                       {languageOptions.map((language) => (
-                        <label key={language} className="flex items-center p-2 border border-gray-200 rounded cursor-pointer hover:border-[#1fb036] transition-colors">
-                          <Field
+                        <label 
+                          key={language.id} 
+                          className="flex items-center p-2 border border-gray-200 rounded cursor-pointer hover:border-[#1fb036] transition-colors"
+                        >
+                          <input
                             type="checkbox"
                             name="languages"
-                            value={language}
+                            value={language.id}
+                            checked={values.languages.includes(language.id)}
+                            onChange={(e) => {
+                              const languageId = language.id;
+                              if (e.target.checked) {
+                                setFieldValue('languages', [...values.languages, languageId]);
+                              } else {
+                                setFieldValue('languages', values.languages.filter((id: number) => id !== languageId));
+                              }
+                              handleNextField();
+                            }}
                             className="mr-2 text-[#1fb036] focus:ring-[#1fb036] w-3 h-3"
                           />
-                          <span className="text-xs text-gray-700">{language}</span>
+                          <span className="text-xs text-gray-700">{language.name}</span>
                         </label>
                       ))}
                     </div>
